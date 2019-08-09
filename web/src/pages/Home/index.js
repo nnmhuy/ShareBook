@@ -1,9 +1,5 @@
 import React from 'react'
-import { Route, BrowserRouter as Router } from 'react-router-dom'
-import { connect } from 'react-redux'
-
-import Home from './pages/Home/index'
-import Counter from './pages/Counter/index'
+import { connect } from 'react-redux';
 
 
 class App extends React.Component {
@@ -17,12 +13,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <div>
-          <Route path="/" exact component={Home} />
-          <Route path="/counter" component={Counter} />
-        </div>
-      </Router>
+      <div>
+        <h1>ShareBook.org.vn</h1>
+      </div>
     )
   }
 }
