@@ -1,9 +1,22 @@
-import { createStore, combineReducers } from 'redux';
-import counter from './reducers/counter'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+import counter from './reducers/counterReducer'
+import rootSaga from './saga/saga.js'
+
+const sagaMiddleware = createSagaMiddleware()
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
   combineReducers({
     counter: counter
   }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(
+    applyMiddleware(
+      sagaMiddleware
+    )
+  )
 )
+
+sagaMiddleware.run(rootSaga)

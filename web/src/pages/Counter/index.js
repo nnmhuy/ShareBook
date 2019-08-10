@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { increaseCounter, decreaseCounter, setCounter } from '../../redux/actions/counter'
+import { increaseCounter, decreaseCounter, setCounter, getCounter } from '../../redux/actions/counterAction'
 
 
 class Counter extends React.Component {
@@ -19,9 +19,14 @@ class Counter extends React.Component {
     })
   }
 
+  handleSet = (inputValue) => () => {
+    const { setCounter } = this.props
+    setCounter(inputValue)
+  }
+
   render() {
     const { inputValue } = this.state
-    const { counterValue, increaseCounter, decreaseCounter, setCounter } = this.props
+    const { counterValue, increaseCounter, decreaseCounter, getCounter } = this.props
 
     return (
       <div>
@@ -37,7 +42,8 @@ class Counter extends React.Component {
             value={inputValue}
             onChange={this.handleInputChange}
           ></input>
-          <button onClick={() => setCounter(inputValue)}>Set</button>
+          <button onClick={this.handleSet(inputValue)}>Set</button>
+          <button onClick={getCounter}>GET</button>
         </div>
       </div>
     )
@@ -55,7 +61,8 @@ const mapStateToProps = ({ counter }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   increaseCounter,
   decreaseCounter,
-  setCounter
+  setCounter,
+  getCounter
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)
