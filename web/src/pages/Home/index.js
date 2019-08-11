@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -27,9 +28,11 @@ class App extends React.Component {
       <div>
         <h1>ShareBook.org.vn</h1>
         <div>
-          <Button variant="outlined" className={classes.button}>
-            Default
-          </Button>
+          <Link to={'/counter'}>
+            <Button variant="outlined" className={classes.button}>
+              Counter
+            </Button>
+          </Link>
           <Button variant="outlined" color="primary" className={classes.button}>
             Primary
           </Button>

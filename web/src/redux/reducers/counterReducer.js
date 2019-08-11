@@ -24,7 +24,7 @@ const counterReducer = handleActions(
       ...state, isLoading: true
     }),
     [getCounterSuccess]: (state, { payload: { data } }) => ({
-      ...state, isLoading: false, value: Number(data[0].employee_age)
+      ...state, isLoading: false, value: Number(data[0].id)
     }),
     [getCounterFail]: (state, { payload: { code, message } }) => {
       return {
