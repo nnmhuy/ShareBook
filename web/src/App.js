@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from './pages/Home/index'
+import Counter from './pages/Counter/index'
+import NotFound from './pages/NotFound/index'
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+
+    }
+  }
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/counter" exact component={Counter} />
+            <Route component={NotFound}/>
+          </Switch>
+        </div>
+      </Router>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = ( state ) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

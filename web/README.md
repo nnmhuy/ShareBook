@@ -1,3 +1,14 @@
+HOW TO TEST PWA ON MOBILE
+
+1. Build project: yarn build
+2. Serve the build: yarn serve
+3. Enable developer mode & USB debugging
+4. Connect phone to laptop using USB
+5. F12 to show debugger
+6. Choose ... (next to x button) > More Tools > Remote devices (https://developers.google.com/web/tools/chrome-devtools/remote-debugging/?utm_source=dcc&utm_medium=redirect&utm_campaign=2016q3)
+7. In Remote devices / Settings: forward corresponding port to localhost (5000 -> localhost:5000)
+8. Browse to localhost:5000 in mobile
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
