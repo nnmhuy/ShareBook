@@ -1,0 +1,13 @@
+{
+  "db": {
+    "host": "${DB_HOST}",
+    "port": "${DB_PORT}",
+    "database": "${DB_NAME}",
+    "password": "${DB_PASSWORD}",
+    "name": "db",
+    "connector": "mongodb",
+    "user": "${DB_USERNAME}",
+    "url": "",
+    "useNewUrlParser": true
+  }
+}
