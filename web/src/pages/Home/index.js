@@ -65,6 +65,11 @@ class App extends React.Component {
           <Button variant="outlined" color="inherit" className={classes.button}>
             Inherit
           </Button>
+          <a href={'http://localhost:3001/api/auth/facebook'}>
+            <Button variant="outlined" className={classes.button}>
+              Login FB
+            </Button>
+          </a>
         </div>
       </div>
     )
