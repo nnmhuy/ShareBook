@@ -16,6 +16,7 @@ import InputField from '../../../components/InputField'
 
 const styles = (theme => ({
   container: {
+    marginTop: 15,
     position: 'relative',
     height: '100%',
     width: '100%',
@@ -106,7 +107,8 @@ class SignupStepOne extends React.Component {
       errors,
       handleChange,
       handleBlur,
-      classes
+      classes,
+      nextStep
     } = this.props
     const { showPassword } = this.state
     return (
@@ -152,6 +154,7 @@ class SignupStepOne extends React.Component {
             variant='extended'
             aria-label='login'
             className={classes.loginButton}
+            onClick={nextStep}
           >
             Bước tiếp theo
         </Fab>

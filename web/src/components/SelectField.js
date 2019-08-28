@@ -11,8 +11,16 @@ import {
 import colors from '../constants/colors'
 
 const styles = (theme => ({
-  inputLabel: {
-    color: colors.textPrimary
+  select: {
+    '& .Mui-focused': {
+      color: colors.textPrimary,
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: colors.textPrimary
+      }
+    },
+    '& .MuiFormLabel-filled': {
+      color: colors.textPrimary,
+    },
   },
   hidden: {
     visibility: 'hidden'
@@ -33,22 +41,22 @@ const InputField = (props) => {
 
   return (
     <FormControl variant='outlined' className={classes.select}>
-      <InputLabel ref={inputLabel} htmlFor={id} className={classes.inputLabel}>
+      <InputLabel ref={inputLabel} htmlFor={id}>
         {label}
-        </InputLabel>
+      </InputLabel>
       <Select
         native
         value={value}
         name={name}
         onChange={handleChange}
         input={
-          <OutlinedInput labelWidth={labelWidth} name={name} id={id} />
+          <OutlinedInput labelWidth={labelWidth} name={name} id={id}/>
         }
       >
         <option value='' />
         {
           optionValues.map((option) => (
-            <option value={option.value}>{option.label}</option>
+            <option value={option.value} key={option.value}>{option.label}</option>
           ))
         }
       </Select>

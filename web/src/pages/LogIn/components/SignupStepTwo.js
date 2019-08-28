@@ -3,11 +3,16 @@ import { withStyles } from '@material-ui/core/styles'
 import {
   Fab
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+
+import colors from '../../../constants/colors'
 
 import Logo from '../../../static/images/logo.png'
+import { ReactComponent as LeftArrow } from '../../../static/images/left-arrow.svg'
 
 import InputField from '../../../components/InputField'
 import SelectField from '../../../components/SelectField'
+import CheckboxField from '../../../components/CheckboxField'
 
 const styles = (theme => ({
   container: {
@@ -29,11 +34,20 @@ const styles = (theme => ({
   loginButton: {
     width: 151,
     height: 35,
+    marginTop: 10,
     backgroundImage: 'linear-gradient(to left,#0076FF, #04ABE8)',
     textTransform: 'none',
     fontFamily: 'Montserrat',
     fontSize: 13,
     color: '#fff'
+  },
+  backButton: {
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+    width: 39,
+    height: 39,
+    backgroundImage: 'linear-gradient(to left,#0076FF, #04ABE8)',
   },
   buttonContainer: {
     marginTop: 10
@@ -43,6 +57,13 @@ const styles = (theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  checkboxLabel: {
+    fontSize: 9,
+    color: '#000000'
+  },
+  policyLink: {
+    color: colors.textPrimary
   }
 }))
 
@@ -72,11 +93,19 @@ class SignupStepTwo extends React.Component {
       errors,
       handleChange,
       handleBlur,
-      classes
+      classes,
+      backStep
     } = this.props
 
     return (
       <div className={classes.container}>
+        <Fab
+          aria-label='back'
+          className={classes.backButton}
+          onClick={backStep}
+        >
+          <LeftArrow/>
+        </Fab>
         <InputField
           id='signup-phone-number'
           label='Số điện thoại'
@@ -121,6 +150,17 @@ class SignupStepTwo extends React.Component {
             handleChange={handleChange}
           />
         </div>
+        <CheckboxField
+          id='signup-check-policy'
+          name='checkPolicy'
+          value={values.checkPolicy}
+          handleChange={handleChange}
+          label={
+            <span className={classes.checkboxLabel}>
+              Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
+            </span>
+          }
+        />
         <Fab
           variant='extended'
           aria-label='login'

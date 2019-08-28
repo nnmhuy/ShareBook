@@ -21,6 +21,9 @@ const styles = (theme => ({
     '& label.Mui-focused': {
       color: colors.textPrimary,
     },
+    '& .MuiFormLabel-filled': {
+      color: colors.textPrimary,
+    },
     '& .MuiInput-underline:after': {
       borderBottomColor: colors.textPrimary,
     }
