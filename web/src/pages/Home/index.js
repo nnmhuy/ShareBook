@@ -28,6 +28,11 @@ class App extends React.Component {
       <div>
         <h1>ShareBook.org.vn</h1>
         <div>
+          <Link to={'/account'}>
+            <Button variant="outlined" className={classes.button}>
+              Account
+            </Button>
+          </Link>
           <Link to={'/counter'}>
             <Button variant="outlined" className={classes.button}>
               Counter

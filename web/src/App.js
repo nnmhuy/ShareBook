@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Home from './pages/Home/index'
 import Counter from './pages/Counter/index'
-import LogIn from './pages/LogIn/index'
+import Account from './pages/Account/index'
 import NotFound from './pages/NotFound/index'
 
 
@@ -22,8 +22,8 @@ class App extends React.Component {
     return (
       <Router>
           <Switch>
-            <Route path="/" exact component={LogIn} />
-            {/* <Route path="/" exact component={Home} /> */}
+            <Route path="/" exact component={Home} />
+            <Route path="/account" exact component={Account} />
             <Route path="/counter" exact component={Counter} />
             <Route component={NotFound}/>
           </Switch>
