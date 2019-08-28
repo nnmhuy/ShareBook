@@ -70,6 +70,16 @@ class App extends React.Component {
               Login FB
             </Button>
           </a>
+          <a href={'http://localhost:3001/api/auth/google'}>
+            <Button variant="outlined" className={classes.button}>
+              Login GG
+            </Button>
+          </a>
+          <a href={'http://localhost:3001/api/link/facebook'}>
+            <Button variant="outlined" className={classes.button}>
+              Link FB
+            </Button>
+          </a>
         </div>
       </div>
     )

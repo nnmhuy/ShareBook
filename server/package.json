@@ -6,7 +6,8 @@
     "node": ">=6"
   },
   "scripts": {
-    "lint": "eslint .",
+    "test": "eslint .",
+    "fix": "eslint . --fix",
     "start": "node .",
     "dev": "nodemon .",
     "posttest": "npm run lint && npm audit"
@@ -19,6 +20,7 @@
     "express-flash": "0.0.2",
     "express-session": "^1.16.2",
     "helmet": "^3.10.0",
+    "lodash": "^4.17.15",
     "loopback": "^3.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^6.2.0",

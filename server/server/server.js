@@ -17,13 +17,14 @@ var app = module.exports = loopback();
 var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
+var profileToUser = require('./component/social-auth');
 
 var flash = require('express-flash');
 
 // attempt to build the providers/passport config
 var config = {};
 try {
-  config = require('../providers.json');
+  config = require('../providers.js');
 } catch (err) {
   console.trace(err);
   process.exit(1); // fatal
@@ -56,6 +57,7 @@ passportConfigurator.setupModels({
 for (var s in config) {
   var c = config[s];
   c.session = c.session !== false;
+  c.profileToUser = profileToUser;
   passportConfigurator.configureProvider(s, c);
 }
 
