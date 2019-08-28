@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import Home from './pages/Home/index'
 import Counter from './pages/Counter/index'
+import Account from './pages/Account/index'
 import NotFound from './pages/NotFound/index'
 
 
@@ -20,13 +21,12 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/account" exact component={Account} />
             <Route path="/counter" exact component={Counter} />
             <Route component={NotFound}/>
           </Switch>
-        </div>
       </Router>
     )
   }
