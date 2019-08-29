@@ -11,6 +11,13 @@
       "foreignKey": "userId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
   "methods": {}
 }

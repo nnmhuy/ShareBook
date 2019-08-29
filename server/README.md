@@ -11,3 +11,14 @@ createdAt, updatedAt: put in model
 }
 
 path to login / link => view provider.js
+
+Get Super Admin AccessToken:
+1. Go to http://localhost:3001/explorer
+2. Choose user > user.login 
+3. in credentials, paste
+{
+"email":"superadmin@yopmail.com",
+"password":"superadmin123"
+}
+4. Try it out => the id is access token
+5. submit in right top of explorer page
