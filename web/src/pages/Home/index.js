@@ -1,16 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+
+import AboutUs from './components/AboutUs'
+import Tutorial from './components/Tutorial'
+import NewsfeedIntro from './components/NewsfeedIntro'
+import HotBook from './components/HotBook'
+import Footer from './components/Footer'
 
 const styles = (theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-  input: {
-    display: 'none',
-  },
+  container: {
+    width: '100%',
+    minWidth: 350,
+  }
 }))
 
 class App extends React.Component {
@@ -25,62 +27,12 @@ class App extends React.Component {
   render() {
     const { classes } = this.props
     return (
-      <div>
-        <h1>ShareBook.org.vn</h1>
-        <div>
-          <Link to={'/account'}>
-            <Button variant="outlined" className={classes.button}>
-              Account
-            </Button>
-          </Link>
-          <Link to={'/counter'}>
-            <Button variant="outlined" className={classes.button}>
-              Counter
-            </Button>
-          </Link>
-          <Button variant="outlined" color="primary" className={classes.button}>
-            Primary
-          </Button>
-          <Button variant="outlined" color="secondary" className={classes.button}>
-            Secondary
-          </Button>
-          <Button variant="outlined" disabled className={classes.button}>
-            Disabled
-          </Button>
-          <Button variant="outlined" href="#outlined-buttons" className={classes.button}>
-            Link
-          </Button>
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="outlined-button-file"
-            multiple
-            type="file"
-          />
-          <label htmlFor="outlined-button-file">
-            <Button variant="outlined" component="span" className={classes.button}>
-                Upload
-            </Button>
-          </label>
-          <Button variant="outlined" color="inherit" className={classes.button}>
-            Inherit
-          </Button>
-          <a href={'http://localhost:3001/api/auth/facebook'}>
-            <Button variant="outlined" className={classes.button}>
-              Login FB
-            </Button>
-          </a>
-          <a href={'http://localhost:3001/api/auth/google'}>
-            <Button variant="outlined" className={classes.button}>
-              Login GG
-            </Button>
-          </a>
-          <a href={'http://localhost:3001/api/link/facebook'}>
-            <Button variant="outlined" className={classes.button}>
-              Link FB
-            </Button>
-          </a>
-        </div>
+      <div className={classes.container}>
+        <AboutUs/>
+        <Tutorial/>
+        <NewsfeedIntro/>
+        <HotBook/>
+        <Footer/>
       </div>
     )
   }
