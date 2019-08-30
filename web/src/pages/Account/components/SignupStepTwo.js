@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import colors from '../../../constants/colors'
 
 import Logo from '../../../static/images/logo.png'
-import { ReactComponent as LeftArrow } from '../../../static/images/left-arrow.svg'
+import { ReactComponent as BackArrow } from '../../../static/images/back-arrow.svg'
 
 import InputField from '../../../components/InputField'
 import SelectField from '../../../components/SelectField'
@@ -104,7 +104,7 @@ class SignupStepTwo extends React.Component {
           className={classes.backButton}
           onClick={backStep}
         >
-          <LeftArrow/>
+          <BackArrow/>
         </Fab>
         <InputField
           id='signup-phone-number'

@@ -1,0 +1,11 @@
+<svg id="notebook" xmlns="http://www.w3.org/2000/svg" width="51.533" height="53.373" viewBox="0 0 51.533 53.373">
+  <path id="Path_450" data-name="Path 450" d="M0,0H40.49V53.373H0Z" transform="translate(0 0)" fill="#cbd1d8"/>
+  <rect id="Rectangle_117" data-name="Rectangle 117" width="7.362" height="53.373" transform="translate(0 0)" fill="#413500"/>
+  <rect id="Rectangle_118" data-name="Rectangle 118" width="20.245" height="11.043" transform="translate(13.803 9.202)" fill="#fff"/>
+  <rect id="Rectangle_119" data-name="Rectangle 119" width="12.883" height="1.84" transform="translate(17.484 11.963)" fill="#413500"/>
+  <rect id="Rectangle_120" data-name="Rectangle 120" width="12.883" height="1.84" transform="translate(17.484 15.644)" fill="#413500"/>
+  <g id="Group_522" data-name="Group 522" transform="translate(29.447 31.288)">
+    <circle id="Ellipse_57" data-name="Ellipse 57" cx="11.043" cy="11.043" r="11.043" fill="#1c73c6"/>
+    <path id="Path_449" data-name="Path 449" d="M49.963,44.521h-4.6v-4.6a.92.92,0,0,0-1.84,0v4.6h-4.6a.92.92,0,1,0,0,1.84h4.6v4.6a.92.92,0,1,0,1.84,0v-4.6h4.6a.92.92,0,0,0,0-1.84Z" transform="translate(-33.399 -34.399)" fill="#fff"/>
+  </g>
+</svg>
