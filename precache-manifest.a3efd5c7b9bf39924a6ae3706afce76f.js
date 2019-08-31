@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "23b1e9f47cd2301d6d5f6b951665d721",
+    "revision": "4e60170e899e664a8b857db1bad94b61",
     "url": "/ShareBook/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ShareBook/static/css/2.84dba475.chunk.css"
   },
   {
-    "revision": "2ab88022399e38d24832",
+    "revision": "aadcbd33f7331a4c8fa9",
     "url": "/ShareBook/static/css/main.3e88e0c9.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ShareBook/static/js/2.0cb9623f.chunk.js"
   },
   {
-    "revision": "2ab88022399e38d24832",
-    "url": "/ShareBook/static/js/main.93fe46e1.chunk.js"
+    "revision": "aadcbd33f7331a4c8fa9",
+    "url": "/ShareBook/static/js/main.6bd138b4.chunk.js"
   },
   {
     "revision": "6f7774b8e3e4aeaf5ec8",
