@@ -49,5 +49,37 @@
   "userIdentity": {
     "dataSource": "db",
     "public": false
+  },
+  "category": {
+    "dataSource": "db",
+    "public": true
+  },
+  "subcategory": {
+    "dataSource": "db",
+    "public": true
+  },
+  "book": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookInstance": {
+    "dataSource": "db",
+    "public": true
+  },
+  "transaction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "messageInTransaction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "review": {
+    "dataSource": "db",
+    "public": true
+  },
+  "reply": {
+    "dataSource": "db",
+    "public": true
   }
 }
