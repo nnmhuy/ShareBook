@@ -1,0 +1,29 @@
+{
+  "name": "reportReply",
+  "plural": "reportReplies",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "step": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "read",
+        "resolve",
+        "reject",
+        "answer"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

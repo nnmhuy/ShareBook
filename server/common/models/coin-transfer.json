@@ -1,0 +1,42 @@
+{
+  "name": "coinTransfer",
+  "plural": "coninTransfers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "amount": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "achievement",
+        "topUp",
+        "refundDepositForReturnBook",
+        "refundDepositForWritingReview",
+        "reviewBonus",
+        "lendingBonus",
+        "chargingLateReturn",
+        "receiveDeposit",
+        "deposit",
+        "chargingForLateReturnBook",
+        "chargingForNotReturnBook",
+        "payForOrder"
+      ]
+    },
+    "isIncome": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

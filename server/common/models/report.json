@@ -1,0 +1,41 @@
+{
+  "name": "report",
+  "plural": "reports",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "typeOfTarget": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "book",
+        "bookInstance",
+        "review",
+        "reply",
+        "user",
+        "qa",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "pending",
+        "received",
+        "resolved",
+        "rejected"
+      ]
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

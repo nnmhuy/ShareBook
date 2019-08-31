@@ -1,0 +1,43 @@
+{
+  "name": "logUserRole",
+  "plural": "logUserRoles",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "oldRole": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "admin",
+        "seller",
+        "superAdmin",
+        "stationStaff",
+        "clubOwner",
+        "clubAdmin",
+        "clubStaff",
+        "normalUser"
+      ]
+    },
+    "newRole": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "admin",
+        "seller",
+        "superAdmin",
+        "stationStaff",
+        "clubOwner",
+        "clubAdmin",
+        "clubStaff",
+        "normalUser"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
