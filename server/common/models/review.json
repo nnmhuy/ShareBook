@@ -1,0 +1,33 @@
+{
+  "name": "review",
+  "plural": "reviews",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "facebookPostId": {
+      "type": "string"
+    },
+    "numberOfLike": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "numberOfFbLike": {
+      "type": "number"
+    },
+    "numberOfFbShare": {
+      "type": "number"
+    },
+    "content": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
