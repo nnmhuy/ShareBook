@@ -2,6 +2,13 @@
   "name": "userIdentity",
   "plural": "userIdentities",
   "base": "UserIdentity",
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
   "properties": {},
   "validations": [],
   "relations": {
@@ -13,7 +20,7 @@
   },
   "acls": [
     {
-      "accessType": "EXECUTE",
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"
