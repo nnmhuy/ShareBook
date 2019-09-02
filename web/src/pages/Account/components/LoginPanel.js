@@ -135,7 +135,9 @@ class LoginPanel extends React.Component {
           aria-label='login-facebook'
           className={classes.loginFbButton}
         >
-          Đăng nhập bằng Facebook
+          <a href='http://localhost:3001/api/auth/facebook'>
+            Đăng nhập bằng Facebook
+          </a>
         </Fab>
       </form>
     )
