@@ -1,11 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import ModeTab from './components/ModeTab'
 
 import BackgroundDesktop from '../../static/images/../../static/images/bg-login.png'
 import BackgroundMobile from '../../static/images/bg-login-mobile.png'
+
+import { logInWithFacebook } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   container: {
@@ -52,7 +55,7 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, logInWithFacebookHandler} = this.props
     const { currentTab } = this.state
     return (
       <div className={classes.container}>
@@ -67,22 +70,27 @@ class Account extends React.Component {
             <p className={classes.introText}>Chào mừng bạn trở lại với <br/> cộng đồng chia sẻ sách của ShareBook</p>
           </div>
         }
-        <ModeTab currentTab={currentTab} handleChangeTab={this.handleChangeTab}/>
+        <ModeTab 
+          currentTab={currentTab} 
+          handleChangeTab={this.handleChangeTab} 
+          logInWithFacebookHandler={logInWithFacebookHandler}
+        />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ account }) => {
   return {
-
+    username: account.username,
+    avatar: account.avatar,
+    token: account.token,
+    error: account.error
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  logInWithFacebookHandler: logInWithFacebook
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));
