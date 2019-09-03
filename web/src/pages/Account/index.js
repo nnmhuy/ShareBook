@@ -44,7 +44,7 @@ class Account extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        currentTab: 0
+        currentTab: 1
     }
   }
 
