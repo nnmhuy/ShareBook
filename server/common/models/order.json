@@ -28,7 +28,40 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "location": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "shippingAddressId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "orderItems": {
+      "type": "hasMany",
+      "model": "orderItem",
+      "foreignKey": "orderId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

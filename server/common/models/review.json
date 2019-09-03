@@ -34,7 +34,32 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReviews": {
+      "type": "hasMany",
+      "model": "likeReview",
+      "foreignKey": "reviewId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

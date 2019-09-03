@@ -42,7 +42,48 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookInstance": {
+      "type": "belongsTo",
+      "model": "bookInstance",
+      "foreignKey": "bookInstanceId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "reply": {
+      "type": "belongsTo",
+      "model": "reply",
+      "foreignKey": "replyId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "review": {
+      "type": "belongsTo",
+      "model": "review",
+      "foreignKey": "reviewId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",
