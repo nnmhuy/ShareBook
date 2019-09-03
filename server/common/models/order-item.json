@@ -21,7 +21,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "shopItem": {
+      "type": "belongsTo",
+      "model": "shopItem",
+      "foreignKey": "shopItemId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

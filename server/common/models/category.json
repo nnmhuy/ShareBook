@@ -26,7 +26,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "subcategories": {
+      "type": "hasMany",
+      "model": "subcategory",
+      "foreignKey": "categoryId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

@@ -67,6 +67,46 @@
       "type": "hasMany",
       "model": "userCredential",
       "foreignKey": "userId"
+    },
+    "locations": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "locationId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeBooks": {
+      "type": "hasMany",
+      "model": "likeBook",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReviews": {
+      "type": "hasMany",
+      "model": "likeReview",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReplies": {
+      "type": "hasMany",
+      "model": "likeReply",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [

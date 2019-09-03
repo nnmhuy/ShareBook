@@ -58,7 +58,24 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "subcategory": {
+      "type": "belongsTo",
+      "model": "subcategory",
+      "foreignKey": "subcategoryId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeBooks": {
+      "type": "hasMany",
+      "model": "likeBook",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

@@ -36,7 +36,32 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "owner": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "holder": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "holderId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

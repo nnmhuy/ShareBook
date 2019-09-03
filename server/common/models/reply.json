@@ -25,7 +25,32 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "review": {
+      "type": "belongsTo",
+      "model": "review",
+      "foreignKey": "reviewId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReplies": {
+      "type": "hasMany",
+      "model": "likeReply",
+      "foreignKey": "replyId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",
