@@ -39,6 +39,16 @@ app.middleware('auth', loopback.token({
 }));
 
 app.middleware('session:before', cookieParser(process.env.COOKIE_SECRET));
+
+app.use(
+  loopback.token({
+    model: app.models.accessToken,
+    headers: ['access_token'],
+    cookies: ['access_token'],
+    currentUserLiteral: 'me', // Enable /api/users/me api shorthand syntax
+  })
+);
+
 app.middleware('session', session({
   secret: 'kitty',
   saveUninitialized: true,
