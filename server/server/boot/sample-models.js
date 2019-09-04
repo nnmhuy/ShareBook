@@ -14,6 +14,8 @@ module.exports = function(app) {
   var Role = app.models.Role;
   var RoleMapping = app.models.RoleMapping;
 
+  console.log('running initialization', superAdminUsername);
+
   function createDefaultSuperAdmin() {
     User.create([
       {
@@ -53,6 +55,7 @@ module.exports = function(app) {
       username: superAdminUsername,
     },
   }, (err, users) => {
+    // console.log('current user', users);
     if (!users || !users[0]) {
       createDefaultSuperAdmin();
     }

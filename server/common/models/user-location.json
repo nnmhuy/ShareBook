@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "userLocation",
+  "plural": "userLocations",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,16 +14,23 @@
     }
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "content": {
-      "type": "object"
+    "usedCount": {
+      "type": "number",
+      "required": true,
+      "default": 0
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "location": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "locationId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "orderItem",
+  "plural": "orderItems",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,16 +14,23 @@
     }
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "content": {
-      "type": "object"
+    "amount": {
+      "type": "number",
+      "required": true,
+      "default": 0
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "shopItem": {
+      "type": "belongsTo",
+      "model": "shopItem",
+      "foreignKey": "shopItemId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

@@ -1,7 +1,11 @@
 {
-  "name": "accessToken",
-  "plural": "accessTokens",
-  "base": "AccessToken",
+  "name": "likeReply",
+  "plural": "likeReplies",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
   "mixins": {
     "TimeStamp": {
       "required": false,
@@ -9,15 +13,15 @@
       "silenceWarnings": false
     }
   },
-  "properties": {},
-  "validations": [],
-  "relations": {
-    "user": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "userId"
+  "properties": {
+    "isLike": {
+      "type": "boolean",
+      "required": true,
+      "default": true
     }
   },
+  "validations": [],
+  "relations": {},
   "acls": [
     {
       "accessType": "*",

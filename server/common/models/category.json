@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "category",
+  "plural": "categories",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -15,14 +16,26 @@
   "properties": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "New Category"
     },
-    "content": {
-      "type": "object"
+    "totalOfBook": {
+      "type": "number",
+      "required": true,
+      "default": 0
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "subcategories": {
+      "type": "hasMany",
+      "model": "subcategory",
+      "foreignKey": "categoryId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

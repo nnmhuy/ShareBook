@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "joinClubRequest",
+  "plural": "joinClubRequests",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,16 +14,31 @@
     }
   },
   "properties": {
-    "name": {
+    "status": {
       "type": "string",
-      "required": true
+      "required": true,
+      "enum": [
+        "pending",
+        "accepted",
+        "rejected"
+      ]
     },
-    "content": {
-      "type": "object"
+    "isLeaveClub": {
+      "type": "boolean",
+      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "clubAdmin": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "clubAdminId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

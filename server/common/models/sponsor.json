@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "sponsor",
+  "plural": "sponsors",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -17,8 +18,18 @@
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "object"
+    "description": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "string",
+      "required": true
+    },
+    "website": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
     }
   },
   "validations": [],

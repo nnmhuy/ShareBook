@@ -1,0 +1,74 @@
+{
+  "name": "order",
+  "plural": "orders",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "ordered",
+        "finished",
+        "canceled"
+      ]
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "location": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "shippingAddressId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "orderItems": {
+      "type": "hasMany",
+      "model": "orderItem",
+      "foreignKey": "orderId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

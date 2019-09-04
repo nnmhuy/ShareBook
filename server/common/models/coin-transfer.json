@@ -1,0 +1,97 @@
+{
+  "name": "coinTransfer",
+  "plural": "coninTransfers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "amount": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "achievement",
+        "topUp",
+        "refundDepositForReturnBook",
+        "refundDepositForWritingReview",
+        "reviewBonus",
+        "lendingBonus",
+        "chargingLateReturn",
+        "receiveDeposit",
+        "deposit",
+        "chargingForLateReturnBook",
+        "chargingForNotReturnBook",
+        "payForOrder"
+      ]
+    },
+    "isIncome": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "transaction": {
+      "type": "belongsTo",
+      "model": "transaction",
+      "foreignKey": "transactionId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "order": {
+      "type": "belongsTo",
+      "model": "order",
+      "foreignKey": "orderId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "mission": {
+      "type": "belongsTo",
+      "model": "mission",
+      "foreignKey": "missionId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

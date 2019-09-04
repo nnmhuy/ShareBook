@@ -49,5 +49,121 @@
   "userIdentity": {
     "dataSource": "db",
     "public": false
+  },
+  "category": {
+    "dataSource": "db",
+    "public": true
+  },
+  "subcategory": {
+    "dataSource": "db",
+    "public": true
+  },
+  "book": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookInstance": {
+    "dataSource": "db",
+    "public": true
+  },
+  "transaction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "messageInTransaction": {
+    "dataSource": "db",
+    "public": true
+  },
+  "review": {
+    "dataSource": "db",
+    "public": true
+  },
+  "reply": {
+    "dataSource": "db",
+    "public": true
+  },
+  "likeBook": {
+    "dataSource": "db",
+    "public": true
+  },
+  "likeReview": {
+    "dataSource": "db",
+    "public": true
+  },
+  "likeReply": {
+    "dataSource": "db",
+    "public": true
+  },
+  "sponsor": {
+    "dataSource": "db",
+    "public": true
+  },
+  "location": {
+    "dataSource": "db",
+    "public": true
+  },
+  "club": {
+    "dataSource": "db",
+    "public": true
+  },
+  "report": {
+    "dataSource": "db",
+    "public": true
+  },
+  "reportReply": {
+    "dataSource": "db",
+    "public": true
+  },
+  "coinTransfer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "shopItem": {
+    "dataSource": "db",
+    "public": true
+  },
+  "order": {
+    "dataSource": "db",
+    "public": true
+  },
+  "orderItem": {
+    "dataSource": "db",
+    "public": true
+  },
+  "logUserRole": {
+    "dataSource": "db",
+    "public": true
+  },
+  "joinClubRequest": {
+    "dataSource": "db",
+    "public": true
+  },
+  "notification": {
+    "dataSource": "db",
+    "public": true
+  },
+  "userLocation": {
+    "dataSource": "db",
+    "public": true
+  },
+  "message": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookStation": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookStationStaff": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookmark": {
+    "dataSource": "db",
+    "public": true
+  },
+  "mission": {
+    "dataSource": "db",
+    "public": true
   }
 }

@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "bookmark",
+  "plural": "bookmarks",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,16 +14,23 @@
     }
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "content": {
-      "type": "object"
+    "isActive": {
+      "type": "boolean",
+      "required": true,
+      "default": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

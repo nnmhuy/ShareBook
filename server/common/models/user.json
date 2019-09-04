@@ -6,6 +6,13 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
   "properties": {
     "name": {
       "type": "string",
@@ -31,6 +38,16 @@
     "role": {
       "type": "string",
       "required": true,
+      "enum": [
+        "admin",
+        "seller",
+        "superAdmin",
+        "stationStaff",
+        "clubOwner",
+        "clubAdmin",
+        "clubStaff",
+        "normalUser"
+      ],
       "default": "normalUser"
     }
   },
@@ -50,11 +67,91 @@
       "type": "hasMany",
       "model": "userCredential",
       "foreignKey": "userId"
+    },
+    "homeLocations": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "homeLocationId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeBooks": {
+      "type": "hasMany",
+      "model": "likeBook",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReviews": {
+      "type": "hasMany",
+      "model": "likeReview",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeReplies": {
+      "type": "hasMany",
+      "model": "likeReply",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "logUserRoles": {
+      "type": "hasMany",
+      "model": "logUserRole",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "joinClubRequests": {
+      "type": "hasMany",
+      "model": "joinClubRequest",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "notifications": {
+      "type": "hasMany",
+      "model": "notification",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "userLocations": {
+      "type": "hasMany",
+      "model": "userLocation",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookmarks": {
+      "type": "hasMany",
+      "model": "bookmark",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
     {
-      "accessType": "EXECUTE",
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"

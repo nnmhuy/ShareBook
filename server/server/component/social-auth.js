@@ -50,7 +50,7 @@ module.exports = function profileToUser(provider, profile, options) {
     if (avatar) {
       userObj.avatar = avatar;
     }
-    console.log('sign up', userObj);
+    console.log('log in', userObj);
     return userObj;
   } else {
     password = utils.generateKey('password');

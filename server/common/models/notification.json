@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "notification",
+  "plural": "notifications",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,12 +14,26 @@
     }
   },
   "properties": {
-    "name": {
+    "type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "announcement",
+        "achievement",
+        "request",
+        "advertisement",
+        "information",
+        "alert"
+      ]
+    },
+    "message": {
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "object"
+    "isSeen": {
+      "type": "boolean",
+      "required": true,
+      "default": false
     }
   },
   "validations": [],

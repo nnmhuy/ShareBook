@@ -1,0 +1,66 @@
+{
+  "name": "logUserRole",
+  "plural": "logUserRoles",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "oldRole": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "admin",
+        "seller",
+        "superAdmin",
+        "stationStaff",
+        "clubOwner",
+        "clubAdmin",
+        "clubStaff",
+        "normalUser"
+      ]
+    },
+    "newRole": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "admin",
+        "seller",
+        "superAdmin",
+        "stationStaff",
+        "clubOwner",
+        "clubAdmin",
+        "clubStaff",
+        "normalUser"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {
+    "madeBy": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "madeById",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

@@ -1,5 +1,6 @@
 {
-  "name": "test",
+  "name": "shopItem",
+  "plural": "shopItems",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,12 +14,25 @@
     }
   },
   "properties": {
+    "price": {
+      "type": "number",
+      "required": true
+    },
     "name": {
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "object"
+    "image": {
+      "type": "string",
+      "required": true
+    },
+    "amountLeft": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "description": {
+      "type": "string"
     }
   },
   "validations": [],

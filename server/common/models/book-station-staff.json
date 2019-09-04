@@ -1,7 +1,11 @@
 {
-  "name": "accessToken",
-  "plural": "accessTokens",
-  "base": "AccessToken",
+  "name": "bookStationStaff",
+  "plural": "bookStationStaffs",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
   "mixins": {
     "TimeStamp": {
       "required": false,
@@ -9,13 +13,22 @@
       "silenceWarnings": false
     }
   },
-  "properties": {},
+  "properties": {
+    "isActive": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  },
   "validations": [],
   "relations": {
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId"
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [

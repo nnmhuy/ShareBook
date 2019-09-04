@@ -1,0 +1,96 @@
+{
+  "name": "report",
+  "plural": "reports",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "typeOfTarget": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "book",
+        "bookInstance",
+        "review",
+        "reply",
+        "user",
+        "qa",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "pending",
+        "received",
+        "resolved",
+        "rejected"
+      ]
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookInstance": {
+      "type": "belongsTo",
+      "model": "bookInstance",
+      "foreignKey": "bookInstanceId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "reply": {
+      "type": "belongsTo",
+      "model": "reply",
+      "foreignKey": "replyId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "review": {
+      "type": "belongsTo",
+      "model": "review",
+      "foreignKey": "reviewId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

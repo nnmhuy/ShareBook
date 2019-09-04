@@ -1,0 +1,97 @@
+{
+  "name": "transaction",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "holderType": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "singleUser",
+        "club",
+        "station"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "waitingForResponse",
+        "waitingForTake",
+        "isReading",
+        "isOvertime",
+        "waitingForDeadlineExtended",
+        "deadlineExtended",
+        "isReported",
+        "isPaidDeposit",
+        "isDone",
+        "isCancel"
+      ]
+    },
+    "isReviewed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "passingDate": {
+      "type": "date"
+    },
+    "returnDate": {
+      "type": "date"
+    },
+    "extendedDeadline": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "bookInstance": {
+      "type": "belongsTo",
+      "model": "bookInstance",
+      "foreignKey": "bookInstanceId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "borrower": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "borrowerId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "holder": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "holderId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

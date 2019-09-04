@@ -1,0 +1,88 @@
+{
+  "name": "book",
+  "plural": "books",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "volume": {
+      "type": "number",
+      "required": true,
+      "default": -1
+    },
+    "author": {
+      "type": "string",
+      "required": true,
+      "default": "from internet"
+    },
+    "publisher": {
+      "type": "string",
+      "required": true
+    },
+    "publishYear": {
+      "type": "date"
+    },
+    "description": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "numberOfPages": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "numberOfUse": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    }
+  },
+  "validations": [],
+  "relations": {
+    "subcategory": {
+      "type": "belongsTo",
+      "model": "subcategory",
+      "foreignKey": "subcategoryId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "likeBooks": {
+      "type": "hasMany",
+      "model": "likeBook",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

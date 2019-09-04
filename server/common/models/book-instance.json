@@ -1,0 +1,82 @@
+{
+  "name": "bookInstance",
+  "plural": "bookInstances",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    }
+  },
+  "properties": {
+    "bookCondition": {
+      "type": "string",
+      "required": true,
+      "default": "nguyên vẹn"
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "depositCoin": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "estimatedReadingTime": {
+      "type": "number",
+      "required": true,
+      "default": 14
+    }
+  },
+  "validations": [],
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "owner": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "holder": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "holderId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "borrower": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "borrowerId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}
