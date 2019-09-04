@@ -29,7 +29,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "clubAdmin": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "clubAdminId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

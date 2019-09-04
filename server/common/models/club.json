@@ -54,6 +54,22 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "logUserRoles": {
+      "type": "hasMany",
+      "model": "logUserRole",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "joinClubRequests": {
+      "type": "hasMany",
+      "model": "joinClubRequest",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [

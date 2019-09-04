@@ -44,7 +44,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "madeBy": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "madeById",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",
