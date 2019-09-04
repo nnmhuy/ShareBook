@@ -21,7 +21,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "location": {
+      "type": "belongsTo",
+      "model": "location",
+      "foreignKey": "locationId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

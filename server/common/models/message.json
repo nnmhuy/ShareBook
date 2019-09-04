@@ -20,7 +20,24 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "sender": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "senderId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "receiver": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "receiverId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

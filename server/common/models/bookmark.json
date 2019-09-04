@@ -21,7 +21,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",

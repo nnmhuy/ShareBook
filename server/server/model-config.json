@@ -161,5 +161,9 @@
   "bookmark": {
     "dataSource": "db",
     "public": true
+  },
+  "mission": {
+    "dataSource": "db",
+    "public": true
   }
 }

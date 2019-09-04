@@ -68,10 +68,10 @@
       "model": "userCredential",
       "foreignKey": "userId"
     },
-    "locations": {
+    "homeLocations": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "locationId",
+      "foreignKey": "homeLocationId",
       "options": {
         "nestRemoting": true
       }
@@ -103,6 +103,46 @@
     "likeReplies": {
       "type": "hasMany",
       "model": "likeReply",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "logUserRoles": {
+      "type": "hasMany",
+      "model": "logUserRole",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "joinClubRequests": {
+      "type": "hasMany",
+      "model": "joinClubRequest",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "notifications": {
+      "type": "hasMany",
+      "model": "notification",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "userLocations": {
+      "type": "hasMany",
+      "model": "userLocation",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookmarks": {
+      "type": "hasMany",
+      "model": "bookmark",
       "foreignKey": "userId",
       "options": {
         "nestRemoting": true

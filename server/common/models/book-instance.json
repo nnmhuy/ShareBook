@@ -60,6 +60,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "borrower": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "borrowerId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [

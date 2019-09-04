@@ -43,7 +43,48 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "club": {
+      "type": "belongsTo",
+      "model": "club",
+      "foreignKey": "clubId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "transaction": {
+      "type": "belongsTo",
+      "model": "transaction",
+      "foreignKey": "transactionId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "order": {
+      "type": "belongsTo",
+      "model": "order",
+      "foreignKey": "orderId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "mission": {
+      "type": "belongsTo",
+      "model": "mission",
+      "foreignKey": "missionId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
   "acls": [
     {
       "accessType": "*",
