@@ -1,9 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
-  IconButton,
   Avatar
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 import colors from '../../constants/colors'
 
@@ -17,12 +17,14 @@ const styles = (theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
+    paddingRight: 30,
     marginTop: 10,
     marginBottom: 10,
     cursor: 'pointer',
     '&:hover': {
       opacity: 0.8
-    }
+    },
+    textDecoration: 'unset'
   },
   avatar: {
     width: 57,
@@ -34,7 +36,7 @@ const styles = (theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 30
   },
   username: {
     fontWeight: 600,
@@ -46,7 +48,7 @@ const styles = (theme => ({
     color: '#9f9f9f'
   },
   icon: {
-    height: 20,
+    height: 15,
     width: 'auto'
   }
 }))
@@ -54,7 +56,7 @@ const styles = (theme => ({
 const ProfileSection = (props) => {
   const { classes, account } = props
   return (
-    <div className={classes.container}>
+    <Link className={classes.container} to={account.isAuth ? '/profile' : '/account'}>
       <Avatar className={classes.avatar} src={account.avatar || UserIcon} />
       <div className={classes.info}>
         <span className={classes.username}>{account.isAuth ? account.username : 'Đăng nhập'}</span>
@@ -65,7 +67,7 @@ const ProfileSection = (props) => {
         :
         <LoginIcon fill={colors.light} className={classes.icon} style={{ transform: 'rotate(90deg)' }}/>
       }
-    </div>
+    </Link>
   )
 }
 

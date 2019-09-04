@@ -7,7 +7,8 @@ const colors = {
   dark: '#00162B',
   light: '#00B8FC',
   error: '#D52929',
-  disabled: '#B7C7D6'
+  disabled: '#B7C7D6',
+  red: '#FF5B46'
 }
 
 export default colors
