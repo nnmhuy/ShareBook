@@ -9,6 +9,7 @@ import LayoutWrapper from './components/LayoutWrapper'
 import Home from './pages/Home/index'
 import Counter from './pages/Counter/index'
 import Account from './pages/Account/index'
+import BookDetail from './pages/BookDetail/index'
 import NotFound from './pages/NotFound/index'
 import {getUserInfo} from './redux/actions/accountAction'
 
@@ -30,17 +31,18 @@ class App extends React.Component {
   render() {
     const { account } = this.props
     return (
-        <Router>
-          <LayoutWrapper account={account}>
-              <Switch>
-                  <Route path="/" exact component={Home} />
-                  <Route path="/account" exact component={Account} />
-                  <Route path="/counter" exact component={Counter} />
-                  <Route component={NotFound}/>
-              </Switch>
-          </LayoutWrapper>
-          <ToastContainer></ToastContainer>
-        </Router>
+      <Router>
+        <LayoutWrapper account={account}>
+            <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/account" exact component={Account} />
+                <Route path="/book-detail/:bookId" exact component={BookDetail} />
+                <Route path="/counter" exact component={Counter} />
+                <Route component={NotFound}/>
+            </Switch>
+        </LayoutWrapper>
+        <ToastContainer></ToastContainer>
+      </Router>
     )
   }
 }

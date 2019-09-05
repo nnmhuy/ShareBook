@@ -45,7 +45,7 @@ const styles = (theme => ({
   },
   point: {
     fontSize: 12.5,
-    color: '#9f9f9f'
+    color: colors.gray
   },
   icon: {
     height: 15,
