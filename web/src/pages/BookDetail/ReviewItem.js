@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
-import { Avatar, Button } from '@material-ui/core'
+import { Avatar, Button, IconButton, ClickAwayListener } from '@material-ui/core'
 
 import Link from '../../components/Link'
 
@@ -10,6 +10,8 @@ import { ReactComponent as LikeNotFilledIcon } from '../../static/images/like.sv
 import { ReactComponent as LikeFilledIcon } from '../../static/images/like-filled.svg'
 import { ReactComponent as CommentIcon } from '../../static/images/transactions.svg'
 import { ReactComponent as NextArrow } from '../../static/images/back-arrow.svg'
+import { ReactComponent as MoreIcon } from '../../static/images/more.svg'
+import { ReactComponent as ReportIcon } from '../../static/images/alert.svg'
 
 const styles = (theme => ({
   container: {
@@ -17,7 +19,8 @@ const styles = (theme => ({
     marginBottom: 10,
     padding: 20,
     borderRadius: 6,
-    boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)'
+    boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)',
+    position: 'relative'
   },
   infoContainer: {
     display: 'flex',
@@ -36,8 +39,8 @@ const styles = (theme => ({
     lineHeight: 1.5
   },
   avatar: {
-    width: 26,
-    height: 26,
+    width: 30,
+    height: 30,
     display: 'inline-block',
     marginRight: 10
   },
@@ -116,16 +119,73 @@ const styles = (theme => ({
     height: 'auto',
     transform: 'rotate(180deg)',
     marginLeft: 5
+  },
+  moreZone: {
+    position: 'absolute',
+    top: 5,
+    right: 5
+  },
+  moreButton: {
+    width: 40,
+    height: 40
+  },
+  moreZoneContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
+  reportButton: {
+    backgroundColor: colors.red,
+    color: '#fff',
+    textTransform: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 11,
+    width: 80,
+    height: 30
+  },
+  reportIcon: {
+    width: 15,
+    height: 15,
+    marginLeft: 5
   }
 }))
 
 const ReviewItem = (props) => {
   const { 
-    classes, bookImage, images, reviewId,
-    title, username, avatar, createdAt, rating, review, likeStatus, number_of_comment 
+    classes, bookImage, images, reviewId, userId,
+    title, username, avatar, createdAt, rating, review, likeStatus, number_of_comment
   } = props
+
+  const [isShowMore, setShowMore] = React.useState(false)
+
+  const handleToggleMore = () => {
+    setShowMore(!isShowMore)
+  }
+
+  const handleClickAway = () => {
+    setShowMore(false)
+  }
+
   return (
     <div className={classes.container}>
+      <div className={classes.moreZone}>
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <div className={classes.moreZoneContainer}>
+            <IconButton onClick={handleToggleMore} className={classes.moreButton}>
+              <MoreIcon fill='#007EFC'/>
+            </IconButton>
+            {isShowMore &&
+              <Link to={`/report`}>
+                <Button variant='contained' size='small' className={classes.reportButton}>
+                  Report
+                  <ReportIcon className={classes.reportIcon} fill='#fff'/>
+                </Button>
+              </Link>
+            }
+          </div>
+        </ClickAwayListener>
+      </div>
       <div className={classes.infoContainer}>
         <img className={classes.image} src={images[0] || bookImage} alt='feature'/>
         <div className={classes.detailContainer}>
@@ -133,7 +193,7 @@ const ReviewItem = (props) => {
           <div className={classes.personalWrapper}>
             <Avatar src={avatar} className={classes.avatar}/>
             <div className={classes.personalInfo}>
-              <div className={classes.username}>{username}</div>
+              <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
               <div className={classes.date}>{createdAt}</div>
             </div>
             <Rating

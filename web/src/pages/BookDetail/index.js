@@ -6,6 +6,7 @@ import { } from '@material-ui/core'
 import BookInfo from './BookInfo'
 import RateSection from './RateSection'
 import BookAbout from './BookAbout'
+import SimilarBookSection from './SimilarBookSection'
 import ReviewList from './ReviewList'
 
 const styles = (theme => ({
@@ -60,6 +61,7 @@ class App extends React.Component {
         <RateSection bookId={bookId} history={history}/>
         <ReviewList bookImage={demoBook.image}/>
         <BookAbout {...demoBook}/>
+        <SimilarBookSection category={demoBook.category}/>
       </div>
     )
   }
