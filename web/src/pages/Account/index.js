@@ -8,7 +8,7 @@ import ModeTab from './components/ModeTab'
 import BackgroundDesktop from '../../static/images/../../static/images/bg-login.png'
 import BackgroundMobile from '../../static/images/bg-login-mobile.png'
 
-import { logInWithFacebook } from '../../redux/actions/accountAction'
+import { logInLocal, getUserInfo } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   container: {
@@ -46,6 +46,8 @@ class Account extends React.Component {
     this.state = {
         currentTab: 1
     }
+    // this.props.getUserInfoHandler();
+    this.props.logInLocalHandler();
   }
 
   handleChangeTab = (event, newTab) => {
@@ -55,7 +57,7 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes, logInWithFacebookHandler} = this.props
+    const { classes, logInLocalHandler} = this.props
     const { currentTab } = this.state
     return (
       <div className={classes.container}>
@@ -73,7 +75,7 @@ class Account extends React.Component {
         <ModeTab 
           currentTab={currentTab} 
           handleChangeTab={this.handleChangeTab} 
-          logInWithFacebookHandler={logInWithFacebookHandler}
+          logInLocalHandler={logInLocalHandler}
         />
       </div>
     )
@@ -90,7 +92,8 @@ const mapStateToProps = ({ account }) => {
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  logInWithFacebookHandler: logInWithFacebook
+  logInLocalHandler: logInLocal,
+  getUserInfoHandler: getUserInfo
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));

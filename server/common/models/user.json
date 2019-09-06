@@ -19,10 +19,13 @@
       "required": true,
       "default": "New User"
     },
+    "fbLink": {
+      "type": "string"
+    },
     "avatar": {
       "type": "string"
     },
-    "phone": {
+    "phoneNumber": {
       "type": "string"
     },
     "coin": {
@@ -46,9 +49,10 @@
         "clubOwner",
         "clubAdmin",
         "clubStaff",
-        "normalUser"
+        "normalUser",
+        "inactive"
       ],
-      "default": "normalUser"
+      "default": "inactive"
     }
   },
   "validations": [],

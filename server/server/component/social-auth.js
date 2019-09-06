@@ -21,7 +21,7 @@ module.exports = function profileToUser(provider, profile, options) {
       profile.emails && profile.emails[0] && profile.emails[0].value;
     var generatedEmail =
       (profile.username || profile.id) +
-      '@loopback.' +
+      '@ShareBook.' +
       (profile.provider || provider) +
       '.com';
     var email = profileEmail || generatedEmail;
@@ -31,11 +31,15 @@ module.exports = function profileToUser(provider, profile, options) {
     var name = _.get(profile, 'name.familyName', 'New') +
     ' ' + _.get(profile, 'name.givenName', 'User');
     var avatar = null;
+    var fbLink = null;
     if (provider === 'google') {
       avatar = _.get(profile, 'photos[0].value', null);
     }
     if (provider === 'facebook' && profile && profile.id) {
       avatar = `https://graph.facebook.com/${profile.id}/picture?height=500&width=500`;
+    }
+    if (provider === 'facebook' && profile && profile.profileUrl) {
+      fbLink = profile.profileUrl;
     }
     userObj = {
       username: username,
@@ -49,6 +53,9 @@ module.exports = function profileToUser(provider, profile, options) {
     }
     if (avatar) {
       userObj.avatar = avatar;
+    }
+    if (fbLink) {
+      userObj.fbLink = fbLink;
     }
     console.log('log in', userObj);
     return userObj;

@@ -72,7 +72,7 @@ class SignupPanel extends React.Component {
       handleBlur,
       handleSubmit,
       classes,
-      logInWithFacebookHandler
+      logInLocalHandler
     } = this.props
 
     const { activeStep } = this.state
@@ -96,7 +96,7 @@ class SignupPanel extends React.Component {
             handleChange={handleChange}
             handleBlur={handleBlur}
             nextStep={this.nextStep}
-          logInWithFacebookHandler={logInWithFacebookHandler}
+          logInLocalHandler={logInLocalHandler}
           />
         }
         {(activeStep===1) && 

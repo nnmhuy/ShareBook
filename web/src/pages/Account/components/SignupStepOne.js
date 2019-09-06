@@ -109,7 +109,7 @@ class SignupStepOne extends React.Component {
       handleBlur,
       classes,
       nextStep,
-      logInWithFacebookHandler
+      logInLocalHandler
     } = this.props
     const { showPassword } = this.state
     return (
@@ -147,7 +147,7 @@ class SignupStepOne extends React.Component {
           <Fab
             aria-label='login-facebook'
             className={classes.loginFbButton}
-            onClick={logInWithFacebookHandler}
+            onClick={logInLocalHandler}
           >
             <img src={FacebookLogo} alt='Login with FB' />
           </Fab>

@@ -7,16 +7,6 @@ const GGClientId = process.env.GGClientId;
 const GGClientSecret = process.env.GGClientSecret;
 
 module.exports = {
-  'local': {
-    'provider': 'local',
-    'module': 'passport-local',
-    'usernameField': 'username',
-    'passwordField': 'password',
-    'authPath': '/api/auth/local',
-    'successRedirect': '/api/home',
-    'failureRedirect': `${FRONTEND_URL}/login`,
-    'failureFlash': true,
-  },
   'facebook-login': {
     'provider': 'facebook',
     'module': 'passport-facebook',
@@ -40,23 +30,6 @@ module.exports = {
     'scope': [
       'email',
       'user_link',
-    ],
-    'failureFlash': true,
-  },
-  'google-login': {
-    'provider': 'google',
-    'module': 'passport-google-oauth',
-    'strategy': 'OAuth2Strategy',
-    'clientID': GGClientId,
-    'clientSecret': GGClientSecret,
-    'callbackURL': '/api/auth/google/callback',
-    'authPath': '/api/auth/google',
-    'callbackPath': '/api/auth/google/callback',
-    'successRedirect': `${FRONTEND_URL}/home`,
-    'failureRedirect': `${FRONTEND_URL}/login`,
-    'scope': [
-      'email',
-      'profile',
     ],
     'failureFlash': true,
   },

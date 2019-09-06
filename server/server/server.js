@@ -33,11 +33,6 @@ try {
 // boot scripts mount components like REST API
 boot(app, __dirname);
 
-// The access token is only available after boot
-app.middleware('auth', loopback.token({
-  model: app.models.accessToken,
-}));
-
 app.middleware('session:before', cookieParser(process.env.COOKIE_SECRET));
 
 app.use(

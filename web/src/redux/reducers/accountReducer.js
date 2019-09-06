@@ -1,9 +1,9 @@
 import { handleActions } from 'redux-actions'
 
 import { 
-  logInWithFacebook,
-  logInWithFacebookSuccess,
-  logInWithFacebookFail,
+  logInLocal,
+  logInLocalSuccess,
+  logInLocalFail,
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
@@ -14,29 +14,29 @@ import {
 
 let defaultState = {
   isLoading: false,
-  isAuth: false,
   userId: '',
   username: '',
+  email: '',
+  fbLink: '',
+  phoneNumber: '',
   avatar: '',
-  access_token: '',
+  name:'',
+  role: false,
   error: null
 }
 
 const accountReducer = handleActions(
   {
-    [logInWithFacebook]: (state) => {
+    [logInLocal]: (state) => {
       return state
     },
-    [logInWithFacebookSuccess]: (state, { payload: { username, avatar, access_token }}) => {
+    [logInLocalSuccess]: (state, { payload: {   }}) => {
       return {
         ...state,
-        username,
-        avatar,
-        access_token,
         error: null
       }
     },
-    [logInWithFacebookFail]: (state, { payload: error }) => {
+    [logInLocalFail]: (state, { payload: error }) => {
       return {
         ...state,
         error
@@ -50,13 +50,18 @@ const accountReducer = handleActions(
         access_token: localStorage.access_token
       }
     },
-    [getUserInfoSuccess]: (state, { payload: { username, avatar }} ) => {
+    [getUserInfoSuccess]: (state, { payload: { username, email, fbLink, phoneNumber, avatar, name, role }} ) => {
       return {
         ...state,
         isLoading: false,
         isAuth: true,
         username,
+        email,
+        fbLink,
+        phoneNumber,
         avatar,
+        name,
+        role,
         error: null
       }
     },

@@ -27,7 +27,7 @@ class ModeTab extends React.Component {
   // }
 
   render() {
-    const { classes, currentTab, handleChangeTab, logInWithFacebookHandler } = this.props
+    const { classes, currentTab, handleChangeTab, logInLocalHandler } = this.props
     return (
       <div className={classes.root}>
         <Tabs 
@@ -41,10 +41,10 @@ class ModeTab extends React.Component {
           <IconLabelTab label='Đăng nhập' Icon={LogInIcon}/>
         </Tabs>
         <TabPanel value={currentTab} index={0}>
-          <SignupPanel logInWithFacebookHandler={logInWithFacebookHandler}/>
+          <SignupPanel logInLocalHandler={logInLocalHandler}/>
         </TabPanel>
         <TabPanel value={currentTab} index={1}>
-          <LoginPanel logInWithFacebookHandler={logInWithFacebookHandler}/>
+          <LoginPanel logInLocalHandler={logInLocalHandler}/>
         </TabPanel>
       </div>
     )

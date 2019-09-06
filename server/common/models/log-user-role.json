@@ -25,7 +25,8 @@
         "clubOwner",
         "clubAdmin",
         "clubStaff",
-        "normalUser"
+        "normalUser",
+        "inactive"
       ]
     },
     "newRole": {
@@ -39,7 +40,8 @@
         "clubOwner",
         "clubAdmin",
         "clubStaff",
-        "normalUser"
+        "normalUser",
+        "inactive"
       ]
     }
   },

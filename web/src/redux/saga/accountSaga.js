@@ -2,9 +2,9 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import Cookies from 'js-cookie'
 
 import {
-  logInWithFacebook,
-  logInWithFacebookSuccess,
-  logInWithFacebookFail,
+  logInLocal,
+  logInLocalSuccess,
+  logInLocalFail,
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
@@ -14,13 +14,13 @@ import {
 } from '../actions/accountAction'
 import restConnector from '../../connectors/RestConnector'
 
-function* logInWithFacebookSaga() {
+function* logInLocalSaga({ payload }) {
   try {
-    const data = yield call(restConnector.get, '/auth/facebook')
+    const data = yield call(restConnector.post, '/users/login', payload)
     alert(data)
-    yield put(logInWithFacebookSuccess(data))
+    yield put(logInLocalSuccess(data))
   } catch (error) {
-    yield put(logInWithFacebookFail(error))
+    yield put(logInLocalFail(error))
   }
 }
 
@@ -46,8 +46,8 @@ function* logOutSaga() {
   }
 }
 
-function* logInWithFacebookWatcher() {
-  yield takeLatest(logInWithFacebook, logInWithFacebookSaga)
+function* logInLocalWatcher() {
+  yield takeLatest(logInLocal, logInLocalSaga)
 }
 
 function* getUserInfoWatcher() {
@@ -59,7 +59,7 @@ function* logOutWatcher() {
 }
 
 export {
-  logInWithFacebookWatcher,
+  logInLocalWatcher,
   getUserInfoWatcher,
   logOutWatcher
 }

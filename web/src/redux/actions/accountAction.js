@@ -2,9 +2,9 @@ import { createActions } from 'redux-actions'
 
 
 const { 
-  logInWithFacebook,
-  logInWithFacebookSuccess,
-  logInWithFacebookFail,
+  logInLocal,
+  logInLocalSuccess,
+  logInLocalFail,
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
@@ -12,9 +12,9 @@ const {
   logOutSuccess,
   logOutFail
 } = createActions(
-  'LOG_IN_WITH_FACEBOOK',
-  'LOG_IN_WITH_FACEBOOK_SUCCESS',
-  'LOG_IN_WITH_FACEBOOK_FAIL',
+  'LOG_IN_LOCAL',
+  'LOG_IN_LOCAL_SUCCESS',
+  'LOG_IN_LOCAL_FAIL',
   'GET_USER_INFO',
   'GET_USER_INFO_SUCCESS',
   'GET_USER_INFO_FAIL',
@@ -26,9 +26,9 @@ const {
 
 
 export {
-  logInWithFacebook,
-  logInWithFacebookSuccess,
-  logInWithFacebookFail,
+  logInLocal,
+  logInLocalSuccess,
+  logInLocalFail,
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
