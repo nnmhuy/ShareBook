@@ -94,10 +94,15 @@ const styles = (theme => ({
     alignItems: 'center',
     marginTop: 10
   },
-  numberIcon: {
+  numberIconLeft: {
     width: 15,
     height: 'auto',
-    margin: '0px 5px'
+    marginRight: 5
+  },
+  numberIconRight: {
+    width: 15,
+    height: 'auto',
+    marginLeft: 5
   },
   reportLink: {
     position: 'absolute',
@@ -157,7 +162,7 @@ const BookInfo = (props) => {
         <div className={classes.numberItem}>
           <div className={classes.numberLabel}>Đánh giá</div>
           <div className={classes.numberContainer}>
-            <LikeIcon className={classes.numberIcon} fill='#007EFC'/>
+            <LikeIcon className={classes.numberIconLeft} fill='#007EFC'/>
             <span className={classes.numberWrapper}>
               <span className={classes.number} style={{ color: '#007EFC' }}>
                 {rating}
@@ -174,7 +179,7 @@ const BookInfo = (props) => {
                 {number_of_bookmark}
               </span>
             </span>
-            <HeartIcon className={classes.numberIcon} />
+            <HeartIcon className={classes.numberIconRight} />
           </div>
         </div>
         <div className={classes.numberItem}>
@@ -185,7 +190,7 @@ const BookInfo = (props) => {
                 {number_of_use}
               </span>
             </span>
-            <UserIcon className={classes.numberIcon} fill='#0C4F8E'/>
+            <UserIcon className={classes.numberIconRight} fill='#0C4F8E'/>
           </div>
         </div>
       </div>

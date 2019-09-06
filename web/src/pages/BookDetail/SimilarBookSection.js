@@ -11,6 +11,7 @@ import { maxMobileWidth } from '../../constants/constants'
 const styles = (theme => ({
   container: {
     padding: 20,
+    overflow: 'hidden',
   },
   labelContainer: {
     display: 'flex',

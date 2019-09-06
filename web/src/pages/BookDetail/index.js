@@ -6,6 +6,7 @@ import { } from '@material-ui/core'
 import BookInfo from './BookInfo'
 import RateSection from './RateSection'
 import BookAbout from './BookAbout'
+import BookInstanceList from './BookInstanceList'
 import SimilarBookSection from './SimilarBookSection'
 import ReviewList from './ReviewList'
 
@@ -61,6 +62,7 @@ class App extends React.Component {
         <RateSection bookId={bookId} history={history}/>
         <ReviewList bookImage={demoBook.image}/>
         <BookAbout {...demoBook}/>
+        <BookInstanceList />
         <SimilarBookSection category={demoBook.category}/>
       </div>
     )

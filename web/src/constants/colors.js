@@ -9,7 +9,8 @@ const colors = {
   error: '#D52929',
   disabled: '#B7C7D6',
   red: '#FF5B46',
-  gray: '#9f9f9f'
+  gray: '#9f9f9f',
+  green: '#1cc136'
 }
 
 export default colors

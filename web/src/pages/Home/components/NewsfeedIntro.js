@@ -76,7 +76,7 @@ const NewsfeedIntro = (props) => {
       <div className={classes.titleContainer}>
         <span className={classes.title}>NEWSFEED</span>
         <Link to='/newsfeed' className={classes.link}>
-          <RightArrow height={12} fill={colors.textSecondary}/>
+          <RightArrow height={12} stroke={colors.textSecondary}/>
           <span> Tới newsfeed</span>
         </Link>
       </div>

@@ -63,7 +63,7 @@ const ProfileSection = (props) => {
         {account.isAuth && <span className={classes.point}>{account.coin} điểm</span>}
       </div>
       {account.isAuth?
-        <ArrowIcon fill={colors.light} className={classes.icon}/>
+        <ArrowIcon stroke={colors.light} className={classes.icon}/>
         :
         <LoginIcon fill={colors.light} className={classes.icon} style={{ transform: 'rotate(90deg)' }}/>
       }

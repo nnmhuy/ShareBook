@@ -54,7 +54,7 @@ const RateSection = (props) => {
       />
       <Link to={`/new-review/${bookId}`} className={classes.link}>
         Ghi cảm nhận
-        <RightArrow height={10}/>
+        <RightArrow height={10} stroke={colors.textSecondary}/>
       </Link>
     </div>
   )

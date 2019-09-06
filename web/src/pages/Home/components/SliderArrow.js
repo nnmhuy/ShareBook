@@ -31,9 +31,9 @@ const SliderArrow = (props) => {
   return (
     <Fab className={`${classes.fab} ${!isNext && classes.leftFab}`} onClick={onClick}>
       {isNext ? 
-        <RightArrow fill={colors.textSecondary} className={classes.arrow}/>
+        <RightArrow stroke={colors.textSecondary} className={classes.arrow}/>
         :
-        <LeftArrow fill={colors.textSecondary} className={classes.arrow}/>
+        <LeftArrow stroke={colors.textSecondary} className={classes.arrow}/>
       }
     </Fab>
   )
