@@ -16,6 +16,7 @@ import restConnector from '../../connectors/RestConnector'
 
 function* logInLocalSaga({ payload }) {
   try {
+    console.log(payload)
     const data = yield call(restConnector.post, '/users/login', payload)
     alert(data)
     yield put(logInLocalSuccess(data))

@@ -41,7 +41,7 @@ class ModeTab extends React.Component {
           <IconLabelTab label='Đăng nhập' Icon={LogInIcon}/>
         </Tabs>
         <TabPanel value={currentTab} index={0}>
-          <SignupPanel logInLocalHandler={logInLocalHandler}/>
+          <SignupPanel />
         </TabPanel>
         <TabPanel value={currentTab} index={1}>
           <LoginPanel logInLocalHandler={logInLocalHandler}/>

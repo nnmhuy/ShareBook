@@ -44,6 +44,10 @@ const styles = (theme => ({
     fontSize: 13,
     color: '#fff'
   },
+  loginFbbuttonLink: {
+    color: 'inherit',
+    textDecoration: 'none'
+  }, 
   dividerContainer: {
     display: 'flex',
     width: '100%',
@@ -94,13 +98,13 @@ class LoginPanel extends React.Component {
       <form onSubmit={handleSubmit} className={classes.container}>
         <img src={Logo} className={classes.logo} alt='ShareBook'/>
         <InputField 
-          id='login-phone-number'
-          label='Số điện thoại'
-          name='phoneNumber'
-          type='number'
-          value={values.phoneNumber}
-          touched={touched.phoneNumber}
-          error={errors.phoneNumber}
+          id='login-username'
+          label='Tên đăng nhập'
+          name='username'
+          type='string'
+          value={values.username}
+          touched={touched.username}
+          error={errors.username}
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -135,7 +139,7 @@ class LoginPanel extends React.Component {
           aria-label='login-facebook'
           className={classes.loginFbButton}
         >
-          <a href='http://localhost:3001/api/auth/facebook'>
+          <a className={classes.loginFbbuttonLink} href='http://localhost:3001/api/auth/facebook'>
             Đăng nhập bằng Facebook
           </a>
         </Fab>
@@ -146,7 +150,7 @@ class LoginPanel extends React.Component {
 
 
 const LoginPanelWithFormik = withFormik({
-  mapPropsToValues: () => ({ phoneNumber: '', password: '' }),
+  mapPropsToValues: () => ({ username: '', password: '' }),
 
   validate: values => {
     const errors = {};
@@ -154,11 +158,10 @@ const LoginPanelWithFormik = withFormik({
     return errors;
   },
 
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
+  handleSubmit: (values, { setSubmitting, props }) => {
+    setSubmitting(true);
+    props.logInLocalHandler({username: values.username, password: values.password})
+    setSubmitting(false);
   }
 })(withStyles(styles)(LoginPanel))
 

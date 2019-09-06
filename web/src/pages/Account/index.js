@@ -46,8 +46,7 @@ class Account extends React.Component {
     this.state = {
         currentTab: 1
     }
-    // this.props.getUserInfoHandler();
-    this.props.logInLocalHandler();
+    this.props.getUserInfoHandler();
   }
 
   handleChangeTab = (event, newTab) => {
@@ -86,7 +85,6 @@ const mapStateToProps = ({ account }) => {
   return {
     username: account.username,
     avatar: account.avatar,
-    token: account.token,
     error: account.error
   }
 }
