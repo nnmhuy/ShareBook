@@ -30,7 +30,7 @@ const accountReducer = handleActions(
     [logInLocal]: (state) => {
       return state
     },
-    [logInLocalSuccess]: (state, { payload: {   }}) => {
+    [logInLocalSuccess]: (state) => {
       return {
         ...state,
         error: null
