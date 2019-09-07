@@ -17,11 +17,12 @@ import restConnector from '../../connectors/RestConnector'
 import {successAlert, warnAlert} from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
+  console.log('run')
   try {
     const data = yield call(restConnector.post, '/users/login', payload)
     yield put(logInLocalSuccess(data))
     successAlert('Đăng nhập thành công')
-    window.history.push('/profile')
+    //window.history.push('/profile')
   } catch (error) {
     yield put(logInLocalFail(error))
     let errorMessage = _.get(error, 'response.data.error.message', 'Đăng nhập lỗi')
