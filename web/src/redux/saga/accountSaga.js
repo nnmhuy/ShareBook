@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import Cookies from 'js-cookie'
+import _ from 'lodash'
 
 import {
   logInLocal,
@@ -20,10 +21,11 @@ function* logInLocalSaga({ payload }) {
     const data = yield call(restConnector.post, '/users/login', payload)
     yield put(logInLocalSuccess(data))
     successAlert('Đăng nhập thành công')
+    window.history.push('/profile')
   } catch (error) {
     yield put(logInLocalFail(error))
-    //console.log(error.response.data.error.message)
-    warnAlert(error.response.data.error.message)
+    let errorMessage = _.get(error, 'response.data.error.message', 'Đăng nhập lỗi')
+    warnAlert(errorMessage)
   }
 }
 

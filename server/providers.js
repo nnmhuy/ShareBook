@@ -25,8 +25,8 @@ module.exports = {
     'callbackURL': '/api/auth/facebook/callback',
     'authPath': '/api/auth/facebook',
     'callbackPath': '/api/auth/facebook/callback',
-    'successRedirect': `${FRONTEND_URL}/home`,
-    'failureRedirect': `${FRONTEND_URL}/login`,
+    'successRedirect': `${FRONTEND_URL}/profile`,
+    'failureRedirect': `${FRONTEND_URL}/account`,
     'scope': [
       'email',
       'user_link',
@@ -41,8 +41,8 @@ module.exports = {
     'callbackURL': '/api/link/facebook/callback',
     'authPath': '/api/link/facebook',
     'callbackPath': '/api/link/facebook/callback',
-    'successRedirect': `${FRONTEND_URL}/home`,
-    'failureRedirect': `${FRONTEND_URL}/home`,
+    'successRedirect': `${FRONTEND_URL}/profile`,
+    'failureRedirect': `${FRONTEND_URL}/profile`,
     'scope': [
       'email',
       'user_link',

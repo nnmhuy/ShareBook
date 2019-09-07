@@ -12,8 +12,7 @@ import {
   logOutFail
 } from '../actions/accountAction'
 
-let defaultState = {
-  isLoading: false,
+const unAuthorizedUser = {
   userId: '',
   username: '',
   email: '',
@@ -21,7 +20,17 @@ let defaultState = {
   phoneNumber: '',
   avatar: '',
   name:'',
-  role: false,
+  role: '',
+  coin: 0,
+  contribution: 0,
+  homeLocationId: '',
+  clubId: '',
+}
+
+let defaultState = {
+  isLoading: false,
+  isAuth: false,
+  ...unAuthorizedUser,
   error: null
 }
 
@@ -45,16 +54,15 @@ const accountReducer = handleActions(
     [getUserInfo]: (state) => {
       return {
         ...state,
-        isLoading: true,
-        userId: localStorage.userId,
-        access_token: localStorage.access_token
+        isLoading: true
       }
     },
-    [getUserInfoSuccess]: (state, { payload: { username, email, fbLink, phoneNumber, avatar, name, role }} ) => {
+    [getUserInfoSuccess]: (state, { payload: { id, username, email, fbLink, phoneNumber, avatar, name, role, coin, contribution, homeLocationId, clubId}} ) => {
       return {
         ...state,
         isLoading: false,
         isAuth: true,
+        userId: id,
         username,
         email,
         fbLink,
@@ -62,6 +70,10 @@ const accountReducer = handleActions(
         avatar,
         name,
         role,
+        coin,
+        contribution,
+        homeLocationId,
+        clubId,
         error: null
       }
     },
@@ -70,6 +82,7 @@ const accountReducer = handleActions(
         ...state,
         isLoading: false,
         isAuth: false,
+        ...unAuthorizedUser,
         error
       }
     },
@@ -84,10 +97,7 @@ const accountReducer = handleActions(
       return {
         isLoading: false,
         isAuth: false,
-        userId: '',
-        username: '',
-        avatar: '',
-        access_token: '',
+        ...unAuthorizedUser,
         error: null
       }
     },
@@ -95,10 +105,7 @@ const accountReducer = handleActions(
       return {
         isLoading: false,
         isAuth: false,
-        userId: '',
-        username: '',
-        avatar: '',
-        access_token: '',
+        ...unAuthorizedUser,
         error: error
       }
     }

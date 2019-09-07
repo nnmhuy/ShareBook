@@ -10,7 +10,6 @@ const Role = {
   CLUBSTAFF: 'clubStaff',
   NORMALUSER: 'normalUser',
   INACTIVE: 'inactive',
-  UNAUTHORIZED: 'unauthorized',
 };
 
 module.exports = Role;
