@@ -31,6 +31,7 @@ let defaultState = {
   isLoading: false,
   isAuth: false,
   ...unAuthorizedUser,
+  redirectPath: '',
   error: null
 }
 
@@ -42,6 +43,7 @@ const accountReducer = handleActions(
     [logInLocalSuccess]: (state) => {
       return {
         ...state,
+        redirectPath: '/profile',
         error: null
       }
     },
@@ -74,6 +76,7 @@ const accountReducer = handleActions(
         contribution,
         homeLocationId,
         clubId,
+        redirectPath: '/profile',
         error: null
       }
     },
@@ -90,6 +93,7 @@ const accountReducer = handleActions(
       return {
         ...state,
         isLoading: true,
+        redirectPath: '',
         isAuth: false,
       }
     },

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import ModeTab from './components/ModeTab'
+import { Redirect } from 'react-router'
 
 import BackgroundDesktop from '../../static/images/../../static/images/bg-login.png'
 import BackgroundMobile from '../../static/images/bg-login-mobile.png'
@@ -56,8 +57,10 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes, logInLocalHandler} = this.props
+    const { classes, logInLocalHandler, redirectPath} = this.props
     const { currentTab } = this.state
+    if (redirectPath)
+      return <Redirect to="/profile" />
     return (
       <div className={classes.container}>
         {(currentTab===0) ? 
@@ -85,7 +88,8 @@ const mapStateToProps = ({ account }) => {
   return {
     username: account.username,
     avatar: account.avatar,
-    error: account.error
+    error: account.error,
+    redirectPath: account.redirectPath
   }
 }
 
