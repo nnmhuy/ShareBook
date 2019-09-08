@@ -6,6 +6,8 @@ import {
   Button
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import ProfileSection from './ProfileSection'
 import RouteSection from './RouteSection'
@@ -16,6 +18,8 @@ import colors from '../../constants/colors'
 import { ReactComponent as CancelIcon } from '../../static/images/cancel.svg'
 import { ReactComponent as LogOutIcon } from '../../static/images/log-out.svg'
 import { ReactComponent as AlertIcon } from '../../static/images/alert.svg'
+
+import { logOut } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   sidebar: {
@@ -61,7 +65,7 @@ const styles = (theme => ({
 }))
 
 const Sidebar = (props) => {
-  const { classes, toggleSidebar, account, currentPathname } = props
+  const { classes, toggleSidebar, account, currentPathname, logOutHandler } = props
   return (
     <div
       className={classes.sidebar}
@@ -78,9 +82,10 @@ const Sidebar = (props) => {
       <Divider className={classes.divider}/>
       <InfoSection/>
       <div className={classes.bottomSection}>
-        <IconButton>
+        { account.isAuth &&
+        <IconButton onClick={() => { logOutHandler() }}>
           <LogOutIcon className={classes.logoutIcon}/>
-        </IconButton>
+        </IconButton> }
         <Link to={'/report'} className={classes.link}>
           <Button className={classes.reportButton}>
               <AlertIcon className={classes.alertIcon} />
@@ -92,4 +97,14 @@ const Sidebar = (props) => {
   )
 }
 
-export default withStyles(styles)(Sidebar)
+
+const mapStateToProps = ({ account }) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  logOutHandler: logOut
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Sidebar))

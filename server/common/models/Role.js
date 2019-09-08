@@ -9,6 +9,7 @@ const Role = {
   CLUBADMIN: 'clubAdmin',
   CLUBSTAFF: 'clubStaff',
   NORMALUSER: 'normalUser',
+  INACTIVE: 'inactive',
 };
 
 module.exports = Role;

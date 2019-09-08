@@ -4,12 +4,16 @@ import { withFormik } from 'formik'
 import {
   Fab
 } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
 
 import InputField from '../../../components/InputField'
+import  { LoginValidation } from '../../../helper/userValidator'
+import { logInLocal } from '../../../redux/actions/accountAction'
 
 
 const styles = (theme => ({
@@ -44,6 +48,10 @@ const styles = (theme => ({
     fontSize: 13,
     color: '#fff'
   },
+  loginFbbuttonLink: {
+    color: 'inherit',
+    textDecoration: 'none'
+  }, 
   dividerContainer: {
     display: 'flex',
     width: '100%',
@@ -94,13 +102,13 @@ class LoginPanel extends React.Component {
       <form onSubmit={handleSubmit} className={classes.container}>
         <img src={Logo} className={classes.logo} alt='ShareBook'/>
         <InputField 
-          id='login-phone-number'
-          label='Số điện thoại'
-          name='phoneNumber'
-          type='number'
-          value={values.phoneNumber}
-          touched={touched.phoneNumber}
-          error={errors.phoneNumber}
+          id='login-username'
+          label='Tên đăng nhập'
+          name='username'
+          type='string'
+          value={values.username}
+          touched={touched.username}
+          error={errors.username}
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -135,7 +143,9 @@ class LoginPanel extends React.Component {
           aria-label='login-facebook'
           className={classes.loginFbButton}
         >
-          Đăng nhập bằng Facebook
+          <a className={classes.loginFbbuttonLink} href='http://localhost:3001/api/auth/facebook'>
+            Đăng nhập bằng Facebook
+          </a>
         </Fab>
       </form>
     )
@@ -144,20 +154,27 @@ class LoginPanel extends React.Component {
 
 
 const LoginPanelWithFormik = withFormik({
-  mapPropsToValues: () => ({ phoneNumber: '', password: '' }),
+  mapPropsToValues: () => ({ username: '', password: '' }),
 
-  validate: values => {
-    const errors = {};
+  validationSchema: LoginValidation,
 
-    return errors;
-  },
-
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
+  handleSubmit: (values, { setSubmitting, props }) => {
+    setSubmitting(true);
+    if (!props.isLoading) {
+      props.logInLocalHandler({username: values.username, password: values.password})
+    }
+    setSubmitting(false);
   }
 })(withStyles(styles)(LoginPanel))
 
-export default LoginPanelWithFormik
+const mapStateToProps = ({ account }) => {
+  return {
+    isLoading: account.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  logInLocalHandler: logInLocal,
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPanelWithFormik);

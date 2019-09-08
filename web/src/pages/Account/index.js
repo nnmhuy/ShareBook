@@ -1,11 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import ModeTab from './components/ModeTab'
+import { Redirect } from 'react-router'
 
 import BackgroundDesktop from '../../static/images/../../static/images/bg-login.png'
 import BackgroundMobile from '../../static/images/bg-login-mobile.png'
+
+import { getUserInfo } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   container: {
@@ -41,8 +45,12 @@ class Account extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        currentTab: 0
+        currentTab: 1
     }
+  }
+
+  componentDidMount() {
+    this.props.getUserInfoHandler();
   }
 
   handleChangeTab = (event, newTab) => {
@@ -52,8 +60,10 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, isAuth } = this.props
     const { currentTab } = this.state
+    if (isAuth)
+      return <Redirect to="/profile" />
     return (
       <div className={classes.container}>
         {(currentTab===0) ? 
@@ -67,22 +77,23 @@ class Account extends React.Component {
             <p className={classes.introText}>Chào mừng bạn trở lại với <br/> cộng đồng chia sẻ sách của ShareBook</p>
           </div>
         }
-        <ModeTab currentTab={currentTab} handleChangeTab={this.handleChangeTab}/>
+        <ModeTab 
+          currentTab={currentTab} 
+          handleChangeTab={this.handleChangeTab} 
+        />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ account }) => {
   return {
-
+    isAuth: account.isAuth
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getUserInfoHandler: getUserInfo,
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));

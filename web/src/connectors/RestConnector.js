@@ -2,7 +2,7 @@ import axios from 'axios'
 import { baseURL } from '../constants/constants'
 
 const RestConnector = () => {
-  const instance = axios.create({ baseURL })
+  const instance = axios.create({ baseURL, withCredentials: true})
 
   instance.interceptors.response.use(
     function (response) {
