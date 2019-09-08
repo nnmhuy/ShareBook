@@ -17,7 +17,6 @@ import restConnector from '../../connectors/RestConnector'
 import {successAlert, warnAlert} from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
-  console.log('run')
   try {
     const data = yield call(restConnector.post, '/users/login', payload)
     yield put(logInLocalSuccess(data))
@@ -32,7 +31,8 @@ function* logInLocalSaga({ payload }) {
 
 function* getUserInfoSaga() {
   try {
-    const data = yield call(restConnector.get, '/users/me')
+    const response = yield call(restConnector.get, '/users/me')
+    let data = _.get(response, 'data', {})
     yield put(getUserInfoSuccess(data))
   } catch(error) {
     yield put(getUserInfoFail(error))

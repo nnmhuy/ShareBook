@@ -59,8 +59,8 @@ const ProfileSection = (props) => {
     <Link className={classes.container} to={account.isAuth ? '/profile' : '/account'}>
       <Avatar className={classes.avatar} src={account.avatar || UserIcon} />
       <div className={classes.info}>
-        <span className={classes.username}>{account.isAuth ? account.username : 'Đăng nhập'}</span>
-        {account.isAuth && <span className={classes.point}>99 điểm</span>}
+        <span className={classes.username}>{account.isAuth ? account.name : 'Đăng nhập'}</span>
+        {account.isAuth && <span className={classes.point}>{account.coin} điểm</span>}
       </div>
       {account.isAuth?
         <ArrowIcon fill={colors.light} className={classes.icon}/>
