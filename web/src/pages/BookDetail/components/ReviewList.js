@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
 import ReviewItem from './ReviewItem'
+import Pagination from '../../../components/Pagination/index'
 
 const styles = (theme => ({
   container: {
@@ -23,6 +24,13 @@ const ReviewList = (props) => {
           )
         })
       }
+      <Pagination
+        pageCount={1000}
+        breakLabel={'. . .'}
+        pageRangeDisplayed={9}
+        marginPagesDisplayed={0}
+        handlePageChange={(data) => console.log(JSON.stringify(data))}
+      />
     </div>
   )
 }
