@@ -30,7 +30,6 @@ class App extends React.Component {
   render() {
     const { account } = this.props
     return (
-      <div>
         <Router>
           <LayoutWrapper account={account}>
               <Switch>
@@ -40,9 +39,8 @@ class App extends React.Component {
                   <Route component={NotFound}/>
               </Switch>
           </LayoutWrapper>
+          <ToastContainer></ToastContainer>
         </Router>
-        <ToastContainer></ToastContainer>
-      </div>
     )
   }
 }
