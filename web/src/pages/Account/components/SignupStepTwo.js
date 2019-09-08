@@ -104,7 +104,7 @@ class SignupStepTwo extends React.Component {
           className={classes.backButton}
           onClick={backStep}
         >
-          <BackArrow/>
+          <BackArrow fill='#fff'/>
         </Fab>
         <InputField
           id='signup-phone-number'

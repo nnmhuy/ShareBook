@@ -74,7 +74,7 @@ const TopReviewItem = (props) => {
         <div className={classes.bookName}>{bookName}</div>
         <div className={classes.review}>"{reviewContent}"</div>
         <Link to={`/review/${reviewId}`} className={classes.link}>
-          <RightArrow height={12} fill={colors.textSecondary} />
+          <RightArrow height={12} stroke={colors.textSecondary} />
           <span> Đi tới review</span>
         </Link>
       </div>

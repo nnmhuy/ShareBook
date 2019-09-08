@@ -57,7 +57,7 @@ const RouteItem = (props) => {
       <div className={isSelected ? classes.selected : classes.unselected}></div>
       <Icon fill={colors.light} className={classes.icon}/>
       <span className={classes.label}>{label}</span>
-      <ArrowIcon fill={colors.light} className={classes.arrowIcon} />
+      <ArrowIcon stroke={colors.light} className={classes.arrowIcon} />
     </Link>
   )
 }
