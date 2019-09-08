@@ -3,20 +3,19 @@ import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { Avatar, Button, IconButton, ClickAwayListener } from '@material-ui/core'
 
-import Link from '../../components/Link'
+import Link from '../../../components/Link'
 
-import colors from '../../constants/colors'
-import { ReactComponent as LikeNotFilledIcon } from '../../static/images/like.svg'
-import { ReactComponent as LikeFilledIcon } from '../../static/images/like-filled.svg'
-import { ReactComponent as CommentIcon } from '../../static/images/transactions.svg'
-import { ReactComponent as NextArrow } from '../../static/images/back-arrow.svg'
-import { ReactComponent as MoreIcon } from '../../static/images/more.svg'
-import { ReactComponent as ReportIcon } from '../../static/images/alert.svg'
+import colors from '../../../constants/colors'
+import { ReactComponent as LikeNotFilledIcon } from '../../../static/images/like.svg'
+import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg'
+import { ReactComponent as CommentIcon } from '../../../static/images/transactions.svg'
+import { ReactComponent as NextArrow } from '../../../static/images/back-arrow.svg'
+import { ReactComponent as MoreIcon } from '../../../static/images/more.svg'
+import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
 
 const styles = (theme => ({
   container: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 40,
     padding: 20,
     borderRadius: 6,
     boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)',

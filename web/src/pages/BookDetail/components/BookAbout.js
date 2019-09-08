@@ -37,6 +37,8 @@ const styles = (theme => ({
     color: '#696969'
   },
   itemValue: {
+    fontWeight: 'bold',
+    marginTop: 5,
     fontSize: 15,
     color: '#000'
   },
@@ -63,7 +65,7 @@ const detailInfo = [
 ]
 
 const BookAbout = (props) => {
-  const { classes, description } = props
+  const { classes, book } = props
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
@@ -78,7 +80,7 @@ const BookAbout = (props) => {
                 detailItem ?
                   <div key={detailItem.key} className={classes.detailItem}>
                     <div className={classes.itemLabel}>{detailItem.label}</div>
-                    <div className={classes.itemValue}>{props[detailItem.key]}</div>
+                    <div className={classes.itemValue}>{book[detailItem.key]}</div>
                   </div>
                   :
                   <div className={classes.break} key='break'></div>
@@ -93,7 +95,7 @@ const BookAbout = (props) => {
           Giới thiệu
         </div>
         <div className={classes.overview}>
-          {description}
+          {book.description}
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
-import Link from '../../components/Link'
+import Link from '../../../components/Link'
 
-import colors from '../../constants/colors'
+import colors from '../../../constants/colors'
 
-import { ReactComponent as RightArrow } from '../../static/images/right-arrow.svg'
+import { ReactComponent as RightArrow } from '../../../static/images/right-arrow.svg'
 
 const styles = (theme => ({
   container: {

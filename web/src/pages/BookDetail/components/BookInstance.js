@@ -2,15 +2,15 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Button, Avatar } from '@material-ui/core'
 
-import Link from '../../components/Link'
+import Link from '../../../components/Link'
 
-import colors from '../../constants/colors'
-import { ReactComponent as UserIcon } from '../../static/images/man-user.svg'
-import { ReactComponent as DownIcon } from '../../static/images/right-arrow.svg'
+import colors from '../../../constants/colors'
+import { ReactComponent as UserIcon } from '../../../static/images/man-user.svg'
+import { ReactComponent as DownIcon } from '../../../static/images/right-arrow.svg'
 
 const styles = (theme => ({
   container: {
-    marginTop: 20,
+    marginBottom: 20,
     textAlign: 'center',
   },
   titleContainer: {
@@ -295,9 +295,9 @@ const BookInstance = (props) => {
       </div>
       <div className={`${classes.detailWrapper} ${!isExpanded && classes.hideDetail}` }>
         {
-          keyArray.map(key => {
+          keyArray.map((key, index) => {
             if (key.key === 'break') {
-              return <div className={classes.break} key='break'></div>
+              return <div className={classes.break} key={`break-${index}`}></div>
             }
             const value = props[key.key]
             return (

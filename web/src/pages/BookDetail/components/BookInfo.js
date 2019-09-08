@@ -3,14 +3,14 @@ import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { IconButton } from '@material-ui/core'
 
-import Link from '../../components/Link'
+import Link from '../../../components/Link'
 
-import { ReactComponent as LikeIcon } from '../../static/images/like-filled.svg'
-import { ReactComponent as HeartIcon } from '../../static/images/heart-full.svg'
-import { ReactComponent as UserIcon } from '../../static/images/man-user.svg'
-import { ReactComponent as ReportIcon } from '../../static/images/alert.svg'
+import { ReactComponent as LikeIcon } from '../../../static/images/like-filled.svg'
+import { ReactComponent as HeartIcon } from '../../../static/images/heart-full.svg'
+import { ReactComponent as UserIcon } from '../../../static/images/man-user.svg'
+import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
 
-import colors from '../../constants/colors'
+import colors from '../../../constants/colors'
 
 const styles = (theme => ({
   container: {

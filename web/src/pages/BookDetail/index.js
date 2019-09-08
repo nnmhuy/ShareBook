@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { } from '@material-ui/core'
 
-import BookInfo from './BookInfo'
-import RateSection from './RateSection'
-import BookAbout from './BookAbout'
-import BookInstanceList from './BookInstanceList'
-import SimilarBookSection from './SimilarBookSection'
-import ReviewList from './ReviewList'
+import BookInfo from './components/BookInfo'
+import RateSection from './components/RateSection'
+import DetailTabs from './components/DetailTabs'
+import SimilarBookSection from './components/SimilarBookSection'
+
+import { demoBook, demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -18,31 +18,6 @@ const styles = (theme => ({
     margin: 'auto'
   }
 }))
-
-const demoBook = {
-  name: 'Animal Farm',
-  image: require('../../static/images/demo/animal-farm.png'),
-  author: 'George Orwell',
-  category: 'Law',
-  tags: [
-    'kịch tính',
-    'châm biếm',
-    'tâm lý',
-    'kịch tính',
-    'châm biếm'
-  ],
-  isLike: false,
-  rating: 4.5,
-  number_of_bookmark: 60,
-  number_of_use: 50,
-
-  volume: 2,
-  publisher: 'Penguin',
-  publish_year: 2015,
-  description: 'A farm is taken over by its overworked, mistreated animals. With flaming idealism and stirring slogans, they set out to create a paradise of progress, justice, and equality.\n Thus the stage is set for one of the most telling satiric fables ever penned a razor- edged fairy tale for grown - ups that records the evolution from revolution against tyranny to a totalitarianism just as terrible.',
-  price: 100000,
-  number_of_pages: 300
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -59,11 +34,13 @@ class App extends React.Component {
     return (
       <div className={classes.container}>
         <BookInfo {...demoBook} />
-        <RateSection bookId={bookId} history={history}/>
-        <ReviewList bookImage={demoBook.image}/>
-        <BookAbout {...demoBook}/>
-        <BookInstanceList />
-        <SimilarBookSection category={demoBook.category}/>
+        <RateSection bookId={bookId} history={history} />
+        <DetailTabs
+          book={demoBook}
+          bookInstanceList={demoBookInstance}
+          reviewList={demoReviewList}
+        />
+        <SimilarBookSection similarBookList={demoSimilarBooks}/>
       </div>
     )
   }
