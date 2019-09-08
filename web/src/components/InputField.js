@@ -38,9 +38,13 @@ const InputField = (props) => {
     classes, id, label, name, value, touched, error, type, Icon,
     placeholder, handleChange, handleBlur, handleIconClick
   } = props
+  let isError = false
+  if (error) {
+    isError = true
+  }
 
   return (
-    <FormControl error={error} className={classes.input}>
+    <FormControl error={isError} className={classes.input}>
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <Input
         id={id}
@@ -63,7 +67,7 @@ const InputField = (props) => {
       />
       <FormHelperText
         id={`${id}-error`}
-        className={!(touched && error) && classes.hidden}
+        className={(!(touched && error) && classes.hidden) || ''}
       >
         {error}
       </FormHelperText>

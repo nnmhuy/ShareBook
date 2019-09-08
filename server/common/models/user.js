@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = function(User) {
+  User.validatesLengthOf('password', {min: 6,
+    message: {min: 'Mật khẩu quá ngắn'}});
+  User.validatesLengthOf('username', {min: 6,
+    message: {min: 'Tên đăng nhập quá ngắn'}});
+
   // adding default email base on username
   User.observe('before save', function filterProperties(ctx, next) {
     let currentUser = ctx.instance;

@@ -9,7 +9,7 @@ import { Redirect } from 'react-router'
 import BackgroundDesktop from '../../static/images/../../static/images/bg-login.png'
 import BackgroundMobile from '../../static/images/bg-login-mobile.png'
 
-import { logInLocal, getUserInfo, logOut } from '../../redux/actions/accountAction'
+import { getUserInfo } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   container: {
@@ -47,6 +47,9 @@ class Account extends React.Component {
     this.state = {
         currentTab: 1
     }
+  }
+
+  componentDidMount() {
     this.props.getUserInfoHandler();
   }
 
@@ -57,7 +60,7 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes, logInLocalHandler, isAuth} = this.props
+    const { classes, isAuth } = this.props
     const { currentTab } = this.state
     if (isAuth)
       return <Redirect to="/profile" />
@@ -77,7 +80,6 @@ class Account extends React.Component {
         <ModeTab 
           currentTab={currentTab} 
           handleChangeTab={this.handleChangeTab} 
-          logInLocalHandler={logInLocalHandler}
         />
       </div>
     )
@@ -86,18 +88,12 @@ class Account extends React.Component {
 
 const mapStateToProps = ({ account }) => {
   return {
-    username: account.username,
-    avatar: account.avatar,
-    error: account.error,
-    redirectPath: account.redirectPath,
     isAuth: account.isAuth
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  logInLocalHandler: logInLocal,
   getUserInfoHandler: getUserInfo,
-  logOutHandler: logOut
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Account));

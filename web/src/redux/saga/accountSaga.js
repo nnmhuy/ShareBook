@@ -25,6 +25,9 @@ function* logInLocalSaga({ payload }) {
   } catch (error) {
     yield put(logInLocalFail(error))
     let errorMessage = _.get(error, 'response.data.error.message', 'Đăng nhập lỗi')
+    if (errorMessage === 'login failed') {
+      errorMessage = 'Đăng nhập lỗi'
+    }
     warnAlert(errorMessage)
   }
 }

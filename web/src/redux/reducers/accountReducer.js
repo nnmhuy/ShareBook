@@ -37,20 +37,25 @@ let defaultState = {
 const accountReducer = handleActions(
   {
     [logInLocal]: (state) => {
-      return state
+      return {
+        ...state,
+        isLoading: true
+      }
     },
     [logInLocalSuccess]: (state) => {
       return {
         ...state,
         isAuth: true,
-        error: null
+        error: null,
+        isLoading: false
       }
     },
     [logInLocalFail]: (state, { payload: error }) => {
       return {
         ...state,
         isAuth: false,
-        error
+        error,
+        isLoading: false
       }
     },
     [getUserInfo]: (state) => {

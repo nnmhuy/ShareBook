@@ -1,13 +1,12 @@
 import * as yup from 'yup'
 
-const requiredMessage = 'This field is mandatory'
-const maxMessage = 'This field is larger than 255 characters'
+const requiredMessage = 'Không được để trống'
+const maxMessage = 'Không được nhiều hơn 255 ký tự'
+const minMessage = 'không được ít hơn 6 ký tự'
 
 const LoginValidation = yup.object().shape({
-    address: yup.string().required(requiredMessage).max(255, maxMessage),
-    city: yup.string().required(requiredMessage).max(255, maxMessage),
-    state: yup.string().max(255, maxMessage),
-    zipCode: yup.number().required(requiredMessage).positive('Invalid ZIP code')
+    username: yup.string().required(requiredMessage).max(255, maxMessage).min(6, minMessage),
+    password: yup.string().required(requiredMessage).max(255, maxMessage).min(6, minMessage),
   })
 
 export { LoginValidation }

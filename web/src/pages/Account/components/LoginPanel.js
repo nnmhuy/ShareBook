@@ -4,12 +4,16 @@ import { withFormik } from 'formik'
 import {
   Fab
 } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
 
 import InputField from '../../../components/InputField'
+import  { LoginValidation } from '../../../helper/userValidator'
+import { logInLocal } from '../../../redux/actions/accountAction'
 
 
 const styles = (theme => ({
@@ -152,17 +156,25 @@ class LoginPanel extends React.Component {
 const LoginPanelWithFormik = withFormik({
   mapPropsToValues: () => ({ username: '', password: '' }),
 
-  validate: values => {
-    const errors = {};
-
-    return errors;
-  },
+  validationSchema: LoginValidation,
 
   handleSubmit: (values, { setSubmitting, props }) => {
     setSubmitting(true);
-    props.logInLocalHandler({username: values.username, password: values.password})
+    if (!props.isLoading) {
+      props.logInLocalHandler({username: values.username, password: values.password})
+    }
     setSubmitting(false);
   }
 })(withStyles(styles)(LoginPanel))
 
-export default LoginPanelWithFormik
+const mapStateToProps = ({ account }) => {
+  return {
+    isLoading: account.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  logInLocalHandler: logInLocal,
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPanelWithFormik);
