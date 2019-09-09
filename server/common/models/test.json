@@ -29,6 +29,12 @@
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
     }
   ],
   "methods": {}
