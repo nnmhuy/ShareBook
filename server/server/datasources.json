@@ -9,5 +9,11 @@
     "connector": "mongodb",
     "user": "${DB_USERNAME}",
     "useNewUrlParser": true
+  },
+  "image-storage": {
+    "name": "image-storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "../image-storage"
   }
 }

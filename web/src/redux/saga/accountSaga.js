@@ -47,7 +47,7 @@ function* logOutSaga() {
     const data = yield call(restConnector.post, '/users/logout')
     restConnector.removeAccessToken()
     Cookies.remove('userId')
-    Cookies.remove('accessToken')
+    Cookies.remove('access_token')
     localStorage.clear()
     yield put(logOutSuccess(data))
   } catch (error) {
