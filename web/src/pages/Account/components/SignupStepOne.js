@@ -4,6 +4,7 @@ import {
   Fab,
   Avatar
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 import Logo from '../../../static/images/logo.png'
 import FacebookLogo from '../../../static/images/facebook-logo.png'
@@ -12,7 +13,10 @@ import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
 import { ReactComponent as Camera } from '../../../static/images/camera.svg'
 
+import colors from '../../../constants/colors'
+
 import InputField from '../../../components/InputField'
+import CheckboxField from '../../../components/CheckboxField'
 
 const styles = (theme => ({
   container: {
@@ -28,7 +32,8 @@ const styles = (theme => ({
   },
   avatarContainer: {
     position: 'relative',
-    margin: 15
+    margin: 15,
+    marginTop: 5
   },
   avatarImage: {
     width: 100,
@@ -82,6 +87,13 @@ const styles = (theme => ({
   },
   hidden: {
     visibility: 'hidden'
+  },
+  checkboxLabel: {
+    fontSize: 10,
+    color: '#000000'
+  },
+  policyLink: {
+    color: colors.textPrimary
   }
 }))
 
@@ -108,8 +120,7 @@ class SignupStepOne extends React.Component {
       handleChange,
       handleBlur,
       classes,
-      nextStep,
-      logInLocalHandler
+      nextStep
     } = this.props
     const { showPassword } = this.state
     return (
@@ -143,11 +154,22 @@ class SignupStepOne extends React.Component {
           handleBlur={handleBlur}
           handleIconClick={this.handleClickShowPassword}
         />
+        <CheckboxField
+          id='signup-check-policy'
+          name='checkPolicy'
+          value={values.checkPolicy}
+          handleChange={handleChange}
+          label={
+            <span className={classes.checkboxLabel}>
+              Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
+            </span>
+          }
+        />
         <div className={classes.buttonContainer}>
           <Fab
             aria-label='login-facebook'
             className={classes.loginFbButton}
-            onClick={logInLocalHandler}
+            href='http://localhost:3001/api/auth/facebook'
           >
             <img src={FacebookLogo} alt='Login with FB' />
           </Fab>
@@ -158,7 +180,7 @@ class SignupStepOne extends React.Component {
             className={classes.loginButton}
             onClick={nextStep}
           >
-            Bước tiếp theo
+            Tạo tài khoản
         </Fab>
         </div>
         <img src={Logo} className={classes.logo} alt='ShareBook' />

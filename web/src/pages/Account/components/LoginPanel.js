@@ -26,13 +26,13 @@ const styles = (theme => ({
   },
   logo: {
     height: 70,
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 10
   },
   loginButton: {
     width: 151,
     height: 35,
-    marginTop: 10,
+    marginTop: 15,
     backgroundImage: 'linear-gradient(to left,#0076FF, #04ABE8)',
     textTransform: 'none',
     fontFamily: 'Montserrat',
@@ -55,7 +55,7 @@ const styles = (theme => ({
   dividerContainer: {
     display: 'flex',
     width: '100%',
-    margin: '15px 0px',
+    margin: '15px 5px',
     alignItems: 'center'
   },
   dividerText: {
