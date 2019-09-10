@@ -6,10 +6,14 @@ import {
 } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
+
+import colors from '../../../constants/colors'
+import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
 import  { LoginValidation } from '../../../helper/userValidator'
@@ -32,7 +36,7 @@ const styles = (theme => ({
   loginButton: {
     width: 151,
     height: 35,
-    marginTop: 15,
+    marginTop: 10,
     backgroundImage: 'linear-gradient(to left,#0076FF, #04ABE8)',
     textTransform: 'none',
     fontFamily: 'Montserrat',
@@ -55,7 +59,7 @@ const styles = (theme => ({
   dividerContainer: {
     display: 'flex',
     width: '100%',
-    margin: '15px 5px',
+    margin: '15px 0px',
     alignItems: 'center'
   },
   dividerText: {
@@ -69,6 +73,15 @@ const styles = (theme => ({
   },
   hidden: {
     visibility: 'hidden'
+  },
+  policy: {
+    fontSize: 10,
+    color: '#000000',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  policyLink: {
+    color: colors.textPrimary
   }
 }))
 
@@ -143,10 +156,13 @@ class LoginPanel extends React.Component {
           aria-label='login-facebook'
           className={classes.loginFbButton}
         >
-          <a className={classes.loginFbbuttonLink} href='http://localhost:3001/api/auth/facebook'>
+          <a className={classes.loginFbbuttonLink} href={`${baseURL}/auth/facebook`}>
             Đăng nhập bằng Facebook
           </a>
         </Fab>
+        <span className={classes.policy}>
+          Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
+        </span>
       </form>
     )
   }

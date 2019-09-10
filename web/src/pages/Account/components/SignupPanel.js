@@ -4,6 +4,7 @@ import { withFormik } from 'formik'
 
 import colors from '../../../constants/colors'
 import SignupStepOne from './SignupStepOne'
+import  { LoginValidation } from '../../../helper/userValidator'
 
 
 
@@ -60,7 +61,7 @@ class SignupPanel extends React.Component {
             touched={touched}
             handleChange={handleChange}
             handleBlur={handleBlur}
-            nextStep={this.nextStep}
+            handleSubmit={handleSubmit}
           />
       </form>
     )
@@ -71,13 +72,10 @@ class SignupPanel extends React.Component {
 const SignupWithFormik = withFormik({
   mapPropsToValues: () => ({ username: '', password: '' }),
 
-  validate: values => {
-    const errors = {};
-  
-    return errors;
-  },
+  validationSchema: LoginValidation,
 
   handleSubmit: (values, { setSubmitting }) => {
+    console.log('click')
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
       setSubmitting(false);

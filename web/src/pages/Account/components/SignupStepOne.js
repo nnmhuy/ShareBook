@@ -14,9 +14,9 @@ import { ReactComponent as BookClosed } from '../../../static/images/book-closed
 import { ReactComponent as Camera } from '../../../static/images/camera.svg'
 
 import colors from '../../../constants/colors'
+import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
-import CheckboxField from '../../../components/CheckboxField'
 
 const styles = (theme => ({
   container: {
@@ -88,9 +88,11 @@ const styles = (theme => ({
   hidden: {
     visibility: 'hidden'
   },
-  checkboxLabel: {
+  policy: {
     fontSize: 10,
-    color: '#000000'
+    color: '#000000',
+    marginTop: 15,
+    marginBottom: 10
   },
   policyLink: {
     color: colors.textPrimary
@@ -119,8 +121,8 @@ class SignupStepOne extends React.Component {
       errors,
       handleChange,
       handleBlur,
-      classes,
-      nextStep
+      handleSubmit,
+      classes
     } = this.props
     const { showPassword } = this.state
     return (
@@ -154,22 +156,15 @@ class SignupStepOne extends React.Component {
           handleBlur={handleBlur}
           handleIconClick={this.handleClickShowPassword}
         />
-        <CheckboxField
-          id='signup-check-policy'
-          name='checkPolicy'
-          value={values.checkPolicy}
-          handleChange={handleChange}
-          label={
-            <span className={classes.checkboxLabel}>
-              Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
-            </span>
-          }
-        />
+       
+        <span className={classes.policy}>
+          Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
+        </span>
         <div className={classes.buttonContainer}>
           <Fab
             aria-label='login-facebook'
             className={classes.loginFbButton}
-            href='http://localhost:3001/api/auth/facebook'
+            href={`${baseURL}/auth/facebook`}
           >
             <img src={FacebookLogo} alt='Login with FB' />
           </Fab>
@@ -178,7 +173,7 @@ class SignupStepOne extends React.Component {
             variant='extended'
             aria-label='login'
             className={classes.loginButton}
-            onClick={nextStep}
+            onClick={handleSubmit}
           >
             Tạo tài khoản
         </Fab>

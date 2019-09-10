@@ -90,6 +90,12 @@
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
     }
   ],
   "methods": {}

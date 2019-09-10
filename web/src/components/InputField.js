@@ -39,7 +39,7 @@ const InputField = (props) => {
     placeholder, handleChange, handleBlur, handleIconClick
   } = props
   let isError = false
-  if (error) {
+  if (error && touched) {
     isError = true
   }
 

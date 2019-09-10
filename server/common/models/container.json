@@ -52,6 +52,12 @@
       "principalId": "superAdmin",
       "permission": "ALLOW",
       "property": "removeFile"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
     }
   ],
   "methods": {}
