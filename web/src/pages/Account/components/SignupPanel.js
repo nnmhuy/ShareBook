@@ -5,7 +5,8 @@ import { withFormik } from 'formik'
 import colors from '../../../constants/colors'
 import SignupStepOne from './SignupStepOne'
 import  { LoginValidation } from '../../../helper/userValidator'
-
+import { warnAlert } from '../../../components/alert'
+import uploadImage from '../../../helper/uploadImage'
 
 
 const styles = (theme => ({
@@ -50,7 +51,8 @@ class SignupPanel extends React.Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      classes
+      classes,
+      setFieldValue
     } = this.props
 
     return (
@@ -62,6 +64,7 @@ class SignupPanel extends React.Component {
             handleChange={handleChange}
             handleBlur={handleBlur}
             handleSubmit={handleSubmit}
+            setFieldValue={setFieldValue}
           />
       </form>
     )
@@ -70,16 +73,24 @@ class SignupPanel extends React.Component {
 
 
 const SignupWithFormik = withFormik({
-  mapPropsToValues: () => ({ username: '', password: '' }),
+  mapPropsToValues: () => ({ username: '', password: '', avatar: false, isLoadingImage: false }),
 
   validationSchema: LoginValidation,
 
-  handleSubmit: (values, { setSubmitting }) => {
-    console.log('click')
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
+  handleSubmit: (values, { setSubmitting, props }) => {
+    setSubmitting(true)
+    if (values.isLoadingImage) {
+      warnAlert('Đang tải ảnh, bạn thử lại sau nha')
+      return
+    }
+
+    if (values.avatar && values.avatar.blob) {
+      uploadImage(values.avatar.blob, (err, linkImage) => {
+
+      })
+    }
+
+    setSubmitting(false);
   }
 })(withStyles(styles)(SignupPanel))
 

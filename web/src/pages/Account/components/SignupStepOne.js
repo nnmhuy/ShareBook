@@ -2,7 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Fab,
-  Avatar
+  Avatar,
+  CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
@@ -17,6 +18,8 @@ import colors from '../../../constants/colors'
 import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
+import { warnAlert } from '../../../components/alert'
+import resizeImage from '../../../helper/resizeImage'
 
 const styles = (theme => ({
   container: {
@@ -39,6 +42,12 @@ const styles = (theme => ({
     width: 100,
     height: 100,
     backgroundColor: '#7F000000'
+  },
+  avatarImageOpacity: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#7F000000',
+    opacity: 0.5
   },
   cameraContainer: {
     position: 'absolute',
@@ -88,11 +97,19 @@ const styles = (theme => ({
   hidden: {
     visibility: 'hidden'
   },
+  hiddenInput: {
+    visibility: 'hidden',
+    width: 0,
+    height: 0
+  },
   policy: {
     fontSize: 10,
     color: '#000000',
     marginTop: 15,
     marginBottom: 10
+  },
+  progress: {
+    margin: theme.spacing(2),
   },
   policyLink: {
     color: colors.textPrimary
@@ -103,7 +120,8 @@ class SignupStepOne extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showPassword: false
+      showPassword: false,
+      avatarSrc: null
     }
   }
 
@@ -112,6 +130,25 @@ class SignupStepOne extends React.Component {
     this.setState({
       showPassword: !showPassword
     })
+  }
+
+  uploadAvatarHandler = (event) => {
+    this.props.setFieldValue('isLoadingImage', true)
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      let newImage = event.target.files[0]
+      if(!newImage.type.match(/image.*/)) {
+        warnAlert('Bạn cần nhập file hình nha')
+        return;
+      }
+
+      resizeImage(newImage, ({ url, blob }) => {
+        this.setState({
+          avatarSrc: url
+        })
+        this.props.setFieldValue('avatar', {url, blob})
+        this.props.setFieldValue('isLoadingImage', false)
+      });
+    }
   }
 
   render() {
@@ -124,14 +161,29 @@ class SignupStepOne extends React.Component {
       handleSubmit,
       classes
     } = this.props
-    const { showPassword } = this.state
+    const { showPassword, avatarSrc } = this.state
+    let avatarClass = classes.avatarImage
+    let isLoadingImage = values.isLoadingImage
+    if (isLoadingImage) {
+      avatarClass = classes.avatarImageOpacity
+    }
+
     return (
       <div className={classes.container}>
         <div className={classes.avatarContainer}>
-          <Avatar className={classes.avatarImage} src={AvatarPlaceholder}/>
-          <div className={classes.cameraContainer}>
-            <Camera width={36} height={28}/>
-          </div>
+          <Avatar className={avatarClass} src={avatarSrc || AvatarPlaceholder}/>
+          <label htmlFor='uploadAvatar'>
+            <div className={classes.cameraContainer}>
+              {!isLoadingImage
+              ?<div>
+                <input type='file' className={classes.hiddenInput} id='uploadAvatar' name='uploadAvatar'
+                onChange={this.uploadAvatarHandler} accept='image/*'/>
+                {!avatarSrc && <Camera width={36} height={28}/>}
+              </div>
+              :<CircularProgress className={classes.progress} />
+              }
+            </div>
+          </label>
         </div>
         <InputField
           id='signup-username'
