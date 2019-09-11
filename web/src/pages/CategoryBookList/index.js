@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
-import Link from '../../components/Link'
 import Search from '../../components/Search'
 import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'

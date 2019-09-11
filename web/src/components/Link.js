@@ -12,7 +12,7 @@ const styles = (theme => ({
 const CustomLink = (props) => {
   const { classes, ...other } = props
   return (
-    <Link style={{ textDecoration: 'unset'}} draggable={false} {...other} />
+    <Link className={classes.link} style={{ textDecoration: 'unset' }} draggable={false} {...other} />
   )
 }
 

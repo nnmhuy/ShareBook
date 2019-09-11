@@ -7,10 +7,11 @@ import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
 import BookSlider from '../../components/BookSlider'
+import TopBook from './components/TopBook'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { newsDemoData, categoryDemoList, demoBookList } from './demoData'
+import { newsDemoData, categoryDemoList, demoBookList, demoTopBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -70,6 +71,9 @@ class BookList extends React.Component {
           title={'#Châm biếm'}
           url={`/category/joke`}
           bookList={demoBookList} />
+        <TopBook 
+          topBookList={demoTopBooks}
+        />
       </div>
     )
   }
