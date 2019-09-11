@@ -1,12 +1,16 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import colors from '../../../constants/colors'
+
 import SignupStepOne from './SignupStepOne'
 import  { LoginValidation } from '../../../helper/userValidator'
-import { warnAlert } from '../../../components/alert'
+import { warnAlert, errorAlert } from '../../../components/alert'
 import uploadImage from '../../../helper/uploadImage'
+import { signUp } from '../../../redux/actions/accountAction'
 
 
 const styles = (theme => ({
@@ -78,20 +82,40 @@ const SignupWithFormik = withFormik({
   validationSchema: LoginValidation,
 
   handleSubmit: (values, { setSubmitting, props }) => {
+    if (props.isLoading) return
+
     setSubmitting(true)
     if (values.isLoadingImage) {
       warnAlert('Đang tải ảnh, bạn thử lại sau nha')
       return
     }
 
+    // when has avatar
     if (values.avatar && values.avatar.blob) {
-      uploadImage(values.avatar.blob, (err, linkImage) => {
-
+      uploadImage(values.avatar, (err, linkImage) => {
+          if (err) {
+            errorAlert('Xảy ra lỗi lúc đăng hình rồi')
+            if (err.message) console.log(err.message)
+          } else {
+            props.signUpHandler({username: values.username, password: values.password, avatar: linkImage})
+          }
+          setSubmitting(false);
       })
+    } else {
+      props.signUpHandler({username: values.username, password: values.password})
+      setSubmitting(false);
     }
-
-    setSubmitting(false);
   }
 })(withStyles(styles)(SignupPanel))
 
-export default SignupWithFormik
+const mapStateToProps = ({ account }) => {
+  return {
+    isLoading: account.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  signUpHandler: signUp,
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupWithFormik)

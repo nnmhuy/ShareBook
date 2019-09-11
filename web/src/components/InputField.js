@@ -17,6 +17,7 @@ const styles = (theme => ({
     width: 17
   },
   input: {
+    marginTop: 5,
     width: '100%',
     '& label.Mui-focused': {
       color: colors.textPrimary,

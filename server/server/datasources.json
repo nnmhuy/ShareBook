@@ -10,9 +10,11 @@
     "user": "${DB_USERNAME}",
     "useNewUrlParser": true
   },
-  "image-storage": {
-    "name": "image-storage",
+  "imagestorage": {
+    "name": "imagestorage",
     "connector": "loopback-component-storage",
+    "maxFileSize":  "480000",
+    "allowedContentTypes": ["image/jpg", "image/jpeg", "image/png"],
     "provider": "filesystem",
     "root": "../image-storage"
   }

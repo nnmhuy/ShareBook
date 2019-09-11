@@ -64,7 +64,7 @@ const styles = (theme => ({
   },
   dividerText: {
     fontSize: 12,
-    margin: '0px 10px'
+    margin: '0px 0px'
   },
   divider: {
     flex: 1,
@@ -78,7 +78,7 @@ const styles = (theme => ({
     fontSize: 10,
     color: '#000000',
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 15
   },
   policyLink: {
     color: colors.textPrimary

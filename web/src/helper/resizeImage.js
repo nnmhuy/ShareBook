@@ -23,7 +23,7 @@ var dataURLToBlob = (dataURL) => {
   return new Blob([uInt8Array], {type: contentType});
 }
 
-var resizeImage = (file, callback) => {
+var resizeImage = (file, isBigImage, callback) => {
   // Load the image
   var reader = new FileReader();
   reader.onload = function (readerEvent) {
@@ -32,9 +32,12 @@ var resizeImage = (file, callback) => {
 
       // Resize the image
       var canvas = document.createElement('canvas'),
-        max_size = 300,// TODO : pull max size from a site config
+        max_size = 200,// TODO : pull max size from a site config
         width = image.width,
         height = image.height;
+      if (isBigImage) {
+        max_size = 400
+      }
       if (width > height) {
         if (width > max_size) {
           height *= max_size / width;

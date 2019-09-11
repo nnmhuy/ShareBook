@@ -105,8 +105,8 @@ const styles = (theme => ({
   policy: {
     fontSize: 10,
     color: '#000000',
-    marginTop: 15,
-    marginBottom: 10
+    marginTop: 10,
+    marginBottom: 5
   },
   progress: {
     margin: theme.spacing(2),
@@ -136,16 +136,17 @@ class SignupStepOne extends React.Component {
     this.props.setFieldValue('isLoadingImage', true)
     if (event && event.target && event.target.files && event.target.files[0]) {
       let newImage = event.target.files[0]
+      var imageName = newImage.name
       if(!newImage.type.match(/image.*/)) {
         warnAlert('Bạn cần nhập file hình nha')
         return;
       }
 
-      resizeImage(newImage, ({ url, blob }) => {
+      resizeImage(newImage, false, ({ url, blob }) => {
         this.setState({
           avatarSrc: url
         })
-        this.props.setFieldValue('avatar', {url, blob})
+        this.props.setFieldValue('avatar', {imageName , blob})
         this.props.setFieldValue('isLoadingImage', false)
       });
     }
@@ -187,7 +188,7 @@ class SignupStepOne extends React.Component {
         </div>
         <InputField
           id='signup-username'
-          label='Tên của bạn'
+          label='Tên đăng nhập'
           name='username'
           value={values.username}
           touched={touched.username}
