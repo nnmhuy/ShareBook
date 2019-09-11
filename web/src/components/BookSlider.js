@@ -1,9 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Link from '../../../components/Link'
 import Carousel from 'nuka-carousel'
 
-import CategoryItem from './CategoryItem'
+import Link from './Link'
+import Book from './Book'
 
 const styles = (theme => ({
   container: {
@@ -16,46 +16,48 @@ const styles = (theme => ({
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 15
   },
   viewMore: {
+    fontWeight: 500,
     fontSize: 11,
     color: '#0274df'
   },
   carousel: {
+    marginTop: 20,
     paddingLeft: 20,
-    marginTop: 16
+    marginBottom: 20
   }
 }))
 
-const CategoryList = (props) => {
-  const { classes, categoryList } = props
+const BookSlider = (props) => {
+  const { classes, title, url, bookList, ...other } = props
   return (
-    <div className={classes.container}>
+    <div {...other}>
       <div className={classes.titleContainer}>
-        <span className={classes.title}>Thể loại</span>
-        <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link>
+        <span className={classes.title}>{title}</span>
+        <Link to={url} className={classes.viewMore}>Xem thêm</Link>
       </div>
-      <Carousel 
-        slideWidth='142px'
-        cellSpacing={20}
+      <Carousel
+        className={classes.carousel}
+        slideWidth='102px'
+        cellSpacing={40}
         withoutControls
         slidesToScroll='auto'
-        className={classes.carousel}
       >
         {
-          categoryList.map(category => {
+          bookList.map(book => {
             return (
-              <CategoryItem
-                {...category}
-                key={category.url}
+              <Book
+                {...book}
+                key={book.id}
               />
             )
           })
         }
       </Carousel>
-    </div> 
+    </div>
   )
 }
 
-export default withStyles(styles)(CategoryList)
+export default withStyles(styles)(BookSlider)

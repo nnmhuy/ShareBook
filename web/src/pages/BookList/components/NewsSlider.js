@@ -6,8 +6,7 @@ import NewsItem from './NewsItem'
 
 const styles = (theme => ({
   slider: {
-    marginTop: 20,
-    marginBottom: 20,
+    margin: 20,
     overflow:'hidden',
     '& .slick-dots': {
       bottom: 0,

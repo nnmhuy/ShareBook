@@ -6,7 +6,7 @@ import { } from '@material-ui/core'
 import BookInfo from './components/BookInfo'
 import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
-import SimilarBookSection from './components/SimilarBookSection'
+import BookSlider from '../../components/BookSlider'
 
 import { demoBook, demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
 
@@ -40,7 +40,10 @@ class App extends React.Component {
           bookInstanceList={demoBookInstance}
           reviewList={demoReviewList}
         />
-        <SimilarBookSection similarBookList={demoSimilarBooks}/>
+        <BookSlider
+          title={'Thể loại tương tự'}
+          url={`/category/${demoBook.category}`}
+          bookList={demoSimilarBooks}/>
       </div>
     )
   }

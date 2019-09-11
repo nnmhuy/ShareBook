@@ -6,9 +6,9 @@ import colors from '../../../constants/colors'
 
 const styles = (theme => ({
   container: {
-    margin: 10,
     width: 130,
     minWidth: 130,
+    margin: 5,
     height: 50,
     borderRadius: 4,
     boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.16)',

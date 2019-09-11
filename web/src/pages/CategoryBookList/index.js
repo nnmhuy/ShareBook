@@ -5,6 +5,7 @@ import { IconButton } from '@material-ui/core'
 
 import Link from '../../components/Link'
 import Search from '../../components/Search'
+import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 
 import colors from '../../constants/colors'
@@ -26,8 +27,7 @@ const styles = (theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    background: '#fff',
-    position: 'fixed'
+    background: '#fff'
   },
   filterButton: {
     width: 44,
@@ -41,18 +41,13 @@ const styles = (theme => ({
   },
   bookContainer: {
     padding: 20,
-    paddingTop: 100,
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
     gridGap: 10,
+    gridRowGap: 20,
     alignItems: 'center',
     justifyItems: 'center',
     justifyContent: 'space-around'
-  },
-  book: {
-    width: 90,
-    height: 140,
-    borderRadius: 4
   }
 }))
 
@@ -79,9 +74,7 @@ class CategoryBookList extends React.Component {
           {
             bookDemoData.map((book) => {
               return (
-                <Link to={`/book-detail/${book.bookId}`} key={book.bookId}>
-                  <img src={book.image} alt={book.bookId} className={classes.book}/>
-                </Link>
+                <Book {...book} key={book.bookId}/>
               )
             })
           }

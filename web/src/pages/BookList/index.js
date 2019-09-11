@@ -6,10 +6,11 @@ import { IconButton } from '@material-ui/core'
 import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
+import BookSlider from '../../components/BookSlider'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { newsDemoData, categoryDemoList } from './demoData'
+import { newsDemoData, categoryDemoList, demoBookList } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -18,7 +19,6 @@ const styles = (theme => ({
     minWidth: 350,
     maxWidth: 800,
     margin: 'auto',
-    padding: 20
   },
   searchContainer: {
     display: 'flex',
@@ -56,6 +56,20 @@ class BookList extends React.Component {
         </div>
         <NewsSlider newsData={newsDemoData}/>
         <CategoryList categoryList={categoryDemoList}/>
+        <BookSlider
+          title={'Đề xuất'}
+          url={`/category/suggested`}
+          bookList={demoBookList} 
+          style={{ marginTop: 20 }}
+          />
+        <BookSlider
+          title={'#Thám hiểm'}
+          url={`/category/discovery`}
+          bookList={demoBookList} />
+        <BookSlider
+          title={'#Châm biếm'}
+          url={`/category/joke`}
+          bookList={demoBookList} />
       </div>
     )
   }
