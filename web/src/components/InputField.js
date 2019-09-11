@@ -17,6 +17,7 @@ const styles = (theme => ({
     width: 17
   },
   input: {
+    marginTop: 5,
     width: '100%',
     '& label.Mui-focused': {
       color: colors.textPrimary,
@@ -39,7 +40,7 @@ const InputField = (props) => {
     placeholder, handleChange, handleBlur, handleIconClick
   } = props
   let isError = false
-  if (error) {
+  if (error && touched) {
     isError = true
   }
 

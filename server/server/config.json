@@ -4,6 +4,7 @@
   "port": "${PORT}",
   "remoting": {
     "context": false,
+    "cors": false,
     "rest": {
       "handleErrors": false,
       "normalizeHttpPath": false,
@@ -11,11 +12,11 @@
     },
     "json": {
       "strict": false,
-      "limit": "10mb"
+      "limit": "1mb"
     },
     "urlencoded": {
       "extended": true,
-      "limit": "10mb"
+      "limit": "100kb"
     }
   }
 }

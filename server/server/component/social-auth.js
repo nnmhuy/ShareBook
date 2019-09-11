@@ -1,6 +1,7 @@
 'use strict';
 var _ = require('lodash');
 var utils = require('../../node_modules/loopback-component-passport/lib/models/utils.js');
+const filterText = require('../helper/filterText');
 
 function stringToRef(object, reference) {
   function arrDeref(o, ref, i) {
@@ -21,9 +22,7 @@ module.exports = function profileToUser(provider, profile, options) {
       profile.emails && profile.emails[0] && profile.emails[0].value;
     var generatedEmail =
       (profile.username || profile.id) +
-      '@ShareBook.' +
-      (profile.provider || provider) +
-      '.com';
+      '@sharebook.org.vn';
     var email = profileEmail || generatedEmail;
     var username = provider + '.' + (profile.username || profile.id);
     password = utils.generateKey('password');

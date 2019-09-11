@@ -9,7 +9,10 @@ import {
   getUserInfoFail,
   logOut,
   logOutSuccess,
-  logOutFail
+  logOutFail,
+  signUp,
+  signUpFail,
+  signUpSuccess
 } from '../actions/accountAction'
 
 const unAuthorizedUser = {
@@ -114,6 +117,26 @@ const accountReducer = handleActions(
         isAuth: false,
         ...unAuthorizedUser,
         error: error
+      }
+    },
+    [signUp]: (state) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    },
+    [signUpSuccess]: (state) => {
+      return {
+        ...state,
+        error: null,
+        isLoading: false
+      }
+    },
+    [signUpFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error,
+        isLoading: false
       }
     }
   },

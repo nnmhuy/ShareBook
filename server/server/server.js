@@ -11,6 +11,11 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 require('dotenv').config();
 
+const mkdirSync = require('./helper/createStorageFolder');
+
+// create folder to store image
+mkdirSync();
+
 var app = module.exports = loopback();
 
 // Passport configurators..
@@ -45,7 +50,7 @@ app.use(
 );
 
 app.middleware('session', session({
-  secret: 'kitty',
+  secret: 'pinkKitty',
   saveUninitialized: true,
   resave: true,
 }));

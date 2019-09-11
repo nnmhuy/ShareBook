@@ -1,15 +1,16 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  Stepper,
-  Step,
-  StepLabel
-} from '@material-ui/core'
 import { withFormik } from 'formik'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import colors from '../../../constants/colors'
+
 import SignupStepOne from './SignupStepOne'
-import SignupStepTwo from './SignupStepTwo'
+import  { LoginValidation } from '../../../helper/userValidator'
+import { warnAlert, errorAlert } from '../../../components/alert'
+import uploadImage from '../../../helper/uploadImage'
+import { signUp } from '../../../redux/actions/accountAction'
 
 
 const styles = (theme => ({
@@ -38,29 +39,12 @@ const styles = (theme => ({
   }
 }))
 
-const steps = [
-  '', ''
-]
 class SignupPanel extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       activeStep: 0
     }
-  }
-
-  backStep = () => {
-    const { activeStep } = this.state
-    this.setState({
-      activeStep: activeStep - 1
-    })
-  }
-
-  nextStep = () => {
-    const { activeStep } = this.state
-    this.setState({
-      activeStep: activeStep + 1
-    })
   }
 
   render() {
@@ -72,43 +56,20 @@ class SignupPanel extends React.Component {
       handleBlur,
       handleSubmit,
       classes,
-      logInLocalHandler
+      setFieldValue
     } = this.props
-
-    const { activeStep } = this.state
 
     return (
       <form onSubmit={handleSubmit} className={classes.container}>
-        <Stepper activeStep={activeStep} className={classes.stepper}>
-          {steps.map((label, index) => {
-            return (
-              <Step key={label} className={classes.step}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {(activeStep===0) &&
           <SignupStepOne 
             values={values}
             errors={errors}
             touched={touched}
             handleChange={handleChange}
             handleBlur={handleBlur}
-            nextStep={this.nextStep}
-          logInLocalHandler={logInLocalHandler}
+            handleSubmit={handleSubmit}
+            setFieldValue={setFieldValue}
           />
-        }
-        {(activeStep===1) && 
-          <SignupStepTwo
-            values={values}
-            errors={errors}
-            touched={touched}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            backStep={this.backStep}
-          />
-        }
       </form>
     )
   }
@@ -116,20 +77,45 @@ class SignupPanel extends React.Component {
 
 
 const SignupWithFormik = withFormik({
-  mapPropsToValues: () => ({ username: '', password: '' }),
+  mapPropsToValues: () => ({ username: '', password: '', avatar: false, isLoadingImage: false }),
 
-  validate: values => {
-    const errors = {};
-  
-    return errors;
-  },
+  validationSchema: LoginValidation,
 
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  handleSubmit: (values, { setSubmitting, props }) => {
+    if (props.isLoading) return
+
+    setSubmitting(true)
+    if (values.isLoadingImage) {
+      warnAlert('Đang tải ảnh, bạn thử lại sau nha')
+      return
+    }
+
+    // when has avatar
+    if (values.avatar && values.avatar.blob) {
+      uploadImage(values.avatar, (err, linkImage) => {
+          if (err) {
+            errorAlert('Xảy ra lỗi lúc đăng hình rồi')
+            if (err.message) console.log(err.message)
+          } else {
+            props.signUpHandler({username: values.username, password: values.password, avatar: linkImage})
+          }
+          setSubmitting(false);
+      })
+    } else {
+      props.signUpHandler({username: values.username, password: values.password})
       setSubmitting(false);
-    }, 1000);
+    }
   }
 })(withStyles(styles)(SignupPanel))
 
-export default SignupWithFormik
+const mapStateToProps = ({ account }) => {
+  return {
+    isLoading: account.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  signUpHandler: signUp,
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupWithFormik)

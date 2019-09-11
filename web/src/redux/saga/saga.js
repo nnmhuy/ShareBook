@@ -4,15 +4,16 @@ import { getCounterValueWatcher } from './counterSaga'
 import { 
   logInLocalWatcher,
   getUserInfoWatcher,
-  logOutWatcher
+  logOutWatcher,
+  signUpWatcher
 } from './accountSaga'
 
 export default function* rootSaga() {
   yield all([
     getCounterValueWatcher(),
-
     logInLocalWatcher(),
     getUserInfoWatcher(),
-    logOutWatcher()
+    logOutWatcher(),
+    signUpWatcher()
   ]);
 }

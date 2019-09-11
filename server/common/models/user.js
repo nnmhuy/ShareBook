@@ -7,10 +7,13 @@ module.exports = function(User) {
     message: {min: 'Tên đăng nhập quá ngắn'}});
 
   // adding default email base on username
-  User.observe('before save', function filterProperties(ctx, next) {
-    let currentUser = ctx.instance;
-    let defaultEmail = currentUser.username + '@ShareBook.com';
-    if (currentUser) currentUser.email = currentUser.email || defaultEmail;
+  User.beforeRemote('create', function(ctx, userInstance, next) {
+    try {
+      let req = ctx.req;
+      req.body.email = req.body.username + '@sharebook.org.vn';
+    } catch (err) {
+      console.log(err);
+    }
     next();
   });
 

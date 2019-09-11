@@ -27,7 +27,7 @@ class ModeTab extends React.Component {
   // }
 
   render() {
-    const { classes, currentTab, handleChangeTab, logInLocalHandler } = this.props
+    const { classes, currentTab, handleChangeTab } = this.props
     return (
       <div className={classes.root}>
         <Tabs 
@@ -44,7 +44,7 @@ class ModeTab extends React.Component {
           <SignupPanel />
         </TabPanel>
         <TabPanel value={currentTab} index={1}>
-          <LoginPanel logInLocalHandler={logInLocalHandler}/>
+          <LoginPanel />
         </TabPanel>
       </div>
     )

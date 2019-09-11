@@ -6,10 +6,14 @@ import {
 } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
+
+import colors from '../../../constants/colors'
+import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
 import  { LoginValidation } from '../../../helper/userValidator'
@@ -26,7 +30,7 @@ const styles = (theme => ({
   },
   logo: {
     height: 70,
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 10
   },
   loginButton: {
@@ -60,7 +64,7 @@ const styles = (theme => ({
   },
   dividerText: {
     fontSize: 12,
-    margin: '0px 10px'
+    margin: '0px 0px'
   },
   divider: {
     flex: 1,
@@ -69,6 +73,15 @@ const styles = (theme => ({
   },
   hidden: {
     visibility: 'hidden'
+  },
+  policy: {
+    fontSize: 10,
+    color: '#000000',
+    marginTop: 10,
+    marginBottom: 15
+  },
+  policyLink: {
+    color: colors.textPrimary
   }
 }))
 
@@ -143,10 +156,13 @@ class LoginPanel extends React.Component {
           aria-label='login-facebook'
           className={classes.loginFbButton}
         >
-          <a className={classes.loginFbbuttonLink} href='http://localhost:3001/api/auth/facebook'>
+          <a className={classes.loginFbbuttonLink} href={`${baseURL}/auth/facebook`}>
             Đăng nhập bằng Facebook
           </a>
         </Fab>
+        <span className={classes.policy}>
+          Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
+        </span>
       </form>
     )
   }

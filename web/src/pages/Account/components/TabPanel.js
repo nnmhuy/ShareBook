@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 const styles = (theme => ({
   tabContainer: {
     width: '100%',
-    height: 380,
+    height: 410,
     backgroundColor: '#fff',
     borderTop: '#707070 1px solid' 
   }

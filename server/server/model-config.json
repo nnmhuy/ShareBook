@@ -165,5 +165,9 @@
   "mission": {
     "dataSource": "db",
     "public": true
+  },
+  "container": {
+    "dataSource": "imagestorage",
+    "public": true
   }
 }

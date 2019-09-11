@@ -8,11 +8,13 @@ var currentRole = require('../../common/models/Role');
 const superAdminUsername = process.env.superAdminUsername;
 const superAdminPassword = process.env.superAdminPassword;
 const superAdminEmail = process.env.superAdminEmail;
+const imageContainer = process.env.imageContainer;
 
 module.exports = function(app) {
   var User = app.models.user;
   var Role = app.models.Role;
   var RoleMapping = app.models.RoleMapping;
+  var Container = app.models.Container;
 
   console.log('running initialization', superAdminUsername);
 
@@ -50,6 +52,13 @@ module.exports = function(app) {
     });
   }
 
+  function createDefaultImageStorage() {
+    Container.createContainer({name: imageContainer}, (err, container) => {
+      if (err) throw err;
+      console.log(`create container ${imageContainer}`);
+    });
+  }
+
   User.find({
     where: {
       username: superAdminUsername,
@@ -58,6 +67,12 @@ module.exports = function(app) {
     // console.log('current user', users);
     if (!users || !users[0]) {
       createDefaultSuperAdmin();
+    }
+  });
+
+  Container.getContainer(imageContainer, (err, storage) => {
+    if (!storage) {
+      createDefaultImageStorage();
     }
   });
 };
