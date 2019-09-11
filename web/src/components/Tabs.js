@@ -2,6 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Tabs } from '@material-ui/core'
 
+import colors from '../constants/colors'
+
 const styles = (theme => ({
   indicator: {
     display: 'flex',
@@ -10,7 +12,7 @@ const styles = (theme => ({
     "& > div": {
       width: '100%',
       maxWidth: 80,
-      backgroundColor: '#007EFC'
+      backgroundColor: colors.primary
     }
   }
 }))

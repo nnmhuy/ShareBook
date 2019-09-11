@@ -37,7 +37,7 @@ const styles = (theme => ({
     fontWeight: 600,
     fontSize: 15,
     lineHeight: 2,
-    color: '#007efc',
+    color: colors.primary,
     marginRight: 10
   },
   borrowButton: {
@@ -52,7 +52,7 @@ const styles = (theme => ({
     display: 'inline-block',
     width: 3,
     height: 20,
-    backgroundColor: '#007EFC',
+    backgroundColor: colors.primary,
     marginRight: 5
   },
   label: {
@@ -79,7 +79,7 @@ const styles = (theme => ({
     display: 'inline-block',
     width: 4,
     height: 4,
-    background: '#007efc',
+    background: colors.primary,
     borderRadius: '50%',
     marginRight: 5
   },
@@ -93,7 +93,7 @@ const styles = (theme => ({
   username: {
     fontSize: 14,
     lineHeight: 1.5,
-    color: '#007efc',
+    color: colors.primary,
     fontWeight: 600
   },
   userIcon: {
@@ -152,7 +152,7 @@ const styles = (theme => ({
   detailValue: {
     fontSize: 13,
     lineHeight: 1.5,
-    color: '#007efc',
+    color: colors.primary,
     marginTop: 5,
     marginLeft: 8
   }

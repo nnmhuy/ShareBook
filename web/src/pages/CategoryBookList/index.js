@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
-import Link from '../../components/Link'
 import Search from '../../components/Search'
+import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 
+import colors from '../../constants/colors'
 import { bookDemoData } from './demoData'
 
 const styles = (theme => ({
@@ -18,17 +19,18 @@ const styles = (theme => ({
   },
   searchContainer: {
     height: 100,
+    width: '100%',
+    boxSizing: 'border-box',
     paddingLeft: 20,
     paddingRight: 20,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    background: '#fff',
-    position: 'fixed'
+    background: '#fff'
   },
   filterButton: {
-    width: 39,
-    height: 39,
+    width: 44,
+    height: 44,
     borderRadius: 6,
     boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)'
   },
@@ -38,18 +40,13 @@ const styles = (theme => ({
   },
   bookContainer: {
     padding: 20,
-    paddingTop: 100,
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
     gridGap: 10,
+    gridRowGap: 20,
     alignItems: 'center',
     justifyItems: 'center',
     justifyContent: 'space-around'
-  },
-  book: {
-    width: 90,
-    height: 140,
-    borderRadius: 4
   }
 }))
 
@@ -69,16 +66,14 @@ class CategoryBookList extends React.Component {
         <div className={classes.searchContainer}>
           <Search/>
           <IconButton className={classes.filterButton}>
-            <FilterIcon fill='#007EFC' className={classes.icon}/>
+            <FilterIcon fill={colors.primary} className={classes.icon}/>
           </IconButton>
         </div>
         <div className={classes.bookContainer}>
           {
             bookDemoData.map((book) => {
               return (
-                <Link to={`/book-detail/${book.bookId}`} key={book.bookId}>
-                  <img src={book.image} alt={book.bookId} className={classes.book}/>
-                </Link>
+                <Book {...book} key={book.bookId}/>
               )
             })
           }

@@ -1,6 +1,8 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
+import colors from '../../../constants/colors'
+
 const styles = (theme => ({
   container: {
     padding: '10px 20px',
@@ -16,7 +18,7 @@ const styles = (theme => ({
     display: 'inline-block',
     width: 3,
     height: 20,
-    backgroundColor: '#007EFC',
+    backgroundColor: colors.primary,
     marginRight: 5
   },
   detailWrapper: {

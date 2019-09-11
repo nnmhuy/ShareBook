@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 const styles = (theme => ({
   link: {
     color: 'inherit',
-    textDecoration: 'unset'
+    textDecoration: 'none'
   }
 }))
 
 const CustomLink = (props) => {
   const { classes, ...other } = props
   return (
-    <Link style={{ textDecoration: 'unset'}} {...other}/>
+    <Link className={classes.link} style={{ textDecoration: 'unset' }} draggable={false} {...other} />
   )
 }
 

@@ -7,8 +7,10 @@ import {
   IconButton,
   Typography,
   Button,
-  SwipeableDrawer
+  SwipeableDrawer,
+  Slide
 } from '@material-ui/core'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 import Sidebar from './Sidebar/index'
 
@@ -67,6 +69,20 @@ const styles = (theme) => ({
   },
 })
 
+const HideOnScroll = (props) =>  {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
 const LayoutWrapper = (props) => {
   const { classes, children, account } = props
   const { pathname } = props.location;
@@ -84,33 +100,35 @@ const LayoutWrapper = (props) => {
 
   return (
     <div className={classes.wrapper}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar(true)}>
-            <MenuIcon className={classes.menuIcon}/>
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {getPageTitle(pathname)}
-          </Typography>
-          {account.isAuth ?          
-            <div>
-              <IconButton color="inherit">
-                <MessageIcon fill={colors.primary} className={classes.icon}/>
-              </IconButton>
-              <IconButton color="inherit">
-                <NotificationIcon fill={colors.primary} className={classes.icon}/>
-              </IconButton>
-            </div>
-            :
-            <Link to='/account' className={classes.link} >
-              <Button color="inherit" className={classes.loginButton}>
-                Đăng nhập
+      <HideOnScroll>
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar className={classes.toolBar}>
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar(true)}>
+              <MenuIcon className={classes.menuIcon} />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {getPageTitle(pathname)}
+            </Typography>
+            {account.isAuth ?
+              <div>
+                <IconButton color="inherit">
+                  <MessageIcon fill={colors.primary} className={classes.icon} />
+                </IconButton>
+                <IconButton color="inherit">
+                  <NotificationIcon fill={colors.primary} className={classes.icon} />
+                </IconButton>
+              </div>
+              :
+              <Link to='/account' className={classes.link} >
+                <Button color="inherit" className={classes.loginButton}>
+                  Đăng nhập
                 <LoginIcon fill={colors.primary} className={classes.icon} />
-              </Button>
-            </Link>
-          }
-        </Toolbar>
-      </AppBar>
+                </Button>
+              </Link>
+            }
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
       <SwipeableDrawer
         open={isSidebarExpanding}
         onClose={toggleSidebar(false)}

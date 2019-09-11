@@ -12,8 +12,8 @@ const useStyles = makeStyles(theme => ({
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    width: 270,
-    maxWidth: '80%',
+    flex: 1,
+    marginRight: 20,
     borderRadius: 7,
     boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.16)'
   },
@@ -38,7 +38,7 @@ export default function Search(props) {
   return (
     <Paper className={classes.root}>
       <IconButton className={classes.iconButton} aria-label="search" onClick={handleSearch}>
-        <SearchIcon fill={colors.gray} className={classes.icon}/>
+        <SearchIcon fill={colors.primary} className={classes.icon}/>
       </IconButton>
       <InputBase
         className={classes.input}

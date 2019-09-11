@@ -2,6 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import ReactPaginate from 'react-paginate'
 
+import colors from '../../constants/colors'
+
 const styles = (theme => ({
   container: {
     display: 'flex',
@@ -33,12 +35,12 @@ const styles = (theme => ({
   active: {
     color: '#fff',
     borderRadius: 3,
-    background: '#007efc'
+    background: colors.primary
   },
   button: {
     display: 'flex',
     fontWeight: 600,
-    color: '#007EFC',
+    color: colors.primary,
     cursor: 'pointer',
     marginLeft: 10,
     marginRight: 10,
