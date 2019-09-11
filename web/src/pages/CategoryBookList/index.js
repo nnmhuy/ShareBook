@@ -7,6 +7,7 @@ import Link from '../../components/Link'
 import Search from '../../components/Search'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 
+import colors from '../../constants/colors'
 import { bookDemoData } from './demoData'
 
 const styles = (theme => ({
@@ -18,6 +19,8 @@ const styles = (theme => ({
   },
   searchContainer: {
     height: 100,
+    width: '100%',
+    boxSizing: 'border-box',
     paddingLeft: 20,
     paddingRight: 20,
     display: 'flex',
@@ -27,8 +30,8 @@ const styles = (theme => ({
     position: 'fixed'
   },
   filterButton: {
-    width: 39,
-    height: 39,
+    width: 44,
+    height: 44,
     borderRadius: 6,
     boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)'
   },
@@ -69,7 +72,7 @@ class CategoryBookList extends React.Component {
         <div className={classes.searchContainer}>
           <Search/>
           <IconButton className={classes.filterButton}>
-            <FilterIcon fill='#007EFC' className={classes.icon}/>
+            <FilterIcon fill={colors.primary} className={classes.icon}/>
           </IconButton>
         </div>
         <div className={classes.bookContainer}>

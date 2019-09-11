@@ -30,6 +30,7 @@ const styles = (theme => ({
   },
   cancelIcon: {
     width: 18,
+    paddingLeft: 10
   },
   divider: {
     backgroundColor: colors.disabled,

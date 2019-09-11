@@ -50,7 +50,7 @@ const styles = (theme => ({
     fontWeight: 600,
     fontSize: 12,
     lineHeight: 1.5,
-    color: '#007efc'
+    color: colors.primary
   },
   date: {
     fontSize: 10,
@@ -110,7 +110,7 @@ const styles = (theme => ({
   },
   nextText: {
     fontSize: 11,
-    color: '#007efc',
+    color: colors.primary,
     textTransform: 'none'
   },
   nextArrow: {
@@ -172,7 +172,7 @@ const ReviewItem = (props) => {
         <ClickAwayListener onClickAway={handleClickAway}>
           <div className={classes.moreZoneContainer}>
             <IconButton onClick={handleToggleMore} className={classes.moreButton}>
-              <MoreIcon fill='#007EFC'/>
+              <MoreIcon fill={colors.primary}/>
             </IconButton>
             {isShowMore &&
               <Link to={`/report`}>
@@ -208,9 +208,9 @@ const ReviewItem = (props) => {
       <div className={classes.reviewContainer}>{review}</div>
       <div className={classes.buttonContainer}>
         {likeStatus===1 ?
-          <LikeFilledIcon fill='#007EFC' className={classes.likeIcon}/>
+          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon}/>
           :
-          <LikeNotFilledIcon fill='#007EFC' className={classes.likeIcon} />
+          <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} />
         }
         {likeStatus === 2 ?
           <LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
@@ -218,13 +218,13 @@ const ReviewItem = (props) => {
           <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
         }
         <span className={classes.commentButton}>
-          <CommentIcon fill='#007EFC' className={classes.commentIcon}/>
+          <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
           <span className={classes.numberOfComment}>{number_of_comment}</span>
         </span>
         <Link to={`/review/${reviewId}`} className={classes.nextButton}>
           <Button>
             <span className={classes.nextText}>Mở rộng</span>
-            <NextArrow fill='#007EFC' className={classes.nextArrow}/>
+            <NextArrow fill={colors.primary} className={classes.nextArrow}/>
           </Button>
         </Link>
       </div>

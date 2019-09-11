@@ -62,7 +62,7 @@ const styles = (theme => ({
   category: {
     fontWeight: 500,
     fontSize: 18,
-    color: '#007efc'
+    color: colors.primary
   },
   tag: {
     fontSize: 13,
@@ -162,9 +162,9 @@ const BookInfo = (props) => {
         <div className={classes.numberItem}>
           <div className={classes.numberLabel}>Đánh giá</div>
           <div className={classes.numberContainer}>
-            <LikeIcon className={classes.numberIconLeft} fill='#007EFC'/>
+            <LikeIcon className={classes.numberIconLeft} fill={colors.primary}/>
             <span className={classes.numberWrapper}>
-              <span className={classes.number} style={{ color: '#007EFC' }}>
+              <span className={classes.number} style={{ color: colors.primary }}>
                 {rating}
               </span>
               {` / 5`}

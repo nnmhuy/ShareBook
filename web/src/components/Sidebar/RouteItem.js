@@ -24,7 +24,7 @@ const styles = (theme => ({
     backgroundColor: '#BEBEBE19'
   },
   selected: {
-    backgroundColor: '#007EFC',
+    backgroundColor: colors.primary,
     width: 5,
     height: 50,
     marginRight: 15

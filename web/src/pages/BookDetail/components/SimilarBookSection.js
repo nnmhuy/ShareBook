@@ -1,12 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Slider from 'react-slick'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import Carousel from 'nuka-carousel'
 
 import Link from '../../../components/Link'
 import Book from '../../../components/Book'
-
-import { maxMobileWidth } from '../../../constants/constants'
 
 const styles = (theme => ({
   container: {
@@ -32,18 +29,6 @@ const styles = (theme => ({
 
 const SimilarBookSection = (props) => {
   const { classes, category, similarBookList } = props
-  const mobile = useMediaQuery(`(max-width:${maxMobileWidth})`)
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    arrow: false,
-    pauseOnHover: true,
-    speed: 500,
-    slidesToShow: mobile ? 2.5 : 3.5,
-    slidesToScroll: 1,
-    swipeToSlide: true
-  }
 
   return (
     <div className={classes.container}>
@@ -51,7 +36,13 @@ const SimilarBookSection = (props) => {
         <span className={classes.label}>Thể loại tương tự</span>
         <Link className={classes.more} to={`/book-list/${category}`}>Xem thêm</Link>
       </div>
-      <Slider {...settings} className={classes.slider}>
+      <Carousel
+        className={classes.slider}
+        slideWidth='102px'
+        cellSpacing={40}
+        withoutControls
+        slidesToScroll='auto'
+      >
         {
           similarBookList.map(book => {
             return (
@@ -62,7 +53,7 @@ const SimilarBookSection = (props) => {
             )
           })
         }
-      </Slider>
+      </Carousel>
     </div>
   )
 }
