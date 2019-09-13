@@ -14,7 +14,8 @@ const styles = (theme => ({
     maxWidth: '85%',
     margin: 'auto',
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    outline: 'none'
   },
   quotation: {
     width: 100,
