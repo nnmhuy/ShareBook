@@ -10,7 +10,7 @@ import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked.sv
 
 const styles = (theme => ({
   container: {
-
+    height: 200
   },
   image: {
     height: 150,

@@ -44,6 +44,7 @@ const BookSlider = (props) => {
         cellSpacing={40}
         withoutControls
         slidesToScroll='auto'
+        initialSlideHeight={205}
       >
         {
           bookList.map(book => {
