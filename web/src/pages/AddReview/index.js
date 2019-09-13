@@ -8,9 +8,6 @@ import Rating from './components/Rating'
 import ImageContainer from './components/ImageContainer'
 import ReviewContainer from './components/ReviewContainer'
 
-import uploadImage from '../../helper/uploadImage'
-import { warnAlert, errorAlert } from '../../components/alert'
-
 
 const styles = (theme => ({
   container: {
@@ -38,7 +35,6 @@ class AddReview extends React.Component {
       setFieldValue,
       handleChange,
       handleBlur,
-      handleSubmit,
       classes
     } = this.props
 

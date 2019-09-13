@@ -13,7 +13,8 @@ const styles = (theme => ({
     width: '99%',
     margin: 'auto',
     borderRadius: 6,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    outline: 'none'
   },
   title: {
     fontSize: 25,
