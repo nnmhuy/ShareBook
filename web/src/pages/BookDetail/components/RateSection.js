@@ -29,7 +29,7 @@ const styles = (theme => ({
     width: 'fit-content'
   },
   link: {
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 1.5,
     color: colors.textSecondary
   }
@@ -52,7 +52,7 @@ const RateSection = (props) => {
         precision={0.5}
         size='large'
       />
-      <Link to={`/new-review/${bookId}`} className={classes.link}>
+      <Link to={`/add-review/${bookId}`} className={classes.link}>
         Ghi cảm nhận
         <RightArrow height={10} stroke={colors.textSecondary}/>
       </Link>

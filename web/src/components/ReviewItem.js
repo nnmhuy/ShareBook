@@ -3,20 +3,20 @@ import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { Avatar, Button, IconButton, ClickAwayListener } from '@material-ui/core'
 
-import Link from '../../../components/Link'
+import Link from './Link'
 
-import colors from '../../../constants/colors'
-import { ReactComponent as LikeNotFilledIcon } from '../../../static/images/like.svg'
-import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg'
-import { ReactComponent as CommentIcon } from '../../../static/images/transactions.svg'
-import { ReactComponent as NextArrow } from '../../../static/images/back-arrow.svg'
-import { ReactComponent as MoreIcon } from '../../../static/images/more.svg'
-import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
+import colors from '../constants/colors'
+import { ReactComponent as LikeNotFilledIcon } from '../static/images/like.svg'
+import { ReactComponent as LikeFilledIcon } from '../static/images/like-filled.svg'
+import { ReactComponent as CommentIcon } from '../static/images/transactions.svg'
+import { ReactComponent as NextArrow } from '../static/images/back-arrow.svg'
+import { ReactComponent as MoreIcon } from '../static/images/more.svg'
+import { ReactComponent as ReportIcon } from '../static/images/alert.svg'
 
 const styles = (theme => ({
   container: {
     marginBottom: 40,
-    padding: 20,
+    padding: 10,
     borderRadius: 6,
     boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.16)',
     position: 'relative'
@@ -28,9 +28,9 @@ const styles = (theme => ({
     justifyContent: 'start'
   },
   image: {
-    width: 60,
-    height: 80,
-    marginRight: 20
+    width: 45,
+    height: 65,
+    marginRight: 10
   },
   title: {
     fontWeight: 600,
@@ -38,8 +38,8 @@ const styles = (theme => ({
     lineHeight: 1.5
   },
   avatar: {
-    width: 30,
-    height: 30,
+    width: 26,
+    height: 26,
     display: 'inline-block',
     marginRight: 10
   },
@@ -54,19 +54,18 @@ const styles = (theme => ({
   },
   date: {
     fontSize: 10,
-    lineHeight: 1.5,
     color: colors.gray
   },
   reviewContainer: {
     marginTop: 10,
     marginBottom: 10,
-    height: 110,
+    height: 100,
     width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     fontWeight: 500,
     fontSize: 14,
-    lineHeight: 2,
+    lineHeight: 1.5
   },
   buttonContainer: {
     position: 'relative',
@@ -74,16 +73,16 @@ const styles = (theme => ({
     alignItems: 'center'
   },
   likeIcon: {
-    width: 20,
+    width: 16,
     height: 'auto',
     cursor: 'pointer'
   },
   dislikeIcon: {
-    width: 20,
+    width: 16,
     height: 'auto',
     transform: 'rotate(180deg)',
     cursor: 'pointer',
-    marginLeft: 20
+    marginLeft: 10
   },
   commentButton: {
     marginLeft: '20%',
@@ -93,25 +92,26 @@ const styles = (theme => ({
     alignItems: 'center'
   },
   commentIcon: {
-    width: 20,
+    width: 22,
     height: 'auto',
   },
   numberOfComment: {
     fontWeight: 600,
     fontSize: 14,
-    lineHeight: 2,
     marginLeft: 5
   },
   nextButton: {
     position: 'absolute',
-    right: 20,
+    right: 0,
     top: 0,
     bottom: 0,
   },
   nextText: {
     fontSize: 11,
     color: colors.primary,
-    textTransform: 'none'
+    textTransform: 'none',
+    fontWeight: 500,
+    lineHeight: 1.5
   },
   nextArrow: {
     width: 10,
@@ -134,7 +134,7 @@ const styles = (theme => ({
     alignItems: 'flex-end'
   },
   reportButton: {
-    backgroundColor: colors.red,
+    backgroundColor: colors.darkRed,
     color: '#fff',
     textTransform: 'none',
     display: 'flex',

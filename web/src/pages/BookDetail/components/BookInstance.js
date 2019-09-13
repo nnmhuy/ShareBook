@@ -35,32 +35,35 @@ const styles = (theme => ({
   },
   titleText: {
     fontWeight: 600,
-    fontSize: 15,
+    fontSize: 13,
     lineHeight: 2,
     color: colors.primary,
-    marginRight: 10
+    marginRight: 15
   },
   borrowButton: {
     borderRadius: 6,
     background: 'linear-gradient(to right, #0076ff 0%, #04abe8 100%)',
     boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
     color: '#fff',
-    fontWeight:' normal',
-    textTransform: 'none'
+    textTransform: 'none',
+    width: 82,
+    height: 24,
+    fontWeight: 600,
+    fontSize: 11,
   },
   marker: {
     display: 'inline-block',
-    width: 3,
-    height: 20,
+    width: 2,
+    height: 15,
     backgroundColor: colors.primary,
     marginRight: 5
   },
   label: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: 13,
     lineHeight: 2,
-    fontWeight: 600
+    fontWeight: 500,
+    fontSize: 12,
   },
   infoWrapper: {
     marginTop: 5,
@@ -71,8 +74,8 @@ const styles = (theme => ({
     marginTop: 10
   },
   avatar: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     marginRight: 10
   },
   dot: {
@@ -85,19 +88,20 @@ const styles = (theme => ({
   },
   nameLabel: {
     fontSize: 12,
-    lineHeight: 1.5,
+    fontWeight: 500,
+    lineHeight: 2,
     color: '#696969',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   username: {
-    fontSize: 14,
-    lineHeight: 1.5,
+    fontSize: 13,
+    lineHeight: 2,
     color: colors.primary,
-    fontWeight: 600
+    fontWeight: 500
   },
   userIcon: {
-    height: 12,
+    height: 11,
     width: 'auto'
   },
   downIcon: {
@@ -120,7 +124,7 @@ const styles = (theme => ({
     textTransform: 'none'
   },
   detailWrapper: {
-    marginTop: 10,
+    marginTop: 5,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -131,27 +135,25 @@ const styles = (theme => ({
     height: 0
   },
   hideDetail: {
-    height: 0,
-    overflow: 'hidden',
+    display: 'none',
     transition: '2s'
   },
   detailContainer: {
     flex: 1,
     textAlign: 'left',
-    marginTop: 10
+    marginTop: 15
   },
   detailLabelContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   detailLabel: {
     fontWeight: 600,
-    fontSize: 14,
-    lineHeight: 1.5
+    fontSize: 12,
   },
   detailValue: {
-    fontSize: 13,
-    lineHeight: 1.5,
+    fontSize: 12,
+    fontWeight: 500,
     color: colors.primary,
     marginTop: 5,
     marginLeft: 8
