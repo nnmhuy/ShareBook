@@ -10,17 +10,21 @@ const styles = (theme => ({
     marginTop: 5,
     borderRadius: '6px 6px 0 0',
     height: 25,
-    fontSize: 12,
+    fontSize: 11,
     padding: 0,
     minHeight: 0,
     color: '#6A6A6A',
-    minWidth: 'unset'
+    minWidth: 'unset',
+    fontWeight: 500,
+    textTransform: 'none'
   },
   selected: {
     marginTop: 0,
     height: 32,
     backgroundColor: '#fff',
-    color: colors.primaryText
+    color: colors.textPrimary,
+    fontWeight: 500,
+    fontSize: 12,
   },
   labelContainer: {
     display: 'flex',
@@ -41,7 +45,7 @@ class IconLabelTab extends React.Component {
           className={`${classes.root} ${selected && classes.selected}`}
           selected={selected}
           label={<div className={classes.labelContainer}>
-            <Icon fill='#6A6A6A' height={16} className={classes.icon}/>
+            <Icon fill={selected ? colors.textPrimary : '#6A6A6A'} height={16} className={classes.icon}/>
             {label}
           </div>}
         />

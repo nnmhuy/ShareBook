@@ -13,7 +13,7 @@ import { ReactComponent as SignUpIcon } from '../../../static/images/signup.svg'
 const styles = (them => ({
   root: {
     width: 306,
-    marginTop: 30
+    marginTop: 20
   },
   tabs: {
     height: 30,
@@ -22,10 +22,6 @@ const styles = (them => ({
 }))
 
 class ModeTab extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
   render() {
     const { classes, currentTab, handleChangeTab } = this.props
     return (

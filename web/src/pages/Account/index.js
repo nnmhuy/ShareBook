@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import LayoutWrapper from '../../components/LayoutWrapper'
 import ModeTab from './components/ModeTab'
 import { Redirect } from 'react-router'
 
@@ -27,17 +28,18 @@ const styles = (theme => ({
     backgroundSize: 'contain'
   },
   title: {
-    margin: 10,
     fontWeight: 500,
     fontSize: 33,
     textAlign: 'center',
-    color: '#fff'
+    color: '#fff',
+    margin: 0,
   },
   introText: {
     fontWeight: 500,
     fontSize: 15,
     textAlign: 'center',
     color: '#fff',
+    margin: 0
   }
 }))
 
@@ -60,34 +62,37 @@ class Account extends React.Component {
   }
 
   render() {
-    const { classes, isAuth } = this.props
+    const { classes, isAuth, account } = this.props
     const { currentTab } = this.state
     if (isAuth)
       return <Redirect to="/profile" />
     return (
-      <div className={classes.container}>
-        {(currentTab===0) ? 
-          <div>
-            <h1 className={classes.title}>Đăng ký</h1>
-            <p className={classes.introText}>Xin chào, mời bạn tạo tài khoản <br/>và trở thành 1 người bạn đồng hành sách.</p>
-          </div>
-          :
-          <div>
-            <h1 className={classes.title}>Đăng nhập</h1>
-            <p className={classes.introText}>Chào mừng bạn trở lại với <br/> cộng đồng chia sẻ sách của ShareBook</p>
-          </div>
-        }
-        <ModeTab 
-          currentTab={currentTab} 
-          handleChangeTab={this.handleChangeTab} 
-        />
-      </div>
+      <LayoutWrapper title='Account' account={account}>
+        <div className={classes.container}>
+          {(currentTab===0) ? 
+            <div>
+              <h1 className={classes.title}>Đăng ký</h1>
+              <p className={classes.introText}>Xin chào, mời bạn tạo tài khoản <br/>và trở thành 1 người bạn đồng hành sách.</p>
+            </div>
+            :
+            <div>
+              <h1 className={classes.title}>Đăng nhập</h1>
+              <p className={classes.introText}>Chào mừng bạn trở lại với <br/> cộng đồng chia sẻ sách của ShareBook</p>
+            </div>
+          }
+          <ModeTab 
+            currentTab={currentTab} 
+            handleChangeTab={this.handleChangeTab} 
+          />
+        </div>
+      </LayoutWrapper>
     )
   }
 }
 
 const mapStateToProps = ({ account }) => {
   return {
+    account: account,
     isAuth: account.isAuth
   }
 }
