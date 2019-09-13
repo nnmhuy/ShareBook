@@ -2,6 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import Link from '../../../components/Link'
+
 import { maxMobileWidth } from '../../../constants/constants'
 
 import { ReactComponent as HandBook } from '../../../static/images/hand-book.svg'
@@ -47,7 +49,7 @@ const styles = (theme => ({
     height: '100%',
     borderRadius: 6,
     boxShadow: '0px 0px 11px rgba(0, 0, 0, 0.5)',
-    padding: 10
+    padding: '10px 5px'
   },
   medal: {
     position: 'absolute',
@@ -93,8 +95,8 @@ const styles = (theme => ({
     bottom: 0,
     left: 0,
     background: '#fff',
-    width: 90,
-    height: 25,
+    width: 60,
+    height: 16,
     borderRadius: '0px 5px 0px 0px'
   },
   itemContainer: {
@@ -103,24 +105,25 @@ const styles = (theme => ({
     justifyContent: 'space-around'
   },
   itemIcon: {
-    width: 15,
-    height: 15
+    width: 8.76,
+    height: 'auto'
   },
   itemNumber: {
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: 8,
     paddingLeft: 5
   },
   name: {
     fontWeight: 600,
-    fontSize: 14,
-    marginTop: 5,
+    fontSize: 10,
+    marginTop: 5
   }
 }))
 
 const Book = (props) => {
   const { 
     classes,
+    id,
     name,
     image,
     numberOfLike,
@@ -129,40 +132,39 @@ const Book = (props) => {
     isLiked
   } = props
   const mobile = useMediaQuery(`(max-width:${maxMobileWidth})`)
-  // return (
-  //   <div style={{textAlign: 'center'}}>1</div>
-  // )
   return (
-    <div className={mobile ? classes.mobileWrapper : classes.wrapper}>
-      {medalImages[hot] && <img src={medalImages[hot]} alt='Hot' className={classes.medal}/>}
-      <div className={classes.container}>
-        <span className={classes.likeContainer}>
-          {isLiked ? 
-              <HeartFull className={classes.like}/>
-            :
-              <Heart className={classes.like}/>
-          }
-        </span>
-        <div className={classes.imageContainer}>
-          <img src={image} alt='Book' className={classes.image}/>
-          <div className={classes.itemsContainer}>
-            <div className={classes.itemContainer}>
-              <HandBook className={classes.itemIcon}/>
-              <span className={classes.itemNumber}>
-                {numberOfLike}
-              </span>
-            </div>
-            <div className={classes.itemContainer}>
-              <HeartFull className={classes.itemIcon}/>
-              <span className={classes.itemNumber}>
-                {numberOfUse}
-              </span>
+    <Link to={`/book-detail/${id}`}>
+      <div className={mobile ? classes.mobileWrapper : classes.wrapper}>
+        {medalImages[hot] && <img src={medalImages[hot]} alt='Hot' className={classes.medal}/>}
+        <div className={classes.container}>
+          <span className={classes.likeContainer}>
+            {isLiked ? 
+                <HeartFull className={classes.like}/>
+              :
+                <Heart className={classes.like}/>
+            }
+          </span>
+          <div className={classes.imageContainer}>
+            <img src={image} alt='Book' className={classes.image}/>
+            <div className={classes.itemsContainer}>
+              <div className={classes.itemContainer}>
+                <HandBook className={classes.itemIcon}/>
+                <span className={classes.itemNumber}>
+                  {numberOfLike}
+                </span>
+              </div>
+              <div className={classes.itemContainer}>
+                <HeartFull className={classes.itemIcon}/>
+                <span className={classes.itemNumber}>
+                  {numberOfUse}
+                </span>
+              </div>
             </div>
           </div>
+          <span className={classes.name}>{name}</span>
         </div>
-        <span className={classes.name}>{name}</span>
       </div>
-    </div>
+    </Link>
   )
 }
 

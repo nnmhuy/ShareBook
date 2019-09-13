@@ -15,7 +15,6 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Sidebar from './Sidebar/index'
 
 import colors from '../constants/colors'
-import { routes, infoRoutes, otherRoutes } from '../constants/routes'
 import { ReactComponent as MenuIcon } from '../static/images/menu.svg'
 import { ReactComponent as NotificationIcon } from '../static/images/bell.svg'
 import { ReactComponent as MessageIcon } from '../static/images/chat-speech-bubbles.svg'
@@ -77,50 +76,44 @@ const HideOnScroll = (props) =>  {
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
+    <Slide appear={false} direction='down' in={!trigger}>
       {children}
     </Slide>
   );
 }
 
 const LayoutWrapper = (props) => {
-  const { classes, children, account } = props
-  const { pathname } = props.location;
+  const { classes, children, account, title } = props
+  const { pathname } = props.location
   const [isSidebarExpanding, setSidebarExpanding] = React.useState(false)
 
   const toggleSidebar = (value) => () => {
     setSidebarExpanding(value)
   }
 
-  const getPageTitle = (currentPathname) => {
-    const allRoutes = [...routes, ...infoRoutes, ...otherRoutes]
-    const matchRoutes = allRoutes.find(route => route.pathname === currentPathname)
-    return matchRoutes ? matchRoutes.label : ''
-  }
-
   return (
     <div className={classes.wrapper}>
       <HideOnScroll>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar position='fixed' className={classes.appBar}>
           <Toolbar className={classes.toolBar}>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar(true)}>
+            <IconButton edge='start' color='inherit' aria-label='menu' onClick={toggleSidebar(true)}>
               <MenuIcon className={classes.menuIcon} />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              {getPageTitle(pathname)}
+            <Typography variant='h6' className={classes.title}>
+              {title}
             </Typography>
             {account.isAuth ?
               <div>
-                <IconButton color="inherit">
+                <IconButton color='inherit'>
                   <MessageIcon fill={colors.primary} className={classes.icon} />
                 </IconButton>
-                <IconButton color="inherit">
+                <IconButton color='inherit'>
                   <NotificationIcon fill={colors.primary} className={classes.icon} />
                 </IconButton>
               </div>
               :
               <Link to='/account' className={classes.link} >
-                <Button color="inherit" className={classes.loginButton}>
+                <Button color='inherit' className={classes.loginButton}>
                   Đăng nhập
                 <LoginIcon fill={colors.primary} className={classes.icon} />
                 </Button>

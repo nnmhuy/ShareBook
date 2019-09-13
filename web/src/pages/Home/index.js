@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 
+import LayoutWrapper from '../../components/LayoutWrapper'
 import AboutUs from './components/AboutUs'
 import Tutorial from './components/Tutorial'
 import NewsfeedIntro from './components/NewsfeedIntro'
@@ -25,22 +26,24 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, account } = this.props
     return (
-      <div className={classes.container}>
-        <AboutUs/>
-        <Tutorial/>
-        <NewsfeedIntro/>
-        <HotBook/>
-        <Footer/>
-      </div>
+      <LayoutWrapper title='Home' account={account}>
+        <div className={classes.container}>
+          <AboutUs/>
+          <Tutorial/>
+          <NewsfeedIntro/>
+          <HotBook/>
+          <Footer/>
+        </div>
+      </LayoutWrapper>
     )
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ state, account }) => {
   return {
-
+    account
   }
 }
 
