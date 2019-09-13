@@ -13,8 +13,12 @@
   "imagestorage": {
     "name": "imagestorage",
     "connector": "loopback-component-storage",
-    "maxFileSize":  "480000",
-    "allowedContentTypes": ["image/jpg", "image/jpeg", "image/png"],
+    "maxFileSize": "480000",
+    "allowedContentTypes": [
+      "image/jpg",
+      "image/jpeg",
+      "image/png"
+    ],
     "provider": "filesystem",
     "root": "../image-storage"
   }

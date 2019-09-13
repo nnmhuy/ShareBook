@@ -10,11 +10,14 @@ const superAdminPassword = process.env.superAdminPassword;
 const superAdminEmail = process.env.superAdminEmail;
 const imageContainer = process.env.imageContainer;
 
+const categoryList = require('./category-constant');
+
 module.exports = function(app) {
   var User = app.models.user;
   var Role = app.models.Role;
   var RoleMapping = app.models.RoleMapping;
   var Container = app.models.Container;
+  var Category = app.models.category;
 
   console.log('running initialization', superAdminUsername);
 
@@ -59,6 +62,13 @@ module.exports = function(app) {
     });
   }
 
+  function createDefaultCategory() {
+    Category.create(categoryList, (err, categories) => {
+      if (err) throw err;
+      console.log('Created default category');
+    });
+  }
+
   User.find({
     where: {
       username: superAdminUsername,
@@ -73,6 +83,16 @@ module.exports = function(app) {
   Container.getContainer(imageContainer, (err, storage) => {
     if (!storage) {
       createDefaultImageStorage();
+    }
+  });
+
+  Category.find({
+    where: {
+      name: categoryList[0].name,
+    },
+  }, (err, firstCategory) => {
+    if (!firstCategory || !firstCategory[0]) {
+      createDefaultCategory();
     }
   });
 };

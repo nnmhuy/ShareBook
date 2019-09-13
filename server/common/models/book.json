@@ -61,8 +61,8 @@
   "relations": {
     "subcategory": {
       "type": "belongsTo",
-      "model": "subcategory",
-      "foreignKey": "subcategoryId",
+      "model": "category",
+      "foreignKey": "categoryId",
       "options": {
         "nestRemoting": true
       }
