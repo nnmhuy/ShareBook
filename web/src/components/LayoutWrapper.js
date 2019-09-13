@@ -5,7 +5,6 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   Button,
   SwipeableDrawer,
   Slide
@@ -26,10 +25,12 @@ const styles = (theme) => ({
     height: '100%'
   },
   appBar: {
-    height: 50
+    height: 50,
   },
   toolBar: {
     height: 50,
+    paddingLeft: 5,
+    paddingRight: 5,
     minHeight: 'unset',
     display: 'flex',
     flexDirection: 'row',
@@ -37,25 +38,38 @@ const styles = (theme) => ({
     backgroundColor: '#fff',
     color: colors.primary
   },
+  menuButton: {
+    zIndex: 100,
+  },
   menuIcon: {
-    height: 25,
+    height: 20,
     width: 'auto'
   },
   title: {
-    flex: '1',
-    textAlign: 'center'
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    fontWeight: 600,
+    fontSize: 18,
   },
   icon: {
-    height: 18,
-    width: 'auto'
+    height: 14,
+    width: 'auto',
+    marginLeft: 5
   },
   loginButton: {
+    position: 'absolute',
+    right: 5,
+    top: 0,
+    bottom: 0,
     width: 110,
     display: 'flex',
-    justifyContent:'space-between',
     alignItems: 'center',
     textTransform: 'unset',
-    color: colors.primary
+    color: colors.primary,
+    fontWeight: 600,
+    fontSize: 14,
   },
   contentWrapper: {
     boxSizing: 'border-box',
@@ -96,12 +110,12 @@ const LayoutWrapper = (props) => {
       <HideOnScroll>
         <AppBar position='fixed' className={classes.appBar}>
           <Toolbar className={classes.toolBar}>
-            <IconButton edge='start' color='inherit' aria-label='menu' onClick={toggleSidebar(true)}>
+            <IconButton onClick={toggleSidebar(true)} className={classes.menuButton}>
               <MenuIcon className={classes.menuIcon} />
             </IconButton>
-            <Typography variant='h6' className={classes.title}>
+            <span className={classes.title}>
               {title}
-            </Typography>
+            </span>
             {account.isAuth ?
               <div>
                 <IconButton color='inherit'>
