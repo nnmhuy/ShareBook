@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import counter from './reducers/counterReducer'
 import accountReducer from './reducers/accountReducer'
+import bookReducer from './reducers/bookReducer'
 import rootSaga from './saga/saga.js'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -12,7 +13,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
   combineReducers({
     counter: counter,
-    account: accountReducer
+    account: accountReducer,
+    book: bookReducer
   }),
   composeEnhancers(
     applyMiddleware(

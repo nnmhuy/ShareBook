@@ -7,6 +7,11 @@ import {
   logOutWatcher,
   signUpWatcher
 } from './accountSaga'
+import {
+  getBookListWatcher,
+  getCategoryListWatcher,
+  getBookInfoWatcher
+} from './bookSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -14,6 +19,9 @@ export default function* rootSaga() {
     logInLocalWatcher(),
     getUserInfoWatcher(),
     logOutWatcher(),
-    signUpWatcher()
+    signUpWatcher(),
+    getBookListWatcher(),
+    getCategoryListWatcher(),
+    getBookInfoWatcher()
   ]);
 }

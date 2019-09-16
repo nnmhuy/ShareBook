@@ -59,10 +59,10 @@
   },
   "validations": [],
   "relations": {
-    "subcategory": {
+    "category": {
       "type": "belongsTo",
-      "model": "subcategory",
-      "foreignKey": "subcategoryId",
+      "model": "category",
+      "foreignKey": "categoryId",
       "options": {
         "nestRemoting": true
       }
@@ -71,6 +71,14 @@
       "type": "hasMany",
       "model": "likeBook",
       "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookInstances": {
+      "type": "hasMany",
+      "model": "bookInstance",
+      "foreignKey": "bookInstanceId",
       "options": {
         "nestRemoting": true
       }
@@ -88,6 +96,31 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "superAdmin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}
