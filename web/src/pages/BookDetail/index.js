@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { } from '@material-ui/core'
 
+import TopNav from './components/TopNav'
+import BottomNav from './components/BottomNav'
 import BookInfo from './components/BookInfo'
 import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
@@ -31,20 +33,29 @@ class App extends React.Component {
   render() {
     const { classes, match, history } = this.props
     const bookId = match.params.bookId
+
+    const handleToggleLike = (props) => {
+
+    }
+
     return (
-      <div className={classes.container}>
-        <BookInfo {...demoBook} />
-        <RateSection bookId={bookId} history={history} />
-        <DetailTabs
-          book={demoBook}
-          bookInstanceList={demoBookInstance}
-          reviewList={demoReviewList}
-        />
-        <BookSlider
-          title={'Thể loại tương tự'}
-          url={`/category/${demoBook.category}`}
-          bookList={demoSimilarBooks}/>
-      </div>
+      <TopNav isLiked handleToggleLike={handleToggleLike}>
+        <BottomNav bookId={bookId}>
+          <div className={classes.container}>
+            <BookInfo {...demoBook} />
+            <RateSection bookId={bookId} history={history} />
+            <DetailTabs
+              book={demoBook}
+              bookInstanceList={demoBookInstance}
+              reviewList={demoReviewList}
+            />
+            <BookSlider
+              title={'Thể loại tương tự'}
+              url={`/category/${demoBook.category}`}
+              bookList={demoSimilarBooks}/>
+          </div>
+        </BottomNav>
+      </TopNav>
     )
   }
 }

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
+import LayoutWrapper from '../../components/LayoutWrapper'
+import Link from '../../components/Link'
 import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
@@ -23,7 +25,8 @@ const styles = (theme => ({
   },
   searchContainer: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: 20
   },
   filterButton: {
     width: 44,
@@ -33,7 +36,7 @@ const styles = (theme => ({
   filterIcon: {
     width: 20,
     height: 'auto'
-  }
+  },
 }))
 
 class BookList extends React.Component {
@@ -45,43 +48,47 @@ class BookList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, account } = this.props
 
     return (
-      <div className={classes.container}>
-        <div className={classes.searchContainer}>
-          <Search />
-          <IconButton className={classes.filterButton}>
-            <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
-          </IconButton>
-        </div>
-        <NewsSlider newsData={newsDemoData}/>
-        <CategoryList categoryList={categoryDemoList}/>
-        <BookSlider
-          title={'Đề xuất'}
-          url={`/category/suggested`}
-          bookList={demoBookList} 
-          style={{ marginTop: 20 }}
+      <LayoutWrapper account={account} title={'Kệ sách'}>
+        <div className={classes.container}>
+          <div className={classes.searchContainer}>
+            <Search />
+            <Link to='/filter'>
+              <IconButton className={classes.filterButton}>
+                <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
+              </IconButton>
+            </Link>
+          </div>
+          <NewsSlider newsData={newsDemoData}/>
+          <CategoryList categoryList={categoryDemoList}/>
+          <BookSlider
+            title={'Đề xuất'}
+            url={`/category/suggested`}
+            bookList={demoBookList} 
+            style={{ marginTop: 20 }}
+            />
+          <BookSlider
+            title={'#Thám hiểm'}
+            url={`/category/discovery`}
+            bookList={demoBookList} />
+          <BookSlider
+            title={'#Châm biếm'}
+            url={`/category/joke`}
+            bookList={demoBookList} />
+          <TopBook 
+            topBookList={demoTopBooks}
           />
-        <BookSlider
-          title={'#Thám hiểm'}
-          url={`/category/discovery`}
-          bookList={demoBookList} />
-        <BookSlider
-          title={'#Châm biếm'}
-          url={`/category/joke`}
-          bookList={demoBookList} />
-        <TopBook 
-          topBookList={demoTopBooks}
-        />
-      </div>
+        </div>
+      </LayoutWrapper>
     )
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ state, account }) => {
   return {
-
+    account
   }
 }
 

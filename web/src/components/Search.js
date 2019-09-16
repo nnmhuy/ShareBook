@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
 export default function Search(props) {
   const classes = useStyles();
 
-  const { handleChange, handleSearch } = props
+  const { handleChange, handleSearch, ...others } = props
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} {...others}>
       <IconButton className={classes.iconButton} aria-label="search" onClick={handleSearch}>
         <SearchIcon fill={colors.primary} className={classes.icon}/>
       </IconButton>

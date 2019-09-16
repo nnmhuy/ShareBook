@@ -41,9 +41,14 @@ const styles = (theme => ({
 
 const ButtonContainer = (props) => {
   const { classes, handleSubmit } = props
+
+  const handleBack = () => {
+    window.history.back()
+  }
+
   return (
     <div className={classes.container}>
-      <IconButton className={classes.backButton}>
+      <IconButton className={classes.backButton} onClick={handleBack}>
         <BackIcon fill={colors.primary} className={classes.backIcon} />
       </IconButton>
       <Button className={classes.filterButton} onClick={handleSubmit}>

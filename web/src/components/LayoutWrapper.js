@@ -6,12 +6,11 @@ import {
   Toolbar,
   IconButton,
   Button,
-  SwipeableDrawer,
-  Slide
+  SwipeableDrawer
 } from '@material-ui/core'
-import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 import Sidebar from './Sidebar/index'
+import HideOnScroll from './HideOnScroll'
 
 import colors from '../constants/colors'
 import { ReactComponent as MenuIcon } from '../static/images/menu.svg'
@@ -29,8 +28,8 @@ const styles = (theme) => ({
   },
   toolBar: {
     height: 50,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 0,
+    paddingRight: 0,
     minHeight: 'unset',
     display: 'flex',
     flexDirection: 'row',
@@ -40,6 +39,8 @@ const styles = (theme) => ({
   },
   menuButton: {
     zIndex: 100,
+    borderRadius: 0,
+    height: '100%',
   },
   menuIcon: {
     height: 20,
@@ -81,20 +82,6 @@ const styles = (theme) => ({
     textDecoration: 'unset'
   },
 })
-
-const HideOnScroll = (props) =>  {
-  const { children, window } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({ target: window ? window() : undefined });
-
-  return (
-    <Slide appear={false} direction='down' in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
 
 const LayoutWrapper = (props) => {
   const { classes, children, account, title } = props
