@@ -2,6 +2,8 @@
 const _ = require('lodash');
 
 module.exports = function(BookInstance) {
+  BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
+
   BookInstance.beforeRemote('create', function(ctx, bookInstance, next) {
     let Category = BookInstance.app.models.category;
     let Book = BookInstance.app.models.book;

@@ -29,6 +29,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
@@ -55,6 +63,19 @@
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}

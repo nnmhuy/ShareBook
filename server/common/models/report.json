@@ -82,6 +82,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "reporter": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "reporterId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
@@ -108,6 +116,19 @@
       "principalType": "ROLE",
       "principalId": "superAdmin",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}
