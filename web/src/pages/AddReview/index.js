@@ -4,9 +4,12 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
 
+import TopNav from './components/TopNav'
 import Rating from './components/Rating'
 import ImageContainer from './components/ImageContainer'
 import ReviewContainer from './components/ReviewContainer'
+
+import { demoBook } from './demoData'
 
 
 const styles = (theme => ({
@@ -35,26 +38,29 @@ class AddReview extends React.Component {
       setFieldValue,
       handleChange,
       handleBlur,
-      classes
+      classes,
+      handleSubmit
     } = this.props
 
     return (
-      <div className={classes.container}>
-        <Rating
-          value={values.rating}
-          touched={touched.rating}
-          error={errors.rating}
-          setFieldValue={setFieldValue}
-        />
-        <ImageContainer 
-          value={values.images}
-        />
-        <ReviewContainer 
-          value={values.content}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-      </div>
+      <TopNav handleSubmit={handleSubmit} name={demoBook.name} bookImage={demoBook.image}>
+        <div className={classes.container}>
+          <Rating
+            value={values.rating}
+            touched={touched.rating}
+            error={errors.rating}
+            setFieldValue={setFieldValue}
+          />
+          <ImageContainer 
+            value={values.images}
+          />
+          <ReviewContainer 
+            value={values.content}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+          />
+        </div>
+      </TopNav>
     )
   }
 }

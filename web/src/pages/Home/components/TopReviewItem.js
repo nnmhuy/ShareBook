@@ -15,7 +15,8 @@ const styles = (theme => ({
     margin: 'auto',
     display: 'flex',
     flexDirection: 'row',
-    outline: 'none'
+    outline: 'none',
+    maxHeight: 400
   },
   quotation: {
     width: 100,
@@ -51,14 +52,15 @@ const styles = (theme => ({
     textTransform: 'uppercase'
   },
   review: {
-    maxHeight: 300,
-    overflow: 'scroll',
+    maxHeight: 270,
     marginTop: 20,
     marginBottom: 20,
     fontSize: 15,
     fontWeight: 600,
     lineHeight: 2,
     textAlign: 'left',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden'
   }
 }))
 

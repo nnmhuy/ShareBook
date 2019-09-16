@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
+import Link from '../../components/Link'
+import LayoutWrapper from '../../components/LayoutWrapper'
 import Search from '../../components/Search'
 import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
@@ -59,33 +61,38 @@ class CategoryBookList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, account } = this.props
+    const categoryName = 'Lãng mạng'
 
     return (
-      <div className={classes.container}>
-        <div className={classes.searchContainer}>
-          <Search/>
-          <IconButton className={classes.filterButton}>
-            <FilterIcon fill={colors.primary} className={classes.icon}/>
-          </IconButton>
+      <LayoutWrapper account={account} title={categoryName}>
+        <div className={classes.container}>
+          <div className={classes.searchContainer}>
+            <Search/>
+            <Link to='/filter'>
+              <IconButton className={classes.filterButton}>
+                <FilterIcon fill={colors.primary} className={classes.icon}/>
+              </IconButton>
+            </Link>
+          </div>
+          <div className={classes.bookContainer}>
+            {
+              bookDemoData.map((book) => {
+                return (
+                  <Book {...book} key={book.bookId}/>
+                )
+              })
+            }
+          </div>
         </div>
-        <div className={classes.bookContainer}>
-          {
-            bookDemoData.map((book) => {
-              return (
-                <Book {...book} key={book.bookId}/>
-              )
-            })
-          }
-        </div>
-      </div>
+      </LayoutWrapper>
     )
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ state, account }) => {
   return {
-
+    account
   }
 }
 

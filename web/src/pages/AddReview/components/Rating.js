@@ -28,7 +28,8 @@ const styles = (theme => ({
     margin: 'auto',
     width: 'fit-content',
     marginTop: 10,
-    fontSize: 50
+    fontSize: 50,
+    '-webkit-tap-highlight-color': 'transparent'
   },
   hidden: {
     display: 'none'

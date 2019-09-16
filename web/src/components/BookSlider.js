@@ -15,8 +15,8 @@ const styles = (theme => ({
     paddingRight: 20,
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 15
+    fontWeight: 600,
+    fontSize: 13,
   },
   viewMore: {
     fontWeight: 500,

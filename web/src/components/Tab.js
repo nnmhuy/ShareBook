@@ -13,7 +13,8 @@ const styles = (theme => ({
     color: colors.gray,
     '&.Mui-selected': {
       color: '#000',
-      opacity: 1
+      opacity: 1,
+      fontWeight: 600,
     }
   },
 }))

@@ -9,15 +9,16 @@ const styles = (theme => ({
     marginTop: 10
   },
   label: {
-    fontWeight: 600,
-    fontSize: 15,
+    fontWeight: 500,
+    fontSize: 12,
+    lineHeight: 2,
     display: 'flex',
     alignItems: 'center'
   },
   marker: {
     display: 'inline-block',
-    width: 3,
-    height: 20,
+    width: 2,
+    height: 15,
     backgroundColor: colors.primary,
     marginRight: 5
   },
@@ -27,7 +28,7 @@ const styles = (theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: 15,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 20
   },
   detailItem: {
@@ -35,24 +36,27 @@ const styles = (theme => ({
     marginTop: 15
   },
   itemLabel: {
-    fontSize: 14,
-    color: '#696969'
+    fontSize: 12,
+    color: '#696969',
+    fontWeight: 500,
+    lineHeight: 2,
   },
   itemValue: {
-    fontWeight: 'bold',
-    marginTop: 5,
-    fontSize: 15,
-    color: '#000'
+    fontSize: 13,
+    color: '#000',
+    fontWeight: 500,
+    lineHeight: 2,
   },
   break: {
     flexBasis: '100%',
     height: 0
   },
   overview: {
-    fontSize: 14,
     lineHeight: 2,
     color: '#4e4e4e',
-    marginTop: 15
+    marginTop: 10,
+    fontWeight: 500,
+    fontSize: 12
   }
 }))
 

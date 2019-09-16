@@ -15,7 +15,7 @@ const styles = (theme => ({
   number: {
     display: 'inline-block',
     fontWeight: 600,
-    fontSize: 15,
+    fontSize: 13,
     lineHeight: 1.5,
     cursor: 'pointer',
     padding: 5,
@@ -35,7 +35,9 @@ const styles = (theme => ({
   active: {
     color: '#fff',
     borderRadius: 3,
-    background: colors.primary
+    background: colors.primary,
+    fontWeight: 600,
+    fontSize: 13
   },
   button: {
     display: 'flex',

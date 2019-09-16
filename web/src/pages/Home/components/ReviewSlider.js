@@ -15,7 +15,7 @@ import SliderArrow from './SliderArrow'
 const styles = (theme => ({
   container: {
     width: '100%',
-    height: 530,
+    height: 420,
     paddingBottom: 20,
     marginBottom: 20,
     overflow: 'hidden',

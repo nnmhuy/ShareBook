@@ -24,15 +24,17 @@ const styles = (theme => ({
   infoSection: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'start',
+    justifyContent: 'space-around',
     alignItems: 'flex-start',
   },
   imagePart: {
-    textAlign: 'center'
+    textAlign: 'center',
+    marginLeft: '10%',
   },
   image: {
-    width: 150,
-    height: 200
+    width: 120,
+    height: 160,
+    borderRadius: 7,
   },
   rating: {
     justifyContent: 'center'
@@ -40,35 +42,40 @@ const styles = (theme => ({
   textPart: {
     flex: 1,
     marginLeft: '10%',
-    textAlign: 'left'
+    marginRight: '10%',
+    textAlign: 'left',
+    height: 160,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   name: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 600,
+    fontSize: 16
   },
   author: {
     fontWeight: 500,
-    fontSize: 13,
+    fontSize: 12,
     color: colors.gray
   },
   textItem: {
-    marginBottom: 10
   },
   textTitle: {
     fontWeight: 600,
-    fontSize: 15,
+    fontSize: 12,
     color: '#000'
   },
   category: {
     fontWeight: 500,
-    fontSize: 18,
+    fontSize: 14,
     color: colors.primary
   },
   tag: {
-    fontSize: 13,
+    fontSize: 11,
     paddingRight: 5,
     lineHeight: 1.5,
-    color: colors.textSecondary
+    color: colors.textSecondary,
+    fontWeight: 500,
   },
   divider: {
     color: '#000'
@@ -77,14 +84,16 @@ const styles = (theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20
   },
   numberItem: {
-    margin: 20
+    marginLeft: '5%',
+    marginRight: '5%',
   },
   numberLabel: {
     fontWeight: 500,
-    fontSize: 13,
+    fontSize: 11,
     color: '#717171',
     textAlign: 'center'
   },
@@ -92,16 +101,22 @@ const styles = (theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 5
+  },
+  numberWrapper: {
+    fontWeight: 500,
+    fontSize: 10,
+    lineHeight: 1.3,
+    color: colors.gray
   },
   numberIconLeft: {
-    width: 15,
-    height: 'auto',
+    height: 11,
+    width: 'auto',
     marginRight: 5
   },
   numberIconRight: {
-    width: 15,
-    height: 'auto',
+    height: 11,
+    width: 'auto',
     marginLeft: 5
   },
   reportLink: {

@@ -14,6 +14,7 @@ import colors from '../../../constants/colors'
 
 const bookDemoData = [
   {
+    id: 0,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 100,
@@ -22,6 +23,7 @@ const bookDemoData = [
     isLiked: true
   },
   {
+    id: 1,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 10,
@@ -29,6 +31,7 @@ const bookDemoData = [
     hot: 2,
   },
   {
+    id: 2,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 1,
@@ -37,18 +40,21 @@ const bookDemoData = [
     isLiked: true
   },
   {
+    id: 3,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 10,
     numberOfUse: 99,
   },
   {
+    id: 4,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 10,
     numberOfUse: 99,
   },
   {
+    id: 5,
     name: 'Súng, vi trùng và thép',
     image: require('../../../static/images/demo/demo-book-cover.png'),
     numberOfLike: 10,
@@ -74,8 +80,7 @@ const styles = (theme => ({
   slider: {
     boxSizing: 'border-box',
     width: '100%',
-    margin: '30px auto',
-    padding: '50px',
+    margin: 'auto',
     '& .slick-dots': {
       bottom: 0,
     }

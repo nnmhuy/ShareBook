@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withFormik } from 'formik'
 
+import LayoutWrapper from '../../components/LayoutWrapper'
 import colors from '../../constants/colors'
 import ButtonContainer from './components/ButtonContainer'
 import CheckBoxFilter from './components/CheckBoxFilter'
@@ -45,32 +46,38 @@ class Filter extends React.Component {
       values,
       handleSubmit,
       classes,
-      setFieldValue
+      setFieldValue,
+      account
     } = this.props
+
+    const currentPage = 'Kệ sách'
+
     return (
-      <div className={classes.container}>
-        <ButtonContainer handleSubmit={handleSubmit}/>
-        <CheckBoxFilter
-          title='Thể loại'
-          name='category'
-          value={values.category}
-          optionList={demoCategoryList}
-          setFieldValue={setFieldValue}
-        />
-        <Divider  className={classes.divider}/>
-        <RatingFilter 
-          value={values.minRating}
-          setFieldValue={setFieldValue}
-        />
-        <Divider  className={classes.divider}/>
-        <CheckBoxFilter
-          title='Địa điểm'
-          name='district'
-          value={values.district}
-          optionList={demoDistrictList}
-          setFieldValue={setFieldValue}
-        />
-      </div>
+      <LayoutWrapper account={account} title={currentPage}>
+        <div className={classes.container}>
+          <ButtonContainer handleSubmit={handleSubmit}/>
+          <CheckBoxFilter
+            title='Thể loại'
+            name='category'
+            value={values.category}
+            optionList={demoCategoryList}
+            setFieldValue={setFieldValue}
+          />
+          <Divider  className={classes.divider}/>
+          <RatingFilter 
+            value={values.minRating}
+            setFieldValue={setFieldValue}
+          />
+          <Divider  className={classes.divider}/>
+          <CheckBoxFilter
+            title='Địa điểm'
+            name='district'
+            value={values.district}
+            optionList={demoDistrictList}
+            setFieldValue={setFieldValue}
+          />
+        </div>
+      </LayoutWrapper>
     )
   }
 }
@@ -88,7 +95,7 @@ const FilterWithFormik = withFormik({
 
 const mapStateToProps = ({ account }) => {
   return {
-
+    account
   }
 }
 

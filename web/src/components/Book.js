@@ -12,6 +12,10 @@ const styles = (theme => ({
   container: {
     height: 200
   },
+  imageContainer: {
+    height: 150,
+    width: 100
+  },
   image: {
     height: 150,
     width: 100
@@ -44,8 +48,8 @@ const Book = (props) => {
   const { classes, id, name, author, image, isBookmarked, rating, ...other } = props
   return (
     <div className={classes.container} {...other}>
-      <Link to={`/book-detail/${id}`} className={classes.image}>
-        <img src={image} alt={name}/>
+      <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
+        <img src={image} alt={name} className={classes.image}/>
       </Link>
       <div className={classes.name}>
         <Link to={`/book-detail/${id}`}>
