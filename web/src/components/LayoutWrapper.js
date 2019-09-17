@@ -72,6 +72,10 @@ const styles = (theme) => ({
     fontWeight: 600,
     fontSize: 14,
   },
+  rightSection: {
+    position: 'absolute',
+    right: 10
+  },
   contentWrapper: {
     boxSizing: 'border-box',
     width: '100%',
@@ -104,7 +108,7 @@ const LayoutWrapper = (props) => {
               {title}
             </span>
             {account.isAuth ?
-              <div>
+              <div className={classes.rightSection}>
                 <IconButton color='inherit'>
                   <MessageIcon fill={colors.primary} className={classes.icon} />
                 </IconButton>

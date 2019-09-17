@@ -21,7 +21,7 @@
     "bookCondition": {
       "type": "string",
       "required": true,
-      "default": "nguyên vẹn"
+      "default": "mới"
     },
     "isAvailable": {
       "type": "boolean",

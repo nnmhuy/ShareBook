@@ -32,8 +32,19 @@ function* getCategoryListSaga({ payload }) {
 }
 function* getBookInfoSaga({ payload }) {
   try {
-    // const data = yield call(restConnector.post, '/users/login', payload)
-    yield put(getBookInfoSuccess())
+    const { bookId } = payload
+    const { data: bookData } = yield call(restConnector.get, `/books/${bookId}`)
+    const { data: categoryData } = yield call(restConnector.get, `/books/${bookId}/category`)
+    const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count`)
+
+    const data = {
+      ...bookData,
+      category: categoryData.name,
+      categoryUrl: categoryData.url,
+      number_of_bookmark: bookmarkData.count
+    }
+
+    yield put(getBookInfoSuccess(data))
   } catch (error) {
     yield put(getBookInfoFail(error))
   }

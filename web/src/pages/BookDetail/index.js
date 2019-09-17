@@ -1,4 +1,5 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { } from '@material-ui/core'
@@ -10,7 +11,9 @@ import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
 import BookSlider from '../../components/BookSlider'
 
-import { demoBook, demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
+import { getBookInfo } from '../../redux/actions/bookAction'
+import { getReviewsOfBook } from '../../redux/actions/reviewAction'
+import { demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -30,8 +33,14 @@ class App extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const { getBookDetail, match, reviews } = this.props
+    const bookId = match.params.bookId
+    getBookDetail({ bookId })
+  }
+
   render() {
-    const { classes, match, history } = this.props
+    const { classes, match, history, bookDetail, reviews } = this.props
     const bookId = match.params.bookId
 
     const handleToggleLike = (props) => {
@@ -42,16 +51,16 @@ class App extends React.Component {
       <TopNav isLiked handleToggleLike={handleToggleLike}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
-            <BookInfo {...demoBook} />
+            <BookInfo {...bookDetail}/>
             <RateSection bookId={bookId} history={history} />
             <DetailTabs
-              book={demoBook}
+              book={bookDetail}
               bookInstanceList={demoBookInstance}
-              reviewList={demoReviewList}
+              reviewList={reviews}n
             />
             <BookSlider
               title={'Thể loại tương tự'}
-              url={`/category/${demoBook.category}`}
+              url={`/category${bookDetail.categoryUrl}`}
               bookList={demoSimilarBooks}/>
           </div>
         </BottomNav>
@@ -60,16 +69,16 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ book, review }) => {
   return {
-
+    bookDetail: book.bookDetail,
+    reviews: review.reviewsOfBook
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getBookDetail: getBookInfo,
+  getReviews: getReviewsOfBook
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

@@ -14,7 +14,8 @@ import {
 
 let defaultState = {
   isLoading: false,
-  error: null
+  error: null,
+  bookDetail: {}
 }
 
 const bookReducer = handleActions(
@@ -65,9 +66,10 @@ const bookReducer = handleActions(
         isLoading: true,
       }
     },
-    [getBookInfoSuccess]: (state) => {
+    [getBookInfoSuccess]: (state, { payload }) => {
       return {
         isLoading: false,
+        bookDetail: payload,
         error: null
       }
     },

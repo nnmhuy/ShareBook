@@ -12,6 +12,9 @@ import {
   getCategoryListWatcher,
   getBookInfoWatcher
 } from './bookSaga'
+import {
+  getReviewsOfBookWatcher
+} from './reviewSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -22,6 +25,8 @@ export default function* rootSaga() {
     signUpWatcher(),
     getBookListWatcher(),
     getCategoryListWatcher(),
-    getBookInfoWatcher()
+    getBookInfoWatcher(),
+
+    getReviewsOfBookWatcher()
   ]);
 }

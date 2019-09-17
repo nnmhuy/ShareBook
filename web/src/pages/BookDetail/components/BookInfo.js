@@ -4,6 +4,7 @@ import { Rating } from '@material-ui/lab'
 import { IconButton } from '@material-ui/core'
 
 import Link from '../../../components/Link'
+import Image from '../../../components/Image'
 
 import { ReactComponent as LikeIcon } from '../../../static/images/like-filled.svg'
 import { ReactComponent as HeartIcon } from '../../../static/images/heart-full.svg'
@@ -133,7 +134,7 @@ const styles = (theme => ({
 }))
 
 const BookInfo = (props) => {
-  const { classes, image, rating, name, author, category, tags, number_of_bookmark, number_of_use } = props
+  const { classes, imageUrl, rating, name, author, category, tags=[], number_of_bookmark, numberOfUse } = props
   return (
     <div className={classes.container}>
       <Link to='/report' className={classes.reportLink}>
@@ -143,7 +144,7 @@ const BookInfo = (props) => {
       </Link>
       <div className={classes.infoSection}>
         <div classes={classes.imagePart}>
-          <img src={image} className={classes.image} alt={name} />
+          <Image src={imageUrl} className={classes.image} alt={name}/>
           <Rating
             className={classes.rating}
             value={rating}
@@ -204,7 +205,7 @@ const BookInfo = (props) => {
           <div className={classes.numberContainer}>
             <span className={classes.numberWrapper}>
               <span className={classes.number} style={{ color: '#0C4F8E' }}>
-                {number_of_use}
+                {numberOfUse}
               </span>
             </span>
             <UserIcon className={classes.numberIconRight} fill='#0C4F8E' />
