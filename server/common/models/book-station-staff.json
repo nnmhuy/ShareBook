@@ -29,7 +29,24 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "bookStation": {
+      "type": "belongsTo",
+      "model": "bookStation",
+      "foreignKey": "bookStationId",
+      "options": {
+        "nestRemoting": true
+      }
     }
+  },
+  "composeId": {
+    "keys": {
+       "userId": 1,
+       "bookStationId": 1
+     },
+     "options": {
+       "unique": true
+     }
   },
   "acls": [
     {

@@ -46,7 +46,12 @@
       "required": true,
       "default": 0
     },
-    "rating": {
+    "numberOfRating": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "totalOfRating": {
       "type": "number",
       "required": true,
       "default": 0
@@ -63,14 +68,6 @@
       "type": "belongsTo",
       "model": "category",
       "foreignKey": "categoryId",
-      "options": {
-        "nestRemoting": true
-      }
-    },
-    "likeBooks": {
-      "type": "hasMany",
-      "model": "likeBook",
-      "foreignKey": "bookId",
       "options": {
         "nestRemoting": true
       }

@@ -78,10 +78,6 @@
     "dataSource": "db",
     "public": true
   },
-  "likeBook": {
-    "dataSource": "db",
-    "public": true
-  },
   "likeReview": {
     "dataSource": "db",
     "public": true

@@ -88,14 +88,6 @@
         "nestRemoting": true
       }
     },
-    "likeBooks": {
-      "type": "hasMany",
-      "model": "likeBook",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
-    },
     "likeReviews": {
       "type": "hasMany",
       "model": "likeReview",

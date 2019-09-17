@@ -17,6 +17,15 @@
     "facebookPostId": {
       "type": "string"
     },
+    "rating": {
+      "type": "number",
+      "required": true
+    },
+    "numberOfDislike": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
     "numberOfLike": {
       "type": "number",
       "required": true,
@@ -29,8 +38,7 @@
       "type": "number"
     },
     "content": {
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],
@@ -59,6 +67,15 @@
         "nestRemoting": true
       }
     }
+  },
+  "composeId": {
+    "keys": {
+       "userId": 1,
+       "bookId": 1
+     },
+     "options": {
+       "unique": true
+     }
   },
   "acls": [
     {
