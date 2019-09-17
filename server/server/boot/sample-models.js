@@ -19,7 +19,7 @@ module.exports = function(app) {
   var Container = app.models.Container;
   var Category = app.models.category;
 
-  console.log('running initialization', superAdminUsername);
+  console.log('running initialization');
 
   function createDefaultSuperAdmin() {
     User.create([

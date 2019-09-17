@@ -39,14 +39,16 @@
       }
     }
   },
-  "composeId": {
-    "keys": {
-       "userId": 1,
-       "reviewId": 1
-     },
-     "options": {
-       "unique": true
-     }
+  "indexes": {
+    "composeId": {
+      "keys": {
+         "userId": 1,
+         "reviewId": 1
+       },
+       "options": {
+         "unique": true
+       }
+    }
   },
   "acls": [
     {

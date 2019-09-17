@@ -39,14 +39,16 @@
       }
     }
   },
-  "composeId": {
-    "keys": {
-       "userId": 1,
-       "bookId": 1
-     },
-     "options": {
-       "unique": true
-     }
+  "indexes": {
+    "composeId": {
+      "keys": {
+         "userId": 1,
+         "bookId": 1
+       },
+       "options": {
+         "unique": true
+       }
+    }
   },
   "acls": [
     {
