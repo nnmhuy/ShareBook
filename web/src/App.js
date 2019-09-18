@@ -13,6 +13,7 @@ import BookList from './pages/BookList/index'
 import CategoryBookList from './pages/CategoryBookList/index'
 import AddReview from './pages/AddReview/index'
 import Filter from './pages/Filter/index'
+import TransactionList from './pages/TransactionList/index'
 import NotFound from './pages/NotFound/index'
 import {getUserInfo} from './redux/actions/accountAction'
 
@@ -41,6 +42,7 @@ class App extends React.Component {
                 <Route path="/category/:categoryId" exact component={CategoryBookList} />
                 <Route path="/add-review/:bookId" exact component={AddReview} />
                 <Route path="/filter" exact component={Filter} />
+                <Route path="/transaction-list" exact component={TransactionList} />
                 <Route path="/counter" exact component={Counter} />
                 <Route component={NotFound}/>
             </Switch>
