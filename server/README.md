@@ -22,3 +22,5 @@ Get Super Admin AccessToken:
 }
 4. Try it out => the id is access token
 5. submit in right top of explorer page
+
+when want userId, in api put "attachUser": "true"

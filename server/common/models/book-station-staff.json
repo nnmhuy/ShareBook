@@ -3,6 +3,17 @@
   "plural": "bookStationStaffs",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "bookStationId": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -39,17 +50,6 @@
       }
     }
   },
-  "indexes": {
-    "composeId": {
-      "keys": {
-         "userId": 1,
-         "bookStationId": 1
-       },
-       "options": {
-         "unique": true
-       }
-    }
-  },
   "acls": [
     {
       "accessType": "*",
@@ -80,6 +80,13 @@
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

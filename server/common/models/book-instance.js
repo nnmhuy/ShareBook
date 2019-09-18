@@ -1,8 +1,13 @@
 'use strict';
 const _ = require('lodash');
-
+const setUserId = require('../../server/middlerware/setUserId');
 module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
+
+  BookInstance.observe('before save', (ctx, next) => {
+    setUserId(ctx, 'ownerId');
+    next();
+  });
 
   BookInstance.afterRemote('create', function(ctx, bookInstance, next) {
     let Category = BookInstance.app.models.category;

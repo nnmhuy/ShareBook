@@ -5,7 +5,6 @@ const models = ['bookStationStaff', 'bookmark',
   'likeReply', 'likeReview', 'review'];
 
 module.exports = function(app) {
-  console.log(isShouldUpdate);
   if (isShouldUpdate === 'true' || isShouldUpdate === true) {
     console.log('run update data');
     const dataSource = app.dataSources.db;

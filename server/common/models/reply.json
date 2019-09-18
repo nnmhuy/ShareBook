@@ -19,6 +19,11 @@
       "required": true,
       "default": 0
     },
+    "numberOfDislike": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
     "content": {
       "type": "string",
       "required": true
@@ -88,6 +93,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

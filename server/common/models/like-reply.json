@@ -3,6 +3,17 @@
   "plural": "likeReplies",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "replyId": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -15,9 +26,14 @@
   },
   "properties": {
     "isLike": {
-      "type": "boolean",
+      "type": "number",
       "required": true,
-      "default": true
+      "enum": [
+        -1,
+        0,
+        1
+      ],
+      "default": 0
     }
   },
   "validations": [],
@@ -37,17 +53,6 @@
       "options": {
         "nestRemoting": true
       }
-    }
-  },
-  "indexes": {
-    "composeId": {
-      "keys": {
-         "userId": 1,
-         "replyId": 1
-       },
-       "options": {
-         "unique": true
-       }
     }
   },
   "acls": [
@@ -87,6 +92,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

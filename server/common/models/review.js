@@ -7,11 +7,13 @@ module.exports = function(Review) {
     let Book = Review.app.models.book;
     // for update
     if (!ctx.isNewInstance) {
+      if (!ctx.data || !ctx.data.rating) return next();
       if (!ctx.currentInstance || !ctx.currentInstance.id)
         return next(new Error('Yêu cầu bị lỗi'));
-      if (!ctx.data || !ctx.data.rating) return next();
+      // find old review for current data
       Review.findById(ctx.currentInstance.id, (err, reviewInstance) => {
         if (err || !reviewInstance) return next(new Error('Dữ liệu bị lỗi'));
+        // find book for total data
         Book.findById(ctx.currentInstance.bookId,
         (err, book) => {
           if (err || !book) return next(new Error('Loại sách này đang bị lỗi'));
@@ -31,6 +33,7 @@ module.exports = function(Review) {
       // for create
       if (!ctx.currentInstance || !ctx.currentInstance.bookId)
         return next(new Error('Yêu cầu bị lỗi'));
+      // find for current total
       Book.findById(ctx.currentInstance.bookId, {},
       (err, book) => {
         if (err || !book) return next(new Error('Loại sách này đang bị lỗi'));
