@@ -45,7 +45,7 @@ const bookReducer = handleActions(
         isLoading: true
       }
     },
-    [getCategoryListSuccess]: (state, { payload: {}} ) => {
+    [getCategoryListSuccess]: (state, { payload } ) => {
       return {
         ...state,
         isLoading: false,

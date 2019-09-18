@@ -28,6 +28,9 @@ const styles = (theme => ({
     justifyContent: 'space-between',
     padding: 20
   },
+  search: {
+    marginRight: 20
+  },
   filterButton: {
     width: 44,
     height: 44,
@@ -54,7 +57,7 @@ class BookList extends React.Component {
       <LayoutWrapper account={account} title={'Kệ sách'}>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
-            <Search />
+            <Search className={classes.search}/>
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
