@@ -11,10 +11,20 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true,
+      "numberOfLike": true,
+      "numberOfDislike": true
     }
   },
   "properties": {
     "numberOfLike": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "numberOfDislike": {
       "type": "number",
       "required": true,
       "default": 0
@@ -88,6 +98,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

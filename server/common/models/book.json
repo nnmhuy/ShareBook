@@ -11,6 +11,13 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "numberOfRating": true,
+      "totalOfRating": true,
+      "numberOfUse": true,
+      "locationStatistic": true,
+      "id": true
     }
   },
   "properties": {
@@ -46,7 +53,12 @@
       "required": true,
       "default": 0
     },
-    "rating": {
+    "numberOfRating": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "totalOfRating": {
       "type": "number",
       "required": true,
       "default": 0
@@ -55,6 +67,17 @@
       "type": "number",
       "required": true,
       "default": 0
+    },
+    "locationStatistic": {
+      "type": "array",
+      "require": "true",
+      "default": [
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0
+      ]
     }
   },
   "validations": [],
@@ -63,14 +86,6 @@
       "type": "belongsTo",
       "model": "category",
       "foreignKey": "categoryId",
-      "options": {
-        "nestRemoting": true
-      }
-    },
-    "likeBooks": {
-      "type": "hasMany",
-      "model": "likeBook",
-      "foreignKey": "bookId",
       "options": {
         "nestRemoting": true
       }
@@ -121,6 +136,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

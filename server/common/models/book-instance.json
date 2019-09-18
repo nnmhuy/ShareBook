@@ -11,6 +11,10 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "userLocationDistrict": true,
+      "id": true
     }
   },
   "properties": {
@@ -29,10 +33,16 @@
       "required": true,
       "default": 0
     },
+    "note": {
+      "type": "string"
+    },
     "estimatedReadingTime": {
       "type": "number",
       "required": true,
       "default": 14
+    },
+    "userLocationDistrict": {
+      "type": "number"
     }
   },
   "validations": [],
@@ -107,6 +117,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

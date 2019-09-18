@@ -17,6 +17,8 @@ const mkdirSync = require('./helper/createStorageFolder');
 mkdirSync();
 
 var app = module.exports = loopback();
+// Add ReadOnly Mixin to loopback
+// require('loopback-ds-readonly-mixin')(app);
 
 // Passport configurators..
 var loopbackPassport = require('loopback-component-passport');

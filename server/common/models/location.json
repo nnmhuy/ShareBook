@@ -11,6 +11,9 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
     }
   },
   "properties": {
@@ -69,6 +72,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

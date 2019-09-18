@@ -11,6 +11,9 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
     }
   },
   "properties": {
@@ -118,17 +121,18 @@
       "permission": "ALLOW"
     },
     {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW"
-    },
-    {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

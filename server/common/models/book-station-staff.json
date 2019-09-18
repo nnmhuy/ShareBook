@@ -3,6 +3,17 @@
   "plural": "bookStationStaffs",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "bookStationId": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -11,6 +22,9 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
     }
   },
   "properties": {
@@ -26,6 +40,14 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "bookStation": {
+      "type": "belongsTo",
+      "model": "bookStation",
+      "foreignKey": "bookStationId",
       "options": {
         "nestRemoting": true
       }
@@ -61,6 +83,13 @@
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

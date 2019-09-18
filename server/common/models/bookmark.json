@@ -3,6 +3,17 @@
   "plural": "bookmarks",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "bookId": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -11,6 +22,9 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
     }
   },
   "properties": {
@@ -76,6 +90,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

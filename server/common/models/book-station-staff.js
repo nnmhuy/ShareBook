@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = function(Bookstationstaff) {
-  Bookstationstaff.validatesPresenceOf('userId');
+  Bookstationstaff.validatesPresenceOf('userId', 'bookStationId');
 };

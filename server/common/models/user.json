@@ -11,6 +11,12 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true,
+      "coin": true,
+      "contribution": true,
+      "role": true
     }
   },
   "properties": {
@@ -88,14 +94,6 @@
         "nestRemoting": true
       }
     },
-    "likeBooks": {
-      "type": "hasMany",
-      "model": "likeBook",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
-    },
     "likeReviews": {
       "type": "hasMany",
       "model": "likeReview",
@@ -151,6 +149,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "reviews": {
+      "type": "hasMany",
+      "model": "review",
+      "foreignKey": "userId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
@@ -196,6 +202,13 @@
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}

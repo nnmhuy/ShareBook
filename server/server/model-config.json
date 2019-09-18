@@ -11,6 +11,7 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
+      "../node_modules/loopback-ds-readonly-mixin/lib",
       "../node_modules/loopback-ds-timestamp-mixin",
       "./mixins"
     ]
@@ -75,10 +76,6 @@
     "public": true
   },
   "reply": {
-    "dataSource": "db",
-    "public": true
-  },
-  "likeBook": {
     "dataSource": "db",
     "public": true
   },

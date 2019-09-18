@@ -3,6 +3,17 @@
   "plural": "reviews",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "bookId": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -11,11 +22,27 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "numberOfFbLike": true,
+      "numberOfFbShare": true,
+      "numberOfDislike": true,
+      "numberOfLike": true,
+      "id": true
     }
   },
   "properties": {
     "facebookPostId": {
       "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "required": true
+    },
+    "numberOfDislike": {
+      "type": "number",
+      "required": true,
+      "default": 0
     },
     "numberOfLike": {
       "type": "number",
@@ -29,8 +56,7 @@
       "type": "number"
     },
     "content": {
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],
@@ -97,6 +123,13 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "DENY",
+      "property": "destroyById"
     }
   ],
   "methods": {}
