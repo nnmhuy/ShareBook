@@ -10,6 +10,9 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
     }
   },
   "properties": {

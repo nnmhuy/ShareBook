@@ -16,6 +16,16 @@
       "required": true
     }
   },
+  "mixins": {
+    "TimeStamp": {
+      "required": false,
+      "validateUpsert": true,
+      "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true
+    }
+  },
   "validations": [],
   "relations": {},
   "acls": [

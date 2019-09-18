@@ -11,6 +11,11 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true,
+      "status": true,
+      "note": true
     }
   },
   "properties": {

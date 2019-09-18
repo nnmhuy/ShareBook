@@ -27,7 +27,8 @@
       "numberOfFbLike": true,
       "numberOfFbShare": true,
       "numberOfDislike": true,
-      "numberOfLike": true
+      "numberOfLike": true,
+      "id": true
     }
   },
   "properties": {

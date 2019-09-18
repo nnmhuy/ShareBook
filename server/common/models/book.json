@@ -11,6 +11,13 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "numberOfRating": true,
+      "totalOfRating": true,
+      "numberOfUse": true,
+      "locationStatistic": true,
+      "id": true
     }
   },
   "properties": {
@@ -60,6 +67,17 @@
       "type": "number",
       "required": true,
       "default": 0
+    },
+    "locationStatistic": {
+      "type": "array",
+      "require": "true",
+      "default": [
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0
+      ]
     }
   },
   "validations": [],

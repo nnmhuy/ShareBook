@@ -11,6 +11,12 @@
       "required": false,
       "validateUpsert": true,
       "silenceWarnings": false
+    },
+    "ReadOnly": {
+      "id": true,
+      "coin": true,
+      "contribution": true,
+      "role": true
     }
   },
   "properties": {
