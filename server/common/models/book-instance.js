@@ -6,6 +6,19 @@ module.exports = function(BookInstance) {
 
   BookInstance.observe('before save', (ctx, next) => {
     setUserId(ctx, 'ownerId');
+    // for update block holder and borrower change data
+    if (!ctx.isNewInstance && ctx.data && ctx.currentInstance) {
+      let userId = _.get(ctx, 'options.accessToken.userId', null);
+      if (userId !== ctx.currentInstance.ownerId) {
+        delete ctx.data.depositCoin;
+        delete ctx.data.estimatedReadingTime;
+        if (userId !== ctx.currentInstance.holderId) {
+          delete ctx.data.bookCondition;
+          delete ctx.data.isAvailable;
+          delete ctx.data.note;
+        }
+      }
+    }
     next();
   });
 
