@@ -13,13 +13,11 @@ module.exports = function(BookInstance) {
         delete ctx.data.depositCoin;
         delete ctx.data.estimatedReadingTime;
         if (userId !== ctx.currentInstance.holderId) {
-          delete ctx.data.bookCondition;
-          delete ctx.data.isAvailable;
-          delete ctx.data.note;
+          return next(new Error('Bạn không thể thưc hiện thao tác này'));
         }
       }
     }
-    next();
+    return next();
   });
 
   BookInstance.afterRemote('create', function(ctx, bookInstance, next) {
@@ -29,16 +27,16 @@ module.exports = function(BookInstance) {
     Book.findById(bookId,
     (err, book) => {
       if (err || !book || !book.categoryId)
-        next(new Error('Loại sách này đang bị lỗi'));
+        return next(new Error('Loại sách này đang bị lỗi'));
       Category.findById(book.categoryId,
       (err, category) => {
         if (err || !category)
-          next(new Error('Loại sách này đang bị lỗi'));
+          return next(new Error('Loại sách này đang bị lỗi'));
         Category.updateAll({id: category.id}, {
           totalOfBook: category.totalOfBook + 1,
         }, (err, instance) => {
-          if (err) next(new Error('Thể loại sách này đang bị lỗi'));
-          next();
+          if (err) return next(new Error('Thể loại sách này đang bị lỗi'));
+          return next();
         });
       });
     });

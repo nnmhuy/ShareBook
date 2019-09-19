@@ -1,5 +1,7 @@
 'use strict';
 const setUserId = require('../../server/middlerware/setUserId');
+const checkExist = require('../../server/helper/checkExist');
+
 module.exports = function(LikeReply) {
   LikeReply.validatesPresenceOf('userId', 'replyId');
 
@@ -9,19 +11,34 @@ module.exports = function(LikeReply) {
   });
 
   LikeReply.observe('persist', (ctx, next) => {
+    if (ctx.isNewInstance) {
+      // for create
+      checkExist(LikeReply, {
+        userId: ctx.currentInstance.userId,
+        replyId: ctx.currentInstance.replyId,
+      }, (err, result) => {
+        if (err) return next(new Error(err));
+        if (result) return next(new Error('Không thể tạo trùng'));
+        triggerLikeReplyCreate(ctx, next);
+      });
+    } else {
+      // for update
+      triggerLikeReplyUpdate(ctx, next);
+    }
+  });
+
+  function triggerLikeReplyUpdate(ctx, next) {
     let Reply = LikeReply.app.models.reply;
-    // for update
-    if (!ctx.isNewInstance) {
-      if (!ctx.currentInstance || !ctx.currentInstance.id)
-        return next(new Error('Yêu cầu bị lỗi'));
-      if (!ctx.data) return next();
-      // find old like review for current data
-      LikeReply.findById(ctx.currentInstance.id, (err, likeReplyInstance) => {
-        if (err || !likeReplyInstance)
-          return next(new Error('Dữ liệu bị lỗi'));
-        if (ctx.data.isLike === likeReplyInstance.isLike) return next();
-        // find review for current total like, dislike
-        Reply.findById(ctx.currentInstance.replyId,
+    if (!ctx.currentInstance || !ctx.currentInstance.id)
+      return next(new Error('Yêu cầu bị lỗi'));
+    if (!ctx.data) return next();
+    // find old like review for current data
+    LikeReply.findById(ctx.currentInstance.id, (err, likeReplyInstance) => {
+      if (err || !likeReplyInstance)
+        return next(new Error('Dữ liệu bị lỗi'));
+      if (ctx.data.isLike === likeReplyInstance.isLike) return next();
+      // find review for current total like, dislike
+      Reply.findById(ctx.currentInstance.replyId,
         (err, reply) => {
           if (err || !reply)
             return next(new Error('Bình luận này đang bị lỗi'));
@@ -41,13 +58,15 @@ module.exports = function(LikeReply) {
               return next();
             });
         });
-      });
-    } else {
-      // for create
-      if (!ctx.currentInstance || !ctx.currentInstance.replyId)
-        return next(new Error('Yêu cầu bị lỗi'));
-      // find for current total
-      Reply.findById(ctx.currentInstance.replyId, {},
+    });
+  }
+
+  function triggerLikeReplyCreate(ctx, next) {
+    let Reply = LikeReply.app.models.reply;
+    if (!ctx.currentInstance || !ctx.currentInstance.replyId)
+      return next(new Error('Yêu cầu bị lỗi'));
+    // find for current total
+    Reply.findById(ctx.currentInstance.replyId, {},
       (err, reply) => {
         if (err || !reply) return next(new Error('Bài viết này đang bị lỗi'));
 
@@ -63,6 +82,5 @@ module.exports = function(LikeReply) {
             return next();
           });
       });
-    }
-  });
+  }
 };
