@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
 import colors from '../../../constants/colors'
+import { red } from '@material-ui/core/colors'
 
 const styles = (theme => ({
   container: {
@@ -32,7 +33,7 @@ const styles = (theme => ({
   },
   detailItem: {
     flex: 1,
-    marginTop: 15
+    margin: '10px 20px'
   },
   itemLabel: {
     fontSize: 14,
@@ -57,13 +58,13 @@ const styles = (theme => ({
 }))
 
 const detailInfo = [
-  { label: 'Lượt dùng', key: 'number_of_use'},
-  { label: 'Volume', key: 'volume'},
-  { label: 'Số trang', key: 'number_of_pages'},
+  { label: 'Lượt dùng', key: 'number_of_use' },
+  { label: 'Volume', key: 'volume' },
+  { label: 'Số trang', key: 'number_of_pages' },
   null,
-  { label: 'Nhà xuất bản', key: 'publisher'},
-  { label: 'Năm xuất bản', key: 'publish_year'},
-  { label: 'Giá gốc', key: 'price'},
+  { label: 'Nhà xuất bản', key: 'publisher' },
+  { label: 'Năm xuất bản', key: 'publish_year' },
+  { label: 'Giá gốc', key: 'price' },
 ]
 
 const BookAbout = (props) => {

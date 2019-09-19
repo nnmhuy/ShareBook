@@ -17,7 +17,7 @@ const styles = (theme => ({
     textAlign: 'center',
     maxWidth: 800,
     margin: 'auto',
-    padding: 20,
+    padding: '20px 40px',
     boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
     position: 'relative'
   },
@@ -28,7 +28,9 @@ const styles = (theme => ({
     alignItems: 'flex-start',
   },
   imagePart: {
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column'
   },
   image: {
     width: 150,
@@ -121,14 +123,14 @@ const BookInfo = (props) => {
     <div className={classes.container}>
       <Link to='/report' className={classes.reportLink}>
         <IconButton>
-            <ReportIcon className={classes.reportIcon}/>
+          <ReportIcon className={classes.reportIcon} />
         </IconButton>
       </Link>
       <div className={classes.infoSection}>
-        <div classes={classes.imagePart}>
-          <img src={image} className={classes.image} alt={name}/>
+        <div className={classes.imagePart}>
+          <img src={image} className={classes.image} alt={name} />
           <Rating
-            className={classes.rating} 
+            className={classes.rating}
             value={rating}
             precision={0.5}
             readOnly
@@ -162,7 +164,7 @@ const BookInfo = (props) => {
         <div className={classes.numberItem}>
           <div className={classes.numberLabel}>Đánh giá</div>
           <div className={classes.numberContainer}>
-            <LikeIcon className={classes.numberIconLeft} fill={colors.primary}/>
+            <LikeIcon className={classes.numberIconLeft} fill={colors.primary} />
             <span className={classes.numberWrapper}>
               <span className={classes.number} style={{ color: colors.primary }}>
                 {rating}
@@ -190,7 +192,7 @@ const BookInfo = (props) => {
                 {number_of_use}
               </span>
             </span>
-            <UserIcon className={classes.numberIconRight} fill='#0C4F8E'/>
+            <UserIcon className={classes.numberIconRight} fill='#0C4F8E' />
           </div>
         </div>
       </div>

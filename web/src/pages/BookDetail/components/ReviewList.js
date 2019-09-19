@@ -11,13 +11,14 @@ const styles = (theme => ({
 }))
 
 const ReviewList = (props) => {
-  const { classes, reviewList } = props
+  const { classes, reviewList, bookName } = props
   return (
     <div className={classes.container}>
       {
         reviewList.map((review, id) => {
           return (
             <ReviewItem
+              bookName={bookName}
               key={id}
               {...review}
             />

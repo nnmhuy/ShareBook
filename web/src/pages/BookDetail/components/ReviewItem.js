@@ -151,9 +151,9 @@ const styles = (theme => ({
 }))
 
 const ReviewItem = (props) => {
-  const { 
+  const {
     classes, bookImage, images, reviewId, userId,
-    title, username, avatar, createdAt, rating, review, likeStatus, number_of_comment
+    title, username, avatar, createdAt, rating, review, likeStatus, number_of_comment, bookName
   } = props
 
   const [isShowMore, setShowMore] = React.useState(false)
@@ -172,13 +172,13 @@ const ReviewItem = (props) => {
         <ClickAwayListener onClickAway={handleClickAway}>
           <div className={classes.moreZoneContainer}>
             <IconButton onClick={handleToggleMore} className={classes.moreButton}>
-              <MoreIcon fill={colors.primary}/>
+              <MoreIcon fill={colors.primary} />
             </IconButton>
             {isShowMore &&
               <Link to={`/report`}>
                 <Button variant='contained' size='small' className={classes.reportButton}>
                   Report
-                  <ReportIcon className={classes.reportIcon} fill='#fff'/>
+                  <ReportIcon className={classes.reportIcon} fill='#fff' />
                 </Button>
               </Link>
             }
@@ -186,11 +186,11 @@ const ReviewItem = (props) => {
         </ClickAwayListener>
       </div>
       <div className={classes.infoContainer}>
-        <img className={classes.image} src={images[0] || bookImage} alt='feature'/>
+        <img className={classes.image} src={images[0] || bookImage} alt='feature' />
         <div className={classes.detailContainer}>
           <span className={classes.title}>{title}</span>
           <div className={classes.personalWrapper}>
-            <Avatar src={avatar} className={classes.avatar}/>
+            <Avatar src={avatar} className={classes.avatar} />
             <div className={classes.personalInfo}>
               <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
               <div className={classes.date}>{createdAt}</div>
@@ -207,8 +207,8 @@ const ReviewItem = (props) => {
       </div>
       <div className={classes.reviewContainer}>{review}</div>
       <div className={classes.buttonContainer}>
-        {likeStatus===1 ?
-          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon}/>
+        {likeStatus === 1 ?
+          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
           :
           <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} />
         }
@@ -218,13 +218,14 @@ const ReviewItem = (props) => {
           <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
         }
         <span className={classes.commentButton}>
-          <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
+          <CommentIcon fill={colors.primary} className={classes.commentIcon} />
           <span className={classes.numberOfComment}>{number_of_comment}</span>
         </span>
-        <Link to={`/review/${reviewId}`} className={classes.nextButton}>
+
+        <Link to={{ pathname: `/review/${reviewId}` }} className={classes.nextButton}>
           <Button>
             <span className={classes.nextText}>Mở rộng</span>
-            <NextArrow fill={colors.primary} className={classes.nextArrow}/>
+            <NextArrow fill={colors.primary} className={classes.nextArrow} />
           </Button>
         </Link>
       </div>
