@@ -9,6 +9,7 @@ import OnlineBadge from '../../../components/OnlineBadge'
 import { ReactComponent as CompletedIcon } from '../../../static/images/task-complete.svg'
 
 import colors from '../../../constants/colors'
+import { mapTransactionStatusToText, mapPositionToText } from '../../../constants/constants'
 
 const styles = (theme => ({
   container: {
@@ -90,23 +91,6 @@ const styles = (theme => ({
     color: colors.gray
   }
 }))
-
-const mapTransactionStatusToText = [
-  'Chờ phản hồi', //waitingForResponse
-  'Chờ nhận sách', //waitingForTake
-  'Đang đọc', //isReading
-  'Quá hạn', //isOvertime
-  'Chờ phản hồi gia hạn', //waitingForDeadlineExtended // borrower ask to extend deadline
-  'Đã gia hạn', //deadlineExtended
-  'Đã báo cáo', //isReported
-  'Đã hoàn thành', //isDone
-  'Đã huỷ', //isCancel // if holder decline borrow request
-]
-
-const mapPositionToText = [
-  'Người cho mượn',
-  'Người mượn'
-]
 
 const TransactionItem = (props) => {
   const { classes, id, avatar, username, isOnline, image,

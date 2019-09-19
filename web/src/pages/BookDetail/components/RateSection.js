@@ -39,7 +39,7 @@ const RateSection = (props) => {
   const { classes, bookId, history } = props
 
   const handleChangeRating = (event, newValue) => {
-    history.push(`/new-review/${bookId}`, { rating: newValue })
+    history.push(`/add-review/${bookId}`, { rating: newValue })
   }
   return (
     <div className={classes.container}>
