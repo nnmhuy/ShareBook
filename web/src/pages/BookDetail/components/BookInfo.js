@@ -29,6 +29,8 @@ const styles = (theme => ({
   },
   imagePart: {
     textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
     marginLeft: '10%',
   },
   image: {
@@ -136,14 +138,14 @@ const BookInfo = (props) => {
     <div className={classes.container}>
       <Link to='/report' className={classes.reportLink}>
         <IconButton>
-            <ReportIcon className={classes.reportIcon}/>
+          <ReportIcon className={classes.reportIcon} />
         </IconButton>
       </Link>
       <div className={classes.infoSection}>
         <div classes={classes.imagePart}>
-          <img src={image} className={classes.image} alt={name}/>
+          <img src={image} className={classes.image} alt={name} />
           <Rating
-            className={classes.rating} 
+            className={classes.rating}
             value={rating}
             precision={0.5}
             readOnly
@@ -177,7 +179,7 @@ const BookInfo = (props) => {
         <div className={classes.numberItem}>
           <div className={classes.numberLabel}>Đánh giá</div>
           <div className={classes.numberContainer}>
-            <LikeIcon className={classes.numberIconLeft} fill={colors.primary}/>
+            <LikeIcon className={classes.numberIconLeft} fill={colors.primary} />
             <span className={classes.numberWrapper}>
               <span className={classes.number} style={{ color: colors.primary }}>
                 {rating}
@@ -205,7 +207,7 @@ const BookInfo = (props) => {
                 {number_of_use}
               </span>
             </span>
-            <UserIcon className={classes.numberIconRight} fill='#0C4F8E'/>
+            <UserIcon className={classes.numberIconRight} fill='#0C4F8E' />
           </div>
         </div>
       </div>
