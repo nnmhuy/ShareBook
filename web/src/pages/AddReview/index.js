@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from "react-router"
 import { withStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
 
@@ -84,4 +85,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddReviewWithFormik);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AddReviewWithFormik));
