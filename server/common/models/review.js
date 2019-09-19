@@ -19,11 +19,17 @@ module.exports = function(Review) {
       }, (err, result) => {
         if (err) return next(new Error(err));
         if (result) return next(new Error('Không thể tạo trùng'));
-        triggerReviewCreate(ctx, next);
+        triggerReviewCreate(ctx, (err) => {
+          if (err) return next(err);
+          return next();
+        });
       });
     } else {
       // for update
-      triggerReviewUpdate(ctx, next);
+      triggerReviewUpdate(ctx, (err) => {
+        if (err) return next(err);
+        return next();
+      });
     }
   });
 

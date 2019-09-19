@@ -13,7 +13,7 @@
       "silenceWarnings": false
     },
     "ReadOnly": {
-      "userLocationDistrict": true,
+      "holderLocationDistrict": true,
       "id": true
     }
   },
@@ -41,8 +41,10 @@
       "required": true,
       "default": 14
     },
-    "userLocationDistrict": {
-      "type": "number"
+    "holderLocationDistrict": {
+      "type": "number",
+      "require": true,
+      "default": 0
     }
   },
   "validations": [],

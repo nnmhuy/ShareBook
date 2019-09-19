@@ -6,6 +6,23 @@ module.exports = function(User) {
   User.validatesLengthOf('username', {min: 6,
     message: {min: 'Tên đăng nhập quá ngắn'}});
 
+  // check change location
+  User.observe('persist', (ctx, next) => {
+    // for update user
+    if (!ctx.isNewInstance) {
+      if (!ctx.data || !ctx.data.homeLocationId || ctx.currentInstance)
+        return next();
+      let BookInstance = User.app.models.bookInstance;
+      // just for trigger get location again in bookinstance
+      BookInstance.updateAll({holderId: ctx.currentInstance.id},
+      {holderId: ctx.currentInstance.id},
+      (err, bookInstanceList) => {
+        if (err) return next(err);
+        return next();
+      });
+    } else return next();
+  });
+
   // adding default email base on username
   User.beforeRemote('create', function(ctx, userInstance, next) {
     try {
@@ -24,7 +41,6 @@ module.exports = function(User) {
         maxAge: accessToken.ttl * 1000, // access token ttl is second so need to * 1000 to get milliseconds
       });
     }
-
     next();
   });
 };

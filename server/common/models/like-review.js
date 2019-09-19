@@ -19,11 +19,17 @@ module.exports = function(LikeReview) {
       }, (err, result) => {
         if (err) return next(new Error(err));
         if (result) return next(new Error('Không thể tạo trùng'));
-        triggerLikeReviewCreate(ctx, next);
+        triggerLikeReviewCreate(ctx, (err) => {
+          if (err) return next(err);
+          return next();
+        });
       });
     } else {
       // for update
-      triggerLikeReviewUpdate(ctx, next);
+      triggerLikeReviewUpdate(ctx, (err) => {
+        if (err) return next(err);
+        return next();
+      });
     }
   });
 
