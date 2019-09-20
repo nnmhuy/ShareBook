@@ -57,7 +57,7 @@ module.exports = function(LikeReview) {
           if (likeReviewInstance.isLike === 1) newLike--;
           if (likeReviewInstance.isLike === -1) newDislike--;
 
-          Review.updateAll({id: review.id},
+          review.updateAttributes(
             {numberOfLike: newLike, numberOfDislike: newDislike},
             (err, instance) => {
               if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));
@@ -81,7 +81,8 @@ module.exports = function(LikeReview) {
 
         if (ctx.currentInstance.isLike === 1) newLike++;
         if (ctx.currentInstance.isLike === -1) newDislike++;
-        Review.updateAll({id: review.id},
+
+        review.updateAttributes(
           {numberOfLike: newLike, numberOfDislike: newDislike},
           (err, instance) => {
             if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));
