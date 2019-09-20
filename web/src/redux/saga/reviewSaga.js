@@ -3,7 +3,10 @@ import { call, put, takeLatest, all } from 'redux-saga/effects'
 import {
   getReviewsOfBook,
   getReviewsOfBookSuccess,
-  getReviewsOfBookFail
+  getReviewsOfBookFail,
+  toggleLikeReview,
+  toggleLikeReviewSuccess,
+  toggleLikeReviewFail
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -45,10 +48,34 @@ function* getReviewsOfBookSaga({ payload }) {
   }
 }
 
+function* toggleLikeReviewSaga({ payload }) {
+  try {
+    const { reviewId, likeStatus } = payload
+
+    yield call(restConnector.put, `/likeReviews`,
+      {
+        reviewId,
+        isLike: likeStatus,
+        attachUser: true
+      }
+    )
+
+
+    yield put(toggleLikeReviewSuccess())
+  } catch (error) {
+    yield put(toggleLikeReviewFail(error))
+  }
+}
+
 function* getReviewsOfBookWatcher() {
   yield takeLatest(getReviewsOfBook, getReviewsOfBookSaga)
 }
 
+function* toggleLikeReviewWatcher() {
+  yield takeLatest(toggleLikeReview, toggleLikeReviewSaga)
+}
+
 export {
-  getReviewsOfBookWatcher
+  getReviewsOfBookWatcher,
+  toggleLikeReviewWatcher
 }

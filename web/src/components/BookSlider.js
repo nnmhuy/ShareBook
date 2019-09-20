@@ -31,7 +31,7 @@ const styles = (theme => ({
 }))
 
 const BookSlider = (props) => {
-  const { classes, title, url, bookList, ...other } = props
+  const { classes, title, url, bookList, handleToggleBookmark, ...other } = props
   return (
     <div {...other}>
       <div className={classes.titleContainer}>
@@ -56,6 +56,7 @@ const BookSlider = (props) => {
                 imageUrl={book.imageUrl}
                 isBookmarked={book.isBookmarked}
                 rating={book.totalOfRating / Math.max(book.numberOfRating, 1)}
+                handleToggleBookmark={handleToggleBookmark}
                 key={book.id}
               />
             )

@@ -7,7 +7,6 @@ import TabPanel from '../../../components/TabPanel'
 import BookAbout from './BookAbout'
 import BookInstanceList from './BookInstanceList'
 import ReviewList from './ReviewList'
-import BookDetail from '..'
 
 const styles = (theme => ({
   tabs: {

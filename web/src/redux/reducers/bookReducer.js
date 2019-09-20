@@ -13,9 +13,7 @@ import {
   getBookOfCategory,
   getBookOfCategorySuccess,
   getBookOfCategoryFail,
-  toggleBookmark,
-  toggleBookmarkSuccess,
-  toggleBookmarkFail
+  toggleBookmark
 } from '../actions/bookAction'
 
 let defaultState = {
@@ -27,6 +25,7 @@ let defaultState = {
     totalOfRating: 0,
     numberOfBookInstances: 0,
     numberOfReviews: 0,
+    numberOfBookmarks: 0
   },
   category: {
     name: '',
@@ -128,10 +127,28 @@ const bookReducer = handleActions(
         error: error
       }
     },
-    [toggleBookmark]: (state) => {
+    [toggleBookmark]: (state, { payload: { bookId, isBookmarked } }) => {
+      const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
+      const bookOfCategory= JSON.parse(JSON.stringify(state.bookOfCategory))
+      if (bookDetail.id === bookId){
+        bookDetail.isBookmarked = isBookmarked
+        if (isBookmarked) {
+          bookDetail.numberOfBookmarks += 1
+        } else {
+          bookDetail.numberOfBookmarks -= 1
+        }
+      }
+
+      bookOfCategory.forEach(book => {
+        if (book.id === bookId) {
+          book.isBookmarked = isBookmarked
+        }
+      })
+
       return {
         ...state,
-        isLoadingCategory: true,
+        bookDetail,
+        bookOfCategory
       }
     },
     // [toggleBookmarkSuccess]: (state, { payload: { category, bookOfCategory } }) => {

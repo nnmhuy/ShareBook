@@ -18,7 +18,6 @@ import TransactionList from './pages/TransactionList/index'
 import Transaction from './pages/Transaction/index'
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
-import LayoutWrapper from './components/LayoutWrapper';
 
 class App extends React.Component {
   constructor(props) {

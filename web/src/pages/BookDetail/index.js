@@ -12,10 +12,9 @@ import DetailTabs from './components/DetailTabs'
 import BookSlider from '../../components/BookSlider'
 
 import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
-import { getBookInfo } from '../../redux/actions/bookAction'
+import { getBookInfo, toggleBookmark } from '../../redux/actions/bookAction'
 import { getBookInstances } from '../../redux/actions/bookInstanceAction'
 import { getReviewsOfBook } from '../../redux/actions/reviewAction'
-import { demoSimilarBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -49,12 +48,15 @@ class App extends React.Component {
     } = this.props
     const bookId = match.params.bookId
 
-    const handleToggleBookmark = (props) => {
-      
+    const handleToggleBookmark = (bookId, isBookmarked) => {
+      const { toggleBookmarkStatus } = this.props
+      toggleBookmarkStatus({bookId, isBookmarked})
     }
 
+    console.log("isBookmarked", bookDetail.isBookmarked)
+
     return (
-      <TopNav isLiked={bookDetail.isBookmarked} handleToggleLike={handleToggleBookmark}>
+      <TopNav id={bookDetail.id} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
             <BookInfo {...bookDetail}/>
@@ -70,7 +72,9 @@ class App extends React.Component {
             <BookSlider
               title={'Thể loại tương tự'}
               url={`/category${category.url}`}
-              bookList={bookOfCategory}/>
+              bookList={bookOfCategory}
+              handleToggleBookmark={handleToggleBookmark}
+              />
           </div>
         </BottomNav>
       </TopNav>
@@ -92,7 +96,8 @@ const mapStateToProps = ({ account, book, review, bookInstances }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getBookDetail: getBookInfo,
   getReviews: getReviewsOfBook,
-  getInstances: getBookInstances
+  getInstances: getBookInstances,
+  toggleBookmarkStatus: toggleBookmark
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest, all } from 'redux-saga/effects'
 
 import {
   getBookList,
@@ -12,7 +12,10 @@ import {
   getBookInfoFail,
   getBookOfCategory,
   getBookOfCategorySuccess,
-  getBookOfCategoryFail
+  getBookOfCategoryFail,
+  toggleBookmark,
+  toggleBookmarkSuccess,
+  toggleBookmarkFail
 } from '../actions/bookAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -37,7 +40,7 @@ function* getBookInfoSaga({ payload }) {
   try {
     const { bookId, userId } = payload
     const { data: bookData } = yield call(restConnector.get, `/books/${bookId}`)
-    yield put(getBookOfCategory({ categoryId: bookData.categoryId}))
+    yield put(getBookOfCategory({ categoryId: bookData.categoryId, userId }))
     const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count?where={"isActive":true}`)
     const { data: numberOfReviews } = yield call(restConnector.get, `/books/${bookId}/reviews/count`)
     const { data: numberOfBookInstances } = yield call(restConnector.get, `/books/${bookId}/bookInstances/count`)
@@ -48,7 +51,7 @@ function* getBookInfoSaga({ payload }) {
       numberOfBookmarks: bookmarkData.count,
       numberOfReviews: numberOfReviews.count,
       numberOfBookInstances: numberOfBookInstances.count,
-      isBookmarked: (bookmark[0] || {}).isActive
+      isBookmarked: (bookmark[0] || {}).isActive ? true : false
     }
 
     yield put(getBookInfoSuccess(data))
@@ -59,10 +62,17 @@ function* getBookInfoSaga({ payload }) {
 
 function* getBookOfCategorySaga({ payload }) {
   try {
-    const { categoryId } = payload
+    const { categoryId, userId } = payload
     const { data: categoryData } = yield call(restConnector.get, `/categories/${categoryId}`)
     const { data: bookOfCategoryData } = yield call(restConnector.get, `/categories/${categoryId}/books`)
+    const isUserBookmarked = yield all(
+      bookOfCategoryData.map(book => call(restConnector.get, `/books/${book.id}/bookmarks?filter={"where":{"userId":"${userId}"}}`))
+    )
 
+    const allData = bookOfCategoryData.map((book, index) => ({
+      ...book,
+      isBookmarked: (isUserBookmarked[index].data[0] || {}).isActive
+    }))
 
     const data = {
       category: {
@@ -70,12 +80,27 @@ function* getBookOfCategorySaga({ payload }) {
         name: categoryData.name,
         url: categoryData.url
       },
-      bookOfCategory: bookOfCategoryData
+      bookOfCategory: allData
     }
 
     yield put(getBookOfCategorySuccess(data))
   } catch (error) {
     yield put(getBookOfCategoryFail(error))
+  }
+}
+
+function* toggleBookmarkSaga({ payload }) {
+  try {
+    const { bookId, isBookmarked } = payload
+    yield call(restConnector.put, `/bookmarks`, {
+      bookId,
+      isActive: isBookmarked,
+      attachUser: true
+    })
+
+    yield put(toggleBookmarkSuccess())
+  } catch (error) {
+    yield put(toggleBookmarkFail(error))
   }
 }
 
@@ -95,9 +120,14 @@ function* getBookOfCategoryWatcher() {
   yield takeLatest(getBookOfCategory, getBookOfCategorySaga)
 }
 
+function* toggleBookmarkWatcher() {
+  yield takeLatest(toggleBookmark, toggleBookmarkSaga)
+}
+
 export {
   getBookListWatcher,
   getCategoryListWatcher,
   getBookInfoWatcher,
-  getBookOfCategoryWatcher
+  getBookOfCategoryWatcher,
+  toggleBookmarkWatcher
 }
