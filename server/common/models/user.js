@@ -16,7 +16,7 @@ module.exports = function(User) {
       let BookInstance = User.app.models.bookInstance;
       let Location = User.app.models.location;
       // just for trigger get location again in bookinstance
-      BookInstance.find({holderId: ctx.currentInstance.id},
+      BookInstance.find({where: {holderId: ctx.currentInstance.id}},
       (err, bookInstanceList) => {
         if (err) return next(err);
         if (!bookInstanceList || !bookInstanceList[0]) return next();
