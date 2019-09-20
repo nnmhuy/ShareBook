@@ -56,8 +56,7 @@ module.exports = function(LikeReply) {
           if (ctx.data.isLike === -1) newDislike++;
           if (likeReplyInstance.isLike === 1) newLike--;
           if (likeReplyInstance.isLike === -1) newDislike--;
-
-          Reply.updateAll({id: reply.id},
+          reply.updateAttributes(
             {numberOfLike: newLike, numberOfDislike: newDislike},
             (err, instance) => {
               if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));
@@ -81,7 +80,7 @@ module.exports = function(LikeReply) {
 
         if (ctx.currentInstance.isLike === 1) newLike++;
         if (ctx.currentInstance.isLike === -1) newDislike++;
-        Reply.updateAll({id: reply.id},
+        reply.updateAttributes(
           {numberOfLike: newLike, numberOfDislike: newDislike},
           (err, instance) => {
             if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));

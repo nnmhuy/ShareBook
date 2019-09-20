@@ -44,7 +44,7 @@ module.exports = function(Review) {
 
         let newTotalRating = ctx.currentInstance.rating + book.totalOfRating;
 
-        Book.updateAll({id: book.id},
+        book.updateAttributes(
           {
             totalOfRating: newTotalRating,
             numberOfRating: book.numberOfRating + 1,
@@ -72,7 +72,7 @@ module.exports = function(Review) {
           let newTotalRating = ctx.data.rating -
             reviewInstance.rating + book.totalOfRating;
 
-          Book.updateAll({id: book.id},
+          book.updateAttributes(
             {totalOfRating: newTotalRating},
             (err, instance) => {
               if (err) return next(new Error('Cập nhập review gặp lỗi'));

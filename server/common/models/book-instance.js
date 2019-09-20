@@ -74,8 +74,8 @@ module.exports = function(BookInstance) {
         let district = ctx.currentInstance.holderLocationDistrict;
         if (newlocationStatistic)
           newlocationStatistic[district]++;
-        Book.updateAll({id: book.id},
-        {locationStatistic: newlocationStatistic}, (err, result) => {
+        book.updateAttributes({
+          locationStatistic: newlocationStatistic}, (err, result) => {
           if (err) return next(err);
           increaseBookInCategory(Category, book.categoryId, (err) => {
             if (err) return next(err);
@@ -111,8 +111,8 @@ module.exports = function(BookInstance) {
           newlocationStatistic[newDistrict]++;
         if (newlocationStatistic && oldDistrict)
           newlocationStatistic[oldDistrict]--;
-        Book.updateAll({id: book.id},
-        {locationStatistic: newlocationStatistic}, (err, result) => {
+        book.updateAttributes({
+          locationStatistic: newlocationStatistic}, (err, result) => {
           if (err) return next(err);
           return next();
         });
@@ -139,7 +139,7 @@ module.exports = function(BookInstance) {
       (err, category) => {
         if (err || !category)
           return callback(new Error('Loại sách này đang bị lỗi'));
-        CategoryModels.updateAll({id: category.id}, {
+        category.updateAttributes({
           totalOfBook: category.totalOfBook + 1,
         }, (err, instance) => {
           if (err)
