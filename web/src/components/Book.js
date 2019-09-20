@@ -46,10 +46,10 @@ const styles = (theme => ({
 }))
 
 const Book = (props) => {
-  const { classes, id, name, author, imageUrl, isBookmarked, rating, handleToggleBookmark, ...other } = props
+  const { classes, id, bookmarkId, name, author, imageUrl, isBookmarked, rating, handleToggleBookmark, ...other } = props
 
   const onBookmark = () => {
-    handleToggleBookmark(id, !isBookmarked)
+    handleToggleBookmark(id, bookmarkId, !isBookmarked)
   }
 
   return (

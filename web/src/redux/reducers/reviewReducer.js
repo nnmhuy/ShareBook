@@ -4,7 +4,9 @@ import {
   getReviewsOfBook,
   getReviewsOfBookSuccess,
   getReviewsOfBookFail,
-  toggleLikeReview
+  toggleLikeReview,
+  toggleLikeReviewSuccess,
+  toggleLikeReviewFail
 } from '../actions/reviewAction'
 
 let defaultState = {
@@ -58,7 +60,24 @@ const bookReducer = handleActions(
         ...state,
         reviewsOfBook
       }
-    }
+    },
+    [toggleLikeReviewSuccess]: (state, { payload: { reviewId, likeReviewId } }) => {
+      const reviewsOfBook = JSON.parse(JSON.stringify(state.reviewsOfBook))
+      reviewsOfBook.forEach(review => {
+        if (review.id === reviewId) {
+          review.likeReviewId = likeReviewId
+        }
+      })
+      return {
+        ...state,
+        reviewsOfBook
+      }
+    },
+    [toggleLikeReviewFail]: (state, { payload: error }) => {
+      return {
+        error: error
+      }
+    },
   },
   defaultState
 )

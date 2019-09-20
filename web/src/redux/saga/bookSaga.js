@@ -51,6 +51,7 @@ function* getBookInfoSaga({ payload }) {
       numberOfBookmarks: bookmarkData.count,
       numberOfReviews: numberOfReviews.count,
       numberOfBookInstances: numberOfBookInstances.count,
+      bookmarkId: bookmark[0] ? bookmark[0].id : '',
       isBookmarked: (bookmark[0] || {}).isActive ? true : false
     }
 
@@ -71,6 +72,7 @@ function* getBookOfCategorySaga({ payload }) {
 
     const allData = bookOfCategoryData.map((book, index) => ({
       ...book,
+      bookmarkId: isUserBookmarked[index].data[0] ? isUserBookmarked[index].data[0].id : '',
       isBookmarked: (isUserBookmarked[index].data[0] || {}).isActive
     }))
 
@@ -91,14 +93,26 @@ function* getBookOfCategorySaga({ payload }) {
 
 function* toggleBookmarkSaga({ payload }) {
   try {
-    const { bookId, isBookmarked } = payload
-    yield call(restConnector.put, `/bookmarks`, {
-      bookId,
-      isActive: isBookmarked,
-      attachUser: true
-    })
+    const { bookmarkId, bookId, isBookmarked } = payload
+    let bookmarkResponse
+    if (!bookmarkId) {
+      bookmarkResponse = yield call(restConnector.post, `/bookmarks`, {
+        bookId,
+        isActive: isBookmarked,
+        attachUser: true
+      })
+    } else {
+      bookmarkResponse = yield call(restConnector.patch, `/bookmarks/${bookmarkId}`, {
+        bookId,
+        isActive: isBookmarked,
+        attachUser: true
+      })
+    }
 
-    yield put(toggleBookmarkSuccess())
+    yield put(toggleBookmarkSuccess({
+      bookId,
+      bookmarkId: bookmarkResponse.data.id
+    }))
   } catch (error) {
     yield put(toggleBookmarkFail(error))
   }

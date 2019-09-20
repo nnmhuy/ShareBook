@@ -31,14 +31,14 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-  const { classes, children, id, isBookmarked, handleToggleBookmark } = props
+  const { classes, children, id, bookmarkId, isBookmarked, handleToggleBookmark } = props
 
   const handleBack = () => {
     window.history.back()
   }
 
   const handleToggleLike = () => {
-    handleToggleBookmark(id, !isBookmarked)
+    handleToggleBookmark(id, bookmarkId, !isBookmarked)
   }
 
   return (

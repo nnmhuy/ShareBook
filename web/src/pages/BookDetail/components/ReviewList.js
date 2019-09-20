@@ -12,10 +12,11 @@ const styles = (theme => ({
 }))
 
 const ReviewList = (props) => {
-  const { classes, reviewList, bookImageUrl, getReviews, userId, bookId, numberOfReviews } = props
+  const { classes, reviewList, bookImageUrl, getReviews, userId, bookId, numberOfReviews,
+    handleToggleLikeReview
+  } = props
 
   const handlePageChange = (data) => {
-    console.log(data)
     getReviews({bookId, userId, page: data.selected, limit: numberOfReviewsPerPage })
   }
 
@@ -28,6 +29,7 @@ const ReviewList = (props) => {
               key={id}
               {...review}
               bookImageUrl={bookImageUrl}
+              handleToggleLikeReview={handleToggleLikeReview}
             />
           )
         })

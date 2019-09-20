@@ -16,7 +16,9 @@ const styles = (theme => ({
 }))
 
 const DetailTabs = (props) => {
-  const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances } = props
+  const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances,
+    handleToggleLikeReview
+  } = props
   const [ activeTab, setActiveTab ] = React.useState(0)
 
   const handleChangeTab = (event, value) => {
@@ -53,6 +55,7 @@ const DetailTabs = (props) => {
           userId={userId}
           bookId={book.id}
           numberOfReviews={book.numberOfReviews}
+          handleToggleLikeReview={handleToggleLikeReview}
         />
       </TabPanel>
     </div>

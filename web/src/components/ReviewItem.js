@@ -155,7 +155,8 @@ const styles = (theme => ({
 const ReviewItem = (props) => {
   const { 
     classes, bookImageUrl, images, id, userId,
-    title, username, avatar, createdAt, rating, content, likeStatus, numberOfReplies
+    title, username, avatar, createdAt, rating, content, likeStatus, numberOfReplies,
+    handleToggleLikeReview, likeReviewId
   } = props
 
   const [isShowMore, setShowMore] = React.useState(false)
@@ -166,6 +167,10 @@ const ReviewItem = (props) => {
 
   const handleClickAway = () => {
     setShowMore(false)
+  }
+
+  const onToggleLike = (likeStatus) => () => {
+    handleToggleLikeReview(id, likeReviewId, likeStatus)
   }
 
   return (
@@ -210,14 +215,14 @@ const ReviewItem = (props) => {
       <div className={classes.reviewContainer}>{content}</div>
       <div className={classes.buttonContainer}>
         {likeStatus===1 ?
-          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon}/>
+          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon} onClick={onToggleLike(0)}/>
           :
-          <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} />
+          <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} onClick={onToggleLike(1)}/>
         }
-        {likeStatus === 2 ?
-          <LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
+        {likeStatus === -1 ?
+          <LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} onClick={onToggleLike(0)}/>
           :
-          <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
+          <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} onClick={onToggleLike(-1)}/>
         }
         <Link to={`/review/${id}`}>
           <span className={classes.commentButton}>

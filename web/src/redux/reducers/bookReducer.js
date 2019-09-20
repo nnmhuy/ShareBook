@@ -13,7 +13,9 @@ import {
   getBookOfCategory,
   getBookOfCategorySuccess,
   getBookOfCategoryFail,
-  toggleBookmark
+  toggleBookmark,
+  toggleBookmarkSuccess,
+  toggleBookmarkFail
 } from '../actions/bookAction'
 
 let defaultState = {
@@ -151,18 +153,29 @@ const bookReducer = handleActions(
         bookOfCategory
       }
     },
-    // [toggleBookmarkSuccess]: (state, { payload: { category, bookOfCategory } }) => {
-    //   return {
-    //     ...state,
-    //     error: null
-    //   }
-    // },
-    // [toggleBookmarkFail]: (state, { payload: error }) => {
-    //   return {
-    //     ...state,
-    //     error: error
-    //   }
-    // },
+    [toggleBookmarkSuccess]: (state, { payload: { bookId, bookmarkId } }) => {
+      const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
+      const bookOfCategory = JSON.parse(JSON.stringify(state.bookOfCategory))
+      if (bookDetail.id === bookId) {
+        bookDetail.bookmarkId = bookmarkId
+      }
+      bookOfCategory.forEach(book => {
+        if (book.id === bookId) {
+          book.bookmarkId = bookmarkId
+        }
+      })
+      return {
+        ...state,
+        bookDetail,
+        bookOfCategory
+      }
+    },
+    [toggleBookmarkFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error: error
+      }
+    },
   },
   defaultState
 )

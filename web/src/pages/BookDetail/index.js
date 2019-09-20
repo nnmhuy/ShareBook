@@ -14,7 +14,7 @@ import BookSlider from '../../components/BookSlider'
 import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
 import { getBookInfo, toggleBookmark } from '../../redux/actions/bookAction'
 import { getBookInstances } from '../../redux/actions/bookInstanceAction'
-import { getReviewsOfBook } from '../../redux/actions/reviewAction'
+import { getReviewsOfBook, toggleLikeReview } from '../../redux/actions/reviewAction'
 
 const styles = (theme => ({
   container: {
@@ -48,15 +48,18 @@ class App extends React.Component {
     } = this.props
     const bookId = match.params.bookId
 
-    const handleToggleBookmark = (bookId, isBookmarked) => {
+    const handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
       const { toggleBookmarkStatus } = this.props
-      toggleBookmarkStatus({bookId, isBookmarked})
+      toggleBookmarkStatus({bookId, bookmarkId, isBookmarked})
     }
 
-    console.log("isBookmarked", bookDetail.isBookmarked)
+    const handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
+      const { toggleLikeReviewStatus } = this.props
+      toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
+    }
 
     return (
-      <TopNav id={bookDetail.id} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
+      <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
             <BookInfo {...bookDetail}/>
@@ -68,13 +71,14 @@ class App extends React.Component {
               reviewList={reviews}
               getReviews={getReviews}
               userId={userId}
+              handleToggleLikeReview={handleToggleLikeReview}
             />
             <BookSlider
               title={'Thể loại tương tự'}
               url={`/category${category.url}`}
               bookList={bookOfCategory}
               handleToggleBookmark={handleToggleBookmark}
-              />
+            />
           </div>
         </BottomNav>
       </TopNav>
@@ -97,7 +101,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getBookDetail: getBookInfo,
   getReviews: getReviewsOfBook,
   getInstances: getBookInstances,
-  toggleBookmarkStatus: toggleBookmark
+  toggleBookmarkStatus: toggleBookmark,
+  toggleLikeReviewStatus: toggleLikeReview
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

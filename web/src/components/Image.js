@@ -8,6 +8,9 @@ const getImageUrl = (imageUrl) => {
 
 const Image = (props) => {
   const { src, alt, ...others } = props
+  if (!src) {
+    return <img alt={'loading'} {...others} />
+  }
   return (
     <img src={getImageUrl(src)} alt={alt} {...others} />
   )

@@ -12,6 +12,7 @@ import { ReactComponent as UserIcon } from '../../../static/images/man-user.svg'
 import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
 
 import colors from '../../../constants/colors'
+import calculateRating from '../../../helper/calculateRating'
 
 const styles = (theme => ({
   container: {
@@ -135,7 +136,7 @@ const styles = (theme => ({
 
 const BookInfo = (props) => {
   const { classes, imageUrl, totalOfRating, numberOfRating, name, author, category, tags=[], numberOfBookmarks, numberOfUse } = props
-  const rating = totalOfRating / Math.max(numberOfRating, 1)
+  const rating = calculateRating(totalOfRating, numberOfRating)
   return (
     <div className={classes.container}>
       <Link to='/report' className={classes.reportLink}>

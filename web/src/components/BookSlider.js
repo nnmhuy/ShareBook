@@ -4,6 +4,7 @@ import Carousel from 'nuka-carousel'
 
 import Link from './Link'
 import Book from './Book'
+import calculateRating from '../helper/calculateRating'
 
 const styles = (theme => ({
   container: {
@@ -51,11 +52,12 @@ const BookSlider = (props) => {
             return (
               <Book
                 id={book.id}
+                bookmarkId={book.bookmarkId}
                 name={book.name}
                 author={book.author}
                 imageUrl={book.imageUrl}
                 isBookmarked={book.isBookmarked}
-                rating={book.totalOfRating / Math.max(book.numberOfRating, 1)}
+                rating={calculateRating(book.totalOfRating, book.numberOfRating)}
                 handleToggleBookmark={handleToggleBookmark}
                 key={book.id}
               />

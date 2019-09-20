@@ -38,6 +38,7 @@ function* getReviewsOfBookSaga({ payload }) {
         username,
         avatar,
         numberOfReplies,
+        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '', 
         likeStatus: reviewLike[index].data[0] ? reviewLike[index].data[0].isLike : 0
       }
     })
@@ -50,18 +51,27 @@ function* getReviewsOfBookSaga({ payload }) {
 
 function* toggleLikeReviewSaga({ payload }) {
   try {
-    const { reviewId, likeStatus } = payload
-
-    yield call(restConnector.put, `/likeReviews`,
-      {
+    const { reviewId, likeReviewId, likeStatus } = payload
+    console.log(likeReviewId)
+    let likeReviewResponse
+    if (!likeReviewId) {
+      likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
         reviewId,
         isLike: likeStatus,
         attachUser: true
-      }
-    )
+      })
+    } else {
+      likeReviewResponse = yield call(restConnector.patch, `/likeReviews/${likeReviewId}`, {
+        reviewId,
+        isLike: likeStatus,
+        attachUser: true
+      })
+    }
 
-
-    yield put(toggleLikeReviewSuccess())
+    yield put(toggleLikeReviewSuccess({
+      reviewId,
+      likeReviewId: likeReviewResponse.data.id
+    }))
   } catch (error) {
     yield put(toggleLikeReviewFail(error))
   }
