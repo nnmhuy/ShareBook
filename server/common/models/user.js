@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 
 module.exports = function(User) {
   User.validatesLengthOf('password', {min: 6,
@@ -10,18 +11,41 @@ module.exports = function(User) {
   User.observe('persist', (ctx, next) => {
     // for update user
     if (!ctx.isNewInstance) {
-      if (!ctx.data || !ctx.data.homeLocationId || ctx.currentInstance)
+      if (!ctx.data || !ctx.data.homeLocationId || !ctx.currentInstance)
         return next();
       let BookInstance = User.app.models.bookInstance;
+      let Location = User.app.models.location;
       // just for trigger get location again in bookinstance
-      BookInstance.updateAll({holderId: ctx.currentInstance.id},
-      {holderId: ctx.currentInstance.id},
+      BookInstance.find({holderId: ctx.currentInstance.id},
       (err, bookInstanceList) => {
         if (err) return next(err);
-        return next();
+        if (!bookInstanceList || !bookInstanceList[0]) return next();
+        let userId = ctx.currentInstance.id;
+        Location.findById(ctx.data.homeLocationId,
+        (err, locationInstance) => {
+          if (err) return next(err);
+          recursiveUpdate(bookInstanceList, userId, locationInstance.district,
+          0, (err) => {
+            if (err) return next(err);
+            return next();
+          });
+        });
       });
     } else return next();
   });
+
+  function recursiveUpdate(bookInstanceList, userId, district,
+  position, realCallback) {
+    if (position === bookInstanceList.length) return realCallback();
+    bookInstanceList[position].updateAttributes({
+      holderLocationDistrict: district,
+      secretUserId: userId},
+    (err, updated) => {
+      if (err) return realCallback(err);
+      return recursiveUpdate(bookInstanceList, userId, district,
+      position + 1, realCallback);
+    });
+  }
 
   // adding default email base on username
   User.beforeRemote('create', function(ctx, userInstance, next) {

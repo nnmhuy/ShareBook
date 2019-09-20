@@ -10,10 +10,14 @@ module.exports = function(BookInstance) {
     // for update block holder and borrower change data
     if (!ctx.isNewInstance && ctx.data && ctx.currentInstance) {
       let userId = _.get(ctx, 'options.accessToken.userId', null);
-      if (userId !== ctx.currentInstance.ownerId) {
+      if (ctx && ctx.data && ctx.data.secretUserId) {
+        userId = ctx.data.secretUserId;
+        delete ctx.data.secretUserId;
+      }
+      if (!ctx.currentInstance.ownerId.equals(userId)) {
         delete ctx.data.depositCoin;
         delete ctx.data.estimatedReadingTime;
-        if (userId !== ctx.currentInstance.holderId) {
+        if (!ctx.currentInstance.holderId.equals(userId)) {
           return next(new Error('Bạn không thể thưc hiện thao tác này'));
         }
       }

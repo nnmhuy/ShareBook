@@ -93,7 +93,7 @@
     "bookInstances": {
       "type": "hasMany",
       "model": "bookInstance",
-      "foreignKey": "bookInstanceId",
+      "foreignKey": "bookId",
       "options": {
         "nestRemoting": true
       }
