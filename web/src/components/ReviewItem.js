@@ -219,10 +219,12 @@ const ReviewItem = (props) => {
           :
           <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
         }
-        <span className={classes.commentButton}>
-          <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
-          <span className={classes.numberOfComment}>{numberOfReplies}</span>
-        </span>
+        <Link to={`/review/${id}`}>
+          <span className={classes.commentButton}>
+            <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
+            <span className={classes.numberOfComment}>{numberOfReplies}</span>
+          </span>
+        </Link>
         <Link to={`/review/${id}`} className={classes.nextButton}>
           <Button>
             <span className={classes.nextText}>Mở rộng</span>

@@ -17,7 +17,7 @@ const styles = (theme => ({
 }))
 
 const DetailTabs = (props) => {
-  const { classes, book, bookInstanceList, reviewList, getReviews, userId } = props
+  const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances } = props
   const [ activeTab, setActiveTab ] = React.useState(0)
 
   const handleChangeTab = (event, value) => {
@@ -32,14 +32,19 @@ const DetailTabs = (props) => {
         className={classes.tabs}
       >
         <Tab label='Về sách'/>
-        <Tab label='Đầu sách'/>
-        <Tab label='Review'/>
+        <Tab label={`Đầu sách (${book.numberOfBookInstances})`}/>
+        <Tab label={`Review (${book.numberOfReviews})`}/>
       </Tabs>
       <TabPanel index={0} value={activeTab}>
         <BookAbout book={book} />
       </TabPanel>
       <TabPanel index={1} value={activeTab}>
-        <BookInstanceList bookInstanceList={bookInstanceList} />
+        <BookInstanceList
+          bookId={book.id}
+          bookInstanceList={bookInstanceList} 
+          getInstances={getInstances}
+          numberOfInstances={book.numberOfBookInstances}
+        />
       </TabPanel>
       <TabPanel index={2} value={activeTab}>
         <ReviewList 

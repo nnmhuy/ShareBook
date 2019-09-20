@@ -50,7 +50,12 @@ const BookSlider = (props) => {
           bookList.map(book => {
             return (
               <Book
-                {...book}
+                id={book.id}
+                name={book.name}
+                author={book.author}
+                imageUrl={book.imageUrl}
+                isBookmarked={book.isBookmarked}
+                rating={book.totalOfRating / Math.max(book.numberOfRating, 1)}
                 key={book.id}
               />
             )

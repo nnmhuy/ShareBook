@@ -9,16 +9,31 @@ import {
   getCategoryListFail,
   getBookInfo,
   getBookInfoSuccess,
-  getBookInfoFail
+  getBookInfoFail,
+  getBookOfCategory,
+  getBookOfCategorySuccess,
+  getBookOfCategoryFail,
+  toggleBookmark,
+  toggleBookmarkSuccess,
+  toggleBookmarkFail
 } from '../actions/bookAction'
 
 let defaultState = {
   isLoading: false,
+  isLoadingCategory: false,
   error: null,
   bookDetail: {
     numberOfRating: 0,
-    totalOfRating: 0
-  }
+    totalOfRating: 0,
+    numberOfBookInstances: 0,
+    numberOfReviews: 0,
+  },
+  category: {
+    name: '',
+    id: '',
+    url: ''
+  },
+  bookOfCategory: []
 }
 
 const bookReducer = handleActions(
@@ -83,7 +98,54 @@ const bookReducer = handleActions(
         isLoading: false,
         error: error
       }
-    }
+    },
+    [getBookOfCategory]: (state) => {
+      return {
+        ...state,
+        isLoadingCategory: true,
+      }
+    },
+    [getBookOfCategorySuccess]: (state, { payload: {category, bookOfCategory} }) => {
+      return {
+        ...state,
+        isLoadingCategory: false,
+        category,
+        bookOfCategory,
+        error: null
+      }
+    },
+    [getBookOfCategoryFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoadingCategory: false,
+        error: error
+      }
+    },
+    [getBookInfoFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: error
+      }
+    },
+    [toggleBookmark]: (state) => {
+      return {
+        ...state,
+        isLoadingCategory: true,
+      }
+    },
+    // [toggleBookmarkSuccess]: (state, { payload: { category, bookOfCategory } }) => {
+    //   return {
+    //     ...state,
+    //     error: null
+    //   }
+    // },
+    // [toggleBookmarkFail]: (state, { payload: error }) => {
+    //   return {
+    //     ...state,
+    //     error: error
+    //   }
+    // },
   },
   defaultState
 )

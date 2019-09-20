@@ -2,6 +2,7 @@ const baseURL = process.env.REACT_APP_BASE_URL
 const imageContainer = process.env.REACT_APP_IMAGE_CONTAINER
 const maxMobileWidth = '800px'
 const numberOfReviewsPerPage = 5
+const numberOfBookInstancesPerPage = 5
 
 const mapTransactionStatusToText = [
   'Chờ phản hồi', //waitingForResponse
@@ -26,5 +27,6 @@ export {
   imageContainer,
   mapTransactionStatusToText,
   mapPositionToText,
-  numberOfReviewsPerPage
+  numberOfReviewsPerPage,
+  numberOfBookInstancesPerPage
 }

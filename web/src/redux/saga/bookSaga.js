@@ -9,7 +9,10 @@ import {
   getCategoryListFail,
   getBookInfo,
   getBookInfoSuccess,
-  getBookInfoFail
+  getBookInfoFail,
+  getBookOfCategory,
+  getBookOfCategorySuccess,
+  getBookOfCategoryFail
 } from '../actions/bookAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -32,23 +35,47 @@ function* getCategoryListSaga({ payload }) {
 }
 function* getBookInfoSaga({ payload }) {
   try {
-    const { bookId } = payload
+    const { bookId, userId } = payload
     const { data: bookData } = yield call(restConnector.get, `/books/${bookId}`)
-    const { data: categoryData } = yield call(restConnector.get, `/books/${bookId}/category`)
-    const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count`)
+    yield put(getBookOfCategory({ categoryId: bookData.categoryId}))
+    const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count?where={"isActive":true}`)
     const { data: numberOfReviews } = yield call(restConnector.get, `/books/${bookId}/reviews/count`)
+    const { data: numberOfBookInstances } = yield call(restConnector.get, `/books/${bookId}/bookInstances/count`)
+    const { data: bookmark } = yield call(restConnector.get, `/books/${bookId}/bookmarks?filter={"where":{"userId":"${userId}"}}`)
 
     const data = {
       ...bookData,
-      category: categoryData.name,
-      categoryUrl: categoryData.url,
       numberOfBookmarks: bookmarkData.count,
-      numberOfReviews: numberOfReviews.count
+      numberOfReviews: numberOfReviews.count,
+      numberOfBookInstances: numberOfBookInstances.count,
+      isBookmarked: (bookmark[0] || {}).isActive
     }
 
     yield put(getBookInfoSuccess(data))
   } catch (error) {
     yield put(getBookInfoFail(error))
+  }
+}
+
+function* getBookOfCategorySaga({ payload }) {
+  try {
+    const { categoryId } = payload
+    const { data: categoryData } = yield call(restConnector.get, `/categories/${categoryId}`)
+    const { data: bookOfCategoryData } = yield call(restConnector.get, `/categories/${categoryId}/books`)
+
+
+    const data = {
+      category: {
+        id: categoryId,
+        name: categoryData.name,
+        url: categoryData.url
+      },
+      bookOfCategory: bookOfCategoryData
+    }
+
+    yield put(getBookOfCategorySuccess(data))
+  } catch (error) {
+    yield put(getBookOfCategoryFail(error))
   }
 }
 
@@ -64,8 +91,13 @@ function* getBookInfoWatcher() {
   yield takeLatest(getBookInfo, getBookInfoSaga)
 }
 
+function* getBookOfCategoryWatcher() {
+  yield takeLatest(getBookOfCategory, getBookOfCategorySaga)
+}
+
 export {
   getBookListWatcher,
   getCategoryListWatcher,
-  getBookInfoWatcher
+  getBookInfoWatcher,
+  getBookOfCategoryWatcher
 }

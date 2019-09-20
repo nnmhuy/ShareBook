@@ -11,9 +11,11 @@ import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
 import BookSlider from '../../components/BookSlider'
 
+import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
 import { getBookInfo } from '../../redux/actions/bookAction'
+import { getBookInstances } from '../../redux/actions/bookInstanceAction'
 import { getReviewsOfBook } from '../../redux/actions/reviewAction'
-import { demoBookInstance, demoSimilarBooks } from './demoData'
+import { demoSimilarBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -34,37 +36,41 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const { getBookDetail, match, getReviews, userId } = this.props
+    const { getBookDetail, match, getReviews, userId, getInstances } = this.props
     const bookId = match.params.bookId
-    getBookDetail({ bookId })
-    getReviews({ userId, bookId, page: 0, limit: 5})
+    getBookDetail({ bookId, userId })
+    getReviews({ userId, bookId, page: 0, limit: numberOfReviewsPerPage})
+    getInstances({ bookId, page: 0, limit: numberOfBookInstancesPerPage})
   }
 
   render() {
-    const { classes, match, history, bookDetail, reviews, getReviews, userId } = this.props
+    const { classes, match, history, bookDetail, reviews, getReviews, userId,
+      bookInstances, getInstances, category, bookOfCategory
+    } = this.props
     const bookId = match.params.bookId
 
-    const handleToggleLike = (props) => {
-
+    const handleToggleBookmark = (props) => {
+      
     }
 
     return (
-      <TopNav isLiked handleToggleLike={handleToggleLike}>
+      <TopNav isLiked={bookDetail.isBookmarked} handleToggleLike={handleToggleBookmark}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
             <BookInfo {...bookDetail}/>
             <RateSection bookId={bookId} history={history} />
             <DetailTabs
               book={bookDetail}
-              bookInstanceList={demoBookInstance}
+              bookInstanceList={bookInstances}
+              getInstances={getInstances}
               reviewList={reviews}
               getReviews={getReviews}
               userId={userId}
             />
             <BookSlider
               title={'Thể loại tương tự'}
-              url={`/category${bookDetail.categoryUrl}`}
-              bookList={demoSimilarBooks}/>
+              url={`/category${category.url}`}
+              bookList={bookOfCategory}/>
           </div>
         </BottomNav>
       </TopNav>
@@ -72,17 +78,21 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ account, book, review }) => {
+const mapStateToProps = ({ account, book, review, bookInstances }) => {
   return {
     userId: account.userId,
     bookDetail: book.bookDetail,
-    reviews: review.reviewsOfBook
+    category: book.category,
+    bookOfCategory: book.bookOfCategory,
+    reviews: review.reviewsOfBook,
+    bookInstances: bookInstances.bookInstances
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getBookDetail: getBookInfo,
-  getReviews: getReviewsOfBook
+  getReviews: getReviewsOfBook,
+  getInstances: getBookInstances
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

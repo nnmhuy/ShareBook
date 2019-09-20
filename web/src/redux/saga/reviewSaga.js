@@ -12,7 +12,7 @@ function* getReviewsOfBookSaga({ payload }) {
     const { userId, bookId, page=0, limit=5 } = payload
 
     const { data: reviewsData } = yield call(restConnector.get, 
-      `/reviews?filter={"where":{"bookId":"${bookId}"},"skip":${page * limit},"limit":${limit},"order":"numberOfLike DESC"}`
+      `/books/${bookId}/reviews?filter={"skip":${page * limit},"limit":${limit},"order":"numberOfLike DESC"}`
     )
 
     const reviewsReply = yield all(
