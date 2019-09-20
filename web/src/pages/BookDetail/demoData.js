@@ -12,7 +12,7 @@ const demoBook = {
   ],
   isLike: false,
   rating: 4.5,
-  number_of_bookmark: 60,
+  numberOfBookmarks: 60,
   number_of_use: 50,
 
   volume: 2,

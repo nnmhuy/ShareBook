@@ -134,7 +134,8 @@ const styles = (theme => ({
 }))
 
 const BookInfo = (props) => {
-  const { classes, imageUrl, rating, name, author, category, tags=[], number_of_bookmark, numberOfUse } = props
+  const { classes, imageUrl, totalOfRating, numberOfRating, name, author, category, tags=[], numberOfBookmarks, numberOfUse } = props
+  const rating = totalOfRating / Math.max(numberOfRating, 1)
   return (
     <div className={classes.container}>
       <Link to='/report' className={classes.reportLink}>
@@ -194,7 +195,7 @@ const BookInfo = (props) => {
           <div className={classes.numberContainer}>
             <span className={classes.numberWrapper}>
               <span className={classes.number} style={{ color: colors.red }}>
-                {number_of_bookmark}
+                {numberOfBookmarks}
               </span>
             </span>
             <HeartIcon className={classes.numberIconRight} />

@@ -7,6 +7,7 @@ import TabPanel from '../../../components/TabPanel'
 import BookAbout from './BookAbout'
 import BookInstanceList from './BookInstanceList'
 import ReviewList from './ReviewList'
+import BookDetail from '..'
 
 const styles = (theme => ({
   tabs: {
@@ -16,7 +17,7 @@ const styles = (theme => ({
 }))
 
 const DetailTabs = (props) => {
-  const { classes, book, bookInstanceList, reviewList } = props
+  const { classes, book, bookInstanceList, reviewList, getReviews, userId } = props
   const [ activeTab, setActiveTab ] = React.useState(0)
 
   const handleChangeTab = (event, value) => {
@@ -41,7 +42,14 @@ const DetailTabs = (props) => {
         <BookInstanceList bookInstanceList={bookInstanceList} />
       </TabPanel>
       <TabPanel index={2} value={activeTab}>
-        <ReviewList bookImage={book.image} reviewList={reviewList} />
+        <ReviewList 
+          bookImageUrl={book.imageUrl} 
+          reviewList={reviewList} 
+          getReviews={getReviews} 
+          userId={userId}
+          bookId={book.id}
+          numberOfReviews={book.numberOfReviews}
+        />
       </TabPanel>
     </div>
   )

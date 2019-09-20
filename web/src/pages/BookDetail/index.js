@@ -13,7 +13,7 @@ import BookSlider from '../../components/BookSlider'
 
 import { getBookInfo } from '../../redux/actions/bookAction'
 import { getReviewsOfBook } from '../../redux/actions/reviewAction'
-import { demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
+import { demoBookInstance, demoSimilarBooks } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -34,13 +34,14 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const { getBookDetail, match, reviews } = this.props
+    const { getBookDetail, match, getReviews, userId } = this.props
     const bookId = match.params.bookId
     getBookDetail({ bookId })
+    getReviews({ userId, bookId, page: 0, limit: 5})
   }
 
   render() {
-    const { classes, match, history, bookDetail, reviews } = this.props
+    const { classes, match, history, bookDetail, reviews, getReviews, userId } = this.props
     const bookId = match.params.bookId
 
     const handleToggleLike = (props) => {
@@ -56,7 +57,9 @@ class App extends React.Component {
             <DetailTabs
               book={bookDetail}
               bookInstanceList={demoBookInstance}
-              reviewList={reviews}n
+              reviewList={reviews}
+              getReviews={getReviews}
+              userId={userId}
             />
             <BookSlider
               title={'Thể loại tương tự'}
@@ -69,8 +72,9 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ book, review }) => {
+const mapStateToProps = ({ account, book, review }) => {
   return {
+    userId: account.userId,
     bookDetail: book.bookDetail,
     reviews: review.reviewsOfBook
   }

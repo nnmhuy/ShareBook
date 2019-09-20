@@ -55,8 +55,15 @@
     "numberOfFbShare": {
       "type": "number"
     },
+    "title": {
+      "type": "string"
+    },
     "content": {
       "type": "string"
+    },
+    "images": {
+      "type": "array",
+      "default": []
     }
   },
   "validations": [],
@@ -71,12 +78,21 @@
     },
     "user": {
       "type": "belongsTo",
-      "model": "user"
+      "model": "user",
+      "foreignKey": "userId"
     },
     "likeReviews": {
       "type": "hasMany",
       "model": "likeReview",
-      "foreignKey": "reviewId",
+      "foreignKey": "likeReviewId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "replyReviews": {
+      "type": "hasMany",
+      "model": "reply",
+      "foreignKey": "replyId",
       "options": {
         "nestRemoting": true
       }

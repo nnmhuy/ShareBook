@@ -108,6 +108,11 @@
       "options": {
         "nestRemoting": false
       }
+    },
+    "bookmarks": {
+      "type": "hasMany",
+      "model": "bookmark",
+      "foreignKey": "bookmarkId"
     }
   },
   "acls": [

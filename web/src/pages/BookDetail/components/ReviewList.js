@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
+import { numberOfReviewsPerPage } from '../../../constants/constants'
 import ReviewItem from '../../../components/ReviewItem'
 import Pagination from '../../../components/Pagination/index'
 
@@ -11,7 +12,13 @@ const styles = (theme => ({
 }))
 
 const ReviewList = (props) => {
-  const { classes, reviewList } = props
+  const { classes, reviewList, bookImageUrl, getReviews, userId, bookId, numberOfReviews } = props
+
+  const handlePageChange = (data) => {
+    console.log(data)
+    getReviews({bookId, userId, page: data.selected, limit: numberOfReviewsPerPage })
+  }
+
   return (
     <div className={classes.container}>
       {
@@ -20,16 +27,17 @@ const ReviewList = (props) => {
             <ReviewItem
               key={id}
               {...review}
+              bookImageUrl={bookImageUrl}
             />
           )
         })
       }
       <Pagination
-        pageCount={1000}
+        pageCount={Math.ceil(numberOfReviews / numberOfReviewsPerPage)}
         breakLabel={'. . .'}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
-        handlePageChange={(data) => console.log(JSON.stringify(data))}
+        handlePageChange={handlePageChange}
       />
     </div>
   )

@@ -36,12 +36,14 @@ function* getBookInfoSaga({ payload }) {
     const { data: bookData } = yield call(restConnector.get, `/books/${bookId}`)
     const { data: categoryData } = yield call(restConnector.get, `/books/${bookId}/category`)
     const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count`)
+    const { data: numberOfReviews } = yield call(restConnector.get, `/books/${bookId}/reviews/count`)
 
     const data = {
       ...bookData,
       category: categoryData.name,
       categoryUrl: categoryData.url,
-      number_of_bookmark: bookmarkData.count
+      numberOfBookmarks: bookmarkData.count,
+      numberOfReviews: numberOfReviews.count
     }
 
     yield put(getBookInfoSuccess(data))

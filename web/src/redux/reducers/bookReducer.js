@@ -15,7 +15,10 @@ import {
 let defaultState = {
   isLoading: false,
   error: null,
-  bookDetail: {}
+  bookDetail: {
+    numberOfRating: 0,
+    totalOfRating: 0
+  }
 }
 
 const bookReducer = handleActions(
@@ -68,6 +71,7 @@ const bookReducer = handleActions(
     },
     [getBookInfoSuccess]: (state, { payload }) => {
       return {
+        ...state,
         isLoading: false,
         bookDetail: payload,
         error: null
@@ -75,6 +79,7 @@ const bookReducer = handleActions(
     },
     [getBookInfoFail]: (state, { payload: error }) => {
       return {
+        ...state,
         isLoading: false,
         error: error
       }

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest, all } from 'redux-saga/effects'
 
 import {
   getReviewsOfBook,
@@ -9,16 +9,37 @@ import restConnector from '../../connectors/RestConnector'
 
 function* getReviewsOfBookSaga({ payload }) {
   try {
-    const { bookId, page, limit } = payload
+    const { userId, bookId, page=0, limit=5 } = payload
 
     const { data: reviewsData } = yield call(restConnector.get, 
-      `/books/${bookId}/reviews?filter={"skip":${page * limit},"limit":${limit},"order":"numberOfLike DESC"}`
+      `/reviews?filter={"where":{"bookId":"${bookId}"},"skip":${page * limit},"limit":${limit},"order":"numberOfLike DESC"}`
     )
 
-    const data = {
-    }
+    const reviewsReply = yield all(
+      reviewsData.map(review => call(restConnector.get, `/reviews/${review.id}/replyReviews/count`))
+    )
 
-    yield put(getReviewsOfBookSuccess(data))
+    const reviewLike = yield all(
+      reviewsData.map(review => call(restConnector.get, `/likeReviews?filter={"where":{"userId":"${userId}","reviewId":"${review.id}"}}`))
+    )
+
+    const userOfReviews = yield all(
+      reviewsData.map(review => call(restConnector.get, `/reviews/${review.id}/user`))
+    )
+
+    const allData = reviewsData.map((review, index) => {
+      const { username, avatar } = userOfReviews[index].data
+      const numberOfReplies = reviewsReply[index].data.count
+      return {
+        ...review,
+        username,
+        avatar,
+        numberOfReplies,
+        likeStatus: reviewLike[index].data[0] ? reviewLike[index].data[0].isLike : 0
+      }
+    })
+
+    yield put(getReviewsOfBookSuccess(allData))
   } catch (error) {
     yield put(getReviewsOfBookFail(error))
   }
