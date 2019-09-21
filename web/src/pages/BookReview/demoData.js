@@ -1,3 +1,8 @@
+const demoBook = {
+    name: 'Animal Farm',
+    image: require('../../static/images/demo/animal-farm.png')
+}
+
 const demoReview = {
     userId: '123',
     reviewId: '20',
@@ -83,4 +88,4 @@ const demoCommentList = [
     }
 ]
 
-export { demoReview, demoCommentList }
+export { demoBook, demoReview, demoCommentList }

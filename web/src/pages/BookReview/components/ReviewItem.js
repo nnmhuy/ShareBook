@@ -13,7 +13,12 @@ const styles = (theme => ({
         position: 'relative',
         marginBottom: 15
     },
+    title: {
+        marginBottom: 0,
+        padding: '0 15px'
+    },
     reviewText: {
+        padding: '0 15px',
         marginTop: 0,
         fontSize: 14
         // minwidth @550px: {fontSize: 16}
@@ -41,17 +46,6 @@ const styles = (theme => ({
 }))
 
 class ReviewItem extends Component {
-
-    renderImages = () => {
-        return demoReview.images.map(item => {
-            return (
-                <div className={this.props.classes.imageContainer}>
-                    <img src={item} className={this.props.classes.reviewImage} alt="{bookName}" />
-                </div>
-            )
-        })
-    }
-
     render() {
         const { classes } = this.props;
         const { images, title, review } = demoReview;
@@ -59,7 +53,7 @@ class ReviewItem extends Component {
         return (
             <div className={classes.reviewContainer}>
                 {title === null | title === '' ? '' :
-                    <h4 style={{ marginBottom: 0 }}>{title}</h4>
+                    <h4 className={classes.title}>{title}</h4>
                 }
                 <p className={classes.reviewText}>{review}</p>
                 <div className={`${classes.reviewImages} ${images.length === 3 ? classes.reviewImagesThree : ''}`}>

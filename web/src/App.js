@@ -16,9 +16,12 @@ import AddReview from './pages/AddReview/index'
 import Filter from './pages/Filter/index'
 import TransactionList from './pages/TransactionList/index'
 import Transaction from './pages/Transaction/index'
+import CreateBook from './pages/CreateBook'
+import CreateInstance from './pages/CreateInstance'
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
-import LayoutWrapper from './components/LayoutWrapper';
+
+
 
 var PreventLeavingMixin = {
   statics: {
@@ -53,6 +56,8 @@ class App extends React.Component {
           <Route path="/transaction-list" exact component={TransactionList} />
           <Route path="/transaction/:transactionId" exact component={Transaction} />
           <Route path="/review/:reviewId" exact component={BookReview} />
+          <Route path="/create-book" exact component={CreateBook} />
+          <Route path="/create-instance/:bookIs" exact component={CreateInstance} />
           <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>

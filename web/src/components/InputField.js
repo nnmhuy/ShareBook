@@ -17,6 +17,7 @@ const styles = (theme => ({
     width: 17
   },
   input: {
+    fontFamily: 'Montserrat',
     marginTop: 5,
     width: '100%',
     '& label.Mui-focused': {
@@ -56,12 +57,12 @@ const InputField = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
         aria-describedby={`${id}-error`}
-        endAdornment={Icon && 
+        endAdornment={Icon &&
           <InputAdornment position='end'>
             <IconButton
               onClick={handleIconClick}
             >
-              <Icon className={classes.icon}/>
+              <Icon className={classes.icon} />
             </IconButton>
           </InputAdornment>
         }

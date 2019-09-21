@@ -23,6 +23,7 @@ const styles = (theme => ({
     color: colors.red
   },
   input: {
+    resize: 'vertical',
     boxSizing: 'border-box',
     padding: 5,
     display: 'block',
@@ -57,14 +58,14 @@ const ReviewContainer = (props) => {
       </span>
       <textarea
         className={classes.input}
-        placeholder='. . .' 
+        placeholder='. . .'
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
         name='content'
       />
       <div className={classes.length}>
-        {value!=='' ? value.split(' ').length : 0} 
+        {value !== '' ? value.split(' ').length : 0}
         <span className={classes.text}>/1000</span>
       </div>
     </div>

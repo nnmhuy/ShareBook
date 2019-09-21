@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import { demoCommentList } from './demoData';
+import { demoBook, demoReview, demoCommentList } from './demoData';
 
 import PersonalInfo from './components/PersonalInfo';
 import ReviewItem from './components/ReviewItem';
 import RateSection from './components/RateSection';
 import CommentList from './components/CommentList';
+import TopNav from './components/TopNav';
 
 const styles = (theme => ({
     container: {
@@ -30,12 +31,14 @@ class BookReview extends Component {
         const reviewId = match.params.reviewId;
 
         return (
-            <div className={classes.container}>
-                <PersonalInfo />
-                <ReviewItem />
-                <RateSection />
-                <CommentList commentList={demoCommentList} />
-            </div>
+            <TopNav book={demoBook}>
+                <div className={classes.container}>
+                    <PersonalInfo />
+                    <ReviewItem demoReview={demoReview} />
+                    <RateSection />
+                    <CommentList commentList={demoCommentList} />
+                </div>
+            </TopNav>
         );
     }
 }
