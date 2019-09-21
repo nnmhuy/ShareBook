@@ -19,9 +19,11 @@
   },
   "properties": {
     "bookCondition": {
-      "type": "string",
+      "type": "number",
       "required": true,
-      "default": "nguyên vẹn"
+      "enum": [
+        0, 1, 2
+      ]
     },
     "isAvailable": {
       "type": "boolean",
@@ -60,26 +62,17 @@
     "owner": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "ownerId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "ownerId"
     },
     "holder": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "holderId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "holderId"
     },
     "borrower": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "borrowerId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "borrowerId"
     }
   },
   "acls": [

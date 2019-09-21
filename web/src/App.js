@@ -18,17 +18,6 @@ import TransactionList from './pages/TransactionList/index'
 import Transaction from './pages/Transaction/index'
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
-import LayoutWrapper from './components/LayoutWrapper';
-
-var PreventLeavingMixin = {
-  statics: {
-    willTransitionFrom: function (transition, component) {
-      //you have access to your component's state and functions with the component param
-      //transition can make the navigation stop
-      transition.abort();
-    }
-  }
-};
 
 class App extends React.Component {
   constructor(props) {
@@ -37,6 +26,10 @@ class App extends React.Component {
     this.state = {
 
     }
+  }
+
+  componentDidMount() {
+    this.props.getUserInfoHandler();
   }
 
   render() {

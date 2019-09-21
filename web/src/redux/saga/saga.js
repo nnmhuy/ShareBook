@@ -10,8 +10,17 @@ import {
 import {
   getBookListWatcher,
   getCategoryListWatcher,
-  getBookInfoWatcher
+  getBookInfoWatcher,
+  getBookOfCategoryWatcher,
+  toggleBookmarkWatcher
 } from './bookSaga'
+import {
+  getBookInstancesWatcher
+} from './bookInstancesSaga'
+import {
+  getReviewsOfBookWatcher,
+  toggleLikeReviewWatcher
+} from './reviewSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -20,8 +29,16 @@ export default function* rootSaga() {
     getUserInfoWatcher(),
     logOutWatcher(),
     signUpWatcher(),
+
     getBookListWatcher(),
     getCategoryListWatcher(),
-    getBookInfoWatcher()
+    getBookInfoWatcher(),
+    getBookOfCategoryWatcher(),
+    toggleBookmarkWatcher(),
+
+    getBookInstancesWatcher(),
+
+    getReviewsOfBookWatcher(),
+    toggleLikeReviewWatcher()
   ]);
 }

@@ -5,7 +5,6 @@ import { Button, Avatar } from '@material-ui/core'
 import Link from '../../../components/Link'
 
 import colors from '../../../constants/colors'
-import { ReactComponent as UserIcon } from '../../../static/images/man-user.svg'
 import { ReactComponent as DownIcon } from '../../../static/images/right-arrow.svg'
 
 const styles = (theme => ({
@@ -157,6 +156,13 @@ const styles = (theme => ({
     color: colors.primary,
     marginTop: 5,
     marginLeft: 8
+  },
+  note: {
+    marginTop: 10,
+    borderRadius: 8,
+    background: '#f5f9fd',
+    fontSize: 13,
+    padding: 10
   }
 }))
 
@@ -177,22 +183,12 @@ const keyArray = [
     }
   },
   {
-    label: 'Số người đã truyền',
-    key: 'number_of_use',
-    mapValue: (value) => {
-      return value
-    }
-  },
-  {
-    key: 'break'
-  },
-  {
     label: 'Tình trạng sách',
     key: 'bookCondition',
     mapValue: (value) => {
       switch (value) {
         case 0:
-          return 'Còn mới'
+          return 'Mới'
         case 1:
           return 'Bình thường'
         case 2:
@@ -203,18 +199,11 @@ const keyArray = [
     }
   },
   {
-    label: 'Tiền đặt cọc',
-    key: 'deposit_coin',
-    mapValue: (value) => {
-      return `${value} điểm`
-    }
-  },
-  {
     key: 'break'
   },
   {
     label: 'Thời gian mượn',
-    key: 'estimated_reading_time',
+    key: 'estimatedReadingTime',
     mapValue: (value) => {
       return `${value} ngày`
     }
@@ -238,7 +227,7 @@ const keyArray = [
 const BookInstance = (props) => {
   const { classes, isAvailable, index, 
     ownerId, ownerUsername, ownerAvatar,
-    number_of_use, holderId, holderUsername, holderAvatar,
+    holderId, holderUsername, holderAvatar,
   } = props
 
   const [isExpanded, setExpanded] = React.useState(false)
@@ -276,10 +265,7 @@ const BookInstance = (props) => {
         <div className={classes.labelWrapper}>
           <div className={classes.label}>
             <span className={classes.marker}></span>
-            Thông tin người giữ sách (
-              {` ${number_of_use} `}
-              <UserIcon fill='#0C4F8E' className={classes.userIcon}/>
-            )
+            Thông tin người giữ sách 
           </div>
         </div>
         <div className={classes.infoWrapper}>
@@ -315,6 +301,18 @@ const BookInstance = (props) => {
             )
           })
         }
+        <div className={classes.break} key={`break-${index}`}></div>
+        <div className={classes.detailContainer}>
+          <div className={classes.detailLabelContainer}>
+            <span className={classes.marker} />
+            <span className={classes.detailLabel}>Ghi chú</span>
+          </div>
+          <div className={classes.note}>
+            {
+              props.note
+            }
+          </div>
+        </div>
       </div>
       <Button className={classes.expandButton} variant='contained' size='small' onClick={handleToggleExpand}>
         <DownIcon className={isExpanded ? classes.upIcon : classes.downIcon} stroke='#fff'/>

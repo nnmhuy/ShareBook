@@ -1,4 +1,5 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { } from '@material-ui/core'
@@ -10,7 +11,10 @@ import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
 import BookSlider from '../../components/BookSlider'
 
-import { demoBook, demoBookInstance, demoReviewList, demoSimilarBooks } from './demoData'
+import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
+import { getBookInfo, toggleBookmark } from '../../redux/actions/bookAction'
+import { getBookInstances } from '../../redux/actions/bookInstanceAction'
+import { getReviewsOfBook, toggleLikeReview } from '../../redux/actions/reviewAction'
 
 const styles = (theme => ({
   container: {
@@ -30,29 +34,51 @@ class App extends React.Component {
     }
   }
 
+  componentWillMount() {
+    const { getBookDetail, match, getReviews, userId, getInstances } = this.props
+    const bookId = match.params.bookId
+    getBookDetail({ bookId, userId })
+    getReviews({ userId, bookId, page: 0, limit: numberOfReviewsPerPage})
+    getInstances({ bookId, page: 0, limit: numberOfBookInstancesPerPage})
+  }
+
   render() {
-    const { classes, match, history } = this.props
+    const { classes, match, history, bookDetail, reviews, getReviews, userId,
+      bookInstances, getInstances, category, bookOfCategory
+    } = this.props
     const bookId = match.params.bookId
 
-    const handleToggleLike = (props) => {
+    const handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+      const { toggleBookmarkStatus } = this.props
+      toggleBookmarkStatus({bookId, bookmarkId, isBookmarked})
+    }
 
+    const handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
+      const { toggleLikeReviewStatus } = this.props
+      toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
     }
 
     return (
-      <TopNav isLiked handleToggleLike={handleToggleLike}>
+      <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
-            <BookInfo {...demoBook} />
+            <BookInfo {...bookDetail}/>
             <RateSection bookId={bookId} history={history} />
             <DetailTabs
-              book={demoBook}
-              bookInstanceList={demoBookInstance}
-              reviewList={demoReviewList}
+              book={bookDetail}
+              bookInstanceList={bookInstances}
+              getInstances={getInstances}
+              reviewList={reviews}
+              getReviews={getReviews}
+              userId={userId}
+              handleToggleLikeReview={handleToggleLikeReview}
             />
             <BookSlider
               title={'Thể loại tương tự'}
-              url={`/category/${demoBook.category}`}
-              bookList={demoSimilarBooks}/>
+              url={`/category${category.url}`}
+              bookList={bookOfCategory}
+              handleToggleBookmark={handleToggleBookmark}
+            />
           </div>
         </BottomNav>
       </TopNav>
@@ -60,16 +86,23 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ account, book, review, bookInstances }) => {
   return {
-
+    userId: account.userId,
+    bookDetail: book.bookDetail,
+    category: book.category,
+    bookOfCategory: book.bookOfCategory,
+    reviews: review.reviewsOfBook,
+    bookInstances: bookInstances.bookInstances
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getBookDetail: getBookInfo,
+  getReviews: getReviewsOfBook,
+  getInstances: getBookInstances,
+  toggleBookmarkStatus: toggleBookmark,
+  toggleLikeReviewStatus: toggleLikeReview
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

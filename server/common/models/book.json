@@ -25,10 +25,13 @@
       "type": "string",
       "required": true
     },
+    "imageUrl": {
+      "type": "string",
+      "required": true
+    },
     "volume": {
       "type": "number",
-      "required": true,
-      "default": -1
+      "default": null
     },
     "author": {
       "type": "string",
@@ -40,7 +43,7 @@
       "required": true
     },
     "publishYear": {
-      "type": "date"
+      "type": "number"
     },
     "description": {
       "type": "string"
@@ -97,6 +100,19 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "reviews": {
+      "type": "hasMany",
+      "model": "review",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": false
+      }
+    },
+    "bookmarks": {
+      "type": "hasMany",
+      "model": "bookmark",
+      "foreignKey": "bookId"
     }
   },
   "acls": [

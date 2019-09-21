@@ -61,12 +61,12 @@ const styles = (theme => ({
 }))
 
 const detailInfo = [
-  { label: 'Lượt dùng', key: 'number_of_use'},
+  { label: 'Lượt dùng', key: 'numberOfUse'},
   { label: 'Volume', key: 'volume'},
-  { label: 'Số trang', key: 'number_of_pages'},
+  { label: 'Số trang', key: 'numberOfPages'},
   null,
   { label: 'Nhà xuất bản', key: 'publisher'},
-  { label: 'Năm xuất bản', key: 'publish_year'},
+  { label: 'Năm xuất bản', key: 'publishYear'},
   { label: 'Giá gốc', key: 'price'},
 ]
 
