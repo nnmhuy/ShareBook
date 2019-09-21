@@ -1,6 +1,8 @@
 'use strict';
 
-const categoryList = [
+const BACKEND_URL = process.env.BACKEND_URL;
+
+var categoryList = [
   {
     name: 'Văn học',
     url: '/literature',
@@ -54,5 +56,10 @@ const categoryList = [
     url: '/hobby-game',
   },
 ];
+
+categoryList = categoryList.map(element => {
+  element.image = BACKEND_URL + '/containers/defaultContainer/download' +
+  element.url + '.svg';
+});
 
 module.exports = categoryList;

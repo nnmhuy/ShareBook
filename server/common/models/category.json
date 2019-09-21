@@ -26,6 +26,10 @@
       "type": "string",
       "required": true
     },
+    "image": {
+      "type": "string",
+      "required": true
+    },
     "totalOfBook": {
       "type": "number",
       "required": true,

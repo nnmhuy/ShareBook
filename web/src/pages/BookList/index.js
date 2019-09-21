@@ -67,17 +67,17 @@ class BookList extends React.Component {
           <NewsSlider newsData={newsDemoData}/>
           <CategoryList categoryList={categoryDemoList}/>
           <BookSlider
-            title={'Đề xuất'}
+            title={'Sách mới'}
             url={`/category/suggested`}
             bookList={demoBookList} 
             style={{ marginTop: 20 }}
             />
           <BookSlider
-            title={'#Thám hiểm'}
+            title={'Sách đọc nhiều'}
             url={`/category/discovery`}
             bookList={demoBookList} />
           <BookSlider
-            title={'#Châm biếm'}
+            title={'Sách được đánh giá cao'}
             url={`/category/joke`}
             bookList={demoBookList} />
           <TopBook 
