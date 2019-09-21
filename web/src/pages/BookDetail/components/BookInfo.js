@@ -135,7 +135,8 @@ const styles = (theme => ({
 }))
 
 const BookInfo = (props) => {
-  const { classes, imageUrl, totalOfRating, numberOfRating, name, author, category, tags=[], numberOfBookmarks, numberOfUse } = props
+  const { classes, imageUrl, totalOfRating, numberOfRating, name, author, tags=[],
+    numberOfBookmarks, numberOfUse, category } = props
   const rating = calculateRating(totalOfRating, numberOfRating)
   return (
     <div className={classes.container}>
@@ -163,7 +164,7 @@ const BookInfo = (props) => {
           </div>
           <div className={classes.textItem}>
             <div className={classes.textTitle}>Thể loại</div>
-            <Link className={classes.category} to={`/book-list/${category}`}>{category}</Link>
+            <Link className={classes.category} to={`/book-list${category.url}`}>{category.name}</Link>
           </div>
           <div className={classes.textItem}>
             <div className={classes.textTitle}>Tags</div>

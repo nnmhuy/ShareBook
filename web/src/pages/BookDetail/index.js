@@ -62,7 +62,7 @@ class App extends React.Component {
       <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
-            <BookInfo {...bookDetail}/>
+            <BookInfo {...bookDetail} category={category}/>
             <RateSection bookId={bookId} history={history} />
             <DetailTabs
               book={bookDetail}
