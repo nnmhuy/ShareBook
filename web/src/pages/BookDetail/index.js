@@ -86,9 +86,9 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ account, book, review, bookInstances }) => {
+const mapStateToProps = ({ book, review, bookInstances }) => {
   return {
-    userId: account.userId,
+    userId: localStorage.getItem('userId'),
     bookDetail: book.bookDetail,
     category: book.category,
     bookOfCategory: book.bookOfCategory,

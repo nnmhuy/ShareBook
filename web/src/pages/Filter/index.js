@@ -95,7 +95,13 @@ const FilterWithFormik = withFormik({
 
 const mapStateToProps = ({ account }) => {
   return {
-    account
+    account: {
+      isAuth: Boolean.valueOf(localStorage.getItem('isAuth')),
+      userId: localStorage.getItem('userId'),
+      username: localStorage.getItem('username'),
+      avatar: localStorage.getItem('avatar'),
+      coin: Number.parseInt(localStorage.getItem('coin')),
+    },
   }
 }
 

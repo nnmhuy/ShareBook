@@ -99,7 +99,7 @@ const Sidebar = (props) => {
 }
 
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = () => {
   return {
   }
 }

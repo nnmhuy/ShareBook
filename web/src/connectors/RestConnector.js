@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '../constants/constants'
-import { warnAlert } from '../components/alert'
+// import { warnAlert } from '../components/alert'
 
 const RestConnector = () => {
   const instance = axios.create({ baseURL, withCredentials: true})
