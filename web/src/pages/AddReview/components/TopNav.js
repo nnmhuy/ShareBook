@@ -60,7 +60,7 @@ const TopNav = (props) => {
       }
       center={
         <div className={classes.bookContainer}>
-          <img src={bookImage} alt='book' className={classes.bookImage}/>
+          <img src={bookImage} alt='book' className={classes.bookImage} />
           <div className={classes.textContainer}>
             <div className={classes.bookName}>{name}</div>
             <div className={classes.reviewText}>Review</div>

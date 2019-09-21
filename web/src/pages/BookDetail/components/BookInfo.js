@@ -135,7 +135,7 @@ const styles = (theme => ({
 }))
 
 const BookInfo = (props) => {
-  const { classes, imageUrl, totalOfRating, numberOfRating, name, author, tags=[],
+  const { classes, imageUrl, totalOfRating, numberOfRating, name, author, tags = [],
     numberOfBookmarks, numberOfUse, category } = props
   const rating = calculateRating(totalOfRating, numberOfRating)
   return (
@@ -146,8 +146,8 @@ const BookInfo = (props) => {
         </IconButton>
       </Link>
       <div className={classes.infoSection}>
-        <div classes={classes.imagePart}>
-          <Image src={imageUrl} className={classes.image} alt={name}/>
+        <div className={classes.imagePart}>
+          <img src={imageUrl} className={classes.image} alt={name} />
           <Rating
             className={classes.rating}
             value={rating}

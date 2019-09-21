@@ -12,6 +12,8 @@ import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg';
 
 const styles = (theme => ({
     flexContainer: {
+        boxSizing: 'border-box',
+        padding: '0 20px',
         display: 'flex',
         justifyContent: 'space-between',
         marginBottom: 10

@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import colors from '../../../constants/colors';
+
 import { InputBase } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
+
 import { ReactComponent as CommentIcon } from '../../../static/images/send-arrow.svg';
 import CommentItem from './CommentItem';
 
+
 const styles = (theme => ({
     commentBorder: {
+        margin: '0 20px',
         borderRadius: 15,
         border: '1px solid #b7c7d6',
         display: 'flex',
@@ -17,6 +21,9 @@ const styles = (theme => ({
         '& :focus': {
             color: 'black'
         }
+    },
+    commentWrapper: {
+        padding: '0 20px'
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -36,6 +43,11 @@ const styles = (theme => ({
 class CommentList extends Component {
     render() {
         const { classes, commentList } = this.props;
+
+        const handleReturn = () => {
+            window.history.back();
+        }
+
         const handleChange = (event, value) => {
 
         }
@@ -55,16 +67,18 @@ class CommentList extends Component {
                         <CommentIcon fill={colors.primary} className={classes.icon} />
                     </IconButton>
                 </div>
-                {
-                    commentList.map(comment => {
-                        return (
-                            <CommentItem
-                                {...comment}
-                                key={comment.id}
-                            />
-                        )
-                    })
-                }
+                <div className={classes.commentWrapper}>
+                    {
+                        commentList.map(comment => {
+                            return (
+                                <CommentItem
+                                    {...comment}
+                                    key={comment.id}
+                                />
+                            )
+                        })
+                    }
+                </div>
             </div>
         );
     }
