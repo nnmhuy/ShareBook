@@ -21,9 +21,9 @@ import {successAlert, warnAlert} from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
   try {
-    const data = yield call(restConnector.post, '/users/login', payload)
-    yield put(logInLocalSuccess(data))
+    yield call(restConnector.post, '/users/login', payload)
     yield put(getUserInfo())
+    yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')
     //window.history.push('/profile')
   } catch (error) {
@@ -40,6 +40,11 @@ function* getUserInfoSaga() {
   try {
     const response = yield call(restConnector.get, '/users/me')
     let data = _.get(response, 'data', {})
+    localStorage.setItem('isAuth', true)
+    localStorage.setItem('userId', data.id)
+    localStorage.setItem('username', data.username)
+    localStorage.setItem('avatar', data.avatar)
+    localStorage.setItem('coin', data.coin)
     yield put(getUserInfoSuccess(data))
   } catch(error) {
     yield put(getUserInfoFail(error))
@@ -63,10 +68,10 @@ function* logOutSaga() {
 function* signUpSaga({ payload }) {
   try {
     const data = yield call(restConnector.post, '/users', payload)
+    yield put(logInLocal(payload))
     yield put(signUpSuccess(data))
     // successAlert('Đăng ký thành công')
     //window.history.push('/profile')
-    yield put(logInLocal(payload))
   } catch (error) {
     yield put(signUpFail(error))
     let errorMessage = _.get(error, 'response.data.error.message', 'Đăng ký lỗi')
