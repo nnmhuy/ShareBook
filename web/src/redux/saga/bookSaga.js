@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects'
+import { call, put, takeLatest, all, takeEvery } from 'redux-saga/effects'
 
 import {
   getBookList,
@@ -33,8 +33,8 @@ function* getBookListSaga({ payload }) {
 
 function* getCategoryListSaga({ payload }) {
   try {
-    // const data = yield call(restConnector.post, '/users/login', payload)
-    yield put(getCategoryListSuccess())
+    const categoryList = yield call(restConnector.get, '/categories')
+    yield put(getCategoryListSuccess(categoryList));
   } catch (error) {
     yield put(getCategoryListFail(error))
   }
@@ -133,7 +133,7 @@ function* toggleBookmarkSaga({ payload }) {
 }
 
 function* getBookListWatcher() {
-  yield takeLatest(getBookList, getBookListSaga)
+  yield takeEvery(getBookList, getBookListSaga)
 }
 
 function* getCategoryListWatcher() {
@@ -145,7 +145,7 @@ function* getBookLiteWatcher() {
 }
 
 function* getBookInfoWatcher() {
-  yield takeLatest(getBookInfo, getBookInfoSaga)
+  yield takeEvery(getBookInfo, getBookInfoSaga)
 }
 
 function* getBookOfCategoryWatcher() {
