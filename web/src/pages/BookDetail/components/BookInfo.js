@@ -147,7 +147,7 @@ const BookInfo = (props) => {
       </Link>
       <div className={classes.infoSection}>
         <div className={classes.imagePart}>
-          <img src={imageUrl} className={classes.image} alt={name} />
+          <Image src={imageUrl} className={classes.image} alt={name} />
           <Rating
             className={classes.rating}
             value={rating}
