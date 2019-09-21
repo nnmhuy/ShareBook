@@ -7,23 +7,23 @@ const categoryList = [
   },
   {
     name: 'Thiếu nhi',
-    url: '/childrenBook',
+    url: '/children-book',
   },
   {
     name: 'Tiểu sử - hồi ký',
-    url: '/biographiesAndMemoirs',
+    url: '/biographies-and-memoirs',
   },
   {
     name: 'Kinh tế',
-    url: '/businessAndInvesting',
+    url: '/business-and-investing',
   },
   {
     name: 'Tâm lý - kỹ năng sống',
-    url: '/selfHelp',
+    url: '/self-help',
   },
   {
     name: 'Sách giáo khoa - tham khảo',
-    url: '/studyBook',
+    url: '/study-book',
   },
   {
     name: 'truyện tranh',
@@ -31,27 +31,27 @@ const categoryList = [
   },
   {
     name: 'Khoa học kỹ thuật',
-    url: '/naturalScienceAndTechnology',
+    url: '/natural-science-and-technology',
   },
   {
     name: 'Khoa học xã hội',
-    url: '/socialScience',
+    url: '/social-science',
   },
   {
     name: 'Sách học ngoại ngữ',
-    url: '/foreignLanguage',
+    url: '/foreign-language',
   },
   {
     name: 'Du lịch - trải nghiệm - nấu ăn',
-    url: '/travelAndCook',
+    url: '/travel-and-cook',
   },
   {
     name: 'Điện ảnh - âm nhạc - hội họa',
-    url: '/movieMusicArt',
+    url: '/movie-music-art',
   },
   {
     name: 'Sở thích - trò chơi',
-    url: '/hobbyGame',
+    url: '/hobby-game',
   },
 ];
 

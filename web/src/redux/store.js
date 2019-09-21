@@ -4,6 +4,8 @@ import createSagaMiddleware from 'redux-saga'
 import counter from './reducers/counterReducer'
 import accountReducer from './reducers/accountReducer'
 import bookReducer from './reducers/bookReducer'
+import bookInstancesReducer from './reducers/bookInstanceReducer'
+import reviewReducer from './reducers/reviewReducer'
 import rootSaga from './saga/saga.js'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -14,7 +16,9 @@ export const store = createStore(
   combineReducers({
     counter: counter,
     account: accountReducer,
-    book: bookReducer
+    book: bookReducer,
+    review: reviewReducer,
+    bookInstances: bookInstancesReducer
   }),
   composeEnhancers(
     applyMiddleware(

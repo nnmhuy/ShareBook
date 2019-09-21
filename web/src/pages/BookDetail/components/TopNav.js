@@ -31,10 +31,14 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-  const { classes, children, isLiked, handleToggleLike } = props
+  const { classes, children, id, bookmarkId, isBookmarked, handleToggleBookmark } = props
 
   const handleBack = () => {
     window.history.back()
+  }
+
+  const handleToggleLike = () => {
+    handleToggleBookmark(id, bookmarkId, !isBookmarked)
   }
 
   return (
@@ -48,7 +52,7 @@ const TopNav = (props) => {
         <span className={classes.title}>Chi tiết sách</span>
       }
       right={
-        isLiked?
+        isBookmarked?
           <HeartFullIcon className={classes.heartIcon} onClick={handleToggleLike}/>
           :
           <HeartIcon className={classes.heartIcon} fill={colors.primary} onClick={handleToggleLike}/>

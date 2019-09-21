@@ -4,6 +4,7 @@ import { Rating } from '@material-ui/lab'
 import { Avatar, Button, IconButton, ClickAwayListener } from '@material-ui/core'
 
 import Link from './Link'
+import Image from './Image'
 
 import colors from '../constants/colors'
 import { ReactComponent as LikeNotFilledIcon } from '../static/images/like.svg'
@@ -59,7 +60,8 @@ const styles = (theme => ({
   reviewContainer: {
     marginTop: 10,
     marginBottom: 10,
-    height: 100,
+    height: 'fit-content',
+    maxHeight: 100,
     width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -152,8 +154,9 @@ const styles = (theme => ({
 
 const ReviewItem = (props) => {
   const { 
-    classes, bookImage, images, reviewId, userId,
-    title, username, avatar, createdAt, rating, review, likeStatus, number_of_comment
+    classes, bookImageUrl, images, id, userId,
+    title, username, avatar, createdAt, rating, content, likeStatus, numberOfReplies,
+    handleToggleLikeReview, likeReviewId
   } = props
 
   const [isShowMore, setShowMore] = React.useState(false)
@@ -164,6 +167,10 @@ const ReviewItem = (props) => {
 
   const handleClickAway = () => {
     setShowMore(false)
+  }
+
+  const onToggleLike = (likeStatus) => () => {
+    handleToggleLikeReview(id, likeReviewId, likeStatus)
   }
 
   return (
@@ -186,7 +193,7 @@ const ReviewItem = (props) => {
         </ClickAwayListener>
       </div>
       <div className={classes.infoContainer}>
-        <img className={classes.image} src={images[0] || bookImage} alt='feature'/>
+        <Image className={classes.image} src={images[0] || bookImageUrl} alt='feature'/>
         <div className={classes.detailContainer}>
           <span className={classes.title}>{title}</span>
           <div className={classes.personalWrapper}>
@@ -205,23 +212,25 @@ const ReviewItem = (props) => {
           </div>
         </div>
       </div>
-      <div className={classes.reviewContainer}>{review}</div>
+      <div className={classes.reviewContainer}>{content}</div>
       <div className={classes.buttonContainer}>
         {likeStatus===1 ?
-          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon}/>
+          <LikeFilledIcon fill={colors.primary} className={classes.likeIcon} onClick={onToggleLike(0)}/>
           :
-          <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} />
+          <LikeNotFilledIcon fill={colors.primary} className={classes.likeIcon} onClick={onToggleLike(1)}/>
         }
-        {likeStatus === 2 ?
-          <LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
+        {likeStatus === -1 ?
+          <LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} onClick={onToggleLike(0)}/>
           :
-          <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
+          <LikeNotFilledIcon fill='#D75A4A' className={classes.dislikeIcon} onClick={onToggleLike(-1)}/>
         }
-        <span className={classes.commentButton}>
-          <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
-          <span className={classes.numberOfComment}>{number_of_comment}</span>
-        </span>
-        <Link to={`/review/${reviewId}`} className={classes.nextButton}>
+        <Link to={`/review/${id}`}>
+          <span className={classes.commentButton}>
+            <CommentIcon fill={colors.primary} className={classes.commentIcon}/>
+            <span className={classes.numberOfComment}>{numberOfReplies}</span>
+          </span>
+        </Link>
+        <Link to={`/review/${id}`} className={classes.nextButton}>
           <Button>
             <span className={classes.nextText}>Mở rộng</span>
             <NextArrow fill={colors.primary} className={classes.nextArrow}/>

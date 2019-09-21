@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '../constants/constants'
+// import { warnAlert } from '../components/alert'
 
 const RestConnector = () => {
   const instance = axios.create({ baseURL, withCredentials: true})
@@ -11,6 +12,10 @@ const RestConnector = () => {
     function (err) {
       err.code = err.response.status
       err.message = err.response.data.message
+      if (err.code === 401 && err.config.url !== `${baseURL}/users/me`) {
+        // warnAlert('Bạn cần phải đăng nhập trước')
+        window.location = '/account'
+      }
       return Promise.reject(err)
     }
   )

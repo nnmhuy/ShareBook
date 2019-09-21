@@ -4,6 +4,7 @@ import Carousel from 'nuka-carousel'
 
 import Link from './Link'
 import Book from './Book'
+import calculateRating from '../helper/calculateRating'
 
 const styles = (theme => ({
   container: {
@@ -31,7 +32,7 @@ const styles = (theme => ({
 }))
 
 const BookSlider = (props) => {
-  const { classes, title, url, bookList, ...other } = props
+  const { classes, title, url, bookList, handleToggleBookmark, ...other } = props
   return (
     <div {...other}>
       <div className={classes.titleContainer}>
@@ -50,7 +51,14 @@ const BookSlider = (props) => {
           bookList.map(book => {
             return (
               <Book
-                {...book}
+                id={book.id}
+                bookmarkId={book.bookmarkId}
+                name={book.name}
+                author={book.author}
+                imageUrl={book.imageUrl}
+                isBookmarked={book.isBookmarked}
+                rating={calculateRating(book.totalOfRating, book.numberOfRating)}
+                handleToggleBookmark={handleToggleBookmark}
                 key={book.id}
               />
             )

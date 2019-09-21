@@ -1,6 +1,9 @@
+const frontendURL = process.env.REACT_APP_FRONTEND_URL
 const baseURL = process.env.REACT_APP_BASE_URL
 const imageContainer = process.env.REACT_APP_IMAGE_CONTAINER
 const maxMobileWidth = '800px'
+const numberOfReviewsPerPage = 5
+const numberOfBookInstancesPerPage = 5
 
 const mapTransactionStatusToText = [
   'Chờ phản hồi', //waitingForResponse
@@ -20,9 +23,12 @@ const mapPositionToText = [
 ]
 
 export {
+  frontendURL,
   baseURL,
   maxMobileWidth,
   imageContainer,
   mapTransactionStatusToText,
-  mapPositionToText
+  mapPositionToText,
+  numberOfReviewsPerPage,
+  numberOfBookInstancesPerPage
 }
