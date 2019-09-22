@@ -1,4 +1,6 @@
 import { call, put, takeLatest, all, takeEvery } from 'redux-saga/effects'
+import _ from 'lodash'
+import {successAlert, warnAlert} from '../../components/alert'
 
 import {
   getBookList,
@@ -24,8 +26,11 @@ import restConnector from '../../connectors/RestConnector'
 
 function* getBookListSaga({ payload }) {
   try {
-    // const data = yield call(restConnector.post, '/users/login', payload)
-    yield put(getBookListSuccess())
+    let { where, skip, limit, order, include, key } = payload
+    let filter = { where, skip, limit, order, include }
+    const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
+    let bookList = _.get(response, 'data', [])
+    yield put(getBookListSuccess({bookList, key}))
   } catch (error) {
     yield put(getBookListFail(error))
   }
@@ -33,9 +38,11 @@ function* getBookListSaga({ payload }) {
 
 function* getCategoryListSaga({ payload }) {
   try {
-    const categoryList = yield call(restConnector.get, '/categories')
-    yield put(getCategoryListSuccess(categoryList));
+    const response = yield call(restConnector.get, '/categories')
+    let categoryList = _.get(response, 'data', [])
+    yield put(getCategoryListSuccess(categoryList, '123'));
   } catch (error) {
+    warnAlert('Hệ thống hoặc kết nối của bạn bị lỗi');
     yield put(getCategoryListFail(error))
   }
 }

@@ -20,11 +20,11 @@ var categoryList = [
     url: '/business-and-investing',
   },
   {
-    name: 'Tâm lý - kỹ năng sống',
+    name: 'Tâm lý - kỹ năng',
     url: '/self-help',
   },
   {
-    name: 'Sách giáo khoa - tham khảo',
+    name: 'Sách giáo khoa',
     url: '/study-book',
   },
   {
@@ -44,11 +44,11 @@ var categoryList = [
     url: '/foreign-language',
   },
   {
-    name: 'Du lịch - trải nghiệm - nấu ăn',
+    name: 'Du lịch - trải nghiệm',
     url: '/travel-and-cook',
   },
   {
-    name: 'Điện ảnh - âm nhạc - hội họa',
+    name: 'Nghệ thuật',
     url: '/movie-music-art',
   },
   {
@@ -57,9 +57,11 @@ var categoryList = [
   },
 ];
 
-categoryList = categoryList.map(element => {
+const fullCategoryList = categoryList.map(element => {
   element.image = BACKEND_URL + '/containers/defaultContainer/download' +
   element.url + '.svg';
+  element.url = '/category' + element.url;
+  return element;
 });
 
-module.exports = categoryList;
+module.exports = fullCategoryList;

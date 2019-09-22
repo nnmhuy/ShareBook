@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Link from '../../components/Link'
@@ -14,6 +15,7 @@ import TopBook from './components/TopBook'
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
 import { newsDemoData, categoryDemoList, demoBookList, demoTopBooks } from './demoData'
+import { getCategoryList, getBookList } from '../../redux/actions/bookAction'
 
 const styles = (theme => ({
   container: {
@@ -48,10 +50,15 @@ class BookList extends React.Component {
 
     this.state = {
     }
+
+    this.props.getCategoryListHandler();
   }
 
   render() {
-    const { classes, account } = this.props
+    const { classes, account, categoryIsLoading, categoryList } = this.props
+    let currentCategoryList = []
+    if (!categoryIsLoading && categoryList)
+      currentCategoryList = categoryList
 
     return (
       <LayoutWrapper account={account} title={'Kệ sách'}>
@@ -64,8 +71,8 @@ class BookList extends React.Component {
               </IconButton>
             </Link>
           </div>
-          <NewsSlider newsData={newsDemoData}/>
-          <CategoryList categoryList={categoryDemoList}/>
+          <NewsSlider newsData={currentCategoryList}/>
+          <CategoryList categoryList={currentCategoryList}/>
           <BookSlider
             title={'Sách mới'}
             url={`/category/suggested`}
@@ -89,7 +96,7 @@ class BookList extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ state, book }) => {
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -99,13 +106,13 @@ const mapStateToProps = ({ state }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    categoryIsLoading: book.categoryIsLoading,
+    categoryList: book.categoryList
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getCategoryListHandler: getCategoryList,
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookList));

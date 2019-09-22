@@ -35,13 +35,13 @@ const styles = (theme => ({
 }))
 
 const CategoryItem = (props) => {
-  const { classes, title, icon, number_of_books, url } = props
+  const { classes, name, image, totalOfBook, url } = props
   return (
     <Link to={url} className={classes.container}>
-      <img src={icon} alt='icon' className={classes.icon}/>
+      <img src={image} alt='icon' className={classes.icon}/>
       <div className={classes.textContainer}>
-        <div className={classes.title}>{title}</div>
-        <div className={classes.number_of_books}>{`${number_of_books} cuốn`}</div>
+        <div className={classes.title}>{name}</div>
+        <div className={classes.number_of_books}>{`${totalOfBook} cuốn`}</div>
       </div>
     </Link>
   )

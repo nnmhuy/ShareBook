@@ -23,7 +23,7 @@ import {
 
 let defaultState = {
   isLoading: false,
-  categoryIsLoading: false,
+  categoryIsLoading: true,
   isLoadingCategory: false,
   error: null,
   bookDetail: {
@@ -46,13 +46,13 @@ let defaultState = {
 
 const bookReducer = handleActions(
   {
-    [getBookList]: (state) => {
+    [getBookList]: (state, { payload: { key } }) => {
+      
       return {
         ...state,
-        isLoading: true
       }
     },
-    [getBookListSuccess]: (state) => {
+    [getBookListSuccess]: (state, { payload: { booklist, key } }) => {
       return {
         ...state,
         error: null,
@@ -72,7 +72,7 @@ const bookReducer = handleActions(
         categoryIsLoading: true
       }
     },
-    [getCategoryListSuccess]: (state, { payload : {categoryList} } ) => {
+    [getCategoryListSuccess]: (state, { payload: categoryList } ) => {
       return {
         ...state,
         categoryList: categoryList,

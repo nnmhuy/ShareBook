@@ -50,8 +50,13 @@ const NewsSlider = (props) => {
     <Slider {...settings} className={classes.slider}>
       {
         newsData.map(news => {
+          // temporary when don't have news
+          let oneNews = {}
+          oneNews.title = news.name 
+          oneNews.url = news.url
+          oneNews.image = require('../../../static/images/demo/news-placeholder.png')
           return (
-            <NewsItem {...news} key={news.url}/>
+            <NewsItem {...oneNews} key={news.url}/>
           )
         })
       }
