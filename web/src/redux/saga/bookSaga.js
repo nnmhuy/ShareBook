@@ -7,6 +7,9 @@ import {
   getCategoryList,
   getCategoryListSuccess,
   getCategoryListFail,
+  getBookLite,
+  getBookLiteSuccess,
+  getBookLiteFail,
   getBookInfo,
   getBookInfoSuccess,
   getBookInfoFail,
@@ -36,6 +39,17 @@ function* getCategoryListSaga({ payload }) {
     yield put(getCategoryListFail(error))
   }
 }
+
+function* getBookLiteSaga({ payload }) {
+  try {
+    const { bookId } = payload
+    const { data } = yield call(restConnector.get, `/books/${bookId}`)
+    yield put(getBookLiteSuccess(data))
+  } catch (error) {
+    yield put(getBookLiteFail(error))
+  }
+}
+
 function* getBookInfoSaga({ payload }) {
   try {
     const { bookId, userId } = payload
@@ -126,6 +140,10 @@ function* getCategoryListWatcher() {
   yield takeLatest(getCategoryList, getCategoryListSaga)
 }
 
+function* getBookLiteWatcher() {
+  yield takeLatest(getBookLite, getBookLiteSaga)
+}
+
 function* getBookInfoWatcher() {
   yield takeLatest(getBookInfo, getBookInfoSaga)
 }
@@ -141,6 +159,7 @@ function* toggleBookmarkWatcher() {
 export {
   getBookListWatcher,
   getCategoryListWatcher,
+  getBookLiteWatcher,
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher

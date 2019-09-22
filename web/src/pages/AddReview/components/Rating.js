@@ -52,7 +52,6 @@ const RatingContainer = (props) => {
         id='rating'
         name='rating'
         value={value}
-        touched={touched}
         error={error}
         onChange={handleChange}
         size='large'

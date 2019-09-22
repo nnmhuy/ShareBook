@@ -86,7 +86,7 @@ const SignupWithFormik = withFormik({
 
     setSubmitting(true)
     if (values.isLoadingImage) {
-      warnAlert('Đang tải ảnh, bạn thử lại sau nha')
+      warnAlert('Đang tải ảnh, vui lòng chờ và thử lại')
       return
     }
 
