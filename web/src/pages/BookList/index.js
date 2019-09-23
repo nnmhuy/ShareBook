@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
+import _ from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Link from '../../components/Link'
@@ -50,12 +51,17 @@ class BookList extends React.Component {
 
     this.state = {
     }
+  }
 
+  componentDidMount() {
     this.props.getCategoryListHandler();
+    this.props.getBookListHandler({key:'new'});
+    this.props.getBookListHandler({key:'popular'});
+    this.props.getBookListHandler({key:'high-rating'});
   }
 
   render() {
-    const { classes, account, categoryIsLoading, categoryList } = this.props
+    const { classes, account, categoryIsLoading, categoryList, bookListData, bookListIsLoading } = this.props
     let currentCategoryList = []
     if (!categoryIsLoading && categoryList)
       currentCategoryList = categoryList
@@ -75,18 +81,18 @@ class BookList extends React.Component {
           <CategoryList categoryList={currentCategoryList}/>
           <BookSlider
             title={'Sách mới'}
-            url={`/category/suggested`}
-            bookList={demoBookList} 
+            url={`/category/new`}
+            bookList={_.get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
             />
           <BookSlider
             title={'Sách đọc nhiều'}
-            url={`/category/discovery`}
-            bookList={demoBookList} />
+            url={`/category/popular`}
+            bookList={_.get(bookListData, 'popular', [])} />
           <BookSlider
             title={'Sách được đánh giá cao'}
-            url={`/category/joke`}
-            bookList={demoBookList} />
+            url={`/category/high-rating`}
+            bookList={_.get(bookListData, 'high-rating', [])} />
           <TopBook 
             topBookList={demoTopBooks}
           />
@@ -107,12 +113,15 @@ const mapStateToProps = ({ state, book }) => {
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
     categoryIsLoading: book.categoryIsLoading,
-    categoryList: book.categoryList
+    categoryList: book.categoryList,
+    bookListData: book.bookListData,
+    bookListIsLoading: book.bookListIsLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
+  getBookListHandler: getBookList
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookList));

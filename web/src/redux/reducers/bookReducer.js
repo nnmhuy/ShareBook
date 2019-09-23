@@ -42,28 +42,39 @@ let defaultState = {
   bookOfCategory: [],
   isLoadingBookLite: false,
   bookLite: {}
+  bookListIsLoading: {},
+  bookListData: {},
+  bookOfCategory: []
 }
 
 const bookReducer = handleActions(
   {
     [getBookList]: (state, { payload: { key } }) => {
-      
+      let { bookListIsLoading } = state
+      bookListIsLoading[key] = true
       return {
         ...state,
+        bookListIsLoading
       }
     },
-    [getBookListSuccess]: (state, { payload: { booklist, key } }) => {
+    [getBookListSuccess]: (state, { payload: { bookList, key } }) => {
+      let { bookListIsLoading, bookListData } = state
+      bookListIsLoading[key] = false
+      bookListData[key] = bookList
       return {
         ...state,
         error: null,
-        isLoading: false
+        bookListIsLoading, 
+        bookListData
       }
     },
-    [getBookListFail]: (state, { payload: error }) => {
+    [getBookListFail]: (state, { payload: {error, key} }) => {
+      let { bookListIsLoading } = state
+      bookListIsLoading[key] = false
       return {
         ...state,
         error,
-        isLoading: false
+        bookListIsLoading
       }
     },
     [getCategoryList]: (state) => {
