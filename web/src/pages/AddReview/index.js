@@ -14,7 +14,7 @@ import ReviewContainer from './components/ReviewContainer'
 import { getBookLite } from '../../redux/actions/bookAction'
 import { getReviewByUser, postReview } from '../../redux/actions/reviewAction'
 import { uploadImagePromise } from '../../helper/uploadImage'
-import { errorAlert, warnAlert } from '../../components/alert'
+import _ from 'lodash'
 
 
 const styles = (theme => ({
@@ -72,7 +72,7 @@ class AddReview extends React.Component {
       isPostingReview || isLoadingBookLite || values.isLoadingImage
 
     return (
-      <TopNav handleSubmit={handleSubmit} name={book.name} bookImage={book.imageUrl} isLoading={isLoading}>
+      <TopNav handleSubmit={handleSubmit} name={book.name} bookImage={book.image} isLoading={isLoading}>
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <Rating
@@ -97,13 +97,14 @@ class AddReview extends React.Component {
 
 
 const AddReviewWithFormik = withFormik({
-  mapPropsToValues: () => (
-    { 
-      rating: 0,
+  mapPropsToValues: (props) => {
+    return { 
+      rating: _.get(props, 'history.location.state.rating', 0),
       images: [],
       content: '',
       isLoadingImage: false
-  }),
+    }
+  },
 
   handleSubmit: async (values, { setSubmitting, props }) => {
     const { 
@@ -129,8 +130,6 @@ const AddReviewWithFormik = withFormik({
       bookId: match.params.bookId,
       reviewId: review && review.id
     }
-
-    console.log(data)
 
     createReview(data)
     setSubmitting(false)
