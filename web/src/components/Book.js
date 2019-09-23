@@ -46,7 +46,7 @@ const styles = (theme => ({
 }))
 
 const Book = (props) => {
-  const { classes, id, bookmarkId, name, author, imageUrl, isBookmarked, rating, handleToggleBookmark, ...other } = props
+  const { classes, id, bookmarkId, name, author, image, isBookmarked, rating, handleToggleBookmark, ...other } = props
 
   const onBookmark = () => {
     handleToggleBookmark(id, bookmarkId, !isBookmarked)
@@ -55,7 +55,7 @@ const Book = (props) => {
   return (
     <div className={classes.container} {...other}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={imageUrl} alt={name} className={classes.image}/>
+        <Image src={image} alt={name} className={classes.image}/>
       </Link>
       <div className={classes.name}>
         <Link to={`/book-detail/${id}`}>

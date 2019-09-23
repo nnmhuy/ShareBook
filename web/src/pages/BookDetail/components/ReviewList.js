@@ -12,7 +12,7 @@ const styles = (theme => ({
 }))
 
 const ReviewList = (props) => {
-  const { classes, reviewList, bookImageUrl, getReviews, userId, bookId, numberOfReviews,
+  const { classes, reviewList, bookImage, getReviews, userId, bookId, numberOfReviews,
     handleToggleLikeReview
   } = props
 
@@ -28,7 +28,7 @@ const ReviewList = (props) => {
             <ReviewItem
               key={id}
               {...review}
-              bookImageUrl={bookImageUrl}
+              bookImage={bookImage}
               handleToggleLikeReview={handleToggleLikeReview}
             />
           )

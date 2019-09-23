@@ -154,7 +154,7 @@ const styles = (theme => ({
 
 const ReviewItem = (props) => {
   const { 
-    classes, bookImageUrl, images, id, userId,
+    classes, bookImage, images, id, userId,
     title, username, avatar, createdAt, rating, content, likeStatus, numberOfReplies,
     handleToggleLikeReview, likeReviewId
   } = props
@@ -193,7 +193,7 @@ const ReviewItem = (props) => {
         </ClickAwayListener>
       </div>
       <div className={classes.infoContainer}>
-        <Image className={classes.image} src={images[0] || bookImageUrl} alt='feature'/>
+        <Image className={classes.image} src={images[0] || bookImage} alt='feature'/>
         <div className={classes.detailContainer}>
           <span className={classes.title}>{title}</span>
           <div className={classes.personalWrapper}>

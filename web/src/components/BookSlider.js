@@ -55,7 +55,7 @@ const BookSlider = (props) => {
                 bookmarkId={book.bookmarkId}
                 name={book.name}
                 author={book.author}
-                imageUrl={book.imageUrl}
+                image={book.image}
                 isBookmarked={book.isBookmarked}
                 rating={calculateRating(book.totalOfRating, book.numberOfRating)}
                 handleToggleBookmark={handleToggleBookmark}

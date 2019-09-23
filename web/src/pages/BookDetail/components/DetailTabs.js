@@ -49,7 +49,7 @@ const DetailTabs = (props) => {
       </TabPanel>
       <TabPanel index={2} value={activeTab}>
         <ReviewList 
-          bookImageUrl={book.imageUrl} 
+          bookImage={book.image} 
           reviewList={reviewList} 
           getReviews={getReviews} 
           userId={userId}
