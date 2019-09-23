@@ -39,10 +39,11 @@ function* postReviewSaga({ payload }) {
         attachUser: true        
       })
     } else {
-      yield call(restConnector.post, `/books/${bookId}/reviews`, {
+      yield call(restConnector.post, `/reviews`, {
         rating,
         images,
         content,
+        bookId,
         attachUser: true
       })
     }

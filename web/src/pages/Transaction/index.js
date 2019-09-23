@@ -49,7 +49,7 @@ class Transaction extends React.Component {
 const mapStateToProps = ({ state, account }) => {
   return {
     account: {
-      isAuth: Boolean.valueOf(localStorage.getItem('isAuth')),
+      isAuth: !!(localStorage.getItem('isAuth')),
       userId: localStorage.getItem('userId'),
       username: localStorage.getItem('username'),
       name: localStorage.getItem('name'),

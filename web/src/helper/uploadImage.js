@@ -2,7 +2,7 @@ import axios from 'axios'
 import { baseURL, imageContainer } from '../constants/constants'
 import _ from 'lodash'
 
-function uploadImage(image, callback) {
+async function uploadImage(image, callback) {
   var bodyFormData = new FormData();
   var fileName = image.imageName;
   // remove extension
@@ -10,7 +10,7 @@ function uploadImage(image, callback) {
     fileName = fileName.split('.').slice(0, -1).join('-')
   }
   bodyFormData.append('file', image.blob, `${fileName}.jpg`);
-  axios({
+  await axios({
     method: 'post',
     url: `${baseURL}/containers/imageContainer/upload`,
     data: bodyFormData,

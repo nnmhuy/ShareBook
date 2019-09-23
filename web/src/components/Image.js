@@ -3,6 +3,7 @@ import React from 'react'
 import { baseURL } from '../constants/constants'
 
 const getImageUrl = (imageUrl) => {
+  if (imageUrl[0] !== '/' || imageUrl.includes('http')) return imageUrl
   return `${baseURL}${imageUrl}`
 }
 

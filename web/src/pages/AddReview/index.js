@@ -13,6 +13,8 @@ import ReviewContainer from './components/ReviewContainer'
 
 import { getBookLite } from '../../redux/actions/bookAction'
 import { getReviewByUser, postReview } from '../../redux/actions/reviewAction'
+import uploadImage from '../../helper/uploadImage'
+import { errorAlert, warnAlert } from '../../components/alert'
 
 
 const styles = (theme => ({
@@ -66,7 +68,8 @@ class AddReview extends React.Component {
       isSubmitting,
       book
     } = this.props
-    const isLoading = isLoadingReviewByUser || isSubmitting || isPostingReview || isLoadingBookLite
+    const isLoading = isLoadingReviewByUser || isSubmitting || 
+      isPostingReview || isLoadingBookLite || values.isLoadingImage
 
     return (
       <TopNav handleSubmit={handleSubmit} name={book.name} bookImage={book.imageUrl} isLoading={isLoading}>
@@ -79,6 +82,7 @@ class AddReview extends React.Component {
           />
           <ImageContainer 
             value={values.images}
+            setFieldValue={setFieldValue}
           />
           <ReviewContainer 
             value={values.content}
@@ -98,10 +102,10 @@ const AddReviewWithFormik = withFormik({
       rating: 0,
       images: [],
       content: '',
-      isLoadingImage: {}
+      isLoadingImage: false
   }),
 
-  handleSubmit: (values, { setSubmitting, props }) => {
+  handleSubmit: async (values, { setSubmitting, props }) => {
     const { 
       createReview, 
       isLoadingReviewByUser, 
@@ -111,19 +115,34 @@ const AddReviewWithFormik = withFormik({
       review
     } = props
     
-    const isLoading = isLoadingReviewByUser || isSubmitting || isPostingReview
+    const isLoading = isLoadingReviewByUser || isSubmitting || isPostingReview || values.isLoadingImage
     if (isLoading) return
 
-    
     setSubmitting(true)
+
+    let imagesUrl = []
+
+    values.images.forEach(async image => {
+      await uploadImage(image, (err, linkImage) => {
+        if (err) {
+          warnAlert('Hình gặp lỗi, bình luận của bạn vẫn được đăng')
+          if (err.message) console.log(err.message)
+        }
+        if (linkImage) imagesUrl.push(linkImage)
+        console.log(imagesUrl.length)
+      })
+    })
+    console.log(imagesUrl.length)
 
     const data = {
       rating: values.rating,
       content: values.content,
-      images: values.images,
+      images: imagesUrl,
       bookId: match.params.bookId,
-      reviewId: review.id
+      reviewId: review && review.id
     }
+
+    console.log(data)
 
     createReview(data)
     setSubmitting(false)
