@@ -85,7 +85,7 @@ const styles = (theme => ({
 
 class CommentItem extends Component {
     render() {
-        const { classes, userId, avatar, username, likeStatus, number_of_like, number_of_dislike, content, createdAt } = this.props;
+        const { classes, userId, avatar, name, likeStatus, number_of_like, number_of_dislike, content, createdAt } = this.props;
 
         return (
             <div className={classes.flexContainer}>
@@ -95,7 +95,7 @@ class CommentItem extends Component {
                 <div className={classes.replyWrapper}>
                     <div className={classes.reply}>
                         <span>
-                            <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
+                            <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
                         </span>
                         {content}
                     </div>

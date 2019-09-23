@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
+import Loading from '../../components/Loading'
 import Link from '../../components/Link'
 import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
@@ -68,6 +69,7 @@ class BookList extends React.Component {
 
     return (
       <LayoutWrapper account={account} title={'Kệ sách'}>
+        <Loading isLoading={categoryIsLoading}/>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <Search className={classes.search}/>
@@ -84,15 +86,20 @@ class BookList extends React.Component {
             url={`/category/new`}
             bookList={_.get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
-            />
+            isLoading={bookListIsLoading['new']}
+          />
           <BookSlider
             title={'Sách đọc nhiều'}
             url={`/category/popular`}
-            bookList={_.get(bookListData, 'popular', [])} />
+            bookList={_.get(bookListData, 'popular', [])} 
+            isLoading={bookListIsLoading['popular']}
+          />
           <BookSlider
             title={'Sách được đánh giá cao'}
             url={`/category/high-rating`}
-            bookList={_.get(bookListData, 'high-rating', [])} />
+            bookList={_.get(bookListData, 'high-rating', [])} 
+            isLoading={bookListIsLoading['high-rating']}            
+          />
           <TopBook 
             topBookList={demoTopBooks}
           />

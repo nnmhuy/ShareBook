@@ -13,7 +13,7 @@ const Image = (props) => {
     return <img alt={'loading'} {...others} />
   }
   return (
-    <img src={getImageUrl(src)} alt={alt} {...others} />
+    <img src={getImageUrl(src)} alt={alt} {...others} style={{ objectFit: 'cover'}}/>
   )
 }
 

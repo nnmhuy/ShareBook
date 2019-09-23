@@ -155,7 +155,7 @@ const styles = (theme => ({
 const ReviewItem = (props) => {
   const { 
     classes, bookImage, images, id, userId,
-    title, username, avatar, createdAt, rating, content, likeStatus, numberOfReplies,
+    title, name, avatar, createdAt, rating, content, likeStatus, numberOfReplies,
     handleToggleLikeReview, likeReviewId
   } = props
 
@@ -199,7 +199,7 @@ const ReviewItem = (props) => {
           <div className={classes.personalWrapper}>
             <Avatar src={avatar} className={classes.avatar}/>
             <div className={classes.personalInfo}>
-              <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
+              <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
               <div className={classes.date}>{createdAt}</div>
             </div>
             <Rating

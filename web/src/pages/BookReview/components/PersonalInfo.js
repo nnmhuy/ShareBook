@@ -80,7 +80,7 @@ const styles = (theme => ({
 class PersonalInfo extends Component {
     render() {
         const { classes } = this.props;
-        const { userId, username, avatar, createdAt, rating } = demoReview;
+        const { userId, name, avatar, createdAt, rating } = demoReview;
 
         return (
             <div className={classes.flexContainer}>
@@ -88,7 +88,7 @@ class PersonalInfo extends Component {
                     <Avatar src={avatar} className={classes.avatar} />
                     <div className={classes.personalInfo}>
                         <div style={{ display: 'flex' }}>
-                            <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
+                            <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
                             <Rating
                                 className={classes.rating}
                                 readOnly

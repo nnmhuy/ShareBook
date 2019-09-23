@@ -1,10 +1,12 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Carousel from 'nuka-carousel'
+import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Link from './Link'
 import Book from './Book'
 import calculateRating from '../helper/calculateRating'
+import colors from '../constants/colors'
 
 const styles = (theme => ({
   container: {
@@ -28,43 +30,52 @@ const styles = (theme => ({
     marginTop: 20,
     paddingLeft: 20,
     marginBottom: 20
+  },
+  loading: {
+    padding: 20
   }
 }))
 
 const BookSlider = (props) => {
-  const { classes, title, url, bookList, handleToggleBookmark, ...other } = props
+  const { classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = props
   return (
     <div {...other}>
       <div className={classes.titleContainer}>
         <span className={classes.title}>{title}</span>
         <Link to={url} className={classes.viewMore}>Xem thêm</Link>
       </div>
-      <Carousel
-        className={classes.carousel}
-        slideWidth='102px'
-        cellSpacing={40}
-        withoutControls
-        slidesToScroll='auto'
-        initialSlideHeight={205}
-      >
-        {
-          bookList.map(book => {
-            return (
-              <Book
-                id={book.id}
-                bookmarkId={book.bookmarkId}
-                name={book.name}
-                author={book.author}
-                image={book.image}
-                isBookmarked={book.isBookmarked}
-                rating={calculateRating(book.totalOfRating, book.numberOfRating)}
-                handleToggleBookmark={handleToggleBookmark}
-                key={book.id}
-              />
-            )
-          })
-        }
-      </Carousel>
+      {isLoading ?
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary}/>
+          </div>
+        :
+        <Carousel
+          className={classes.carousel}
+          slideWidth='102px'
+          cellSpacing={40}
+          withoutControls
+          slidesToScroll='auto'
+          initialSlideHeight={205}
+        >
+          {
+            bookList.map(book => {
+              return (
+                <Book
+                  id={book.id}
+                  bookmarkId={book.bookmarkId}
+                  name={book.name}
+                  author={book.author}
+                  image={book.image}
+                  isBookmarked={book.isBookmarked}
+                  rating={calculateRating(book.totalOfRating, book.numberOfRating)}
+                  handleToggleBookmark={handleToggleBookmark}
+                  key={book.id}
+                />
+              )
+            })
+          }
+        </Carousel>
+      }
     </div>
   )
 }

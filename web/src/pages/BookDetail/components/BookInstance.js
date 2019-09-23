@@ -226,8 +226,8 @@ const keyArray = [
 
 const BookInstance = (props) => {
   const { classes, isAvailable, index, 
-    ownerId, ownerUsername, ownerAvatar,
-    holderId, holderUsername, holderAvatar,
+    ownerId, ownerName, ownerAvatar,
+    holderId, holderName, holderAvatar,
   } = props
 
   const [isExpanded, setExpanded] = React.useState(false)
@@ -257,7 +257,7 @@ const BookInstance = (props) => {
               <span className={classes.dot}/>
               Họ tên
             </div>
-            <Link className={classes.username} to={`/profile/${ownerId}`}>{ownerUsername}</Link>
+            <Link className={classes.username} to={`/profile/${ownerId}`}>{ownerName}</Link>
           </div>
         </div>
       </div>
@@ -277,7 +277,7 @@ const BookInstance = (props) => {
               <span className={classes.dot} />
               Họ tên
             </div>
-            <Link className={classes.username} to={`/profile/${holderId}`}>{holderUsername}</Link>
+            <Link className={classes.username} to={`/profile/${holderId}`}>{holderName}</Link>
           </div>
         </div>
       </div>

@@ -26,14 +26,14 @@ function* getBookInstancesSaga({ payload }) {
     )
 
     const allData = bookInstances.map((instance, index) => {
-      const { avatar: ownerAvatar, username: ownerUsername } = ownerOfBookInstances[index].data
-      const { avatar: holderAvatar, username: holderUsername } = holderOfBookInstances[index].data
+      const { avatar: ownerAvatar, name: ownerName } = ownerOfBookInstances[index].data
+      const { avatar: holderAvatar, name: holderName } = holderOfBookInstances[index].data
       return {
         ...instance,
         ownerAvatar,
-        ownerUsername,
+        ownerName,
         holderAvatar,
-        holderUsername
+        holderName
       }
     })
 
