@@ -41,10 +41,9 @@ let defaultState = {
   },
   bookOfCategory: [],
   isLoadingBookLite: false,
-  bookLite: {}
+  bookLite: {},
   bookListIsLoading: {},
-  bookListData: {},
-  bookOfCategory: []
+  bookListData: {}
 }
 
 const bookReducer = handleActions(
