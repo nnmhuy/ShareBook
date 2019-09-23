@@ -2,6 +2,9 @@ import { createActions } from 'redux-actions'
 
 
 const {
+  getBookLite,
+  getBookLiteSuccess,
+  getBookLiteFail,
   getBookList,
   getBookListSuccess,
   getBookListFail,
@@ -18,6 +21,9 @@ const {
   toggleBookmarkSuccess,
   toggleBookmarkFail,
 } = createActions(
+  'GET_BOOK_LITE',
+  'GET_BOOK_LITE_SUCCESS',
+  'GET_BOOK_LITE_FAIL',
   'GET_BOOK_LIST',
   'GET_BOOK_LIST_SUCCESS',
   'GET_BOOK_LIST_FAIL',
@@ -38,6 +44,9 @@ const {
 
 
 export {
+  getBookLite,
+  getBookLiteSuccess,
+  getBookLiteFail,
   getBookList,
   getBookListSuccess,
   getBookListFail,

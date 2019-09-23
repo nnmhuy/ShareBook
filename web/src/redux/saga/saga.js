@@ -10,6 +10,7 @@ import {
 import {
   getBookListWatcher,
   getCategoryListWatcher,
+  getBookLiteWatcher,
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher
@@ -18,8 +19,10 @@ import {
   getBookInstancesWatcher
 } from './bookInstancesSaga'
 import {
+  getReviewByUserWatcher,
   getReviewsOfBookWatcher,
-  toggleLikeReviewWatcher
+  toggleLikeReviewWatcher,
+  postReviewWatcher
 } from './reviewSaga'
 
 export default function* rootSaga() {
@@ -32,12 +35,15 @@ export default function* rootSaga() {
 
     getBookListWatcher(),
     getCategoryListWatcher(),
+    getBookLiteWatcher(),
     getBookInfoWatcher(),
     getBookOfCategoryWatcher(),
     toggleBookmarkWatcher(),
 
     getBookInstancesWatcher(),
 
+    getReviewByUserWatcher(),
+    postReviewWatcher(),
     getReviewsOfBookWatcher(),
     toggleLikeReviewWatcher()
   ]);

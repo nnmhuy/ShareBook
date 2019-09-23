@@ -65,7 +65,7 @@ class Account extends React.Component {
     const { classes, isAuth, account } = this.props
     const { currentTab } = this.state
     if (isAuth)
-      return <Redirect to="/profile" />
+      return <Redirect to="/" />
     return (
       <LayoutWrapper title='Account' account={account}>
         <div className={classes.container}>
@@ -93,9 +93,10 @@ class Account extends React.Component {
 const mapStateToProps = ({ account }) => {
   return {
     account: {
-      isAuth: Boolean.valueOf(localStorage.getItem('isAuth')),
+      isAuth: !!(localStorage.getItem('isAuth')),
       userId: localStorage.getItem('userId'),
       username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },

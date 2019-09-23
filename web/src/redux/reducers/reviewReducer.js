@@ -1,6 +1,12 @@
 import { handleActions } from 'redux-actions'
 
 import {
+  getReviewByUser,
+  getReviewByUserSuccess,
+  getReviewByUserFail,
+  postReview,
+  postReviewSuccess,
+  postReviewFail,
   getReviewsOfBook,
   getReviewsOfBookSuccess,
   getReviewsOfBookFail,
@@ -13,7 +19,10 @@ let defaultState = {
   isLoading: false,
   error: null,
   reviewsOfBook: [],
-  totalNumberOfReview: 0
+  totalNumberOfReview: 0,
+  isLoadingReviewByUser: false,
+  userReview: {},
+  isPostingReview: false
 }
 
 const bookReducer = handleActions(
@@ -70,11 +79,55 @@ const bookReducer = handleActions(
       })
       return {
         ...state,
-        reviewsOfBook
+        reviewsOfBook,
+        error: null
       }
     },
     [toggleLikeReviewFail]: (state, { payload: error }) => {
       return {
+        ...state,
+        error: error
+      }
+    },
+    [getReviewByUser]: (state) => {
+      return {
+        ...state,
+        isLoadingReviewByUser: true,
+        userReview: {}
+      }
+    },
+    [getReviewByUserSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        isLoadingReviewByUser: false,
+        userReview: payload,
+        error: null
+      }
+    },
+    [getReviewByUserFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoadingReviewByUser: false,
+        error: error
+      }
+    },
+    [postReview]: (state) => {
+      return {
+        ...state,
+        isPostingReview: true
+      }
+    },
+    [postReviewSuccess]: (state) => {
+      return {
+        ...state,
+        isPostingReview: false,
+        error: null
+      }
+    },
+    [postReviewFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isPostingReview: false,
         error: error
       }
     },

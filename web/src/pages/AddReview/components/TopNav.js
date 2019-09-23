@@ -4,6 +4,7 @@ import { IconButton } from '@material-ui/core'
 
 import colors from '../../../constants/colors'
 import CustomTopNav from '../../../components/CustomTopNav'
+import Image from '../../../components/Image'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
 
 const styles = (theme => ({
@@ -41,11 +42,14 @@ const styles = (theme => ({
     fontWeight: 500,
     fontSize: 12,
     color: colors.gray
+  },
+  buttonDisabled: {
+    color: colors.gray
   }
 }))
 
 const TopNav = (props) => {
-  const { classes, children, handleSubmit, bookImage, name } = props
+  const { classes, children, handleSubmit, bookImage, name, isLoading } = props
 
   const handleBack = () => {
     window.history.back()
@@ -60,7 +64,7 @@ const TopNav = (props) => {
       }
       center={
         <div className={classes.bookContainer}>
-          <img src={bookImage} alt='book' className={classes.bookImage} />
+          <Image src={bookImage} alt='book' className={classes.bookImage} />
           <div className={classes.textContainer}>
             <div className={classes.bookName}>{name}</div>
             <div className={classes.reviewText}>Review</div>
@@ -68,7 +72,7 @@ const TopNav = (props) => {
         </div>
       }
       right={
-        <span className={classes.submitButton} onClick={handleSubmit}>Đăng</span>
+        <span className={`${classes.submitButton} ${isLoading && classes.buttonDisabled}`} onClick={handleSubmit}>Đăng</span>
       }
     >
       {children}

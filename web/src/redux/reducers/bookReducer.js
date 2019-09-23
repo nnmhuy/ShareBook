@@ -7,6 +7,9 @@ import {
   getCategoryList,
   getCategoryListSuccess,
   getCategoryListFail,
+  getBookLite,
+  getBookLiteSuccess,
+  getBookLiteFail,
   getBookInfo,
   getBookInfoSuccess,
   getBookInfoFail,
@@ -34,7 +37,9 @@ let defaultState = {
     id: '',
     url: ''
   },
-  bookOfCategory: []
+  bookOfCategory: [],
+  isLoadingBookLite: false,
+  bookLite: {}
 }
 
 const bookReducer = handleActions(
@@ -77,6 +82,27 @@ const bookReducer = handleActions(
         ...state,
         isLoading: false,
         error
+      }
+    },
+    [getBookLite]: (state) => {
+      return {
+        ...state,
+        isLoadingBookLite: true
+      }
+    },
+    [getBookLiteSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        bookLite: payload,
+        error: null,
+        isLoadingBookLite: false
+      }
+    },
+    [getBookLiteFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error,
+        isLoadingBookLite: false
       }
     },
     [getBookInfo]: (state) => {

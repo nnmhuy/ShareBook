@@ -2,6 +2,12 @@ import { createActions } from 'redux-actions'
 
 
 const {
+  getReviewByUser,
+  getReviewByUserSuccess,
+  getReviewByUserFail,
+  postReview,
+  postReviewSuccess,
+  postReviewFail,
   getReviewsOfBook,
   getReviewsOfBookSuccess,
   getReviewsOfBookFail,
@@ -9,6 +15,12 @@ const {
   toggleLikeReviewSuccess,
   toggleLikeReviewFail,
 } = createActions(
+  'GET_REVIEW_BY_USER',
+  'GET_REVIEW_BY_USER_SUCCESS',
+  'GET_REVIEW_BY_USER_FAIL',
+  'POST_REVIEW',
+  'POST_REVIEW_SUCCESS',
+  'POST_REVIEW_FAIL',
   'GET_REVIEWS_OF_BOOK',
   'GET_REVIEWS_OF_BOOK_SUCCESS',
   'GET_REVIEWS_OF_BOOK_FAIL',
@@ -20,6 +32,12 @@ const {
 
 
 export {
+  getReviewByUser,
+  getReviewByUserSuccess,
+  getReviewByUserFail,
+  postReview,
+  postReviewSuccess,
+  postReviewFail,
   getReviewsOfBook,
   getReviewsOfBookSuccess,
   getReviewsOfBookFail,

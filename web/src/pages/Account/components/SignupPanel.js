@@ -9,7 +9,7 @@ import colors from '../../../constants/colors'
 import SignupStepOne from './SignupStepOne'
 import  { LoginValidation } from '../../../helper/userValidator'
 import { warnAlert, errorAlert } from '../../../components/alert'
-import uploadImage from '../../../helper/uploadImage'
+import { uploadImage } from '../../../helper/uploadImage'
 import { signUp } from '../../../redux/actions/accountAction'
 
 
@@ -86,7 +86,7 @@ const SignupWithFormik = withFormik({
 
     setSubmitting(true)
     if (values.isLoadingImage) {
-      warnAlert('Đang tải ảnh, bạn thử lại sau nha')
+      warnAlert('Đang tải ảnh, vui lòng chờ và thử lại')
       return
     }
 

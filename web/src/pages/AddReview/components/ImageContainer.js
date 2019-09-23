@@ -2,7 +2,11 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { FieldArray } from 'formik'
 
+import Image from '../../../components/Image'
+
 import colors from '../../../constants/colors'
+import { warnAlert } from '../../../components/alert'
+import resizeImage from '../../../helper/resizeImage'
 import ImagePlaceholder from '../../../static/images/image-placeholder.png'
 import { ReactComponent as AddIcon } from '../../../static/images/add.svg'
 import { ReactComponent as RemoveIcon } from '../../../static/images/cancel.svg'
@@ -62,11 +66,35 @@ const styles = (theme => ({
   },
   addIcon: {
     backgroundColor: colors.green
+  },
+  hiddenInput: {
+    display: 'none'
   }
 }))
 
 const ImageContainer = (props) => {
   const { classes, value, touched, error, setFieldValue, ...other } = props
+
+  const uploadImageHandler = (arrayHelpers) => (event) => {
+    setFieldValue('isLoadingImage', true)
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      let newImage = event.target.files[0]
+      var imageName = newImage.name
+      if (!newImage.type.match(/image.*/)) {
+        warnAlert('Bạn cần nhập file hình nha')
+        return;
+      }
+
+      resizeImage(newImage, false, ({ url, blob }) => {
+        arrayHelpers.push({
+          url,
+          imageName,
+          blob
+        })
+        setFieldValue('isLoadingImage', false)
+      });
+    }
+  }
 
   return (
     <div className={classes.container} {...other}>
@@ -80,7 +108,7 @@ const ImageContainer = (props) => {
             {
               value.map((image, index) => (
                 <div className={classes.wrapper} key={index}>
-                  <img src={image} alt='review' className={classes.image}/>
+                  <Image src={image.url || image} alt='review' className={classes.image}/>
                   <span 
                     className={`${classes.iconButton} ${classes.removeIcon}`}
                     onClick={() => arrayHelpers.remove(index)}
@@ -93,12 +121,14 @@ const ImageContainer = (props) => {
             {(value.length < 4) &&
               <div className={classes.wrapper}>
                 <img src={ImagePlaceholder} alt='placeholder' className={classes.image}/>
-                <span
+                <label
+                  htmlFor='imageInput'
                   className={`${classes.iconButton} ${classes.addIcon}`}
-                  onClick={() => arrayHelpers.push('')}
                 >
                   <AddIcon fill='#fff' className={classes.icon} />
-                </span>
+                </label>
+                <input type='file' className={classes.hiddenInput} id='imageInput' name='imageInput'
+                onChange={uploadImageHandler(arrayHelpers)} accept='image/*' />
               </div>
             }
           </div>

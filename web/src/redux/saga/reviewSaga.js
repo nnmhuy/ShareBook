@@ -6,9 +6,53 @@ import {
   getReviewsOfBookFail,
   toggleLikeReview,
   toggleLikeReviewSuccess,
-  toggleLikeReviewFail
+  toggleLikeReviewFail,
+  getReviewByUser,
+  getReviewByUserSuccess,
+  getReviewByUserFail,
+  postReview,
+  postReviewSuccess,
+  postReviewFail
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
+
+function* getReviewByUserSaga({ payload }) {
+  try {
+    const { userId, bookId } = payload
+    const { data: review } = yield call(restConnector.get, 
+      `/reviews?filter={"where":{"userId":"${userId}","bookId":"${bookId}"}}`)
+
+    yield put(getReviewByUserSuccess(review[0]))
+  } catch (error) {
+    yield put(getReviewByUserFail(error))
+  }
+}
+
+function* postReviewSaga({ payload }) {
+  try {
+    const { rating, images, content, reviewId, bookId } = payload
+    if (reviewId) {
+      yield call(restConnector.patch, `/reviews/${reviewId}`, {
+        rating,
+        images,
+        content,
+        bookId,
+        attachUser: true        
+      })
+    } else {
+      yield call(restConnector.post, `/reviews`, {
+        rating,
+        images,
+        content,
+        bookId,
+        attachUser: true
+      })
+    }
+    yield put(postReviewSuccess())
+  } catch (error) {
+    yield put(postReviewFail(error))
+  }
+}
 
 function* getReviewsOfBookSaga({ payload }) {
   try {
@@ -77,6 +121,14 @@ function* toggleLikeReviewSaga({ payload }) {
   }
 }
 
+function* getReviewByUserWatcher() {
+  yield takeLatest(getReviewByUser, getReviewByUserSaga)
+}
+
+function* postReviewWatcher(){
+  yield takeLatest(postReview, postReviewSaga)
+}
+
 function* getReviewsOfBookWatcher() {
   yield takeLatest(getReviewsOfBook, getReviewsOfBookSaga)
 }
@@ -86,6 +138,8 @@ function* toggleLikeReviewWatcher() {
 }
 
 export {
+  postReviewWatcher,
+  getReviewByUserWatcher,
   getReviewsOfBookWatcher,
   toggleLikeReviewWatcher
 }

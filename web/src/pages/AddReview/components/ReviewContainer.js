@@ -51,12 +51,13 @@ const ReviewContainer = (props) => {
   const { classes, value, handleChange, handleBlur } = props
   return (
     <div className={classes.container}>
-      <span className={classes.title}>
+      <span className={classes.title} htmlFor={'content'}>
         Review của bạn
         <span className={classes.required}>{` * `}</span>
         <span className={classes.text}>(dưới 1000 từ)</span>
       </span>
       <textarea
+        id='content'
         className={classes.input}
         placeholder='. . .'
         value={value}
