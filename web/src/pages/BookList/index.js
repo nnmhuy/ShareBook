@@ -15,7 +15,7 @@ import TopBook from './components/TopBook'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { newsDemoData, categoryDemoList, demoBookList, demoTopBooks } from './demoData'
+import { demoTopBooks } from './demoData'
 import { getCategoryList, getBookList } from '../../redux/actions/bookAction'
 
 const styles = (theme => ({

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
 
+import Image from '../../../components/Image'
+
 const styles = theme => ({
     wrapper: {
         display: 'flex',
@@ -32,10 +34,10 @@ const styles = theme => ({
 class BookInfo extends Component {
     render() {
         const { classes } = this.props;
-        const { name, image, author, publish_year } = this.props.book;
+        const { name, image, author, publisher } = this.props.book;
         return (
             <div className={classes.wrapper}>
-                <img src={image} alt={name} className={classes.image} />
+                <Image src={image} alt={name} className={classes.image} />
                 <div className={classes.bookInfo}>
                     <div>
                         <p className={classes.title}>Tên sách</p>
@@ -47,7 +49,7 @@ class BookInfo extends Component {
                     </div>
                     <div>
                         <p className={classes.title}>Nhà xuất bản</p>
-                        <p className={classes.titleContext}>{publish_year}</p>
+                        <p className={classes.titleContext}>{publisher}</p>
                     </div>
                 </div>
             </div>

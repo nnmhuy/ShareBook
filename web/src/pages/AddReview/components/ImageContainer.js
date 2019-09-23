@@ -85,7 +85,7 @@ const ImageContainer = (props) => {
         return;
       }
 
-      resizeImage(newImage, false, ({ url, blob }) => {
+      resizeImage(newImage, true, ({ url, blob }) => {
         arrayHelpers.push({
           url,
           imageName,

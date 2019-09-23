@@ -49,6 +49,7 @@ function* postReviewSaga({ payload }) {
       })
     }
     yield put(postReviewSuccess())
+    window.history.back()
   } catch (error) {
     yield put(postReviewFail(error))
   }

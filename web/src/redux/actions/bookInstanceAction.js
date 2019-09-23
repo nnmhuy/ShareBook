@@ -5,10 +5,16 @@ const {
   getBookInstances,
   getBookInstancesSuccess,
   getBookInstancesFail,
+  createBookInstance,
+  createBookInstanceSuccess,
+  createBookInstanceFail,
 } = createActions(
   'GET_BOOK_INSTANCES',
   'GET_BOOK_INSTANCES_SUCCESS',
-  'GET_BOOK_INSTANCES_FAIL'
+  'GET_BOOK_INSTANCES_FAIL',
+  'CREATE_BOOK_INSTANCE',
+  'CREATE_BOOK_INSTANCE_SUCCESS',
+  'CREATE_BOOK_INSTANCE_FAIL',
 )
 
 
@@ -16,5 +22,8 @@ const {
 export {
   getBookInstances,
   getBookInstancesSuccess,
-  getBookInstancesFail
+  getBookInstancesFail,
+  createBookInstance,
+  createBookInstanceSuccess,
+  createBookInstanceFail
 }
