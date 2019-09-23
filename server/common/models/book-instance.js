@@ -7,6 +7,10 @@ module.exports = function(BookInstance) {
 
   BookInstance.observe('before save', (ctx, next) => {
     setUserId(ctx, 'ownerId');
+    if (ctx.isNewInstance) {
+      let userId = _.get(ctx, 'options.accessToken.userId', null);
+      ctx.instance.holderId = userId;
+    }
     // for update block holder and borrower change data
     if (!ctx.isNewInstance && ctx.data && ctx.currentInstance) {
       let userId = _.get(ctx, 'options.accessToken.userId', null);

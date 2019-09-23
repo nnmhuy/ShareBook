@@ -187,11 +187,11 @@ const keyArray = [
     key: 'bookCondition',
     mapValue: (value) => {
       switch (value) {
-        case 0:
+        case 'new':
           return 'Mới'
-        case 1:
+        case 'normal':
           return 'Bình thường'
-        case 2:
+        case 'old':
           return 'Cũ'
         default:
           return '?'

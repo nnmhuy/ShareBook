@@ -3,9 +3,13 @@ import { call, put, takeLatest, all } from 'redux-saga/effects'
 import {
   getBookInstances,
   getBookInstancesSuccess,
-  getBookInstancesFail
+  getBookInstancesFail,
+  createBookInstance,
+  createBookInstanceSuccess,
+  createBookInstanceFail
 } from '../actions/bookInstanceAction'
 import restConnector from '../../connectors/RestConnector'
+import { successAlert } from '../../components/alert'
 
 function* getBookInstancesSaga({ payload }) {
   try {
@@ -39,10 +43,34 @@ function* getBookInstancesSaga({ payload }) {
   }
 }
 
+function* createBookInstanceSaga({ payload }) {
+  try {
+    const { bookId, bookCondition, estimatedReadingTime, note } = payload
+    const data = {
+      bookId,
+      bookCondition,
+      estimatedReadingTime,
+      note,
+      attachUser: true
+    }
+    yield call(restConnector.post, `/bookInstances`, data)
+    yield put(createBookInstanceSuccess())
+    successAlert('Thêm sách thành công')
+    window.history.back()
+  } catch (error) {
+    yield put(createBookInstanceFail(error))
+  }
+}
+
 function* getBookInstancesWatcher() {
   yield takeLatest(getBookInstances, getBookInstancesSaga)
 }
 
+function* createBookInstanceWatcher() {
+  yield takeLatest(createBookInstance, createBookInstanceSaga)
+}
+
 export {
-  getBookInstancesWatcher
+  getBookInstancesWatcher,
+  createBookInstanceWatcher
 }

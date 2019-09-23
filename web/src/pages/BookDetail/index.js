@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { } from '@material-ui/core'
 
+import Loading from '../../components/Loading'
 import TopNav from './components/TopNav'
 import BottomNav from './components/BottomNav'
 import BookInfo from './components/BookInfo'
@@ -44,7 +45,7 @@ class App extends React.Component {
 
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
-      bookInstances, getInstances, category, bookOfCategory
+      bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory
     } = this.props
     const bookId = match.params.bookId
 
@@ -58,8 +59,11 @@ class App extends React.Component {
       toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
     }
 
+    const loading = isLoading || isLoadingCategory
+
     return (
       <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
+        <Loading isLoading={loading}/>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
             <BookInfo {...bookDetail} category={category}/>
@@ -89,8 +93,10 @@ class App extends React.Component {
 const mapStateToProps = ({ book, review, bookInstances }) => {
   return {
     userId: localStorage.getItem('userId'),
+    isLoading: book.isLoading,
     bookDetail: book.bookDetail,
     category: book.category,
+    isLoadingCategory: book.isLoadingCategory,
     bookOfCategory: book.bookOfCategory,
     reviews: review.reviewsOfBook,
     bookInstances: bookInstances.bookInstances
