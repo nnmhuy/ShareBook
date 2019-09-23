@@ -9,6 +9,7 @@ const superAdminUsername = process.env.superAdminUsername;
 const superAdminPassword = process.env.superAdminPassword;
 const superAdminEmail = process.env.superAdminEmail;
 const imageContainer = process.env.imageContainer;
+const defaultContainner = 'defaultContainer';
 
 const categoryList = require('./category-constant');
 
@@ -55,10 +56,10 @@ module.exports = function(app) {
     });
   }
 
-  function createDefaultImageStorage() {
-    Container.createContainer({name: imageContainer}, (err, container) => {
+  function createDefaultImageStorage(containerName) {
+    Container.createContainer({name: containerName}, (err, container) => {
       if (err) throw err;
-      console.log(`create container ${imageContainer}`);
+      console.log(`create container ${containerName}`);
     });
   }
 
@@ -82,10 +83,15 @@ module.exports = function(app) {
 
   Container.getContainer(imageContainer, (err, storage) => {
     if (!storage) {
-      createDefaultImageStorage();
+      createDefaultImageStorage(imageContainer);
     }
   });
 
+  Container.getContainer(defaultContainner, (err, storage) => {
+    if (!storage) {
+      createDefaultImageStorage(defaultContainner);
+    }
+  });
   Category.find({
     where: {
       name: categoryList[0].name,

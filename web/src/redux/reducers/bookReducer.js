@@ -23,6 +23,7 @@ import {
 
 let defaultState = {
   isLoading: false,
+  categoryIsLoading: true,
   isLoadingCategory: false,
   error: null,
   bookDetail: {
@@ -32,6 +33,7 @@ let defaultState = {
     numberOfReviews: 0,
     numberOfBookmarks: 0
   },
+  categories: null,
   category: {
     name: '',
     id: '',
@@ -40,47 +42,59 @@ let defaultState = {
   bookOfCategory: [],
   isLoadingBookLite: false,
   bookLite: {}
+  bookListIsLoading: {},
+  bookListData: {},
+  bookOfCategory: []
 }
 
 const bookReducer = handleActions(
   {
-    [getBookList]: (state) => {
+    [getBookList]: (state, { payload: { key } }) => {
+      let { bookListIsLoading } = state
+      bookListIsLoading[key] = true
       return {
         ...state,
-        isLoading: true
+        bookListIsLoading
       }
     },
-    [getBookListSuccess]: (state) => {
+    [getBookListSuccess]: (state, { payload: { bookList, key } }) => {
+      let { bookListIsLoading, bookListData } = state
+      bookListIsLoading[key] = false
+      bookListData[key] = bookList
       return {
         ...state,
         error: null,
-        isLoading: false
+        bookListIsLoading, 
+        bookListData
       }
     },
-    [getBookListFail]: (state, { payload: error }) => {
+    [getBookListFail]: (state, { payload: {error, key} }) => {
+      let { bookListIsLoading } = state
+      bookListIsLoading[key] = false
       return {
         ...state,
         error,
-        isLoading: false
+        bookListIsLoading
       }
     },
     [getCategoryList]: (state) => {
       return {
         ...state,
-        isLoading: true
+        categoryIsLoading: true
       }
     },
-    [getCategoryListSuccess]: (state, { payload } ) => {
+    [getCategoryListSuccess]: (state, { payload: categoryList } ) => {
       return {
         ...state,
-        isLoading: false,
+        categoryList: categoryList,
+        categoryIsLoading: false,
         error: null
       }
     },
     [getCategoryListFail]: (state, { payload: error }) => {
       return {
         ...state,
-        isLoading: false,
+        categoryIsLoading: false,
         error
       }
     },

@@ -46,7 +46,14 @@ const styles = (theme => ({
 }))
 
 const Book = (props) => {
-  const { classes, id, bookmarkId, name, author, image, isBookmarked, rating, handleToggleBookmark, ...other } = props
+  const { classes, id, bookmarkId, name, author, image, isBookmarked, handleToggleBookmark, ...other } = props
+  let { rating } = props 
+  try {
+    if (typeof rating  === 'string')
+      rating = parseInt(rating)
+  } catch(err) {
+    rating = 0
+  }
 
   const onBookmark = () => {
     handleToggleBookmark(id, bookmarkId, !isBookmarked)

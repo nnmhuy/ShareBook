@@ -39,8 +39,7 @@
       "default": "from internet"
     },
     "publisher": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "publishYear": {
       "type": "number"
