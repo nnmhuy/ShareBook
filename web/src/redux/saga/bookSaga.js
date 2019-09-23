@@ -1,6 +1,6 @@
 import { call, put, takeLatest, all, takeEvery } from 'redux-saga/effects'
 import _ from 'lodash'
-import {successAlert, warnAlert} from '../../components/alert'
+import { warnAlert} from '../../components/alert'
 
 import {
   getBookList,

@@ -49,7 +49,7 @@ class App extends React.Component {
           <Route path="/transaction/:transactionId" exact component={Transaction} />
           <Route path="/review/:reviewId" exact component={BookReview} />
           <Route path="/create-book" exact component={CreateBook} />
-          <Route path="/create-instance/:bookIs" exact component={CreateInstance} />
+          <Route path="/create-instance/:bookId" exact component={CreateInstance} />
           <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>

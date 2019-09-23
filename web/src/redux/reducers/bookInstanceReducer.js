@@ -3,13 +3,17 @@ import { handleActions } from 'redux-actions'
 import { 
   getBookInstances,
   getBookInstancesSuccess,
-  getBookInstancesFail
+  getBookInstancesFail,
+  createBookInstance,
+  createBookInstanceSuccess,
+  createBookInstanceFail
 } from '../actions/bookInstanceAction'
 
 let defaultState = {
   isLoading: false,
   error: null,
-  bookInstances: []
+  bookInstances: [],
+  isCreating: false,
 }
 
 const bookReducer = handleActions(
@@ -34,7 +38,27 @@ const bookReducer = handleActions(
         isLoading: false,
         error: error
       }
-    }
+    },
+    [createBookInstance]: (state) => {
+      return {
+        ...state,
+        isCreating: true,
+      }
+    },
+    [createBookInstanceSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        isCreating: false,
+        error: null
+      }
+    },
+    [createBookInstanceFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isCreating: false,
+        error: error
+      }
+    },
   },
   defaultState
 )

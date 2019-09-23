@@ -121,7 +121,10 @@ const AddReviewWithFormik = withFormik({
 
     setSubmitting(true)
 
-    let imagesUrl = await Promise.all(values.images.map(image => uploadImagePromise(image)))
+    let imagesUrl = await Promise.all(values.images.map(image => {
+      if (!image.blob) return image
+      return uploadImagePromise(image)
+    }))
 
     const data = {
       rating: values.rating,

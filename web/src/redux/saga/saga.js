@@ -16,7 +16,8 @@ import {
   toggleBookmarkWatcher
 } from './bookSaga'
 import {
-  getBookInstancesWatcher
+  getBookInstancesWatcher,
+  createBookInstanceWatcher
 } from './bookInstancesSaga'
 import {
   getReviewByUserWatcher,
@@ -41,6 +42,7 @@ export default function* rootSaga() {
     toggleBookmarkWatcher(),
 
     getBookInstancesWatcher(),
+    createBookInstanceWatcher(),
 
     getReviewByUserWatcher(),
     postReviewWatcher(),
