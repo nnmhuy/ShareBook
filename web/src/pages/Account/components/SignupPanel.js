@@ -9,7 +9,7 @@ import colors from '../../../constants/colors'
 import SignupStepOne from './SignupStepOne'
 import  { LoginValidation } from '../../../helper/userValidator'
 import { warnAlert, errorAlert } from '../../../components/alert'
-import uploadImage from '../../../helper/uploadImage'
+import { uploadImage } from '../../../helper/uploadImage'
 import { signUp } from '../../../redux/actions/accountAction'
 
 

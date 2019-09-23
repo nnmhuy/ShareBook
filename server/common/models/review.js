@@ -50,7 +50,7 @@ module.exports = function(Review) {
             numberOfRating: book.numberOfRating + 1,
           },
           (err, instance) => {
-            if (err) return next(new Error('Cập nhập review gặp lỗi'));
+            if (err) return next(new Error('Cập nhật review gặp lỗi'));
             return next();
           });
       });
@@ -75,7 +75,7 @@ module.exports = function(Review) {
           book.updateAttributes(
             {totalOfRating: newTotalRating},
             (err, instance) => {
-              if (err) return next(new Error('Cập nhập review gặp lỗi'));
+              if (err) return next(new Error('Cập nhật review gặp lỗi'));
               return next();
             });
         });

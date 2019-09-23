@@ -60,7 +60,7 @@ module.exports = function(LikeReview) {
           review.updateAttributes(
             {numberOfLike: newLike, numberOfDislike: newDislike},
             (err, instance) => {
-              if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));
+              if (err) return next(new Error('Cập nhật tương tác gặp lỗi'));
               return next();
             });
         });
@@ -85,7 +85,7 @@ module.exports = function(LikeReview) {
         review.updateAttributes(
           {numberOfLike: newLike, numberOfDislike: newDislike},
           (err, instance) => {
-            if (err) return next(new Error('Cập nhập tương tác gặp lỗi'));
+            if (err) return next(new Error('Cập nhật tương tác gặp lỗi'));
             return next();
           });
       });

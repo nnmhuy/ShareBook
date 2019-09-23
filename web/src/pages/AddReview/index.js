@@ -13,7 +13,7 @@ import ReviewContainer from './components/ReviewContainer'
 
 import { getBookLite } from '../../redux/actions/bookAction'
 import { getReviewByUser, postReview } from '../../redux/actions/reviewAction'
-import uploadImage from '../../helper/uploadImage'
+import { uploadImagePromise } from '../../helper/uploadImage'
 import { errorAlert, warnAlert } from '../../components/alert'
 
 
@@ -120,19 +120,7 @@ const AddReviewWithFormik = withFormik({
 
     setSubmitting(true)
 
-    let imagesUrl = []
-
-    values.images.forEach(async image => {
-      await uploadImage(image, (err, linkImage) => {
-        if (err) {
-          warnAlert('Hình gặp lỗi, bình luận của bạn vẫn được đăng')
-          if (err.message) console.log(err.message)
-        }
-        if (linkImage) imagesUrl.push(linkImage)
-        console.log(imagesUrl.length)
-      })
-    })
-    console.log(imagesUrl.length)
+    let imagesUrl = await Promise.all(values.images.map(image => uploadImagePromise(image)))
 
     const data = {
       rating: values.rating,

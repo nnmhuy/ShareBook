@@ -30,4 +30,35 @@ async function uploadImage(image, callback) {
     });
 }
 
-export default uploadImage
+function uploadImagePromise(image) {
+  var bodyFormData = new FormData();
+  var fileName = image.imageName;
+  // remove extension
+  if (fileName.indexOf('.') > -1) {
+    fileName = fileName.split('.').slice(0, -1).join('-')
+  }
+  bodyFormData.append('file', image.blob, `${fileName}.jpg`);
+  return axios({
+    method: 'post',
+    url: `${baseURL}/containers/imageContainer/upload`,
+    data: bodyFormData,
+    config: {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    }
+  })
+    .then(function (response) {
+      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', 'ImageError.jpg');
+      return imageUrl
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response);
+      return response
+    });
+}
+
+export {
+  uploadImage,
+  uploadImagePromise
+}

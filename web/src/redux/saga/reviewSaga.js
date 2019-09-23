@@ -36,6 +36,7 @@ function* postReviewSaga({ payload }) {
         rating,
         images,
         content,
+        bookId,
         attachUser: true        
       })
     } else {
