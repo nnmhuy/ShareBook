@@ -10,8 +10,10 @@ import colors from '../../constants/colors'
 import ButtonContainer from './components/ButtonContainer'
 import CheckBoxFilter from './components/CheckBoxFilter'
 import RatingFilter from './components/RatingFilter'
+import { getCategoryList } from '../../redux/actions/bookAction'
 
 import { demoCategoryList, demoDistrictList } from './demoData'
+import districtList from '../../constants/district'
 
 const styles = (theme => ({
   container: {
@@ -47,8 +49,15 @@ class Filter extends React.Component {
       handleSubmit,
       classes,
       setFieldValue,
-      account
+      account,
+      categoryIsLoading,
+      categoryList
     } = this.props
+    let currentCategoryList = []
+    if (!categoryIsLoading && categoryList){
+
+    }
+      currentCategoryList = categoryList
 
     const currentPage = 'Kệ sách'
 
@@ -73,7 +82,7 @@ class Filter extends React.Component {
             title='Địa điểm'
             name='district'
             value={values.district}
-            optionList={demoDistrictList}
+            optionList={districtList}
             setFieldValue={setFieldValue}
           />
         </div>
@@ -93,7 +102,7 @@ const FilterWithFormik = withFormik({
   }
 })(withStyles(styles)(Filter))
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, book }) => {
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -103,11 +112,13 @@ const mapStateToProps = ({ account }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    categoryIsLoading: book.categoryIsLoading,
+    categoryList: book.categoryList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-
+  getCategoryListHandler: getCategoryList
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterWithFormik);

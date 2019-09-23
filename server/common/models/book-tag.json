@@ -1,11 +1,13 @@
 {
-  "name": "mission",
-  "plural": "missions",
+  "name": "bookTag",
+  "plural": "bookTags",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
+  "properties": {},
+  "validations": [],
   "mixins": {
     "TimeStamp": {
       "required": false,
@@ -16,18 +18,21 @@
       "id": true
     }
   },
-  "properties": {
-    "type": {
-      "type": "string",
-      "required": true
+  "relations": {
+    "book": {
+      "type": "belongsTo",
+      "model": "book",
+      "foreignKey": "bookId",
+      "options": {
+        "nestRemoting": true
+      }
     },
-    "content": {
-      "type": "string",
-      "required": true
+    "tag": {
+      "type": "belongsTo",
+      "model": "tag",
+      "foreignKey": "tagId"
     }
   },
-  "validations": [],
-  "relations": {},
   "acls": [
     {
       "accessType": "*",
@@ -54,17 +59,11 @@
       "permission": "ALLOW"
     },
     {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW"
-    },
-    {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "DENY",
-      "property": "destroyById"
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}

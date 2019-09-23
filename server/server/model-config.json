@@ -162,5 +162,13 @@
   "container": {
     "dataSource": "imagestorage",
     "public": true
+  },
+  "tag": {
+    "dataSource": "db",
+    "public": true
+  },
+  "bookTag": {
+    "dataSource": "db",
+    "public": true
   }
 }
