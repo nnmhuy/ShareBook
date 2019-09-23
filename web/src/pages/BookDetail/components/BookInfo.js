@@ -164,7 +164,7 @@ const BookInfo = (props) => {
           </div>
           <div className={classes.textItem}>
             <div className={classes.textTitle}>Thể loại</div>
-            <Link className={classes.category} to={`/book-list${category.url}`}>{category.name}</Link>
+            <Link className={classes.category} to={`${category.url}`}>{category.name}</Link>
           </div>
           <div className={classes.textItem}>
             <div className={classes.textTitle}>Tags</div>
