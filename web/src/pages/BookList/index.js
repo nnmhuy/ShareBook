@@ -56,9 +56,51 @@ class BookList extends React.Component {
 
   componentDidMount() {
     this.props.getCategoryListHandler();
-    this.props.getBookListHandler({key:'new'});
-    this.props.getBookListHandler({key:'popular'});
-    this.props.getBookListHandler({key:'high-rating'});
+
+    let minRating = 0 
+    let categoryFilter = {}, districtFilter = {}
+    try {
+      minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
+      categoryFilter = localStorage.getItem('categoryFilter')
+      if (!categoryFilter || categoryFilter === 'false') categoryFilter = false
+      else categoryFilter = JSON.parse(categoryFilter)
+      categoryFilter = this.mapToArray(categoryFilter)
+
+      districtFilter = localStorage.getItem('districtFilter')
+      if (!districtFilter || districtFilter === 'false') districtFilter = false
+      else districtFilter = JSON.parse(districtFilter)
+      districtFilter = this.mapToArray(districtFilter)
+    } catch (err) {
+      console.log(err)
+    }
+    
+    let where = {}
+    where.rating = { gte: minRating }
+    if (categoryFilter) where.categoryId = {inq: categoryFilter}
+    if (districtFilter) {
+      where.or = []
+      districtFilter.forEach(element => {
+        let obIntance = {}
+        obIntance[`locationStatistic.${element}`] = {gte: 1}
+        where.or.push(obIntance)
+      });
+    }
+
+
+    this.props.getBookListHandler({key:'new', where});
+    this.props.getBookListHandler({key:'popular', where});
+    this.props.getBookListHandler({key:'high-rating', where});
+  }
+
+  mapToArray = (object) => {
+    let resultArray = []
+    _.mapKeys(object, function(value, key) {
+      if (value)
+        resultArray.push(key)
+    });
+    if (resultArray.length === 0)
+      return false
+    return resultArray
   }
 
   render() {
@@ -82,20 +124,20 @@ class BookList extends React.Component {
           <NewsSlider newsData={currentCategoryList}/>
           <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
           <BookSlider
-            title={'Sách mới'}
+            title={'Sách mới'} // publish year, createAt 
             url={`/category/new`}
             bookList={_.get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
             isLoading={bookListIsLoading['new']}
           />
           <BookSlider
-            title={'Sách đọc nhiều'}
+            title={'Sách đọc nhiều'} // review (total of rating)
             url={`/category/popular`}
             bookList={_.get(bookListData, 'popular', [])} 
             isLoading={bookListIsLoading['popular']}
           />
           <BookSlider
-            title={'Sách được đánh giá cao'}
+            title={'Sách được đánh giá cao'} // rating 
             url={`/category/high-rating`}
             bookList={_.get(bookListData, 'high-rating', [])} 
             isLoading={bookListIsLoading['high-rating']}            

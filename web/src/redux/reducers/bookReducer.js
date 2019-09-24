@@ -23,7 +23,7 @@ import {
 
 let defaultState = {
   isLoading: false,
-  categoryIsLoading: true,
+  categoryIsLoading: false,
   isLoadingCategory: false,
   error: null,
   bookDetail: {
