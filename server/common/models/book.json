@@ -17,6 +17,7 @@
       "totalOfRating": true,
       "numberOfUse": true,
       "locationStatistic": true,
+      "rating": true,
       "id": true
     }
   },
@@ -61,6 +62,11 @@
       "default": 0
     },
     "totalOfRating": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "rating": {
       "type": "number",
       "required": true,
       "default": 0

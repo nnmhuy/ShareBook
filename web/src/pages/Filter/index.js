@@ -4,6 +4,7 @@ import { Divider } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withFormik } from 'formik'
+import _  from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import colors from '../../constants/colors'
@@ -12,7 +13,6 @@ import CheckBoxFilter from './components/CheckBoxFilter'
 import RatingFilter from './components/RatingFilter'
 import { getCategoryList } from '../../redux/actions/bookAction'
 
-import { demoCategoryList, demoDistrictList } from './demoData'
 import districtList from '../../constants/district'
 
 const styles = (theme => ({
@@ -54,10 +54,18 @@ class Filter extends React.Component {
       categoryList
     } = this.props
     let currentCategoryList = []
-    if (!categoryIsLoading && categoryList){
-
+    if (!categoryIsLoading){
+      if (categoryList && categoryList[0])
+        currentCategoryList = categoryList
+      else this.props.getCategoryListHandler();
     }
-      currentCategoryList = categoryList
+
+    currentCategoryList = currentCategoryList.map(element => {
+      return {
+        label: element.name,
+        value: element.id
+      }
+    })
 
     const currentPage = 'Kệ sách'
 
@@ -69,7 +77,7 @@ class Filter extends React.Component {
             title='Thể loại'
             name='category'
             value={values.category}
-            optionList={demoCategoryList}
+            optionList={currentCategoryList}
             setFieldValue={setFieldValue}
           />
           <Divider  className={classes.divider}/>
@@ -92,17 +100,44 @@ class Filter extends React.Component {
 }
 
 const FilterWithFormik = withFormik({
-  mapPropsToValues: () => ({ category: {}, minRating: 0, district: {} }),
-
+  enableReinitialize: true,
+  mapPropsToValues: (props) => ({
+    category: props.categoryFilter,
+    minRating: props.minRating,
+    district: props.districtFilter
+  }),
   handleSubmit: (values, { setSubmitting, props }) => {
     if (props.isLoading) return
-
     setSubmitting(true)
-    
+    // save to local storage => other query will take
+    if (_.size(values.category) > 0) {
+      localStorage.setItem('categoryFilter', JSON.stringify(values.category))
+    } else {
+      localStorage.setItem('categoryFilter', false)
+    }
+    if (_.size(values.district) > 0) {
+      localStorage.setItem('districtFilter', JSON.stringify(values.district))
+    } else {
+      localStorage.setItem('districtFilter', false)
+    }
+    localStorage.setItem('minRating', values.minRating)
+    window.history.back()
+    setSubmitting(false)
   }
 })(withStyles(styles)(Filter))
 
 const mapStateToProps = ({ account, book }) => {
+  let categoryFilter = {}, districtFilter = {}
+  try {
+    categoryFilter = localStorage.getItem('categoryFilter')
+    if (!categoryFilter || categoryFilter === 'false') categoryFilter = {}
+    else categoryFilter = JSON.parse(categoryFilter)
+    districtFilter = localStorage.getItem('districtFilter')
+    if (!districtFilter || districtFilter === 'false') districtFilter = {}
+    else districtFilter = JSON.parse(districtFilter)
+  } catch (err) {
+    console.log(err)
+  }
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -114,6 +149,9 @@ const mapStateToProps = ({ account, book }) => {
     },
     categoryIsLoading: book.categoryIsLoading,
     categoryList: book.categoryList,
+    minRating: Number.parseInt(localStorage.getItem('minRating') || '0'),
+    categoryFilter,
+    districtFilter
   }
 }
 
