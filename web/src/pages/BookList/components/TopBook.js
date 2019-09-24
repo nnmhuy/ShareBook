@@ -1,5 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import ScaleLoader from 'react-spinners/ScaleLoader'
+
+import colors from '../../../constants/colors'
+
 import BookWide from '../../../components/BookWide'
 
 const styles = (theme => ({
@@ -20,17 +24,29 @@ const styles = (theme => ({
 }))
 
 const TopBook = (props) => {
-  const { classes, topBookList } = props
+  const { classes, topBookList, isLoading, handleToggleBookmark } = props
   return (
     <div className={classes.container}>
-      <span className={classes.title}>Top 3 tháng</span>
+      <span className={classes.title}>Top 3 ShareBook</span>
       <div className={classes.wrapper}>
-        {
+        {isLoading ?
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary}/>
+          </div>
+        :
           topBookList.map(book => {
             return (
               <BookWide
                 key={book.id}
-                {...book}
+                id={book.id}
+                name={book.name}
+                author={book.author}
+                image={book.image}
+                rating={book.rating}
+                numberOfUse={book.numberOfUse}
+                isBookmarked={book.isBookmarked}
+                bookmarkId={book.bookmarkId}
+                handleToggleBookmark={handleToggleBookmark}
               />
             )
           })

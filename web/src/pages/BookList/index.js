@@ -16,8 +16,7 @@ import TopBook from './components/TopBook'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { demoTopBooks } from './demoData'
-import { getCategoryList, getBookList } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 
 const styles = (theme => ({
   container: {
@@ -87,9 +86,26 @@ class BookList extends React.Component {
     }
 
 
-    this.props.getBookListHandler({key:'new', where});
-    this.props.getBookListHandler({key:'popular', where});
-    this.props.getBookListHandler({key:'high-rating', where});
+    this.props.getBookListHandler({key:'new', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'createdAt DESC'
+    });
+    this.props.getBookListHandler({key:'popular', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'numberOfRating DESC'
+    });
+    this.props.getBookListHandler({key:'high-rating', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'rating DESC'
+    });
+    this.props.getBookListHandler({key:'top',
+      limit: 3,
+      userId: this.props.account.userId,
+      order: ['numberOfUse DESC', 'numberOfRating DESC']
+    });
   }
 
   mapToArray = (object) => {
@@ -101,6 +117,11 @@ class BookList extends React.Component {
     if (resultArray.length === 0)
       return false
     return resultArray
+  }
+
+  handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+    const { toggleBookmarkHandler } = this.props
+    toggleBookmarkHandler({bookId, bookmarkId, isBookmarked})
   }
 
   render() {
@@ -124,26 +145,31 @@ class BookList extends React.Component {
           <NewsSlider newsData={currentCategoryList}/>
           <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
           <BookSlider
-            title={'Sách mới'} // publish year, createAt 
+            title={'Sách mới'} // createAt 
             url={`/category/new`}
             bookList={_.get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
+            handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['new']}
           />
           <BookSlider
-            title={'Sách đọc nhiều'} // review (total of rating)
+            title={'Sách đọc nhiều'} // review (number of rate)
             url={`/category/popular`}
             bookList={_.get(bookListData, 'popular', [])} 
+            handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['popular']}
           />
           <BookSlider
             title={'Sách được đánh giá cao'} // rating 
             url={`/category/high-rating`}
             bookList={_.get(bookListData, 'high-rating', [])} 
+            handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['high-rating']}            
           />
-          <TopBook 
-            topBookList={demoTopBooks}
+          <TopBook  // top number of use
+            topBookList={_.get(bookListData, 'top', [])}
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['top']}
           />
         </div>
       </LayoutWrapper>
@@ -170,7 +196,8 @@ const mapStateToProps = ({ state, book }) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
-  getBookListHandler: getBookList
+  getBookListHandler: getBookList,
+  toggleBookmarkHandler: toggleBookmark 
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookList));

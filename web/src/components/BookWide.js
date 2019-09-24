@@ -4,6 +4,7 @@ import { Rating } from '@material-ui/lab'
 import { Button } from '@material-ui/core'
 
 import Link from './Link'
+import Image from './Image'
 
 import colors from '../constants/colors'
 import { ReactComponent as UserIcon } from '../static/images/man-user.svg'
@@ -93,11 +94,15 @@ const styles = (theme => ({
 }))
 
 const Book = (props) => {
-  const { classes, id, name, author, image, isBookmarked, rating, number_of_use, ...other } = props
+  const { classes, id, name, author, image, isBookmarked, rating, numberOfUse, bookmarkId, handleToggleBookmark } = props
+  const onBookmark = () => {
+    handleToggleBookmark(id, bookmarkId, !isBookmarked)
+  }
+  
   return (
-    <div className={classes.container} {...other}>
+    <div className={classes.container} >
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <img src={image} alt={name} className={classes.image}/>
+        <Image src={image} alt={name} className={classes.image}/>
       </Link>
       <div className={classes.infoContainer}>
         <div className={classes.name}>
@@ -112,12 +117,12 @@ const Book = (props) => {
         </div>
         <Rating value={rating} precision={0.5} readOnly className={classes.rating}/>
         {isBookmarked?
-            <BookmarkedIcon className={classes.bookmarkIcon}/>
+            <BookmarkedIcon className={classes.bookmarkIcon} onClick={onBookmark}/>
           :
-            <BookmarkIcon className={classes.bookmarkIcon}/>
+            <BookmarkIcon className={classes.bookmarkIcon} onClick={onBookmark}/>
         }
         <span className={classes.numberOfUser}>
-          {number_of_use}
+          {numberOfUse}
           <UserIcon fill={colors.primary} className={classes.userIcon}/>
         </span>
         <Link to={'/create-transaction'}>

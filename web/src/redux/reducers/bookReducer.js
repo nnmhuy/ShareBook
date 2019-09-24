@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions'
+import _ from 'lodash'
 
 import { 
   getBookList,
@@ -171,6 +172,8 @@ const bookReducer = handleActions(
     [toggleBookmark]: (state, { payload: { bookId, isBookmarked } }) => {
       const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
       const bookOfCategory= JSON.parse(JSON.stringify(state.bookOfCategory))
+      const bookListData = JSON.parse(JSON.stringify(state.bookListData))
+
       if (bookDetail.id === bookId){
         bookDetail.isBookmarked = isBookmarked
         if (isBookmarked) {
@@ -186,15 +189,27 @@ const bookReducer = handleActions(
         }
       })
 
+      _.forEach(bookListData, function (value, key) {
+        if (value && value[0]) {
+          value.forEach(book => {
+            if (book.id === bookId) {
+              book.isBookmarked = isBookmarked
+            }
+          })
+        }
+      })
+
       return {
         ...state,
         bookDetail,
-        bookOfCategory
+        bookOfCategory,
+        bookListData
       }
     },
     [toggleBookmarkSuccess]: (state, { payload: { bookId, bookmarkId } }) => {
       const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
       const bookOfCategory = JSON.parse(JSON.stringify(state.bookOfCategory))
+      const bookListData = JSON.parse(JSON.stringify(state.bookListData))
       if (bookDetail.id === bookId) {
         bookDetail.bookmarkId = bookmarkId
       }
@@ -203,10 +218,20 @@ const bookReducer = handleActions(
           book.bookmarkId = bookmarkId
         }
       })
+      _.forEach(bookListData, function (value, key) {
+        if (value && value[0]) {
+          value.forEach(book => {
+            if (book.id === bookId) {
+              book.bookmarkId = bookmarkId
+            }
+          })
+        }
+      })
       return {
         ...state,
         bookDetail,
-        bookOfCategory
+        bookOfCategory,
+        bookListData
       }
     },
     [toggleBookmarkFail]: (state, { payload: error }) => {

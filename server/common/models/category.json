@@ -13,7 +13,8 @@
       "silenceWarnings": false
     },
     "ReadOnly": {
-      "id": true
+      "id": true,
+      "totalOfBook": true
     }
   },
   "properties": {

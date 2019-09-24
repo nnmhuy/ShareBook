@@ -39,7 +39,7 @@ const CategoryList = (props) => {
     <div className={classes.container}>
       <div className={classes.titleContainer}>
         <span className={classes.title}>Thể loại</span>
-        <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link>
+        {/* <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link> */}
       </div>
       {isLoading?
         <div className={classes.loading}>
