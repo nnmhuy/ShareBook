@@ -28,7 +28,7 @@ var categoryList = [
     url: '/study-book',
   },
   {
-    name: 'truyện tranh',
+    name: 'Truyện tranh',
     url: '/comic',
   },
   {

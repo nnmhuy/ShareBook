@@ -18,6 +18,7 @@
       "numberOfUse": true,
       "locationStatistic": true,
       "rating": true,
+      "totalOfBookInstance": true,
       "id": true
     }
   },
@@ -72,6 +73,11 @@
       "default": 0
     },
     "numberOfUse": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "totalOfBookInstance": {
       "type": "number",
       "required": true,
       "default": 0

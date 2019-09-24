@@ -26,11 +26,21 @@ import restConnector from '../../connectors/RestConnector'
 
 function* getBookListSaga({ payload }) {
   try {
-    let { where, skip, limit, order, include, key } = payload
+    let { where, skip, limit, order, include, key, userId } = payload
     let filter = { where, skip, limit, order, include }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
     let bookList = _.get(response, 'data', [])
-    yield put(getBookListSuccess({bookList, key}))
+
+    const isUserBookmarked = yield all(
+      bookList.map(book => call(restConnector.get, `/books/${book.id}/bookmarks?filter={"where":{"userId":"${userId}"}}`))
+    )
+
+    const bookFullData = bookList.map((book, index) => ({
+      ...book,
+      bookmarkId: isUserBookmarked[index].data[0] ? isUserBookmarked[index].data[0].id : '',
+      isBookmarked: (isUserBookmarked[index].data[0] || {}).isActive
+    }))
+    yield put(getBookListSuccess({bookList: bookFullData, key}))
   } catch (error) {
     yield put(getBookListFail(error))
   }

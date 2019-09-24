@@ -22,6 +22,7 @@ const styles = (theme => ({
     height: 27,
     width: 'auto',
     margin: 7,
+    marginRight: 9
   },
   title: {
     fontWeight: 'bold',
@@ -30,7 +31,7 @@ const styles = (theme => ({
   },
   number_of_books: {
     fontSize: 10,
-    color: colors.disabled
+    color: colors.dark
   }
 }))
 
