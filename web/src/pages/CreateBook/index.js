@@ -6,7 +6,7 @@ import { demoBook, typeOfBook } from './demoData'
 
 import ImageContainer from './components/ImageContainer';
 
-import TopNav from './components/TopNav';
+import TopNavSend from '../../components/TopNavSend';
 import InputPanel from './components/InputPanel';
 
 const styles = theme => ({
@@ -25,12 +25,12 @@ class CreateBook extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <TopNav title='Tạo sách mới'>
+            <TopNavSend title='Tạo sách mới' textSend='Đăng'>
                 <div className={classes.container}>
                     <ImageContainer book={demoBook} />
                     <InputPanel typeOfBook={typeOfBook} />
                 </div>
-            </TopNav>
+            </TopNavSend>
         );
     }
 }

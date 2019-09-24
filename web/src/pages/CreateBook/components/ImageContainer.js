@@ -3,7 +3,7 @@ import ImagePlaceholder from '../../../static/images/image-placeholder.png';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
-import { Dialog, DialogContent, DialogActions, Button, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogContent } from '@material-ui/core';
 
 const styles = theme => ({
     wrapper: {

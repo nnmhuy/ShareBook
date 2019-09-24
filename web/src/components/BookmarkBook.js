@@ -3,16 +3,17 @@ import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 
 import Link from './Link'
-import Image from './Image'
+import bookimg from '../static/images/demo/escape_velocity.png';
 
-import colors from '../constants/colors'
 import { ReactComponent as BookmarkIcon } from '../static/images/bookmark.svg'
-import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked.svg'
+import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked-btn.svg'
 
 const styles = (theme => ({
   container: {
     height: 200,
-    width: 'fit-content'
+    width: 'fit-content',
+    position: 'relative',
+    margin: 'auto'
   },
   imageContainer: {
     height: 150,
@@ -22,27 +23,21 @@ const styles = (theme => ({
     height: 150,
     width: 100
   },
-  name: {
-    fontSize: 13,
-    lineHeight: 1.5
-  },
-  author: {
-    fontSize: 10,
-    lineHeight: 1.5,
-    color: colors.gray
-  },
   rateContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 10,
+    padding: '5px 5px 5px 5px',
+    borderRadius: '0 0 3px 3px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    background: 'white'
   },
   bookmarkIcon: {
-    height: 12.3,
+    height: 18,
     width: 'auto',
     cursor: 'pointer'
-  },
-  rating: {
-    fontSize: 12
   }
 }))
 
@@ -63,20 +58,9 @@ const Book = (props) => {
   return (
     <div className={classes.container} {...other}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={image} alt={name} className={classes.image} />
+        <img src={bookimg} alt={name} className={classes.image} />
       </Link>
-      <div className={classes.name}>
-        <Link to={`/book-detail/${id}`}>
-          {name}
-        </Link>
-      </div>
-      <div className={classes.author}>
-        <Link to={`/filter/author=${author}`}>
-          {author}
-        </Link>
-      </div>
       <div className={classes.rateContainer}>
-        <Rating value={rating} precision={0.5} readOnly className={classes.rating} />
         {isBookmarked ?
           <BookmarkedIcon className={classes.bookmarkIcon} onClick={onBookmark} />
           :

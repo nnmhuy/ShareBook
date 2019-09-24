@@ -18,8 +18,13 @@ import TransactionList from './pages/TransactionList/index'
 import Transaction from './pages/Transaction/index'
 import CreateBook from './pages/CreateBook'
 import CreateInstance from './pages/CreateInstance'
+import CategoryList from './pages/CategoryList'
+import Profile from './pages/Profile'
+import Report from './pages/Report'
+
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -43,6 +48,7 @@ class App extends React.Component {
           <Route path="/book-detail/:bookId" exact component={BookDetail} />
           <Route path="/book-list" exact component={BookList} />
           <Route path="/category/:categoryId" exact component={CategoryBookList} />
+          <Route path="/categories" exact component={CategoryList} />
           <Route path="/add-review/:bookId" exact component={AddReview} />
           <Route path="/filter" exact component={Filter} />
           <Route path="/transaction-list" exact component={TransactionList} />
@@ -50,6 +56,9 @@ class App extends React.Component {
           <Route path="/review/:reviewId" exact component={BookReview} />
           <Route path="/create-book" exact component={CreateBook} />
           <Route path="/create-instance/:bookId" exact component={CreateInstance} />
+          <Route path="/profile" exact component={Profile} />
+          {/* <Route path="/report-info/:reportId" exact component={ReportView} /> */}
+          <Route path="/report" exact component={Report} />
           <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>

@@ -5,7 +5,6 @@ import { IconButton } from '@material-ui/core'
 import colors from '../../../constants/colors'
 import CustomTopNav from '../../../components/CustomTopNav'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
-import { bookDemoData } from '../../CategoryBookList/demoData'
 
 const styles = (theme => ({
     backButton: {
