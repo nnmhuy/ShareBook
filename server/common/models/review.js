@@ -1,6 +1,6 @@
 'use strict';
 const checkExist = require('../../server/helper/checkExist');
-const setUserId = require('../../server/middlerware/setUserId');
+const setUserId = require('../../server/middleware/setUserId');
 
 module.exports = function(Review) {
   Review.validatesPresenceOf('userId', 'bookId');

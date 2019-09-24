@@ -1,6 +1,6 @@
 'use strict';
 const _ = require('lodash');
-const setUserId = require('../../server/middlerware/setUserId');
+const setUserId = require('../../server/middleware/setUserId');
 
 module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
