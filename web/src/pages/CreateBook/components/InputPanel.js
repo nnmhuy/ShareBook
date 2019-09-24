@@ -7,6 +7,12 @@ import FormGroupInput from './FormGroupInput';
 import RadioButtons from '../../../components/RadioButtons';
 
 const styles = theme => ({
+    title: {
+        fontWeight: 500,
+        fontSize: 12,
+        color: colors.primary,
+        margin: 0
+    },
     inputTextArea: {
         fontFamily: 'Montserrat',
         resize: 'vertical',
@@ -113,7 +119,7 @@ class InputPanel extends Component {
                     name='price'
                     error={errors.price}
                 />
-                <label style={{ color: colors.primary, fontSize: 12, fontWeight: 500 }}>
+                <label className={classes.title}>
                     Giới thiệu sách
                     <textarea
                         className={classes.inputTextArea}

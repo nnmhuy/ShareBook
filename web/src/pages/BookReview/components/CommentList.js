@@ -44,10 +44,6 @@ class CommentList extends Component {
     render() {
         const { classes, commentList } = this.props;
 
-        const handleReturn = () => {
-            window.history.back();
-        }
-
         const handleChange = (event, value) => {
 
         }

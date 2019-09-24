@@ -2,9 +2,9 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
-import colors from '../../../constants/colors'
-import CustomTopNav from '../../../components/CustomTopNav'
-import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
+import colors from '../constants/colors'
+import CustomTopNav from './CustomTopNav'
+import { ReactComponent as BackIcon } from '../static/images/back-arrow.svg'
 
 const styles = (theme => ({
     backButton: {
@@ -29,7 +29,7 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-    const { classes, children, handleSubmit, title } = props
+    const { classes, children, handleSubmit, title, textSend } = props
 
     const handleBack = () => {
         window.history.back()
@@ -46,7 +46,7 @@ const TopNav = (props) => {
                 <span className={classes.title}>{title}</span>
             }
             right={
-                <span className={classes.submitButton} onClick={handleSubmit}>Đăng</span>
+                <span className={classes.submitButton} onClick={handleSubmit}>{textSend}</span>
             }
         >
             {children}
