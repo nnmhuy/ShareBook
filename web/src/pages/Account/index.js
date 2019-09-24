@@ -65,7 +65,7 @@ class Account extends React.Component {
     const { classes, isAuth, account } = this.props
     const { currentTab } = this.state
     if (isAuth)
-      return <Redirect to="/" />
+      return <Redirect to="/book-list" />
     return (
       <LayoutWrapper title='Account' account={account}>
         <div className={classes.container}>
