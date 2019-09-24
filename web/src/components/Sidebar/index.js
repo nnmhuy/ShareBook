@@ -23,10 +23,11 @@ import { logOut } from '../../redux/actions/accountAction'
 
 const styles = (theme => ({
   sidebar: {
-      position: 'relative',
-      width: 320,
-      height: '100%',
-      backgroundColor: colors.dark
+    position: 'relative',
+    width: 320,
+    height: '100%',
+    backgroundColor: colors.dark,
+    paddingBottom: 70
   },
   cancelIcon: {
     width: 18,

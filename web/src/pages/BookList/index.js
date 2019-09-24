@@ -69,7 +69,7 @@ class BookList extends React.Component {
 
     return (
       <LayoutWrapper account={account} title={'Kệ sách'}>
-        <Loading isLoading={categoryIsLoading}/>
+        {/* <Loading isLoading={categoryIsLoading}/> */}
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <Search className={classes.search}/>
@@ -80,7 +80,7 @@ class BookList extends React.Component {
             </Link>
           </div>
           <NewsSlider newsData={currentCategoryList}/>
-          <CategoryList categoryList={currentCategoryList}/>
+          <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
           <BookSlider
             title={'Sách mới'}
             url={`/category/new`}

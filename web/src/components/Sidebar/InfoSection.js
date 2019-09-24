@@ -8,8 +8,7 @@ import colors from '../../constants/colors'
 
 const styles = (theme => ({
   container: {
-    marginTop: 15,
-    marginBottom: 15
+    marginTop: 15
   },
   route: {
     display: 'block',
