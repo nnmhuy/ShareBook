@@ -6,6 +6,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 import Logo from '../../../static/images/logo.png'
 import FacebookLogo from '../../../static/images/facebook-logo.png'
@@ -154,9 +155,16 @@ class SignupStepOne extends React.Component {
 
   rotateImageHandler = () => {
     this.props.setFieldValue('isLoadingImage', true)
-    let imageName = this.props.values.avatar.imageName
-    rotateImage(this.state.avatarSrc, 6, ({ url, blob }) => {
-      console.log('done')
+    let imageName = _.get(this.props, 'values.avatar.imageName', null)
+    if (!imageName) {
+      this.props.setFieldValue('isLoadingImage', false)
+      return
+    }
+    rotateImage(this.state.avatarSrc, 6, (err, { url, blob }) => {
+      if (err) {
+        this.props.setFieldValue('isLoadingImage', false)
+        return
+      }
       this.setState({
         avatarSrc: url
       })
@@ -199,7 +207,7 @@ class SignupStepOne extends React.Component {
             </div>
           </label>
         </div>
-        <button onClick={this.rotateImageHandler}>Roate</button>
+        {avatarSrc && <button type="button" onClick={this.rotateImageHandler}>xoay</button>}
         <InputField
           id='signup-username'
           label='Tên đăng nhập'

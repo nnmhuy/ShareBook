@@ -69,12 +69,14 @@ const resizeImage = (file, imageSize, callback) => {
 }
 
 const rotateImage = (file, rotateOption, callback) => {
-  console.log(loadImage)
   loadImage(file, (img) => {
-    console.log('aaa')
+    if (img.type === "error") {
+      console.error("Error loading image ");
+      return callback(img.type)
+    }
     var dataUrl = img.toDataURL('image/jpeg');
     var rotatedImage = dataURLToBlob(dataUrl);
-    return callback({url: dataUrl, blob: rotatedImage})
+    return callback(null, {url: dataUrl, blob: rotatedImage})
   }, {
     orientation: rotateOption,
     canvas: true
