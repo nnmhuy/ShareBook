@@ -108,7 +108,7 @@ const ImageContainer = (props) => {
             {
               value.map((image, index) => (
                 <div className={classes.wrapper} key={index}>
-                  <Image src={image.url || image} alt='review' className={classes.image}/>
+                  <Image src={image} alt='review' className={classes.image}/>
                   <span 
                     className={`${classes.iconButton} ${classes.removeIcon}`}
                     onClick={() => arrayHelpers.remove(index)}

@@ -62,4 +62,4 @@ class CoinInfo extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(CoinInfo));
+export default (withStyles(styles)(CoinInfo));

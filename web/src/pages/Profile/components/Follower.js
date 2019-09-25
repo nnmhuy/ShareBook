@@ -42,4 +42,4 @@ class Follower extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(Follower));
+export default (withStyles(styles)(Follower));

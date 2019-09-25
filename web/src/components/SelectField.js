@@ -30,7 +30,7 @@ const styles = (theme => ({
 const InputField = (props) => {
   const {
     classes, id, label, name, value, touched, error,
-    optionValues, handleChange
+    optionValues, handleChange, className
   } = props
 
   const inputLabel = React.useRef(null);
@@ -40,7 +40,7 @@ const InputField = (props) => {
   }, []);
 
   return (
-    <FormControl variant='outlined' className={classes.select}>
+    <FormControl variant='outlined' className={`${classes.select} ${className}`}>
       <InputLabel ref={inputLabel} htmlFor={id}>
         {label}
       </InputLabel>

@@ -32,4 +32,4 @@ class ActivityNull extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ActivityNull));
+export default (withStyles(styles)(ActivityNull));

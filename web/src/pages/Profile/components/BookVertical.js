@@ -40,4 +40,4 @@ class BookVertical extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(BookVertical));
+export default (withStyles(styles)(BookVertical));

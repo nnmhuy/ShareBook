@@ -20,6 +20,9 @@ const {
   toggleBookmark,
   toggleBookmarkSuccess,
   toggleBookmarkFail,
+  createBook,
+  createBookSuccess,
+  createBookFail,
 } = createActions(
   'GET_BOOK_LITE',
   'GET_BOOK_LITE_SUCCESS',
@@ -39,6 +42,9 @@ const {
   'TOGGLE_BOOKMARK',
   'TOGGLE_BOOKMARK_SUCCESS',
   'TOGGLE_BOOKMARK_FAIL',
+  'CREATE_BOOK',
+  'CREATE_BOOK_SUCCESS',
+  'CREATE_BOOK_FAIL',
 )
 
 
@@ -61,5 +67,8 @@ export {
   getBookOfCategoryFail,
   toggleBookmark,
   toggleBookmarkSuccess,
-  toggleBookmarkFail
+  toggleBookmarkFail,
+  createBook,
+  createBookSuccess,
+  createBookFail,
 }

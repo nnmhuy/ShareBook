@@ -58,4 +58,4 @@ class ProblemContainer extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ProblemContainer));
+export default (withStyles(styles)(ProblemContainer));

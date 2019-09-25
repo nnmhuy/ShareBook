@@ -57,4 +57,4 @@ class BookInfo extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(BookInfo));
+export default (withStyles(styles)(BookInfo));

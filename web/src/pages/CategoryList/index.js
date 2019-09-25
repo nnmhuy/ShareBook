@@ -26,4 +26,4 @@ class CategoryList extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(CategoryList));
+export default (withStyles(styles)(CategoryList));

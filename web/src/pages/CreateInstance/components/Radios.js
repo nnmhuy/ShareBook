@@ -91,4 +91,4 @@ class Radios extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(Radios));
+export default (withStyles(styles)(Radios));

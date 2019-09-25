@@ -186,4 +186,4 @@ class Report extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(Report));
+export default (withStyles(styles)(Report));

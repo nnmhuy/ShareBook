@@ -90,4 +90,4 @@ class ReportItem extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ReportItem));
+export default (withStyles(styles)(ReportItem));

@@ -171,4 +171,4 @@ class PersonalInfo extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(PersonalInfo));
+export default (withStyles(styles)(PersonalInfo));

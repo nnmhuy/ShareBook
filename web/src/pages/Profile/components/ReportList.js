@@ -57,4 +57,4 @@ class ReportList extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ReportList));
+export default (withStyles(styles)(ReportList));

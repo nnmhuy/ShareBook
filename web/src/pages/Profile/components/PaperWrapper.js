@@ -115,4 +115,4 @@ class PaperWrapper extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(PaperWrapper));
+export default (withStyles(styles)(PaperWrapper));

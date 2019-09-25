@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { withFormik } from 'formik'
+import { Button } from '@material-ui/core'
 
 import Loading from '../../components/Loading'
 import TopNav from './components/TopNav';
@@ -11,6 +12,7 @@ import InputPane from './components/InputPane'
 
 import { getBookLite } from '../../redux/actions/bookAction'
 import { createBookInstance } from '../../redux/actions/bookInstanceAction'
+import colors from '../../constants/colors'
 
 const styles = theme => ({
 	container: {
@@ -20,6 +22,13 @@ const styles = theme => ({
 		margin: 'auto',
 		boxSizing: 'border-box',
 		padding: '20px'
+	},
+	button: {
+		width: '100%',
+		marginTop: 10,
+		marginBottom: 20,
+		background: colors.primary,
+		color: '#fff'
 	}
 })
 
@@ -47,6 +56,13 @@ class CreateInstance extends Component {
 						setFieldValue={setFieldValue}
 						handleChange={handleChange}
 					/>
+					<Button 
+						className={classes.button} 
+						onClick={handleSubmit}
+						disableFocusRipple
+					>
+						Đăng
+					</Button>
 				</div>
 			</TopNav>
 		)
@@ -87,7 +103,7 @@ const CreateInstanceWithFormik = withFormik({
 	}
 })(withStyles(styles)(CreateInstance))
 
-const mapStateToProps = ({ review, book }) => {
+const mapStateToProps = ({ book }) => {
 	return {
 		userId: localStorage.getItem('userId'),
 		book: book.bookLite,

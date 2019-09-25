@@ -31,4 +31,4 @@ class AccountTab extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(AccountTab));
+export default (withStyles(styles)(AccountTab));

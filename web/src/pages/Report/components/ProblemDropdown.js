@@ -68,4 +68,4 @@ class ProblemDropdown extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ProblemDropdown));
+export default (withStyles(styles)(ProblemDropdown));

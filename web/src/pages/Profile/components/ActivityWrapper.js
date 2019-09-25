@@ -129,4 +129,4 @@ class ActivityWrapper extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ActivityWrapper));
+export default (withStyles(styles)(ActivityWrapper));

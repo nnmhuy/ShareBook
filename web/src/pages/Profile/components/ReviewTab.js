@@ -34,4 +34,4 @@ class ReviewTab extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ReviewTab));
+export default (withStyles(styles)(ReviewTab));

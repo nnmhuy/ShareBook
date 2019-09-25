@@ -38,4 +38,4 @@ class CoinButton extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(CoinButton));
+export default (withStyles(styles)(CoinButton));

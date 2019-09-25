@@ -19,12 +19,16 @@ import {
   getBookOfCategoryFail,
   toggleBookmark,
   toggleBookmarkSuccess,
-  toggleBookmarkFail
+  toggleBookmarkFail,
+  createBook,
+  createBookSuccess,
+  createBookFail
 } from '../actions/bookAction'
 
 let defaultState = {
   isLoading: false,
   categoryIsLoading: false,
+  categoryList: [],
   isLoadingCategory: false,
   error: null,
   bookDetail: {
@@ -44,7 +48,8 @@ let defaultState = {
   isLoadingBookLite: false,
   bookLite: {},
   bookListIsLoading: {},
-  bookListData: {}
+  bookListData: {},
+  isCreating: false
 }
 
 const bookReducer = handleActions(
@@ -238,6 +243,26 @@ const bookReducer = handleActions(
       return {
         ...state,
         error: error
+      }
+    },
+    [createBook]: (state) => {
+      return {
+        ...state,
+        isCreating: true
+      }
+    },
+    [createBookSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        error: null,
+        isCreating: false
+      }
+    },
+    [createBookFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error,
+        isCreating: false
       }
     },
   },
