@@ -2,6 +2,7 @@
   "restApiRoot": "/api",
   "host": "${HOST}",
   "port": "${PORT}",
+  "httpPort": 8080,
   "remoting": {
     "context": false,
     "cors": false,

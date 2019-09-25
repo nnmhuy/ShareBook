@@ -10,7 +10,12 @@
     "fix": "eslint . --fix",
     "start": "node .",
     "dev": "nodemon .",
-    "posttest": "npm run lint && npm audit"
+    "posttest": "npm run lint && npm audit",
+    "generate-key": "openssl genrsa -out server/private/localhost.key.pem 2048",
+    "generate-cert": "openssl req -config server/localhost.conf -new -x509 -sha256 -nodes -key server/private/localhost.key.pem -days 365 -out server/private/localhost.cert.pem",
+    "generate-csr": "openssl req -config server/localhost.conf -new -sha256 -nodes -key server/private/localhost.key.pem -days 365 -out server/private/localhost.req.pem",
+    "print-cert": "openssl x509 -in server/private/localhost.cert.pem -text -noout",
+    "print-csr": "openssl req -in server/private/localhost.req.pem -text -noout"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -33,6 +38,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.0.1",
+    "spdy": "^4.0.1",
     "strong-error-handler": "^3.0.0",
     "uuid": "^3.3.3"
   },
