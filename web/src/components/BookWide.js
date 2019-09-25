@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { Button } from '@material-ui/core'
+import LinesEllipsis from 'react-lines-ellipsis'
 
 import Link from './Link'
 import Image from './Image'
@@ -98,32 +99,44 @@ const Book = (props) => {
   const onBookmark = () => {
     handleToggleBookmark(id, bookmarkId, !isBookmarked)
   }
-  
+
   return (
     <div className={classes.container} >
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={image} alt={name} className={classes.image}/>
+        <Image src={image} alt={name} className={classes.image} />
       </Link>
       <div className={classes.infoContainer}>
         <div className={classes.name}>
           <Link to={`/book-detail/${id}`}>
-            {name}
+            <LinesEllipsis
+              text={name}
+              maxLine='2'
+              ellipsis='..'
+              trimRight
+              basedOn='words'
+            />
           </Link>
         </div>
         <div className={classes.author}>
           <Link to={`/filter/author=${author}`}>
-            {author}
+            <LinesEllipsis
+              text={author}
+              maxLine='1'
+              ellipsis='..'
+              trimRight
+              basedOn='words'
+            />
           </Link>
         </div>
-        <Rating value={rating} precision={0.5} readOnly className={classes.rating}/>
-        {isBookmarked?
-            <BookmarkedIcon className={classes.bookmarkIcon} onClick={onBookmark}/>
+        <Rating value={rating} precision={0.5} readOnly className={classes.rating} />
+        {isBookmarked ?
+          <BookmarkedIcon className={classes.bookmarkIcon} onClick={onBookmark} />
           :
-            <BookmarkIcon className={classes.bookmarkIcon} onClick={onBookmark}/>
+          <BookmarkIcon className={classes.bookmarkIcon} onClick={onBookmark} />
         }
         <span className={classes.numberOfUser}>
           {numberOfUse}
-          <UserIcon fill={colors.primary} className={classes.userIcon}/>
+          <UserIcon fill={colors.primary} className={classes.userIcon} />
         </span>
         <Link to={'/create-transaction'}>
           <Button className={classes.borrowButton}>Mượn sách</Button>
