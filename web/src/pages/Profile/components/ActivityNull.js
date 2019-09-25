@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({

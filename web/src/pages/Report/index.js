@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TopNavSend from '../../components/TopNavSend';
 import ProblemDropdown from './components/ProblemDropdown';

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 import { ReactComponent as TechnicIcon } from '../../../static/images/technics.svg';

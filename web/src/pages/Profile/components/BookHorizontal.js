@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 import Book from '../../../components/Book';
 import ActivityNull from './ActivityNull';
