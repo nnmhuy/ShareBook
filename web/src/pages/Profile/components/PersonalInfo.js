@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import colors from '../../../constants/colors';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
 
 import { ReactComponent as FacebookIcon } from '../../../static/images/facebook.svg';
-import { Input } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -90,6 +90,16 @@ const styles = theme => ({
             color: colors.primary,
             textDecoration: 'underline'
         }
+    },
+    button: {
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+        fontSize: 13,
+        color: 'white',
+        background: 'linear-gradient(to left, #0076ff 0%, #04abe8 100%)',
+        margin: 'auto',
+        display: 'block',
+        padding: 4
     }
 })
 
@@ -163,6 +173,7 @@ class PersonalInfo extends Component {
                         {/* error Email */}
                         <p className={classes.title}>Email</p>
                         <Input name='email' value={email} className={classes.input} onChange={this.handleChange} />
+                        <Button className={classes.button}>Sửa</Button>
                     </div>
                 }
             </>

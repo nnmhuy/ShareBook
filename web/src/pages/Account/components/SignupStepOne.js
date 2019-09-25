@@ -6,6 +6,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 import Logo from '../../../static/images/logo.png'
 import FacebookLogo from '../../../static/images/facebook-logo.png'
@@ -19,7 +20,7 @@ import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
 import { warnAlert } from '../../../components/alert'
-import resizeImage from '../../../helper/resizeImage'
+import { resizeImage, rotateImage } from '../../../helper/resizeImage'
 
 const styles = (theme => ({
   container: {
@@ -142,7 +143,7 @@ class SignupStepOne extends React.Component {
         return;
       }
 
-      resizeImage(newImage, false, ({ url, blob }) => {
+      resizeImage(newImage, 'small', ({ url, blob }) => {
         this.setState({
           avatarSrc: url
         })
@@ -150,6 +151,26 @@ class SignupStepOne extends React.Component {
         this.props.setFieldValue('isLoadingImage', false)
       });
     }
+  }
+
+  rotateImageHandler = () => {
+    this.props.setFieldValue('isLoadingImage', true)
+    let imageName = _.get(this.props, 'values.avatar.imageName', null)
+    if (!imageName) {
+      this.props.setFieldValue('isLoadingImage', false)
+      return
+    }
+    rotateImage(this.state.avatarSrc, 6, (err, { url, blob }) => {
+      if (err) {
+        this.props.setFieldValue('isLoadingImage', false)
+        return
+      }
+      this.setState({
+        avatarSrc: url
+      })
+      this.props.setFieldValue('avatar', { imageName , blob})
+      this.props.setFieldValue('isLoadingImage', false)
+    })
   }
 
   render() {
@@ -186,6 +207,7 @@ class SignupStepOne extends React.Component {
             </div>
           </label>
         </div>
+        {avatarSrc && <button type="button" onClick={this.rotateImageHandler}>xoay</button>}
         <InputField
           id='signup-username'
           label='Tên đăng nhập'

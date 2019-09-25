@@ -21,10 +21,10 @@ const styles = theme => ({
 
 class ActivityNull extends Component {
     render() {
-        const { classes, Icon, content, filled } = this.props;
+        const { classes, Icon, content } = this.props;
         return (
             <Paper className={classes.container}>
-                <Icon className={classes.icon}/>
+                <Icon className={classes.icon} />
                 <p className={classes.text}>{content}</p>
             </Paper>
         );

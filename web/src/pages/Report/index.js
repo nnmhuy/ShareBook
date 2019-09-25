@@ -3,10 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import TopNavSend from '../../components/TopNavSend';
 import ProblemDropdown from './components/ProblemDropdown';
 import ProblemContainer from './components/ProblemContainer';
-import InputField from '../../components/InputField';
 import TextField from '@material-ui/core/TextField';
 import Avatar from '@material-ui/core/Avatar';
-import { FormControl, InputLabel, Input, FormGroup, FormHelperText } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
 import colors from '../../constants/colors';
 
 const styles = theme => ({

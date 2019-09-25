@@ -1,11 +1,10 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 import {
     AppBar,
     Toolbar,
     IconButton,
-    Button,
     SwipeableDrawer
 } from '@material-ui/core'
 

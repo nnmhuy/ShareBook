@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 import colors from '../../../constants/colors';
 
 const styles = theme => ({
@@ -78,6 +80,17 @@ const styles = theme => ({
             borderColor: colors.primary,
             outline: 'none'
         }
+    },
+    button: {
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+        fontSize: 13,
+        color: 'white',
+        background: 'linear-gradient(to left, #0076ff 0%, #04abe8 100%)',
+        margin: 'auto',
+        display: 'block',
+        padding: 4,
+        marginBottom: 30
     }
 })
 
@@ -106,8 +119,6 @@ class Bio extends Component {
             bio: e.target.value,
             finalBio: e.target.value
         })
-
-
     }
 
     render() {
@@ -135,6 +146,7 @@ class Bio extends Component {
                         />
                         {/* {value !== '' ? value.split(' ').length : 0} */}
                         <p className={classes.counter}>{count}/300</p>
+                        <Button className={classes.button}>Sửa</Button>
                     </div>
                 }
             </>

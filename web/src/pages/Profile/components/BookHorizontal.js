@@ -6,7 +6,6 @@ import ActivityNull from './ActivityNull';
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 
 import { bookDemoData } from '../demoData';
-import { flexbox } from '@material-ui/system';
 import colors from '../../../constants/colors';
 
 const styles = theme => ({

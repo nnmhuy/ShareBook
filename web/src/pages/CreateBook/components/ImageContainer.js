@@ -5,7 +5,7 @@ import colors from '../../../constants/colors';
 import { Dialog, DialogContent, FormHelperText } from '@material-ui/core';
 
 import Image from '../../../components/Image'
-import resizeImage from '../../../helper/resizeImage'
+import { resizeImage } from '../../../helper/resizeImage'
 import { warnAlert } from '../../../components/alert'
 
 const styles = theme => ({

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import colors from '../../../constants/colors';
 
-import { ReactComponent as FacebookIcon } from '../../../static/images/facebook.svg';
+import { ReactComponent as PencilIcon } from '../../../static/images/create-new-pencil-button.svg';
+import { ReactComponent as DownArrowIcon } from '../../../static/images/down-arrow.svg';
 import Bio from './Bio';
 import PersonalInfo from './PersonalInfo';
 
 const styles = theme => ({
 	wrapper: {
 		position: 'relative',
-		padding: '10px 20px 25px'
+		padding: '10px 20px 30px'
 	},
 	flexContainer: {
 		display: 'flex',
@@ -31,7 +31,7 @@ const styles = theme => ({
 		cursor: 'pointer',
 		top: 10,
 		right: 15,
-		height: 12,
+		height: 13
 	},
 	fixButton: {
 		position: 'absolute',
@@ -43,6 +43,9 @@ const styles = theme => ({
 		fontSize: 12,
 		fontWeight: 700,
 		color: colors.primary
+	},
+	rotateIcon: {
+		transform: 'translateX(-50%) scale(-1, -1)'
 	}
 })
 
@@ -87,7 +90,6 @@ class PaperWrapper extends Component {
 		const { isEdit, isHidden, fixed } = this.state;
 		return (
 			<Paper className={classes.wrapper}>
-
 				{
 					layout === 'bio' &&
 					<Bio isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
@@ -96,19 +98,10 @@ class PaperWrapper extends Component {
 					layout === 'info' &&
 					<PersonalInfo isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
 				}
-
-				{
-					isEdit &&
-					<p className={classes.fixButton} onClick={this.fixInfo}>
-						Sửa
-									</p>
-				}
-				{
-					!isEdit &&
-					<FacebookIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
-				}
-				<FacebookIcon fill={colors.primary} className={classes.downIcon} onClick={this.spanInfo} />
-
+				<PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
+				<DownArrowIcon fill={colors.primary}
+					className={isHidden ? classes.downIcon : `${classes.rotateIcon} ${classes.downIcon}`}
+					onClick={this.spanInfo} />
 			</Paper>
 		);
 	}

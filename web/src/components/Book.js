@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
+import LinesEllipsis from 'react-lines-ellipsis'
 
 import Link from './Link'
 import Image from './Image'
@@ -67,12 +68,24 @@ const Book = (props) => {
       </Link>
       <div className={classes.name}>
         <Link to={`/book-detail/${id}`}>
-          {name}
+        <LinesEllipsis
+          text={name}
+          maxLine='1'
+          ellipsis='..'
+          trimRight
+          basedOn='words'
+        />
         </Link>
       </div>
       <div className={classes.author}>
         <Link to={`/filter/author=${author}`}>
-          {author}
+        <LinesEllipsis
+          text={author}
+          maxLine='1'
+          ellipsis='..'
+          trimRight
+          basedOn='words'
+        />
         </Link>
       </div>
       <div className={classes.rateContainer}>

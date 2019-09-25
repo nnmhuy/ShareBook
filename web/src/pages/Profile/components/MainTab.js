@@ -51,17 +51,17 @@ class MainTab extends Component {
                 >
                     <Tab
                         label={
-                            currentTab === 0 &&
-                            <UserIcon height={25} className={classes.icon} fill="#007efc" />
-                            || currentTab === 1 &&
-                            <UserIcon height={25} className={classes.icon} fill="#9F9F9F" />
+                            currentTab === 0 ?
+                                <UserIcon height={25} className={classes.icon} fill="#007efc" />
+                                :
+                                <UserIcon height={25} className={classes.icon} fill="#9F9F9F" />
                         } />
                     <Tab
                         label={
-                            currentTab === 0 &&
-                            <NewsfeedIcon height={25} className={classes.icon} />
-                            || currentTab === 1 &&
-                            <NewsfeedActiveIcon height={25} className={classes.icon} />
+                            currentTab === 0 ?
+                                <NewsfeedIcon height={25} className={classes.icon} />
+                                :
+                                <NewsfeedActiveIcon height={25} className={classes.icon} />
                         } />
                 </Tabs>
                 <TabPanel index={0} value={currentTab} className={classes.wrapper}>

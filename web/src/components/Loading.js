@@ -14,7 +14,7 @@ const styles = (theme => ({
     position: 'fix',
     top: 0,
     left: 0,
-    background: '#00000048',
+    background: '#00000000',
     zIndex: 10000
   },
   modal: {
@@ -39,7 +39,7 @@ const Loading = (props) => {
       <Paper tabIndex={-1} className={classes.loading}>
         <Modal className={classes.modal} open={isLoading || true}>
           <DialogContent className={classes.content}>
-            <PacmanLoader color={color.light}/>
+            <PacmanLoader color={color.light} />
           </DialogContent>
         </Modal>
       </Paper>
