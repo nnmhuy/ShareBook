@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 import Book from '../../../components/BookmarkBook';
 import ActivityNull from './ActivityNull';
@@ -40,4 +39,4 @@ class BookVertical extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(BookVertical));
+export default withStyles(styles)(BookVertical);

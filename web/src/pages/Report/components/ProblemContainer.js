@@ -38,8 +38,6 @@ const styles = theme => ({
   }
 })
 
-const error = '* Bạn chưa nhập vấn đè bạn gặp phải';
-
 class ProblemContainer extends Component {
   render() {
     const { classes } = this.props;

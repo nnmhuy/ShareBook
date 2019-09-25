@@ -13,7 +13,7 @@ const styles = (theme => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    background: '#00000048',
+    background: '#00000000',
     zIndex: 10000
   },
   modal: {
@@ -31,7 +31,7 @@ const Loading = (props) => {
     return (
       <Paper tabIndex={-1} className={classes.loading}>
         <Modal className={classes.modal} open={isLoading || true}>
-          <PacmanLoader color={color.light}/>
+          <PacmanLoader color={color.light} />
         </Modal>
       </Paper>
     )

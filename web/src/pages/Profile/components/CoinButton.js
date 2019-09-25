@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
@@ -38,4 +37,4 @@ class CoinButton extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(CoinButton));
+export default withStyles(styles)(CoinButton);

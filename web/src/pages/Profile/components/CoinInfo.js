@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import colors from '../../../constants/colors';
@@ -62,4 +61,4 @@ class CoinInfo extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(CoinInfo));
+export default withStyles(styles)(CoinInfo);

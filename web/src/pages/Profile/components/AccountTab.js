@@ -1,23 +1,47 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 
-import BookSlider from '../../../components/BookSlider';
 import PaperWrapper from './PaperWrapper';
-import Follower from './Follower';
 import CoinInfo from './CoinInfo';
 import ActivityWrapper from './ActivityWrapper';
+import colors from '../../../constants/colors';
+
+
 
 const styles = theme => ({
-
+    wrapper: {
+        position: 'relative',
+        padding: '10px 0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    title: {
+        margin: 0,
+        color: colors.primary,
+        fontSize: 12,
+        fontWeight: 500,
+        cursor: 'pointer',
+        textDecoration: 'none'
+    },
+    content: {
+        margin: 0,
+        color: 'black',
+        marginLeft: 15
+    }
 })
 
 class AccountTab extends Component {
     render() {
-        const { classes, bookOfCategory, handleToggleBookmark } = this.props;
+        const { classes } = this.props;
         return (
             <div>
-                <Follower />
+                <Paper className={classes.wrapper}>
+                    <Link className={classes.title}>Người theo dõi<span className={classes.content}>200</span></Link>
+                    <Link className={classes.title}>Đang theo dõi<span className={classes.content}>240</span></Link>
+                </Paper>
                 <br />
                 <PaperWrapper layout='info' />
                 <br />
@@ -31,4 +55,4 @@ class AccountTab extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(AccountTab));
+export default withStyles(styles)(AccountTab);

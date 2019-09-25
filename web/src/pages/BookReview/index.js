@@ -27,8 +27,8 @@ const styles = (theme => ({
 
 class BookReview extends Component {
     render() {
-        const { classes, match } = this.props;
-        const reviewId = match.params.reviewId;
+        const { classes } = this.props;
+        // const reviewId = match.params.reviewId;
 
         return (
             <TopNav book={demoBook}>

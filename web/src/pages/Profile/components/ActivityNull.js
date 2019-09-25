@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -22,14 +21,14 @@ const styles = theme => ({
 
 class ActivityNull extends Component {
     render() {
-        const { classes, Icon, content, filled } = this.props;
+        const { classes, Icon, content } = this.props;
         return (
             <Paper className={classes.container}>
-                <Icon className={classes.icon}/>
+                <Icon className={classes.icon} />
                 <p className={classes.text}>{content}</p>
             </Paper>
         );
     }
 }
 
-export default connect()(withStyles(styles)(ActivityNull));
+export default withStyles(styles)(ActivityNull);

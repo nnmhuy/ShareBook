@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 import Book from '../../../components/Book';
 import ActivityNull from './ActivityNull';
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 
 import { bookDemoData } from '../demoData';
-import { flexbox } from '@material-ui/system';
 import colors from '../../../constants/colors';
 
 const styles = theme => ({
@@ -78,4 +76,4 @@ class BookVertical extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(BookVertical));
+export default withStyles(styles)(BookVertical);

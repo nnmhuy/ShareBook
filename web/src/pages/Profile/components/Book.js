@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import bookimg from '../../../static/images/demo/escape_velocity.png';
 
 import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked.svg';
@@ -40,4 +39,4 @@ class Book extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(Book));
+export default withStyles(styles)(Book);
