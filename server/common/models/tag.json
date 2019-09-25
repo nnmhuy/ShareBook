@@ -1,6 +1,6 @@
 {
-  "name": "mission",
-  "plural": "missions",
+  "name": "tag",
+  "plural": "tags",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,21 +13,37 @@
       "silenceWarnings": false
     },
     "ReadOnly": {
+      "numberOfBook": true,
       "id": true
     }
   },
   "properties": {
-    "type": {
+    "name": {
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "string",
-      "required": true
+    "numberOfBook": {
+      "type": "number",
+      "require": true,
+      "default": 0
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "bookTags": {
+      "type": "hasMany",
+      "model": "bookTag",
+      "foreignKey": "tagId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "category": {
+      "type": "belongsTo",
+      "model": "category",
+      "foreignKey": "categoryId"
+    }
+  },
   "acls": [
     {
       "accessType": "*",
@@ -54,17 +70,11 @@
       "permission": "ALLOW"
     },
     {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW"
-    },
-    {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "DENY",
-      "property": "destroyById"
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     }
   ],
   "methods": {}

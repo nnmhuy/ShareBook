@@ -128,4 +128,4 @@ class ActivityWrapper extends Component {
     }
 }
 
-export default withStyles(styles)(ActivityWrapper);
+export default (withStyles(styles)(ActivityWrapper));

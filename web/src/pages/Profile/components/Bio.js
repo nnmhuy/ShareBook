@@ -154,4 +154,4 @@ class Bio extends Component {
     }
 }
 
-export default withStyles(styles)(Bio);
+export default (withStyles(styles)(Bio));

@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions'
+import _ from 'lodash'
 
 import { 
   getBookList,
@@ -18,12 +19,16 @@ import {
   getBookOfCategoryFail,
   toggleBookmark,
   toggleBookmarkSuccess,
-  toggleBookmarkFail
+  toggleBookmarkFail,
+  createBook,
+  createBookSuccess,
+  createBookFail
 } from '../actions/bookAction'
 
 let defaultState = {
   isLoading: false,
-  categoryIsLoading: true,
+  categoryIsLoading: false,
+  categoryList: [],
   isLoadingCategory: false,
   error: null,
   bookDetail: {
@@ -43,7 +48,8 @@ let defaultState = {
   isLoadingBookLite: false,
   bookLite: {},
   bookListIsLoading: {},
-  bookListData: {}
+  bookListData: {},
+  isCreating: false
 }
 
 const bookReducer = handleActions(
@@ -171,6 +177,8 @@ const bookReducer = handleActions(
     [toggleBookmark]: (state, { payload: { bookId, isBookmarked } }) => {
       const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
       const bookOfCategory= JSON.parse(JSON.stringify(state.bookOfCategory))
+      const bookListData = JSON.parse(JSON.stringify(state.bookListData))
+
       if (bookDetail.id === bookId){
         bookDetail.isBookmarked = isBookmarked
         if (isBookmarked) {
@@ -186,15 +194,27 @@ const bookReducer = handleActions(
         }
       })
 
+      _.forEach(bookListData, function (value, key) {
+        if (value && value[0]) {
+          value.forEach(book => {
+            if (book.id === bookId) {
+              book.isBookmarked = isBookmarked
+            }
+          })
+        }
+      })
+
       return {
         ...state,
         bookDetail,
-        bookOfCategory
+        bookOfCategory,
+        bookListData
       }
     },
     [toggleBookmarkSuccess]: (state, { payload: { bookId, bookmarkId } }) => {
       const bookDetail = JSON.parse(JSON.stringify(state.bookDetail))
       const bookOfCategory = JSON.parse(JSON.stringify(state.bookOfCategory))
+      const bookListData = JSON.parse(JSON.stringify(state.bookListData))
       if (bookDetail.id === bookId) {
         bookDetail.bookmarkId = bookmarkId
       }
@@ -203,16 +223,46 @@ const bookReducer = handleActions(
           book.bookmarkId = bookmarkId
         }
       })
+      _.forEach(bookListData, function (value, key) {
+        if (value && value[0]) {
+          value.forEach(book => {
+            if (book.id === bookId) {
+              book.bookmarkId = bookmarkId
+            }
+          })
+        }
+      })
       return {
         ...state,
         bookDetail,
-        bookOfCategory
+        bookOfCategory,
+        bookListData
       }
     },
     [toggleBookmarkFail]: (state, { payload: error }) => {
       return {
         ...state,
         error: error
+      }
+    },
+    [createBook]: (state) => {
+      return {
+        ...state,
+        isCreating: true
+      }
+    },
+    [createBookSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        error: null,
+        isCreating: false
+      }
+    },
+    [createBookFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error,
+        isCreating: false
       }
     },
   },

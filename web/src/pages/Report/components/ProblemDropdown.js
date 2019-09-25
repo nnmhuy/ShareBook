@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -68,4 +67,4 @@ class ProblemDropdown extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ProblemDropdown));
+export default (withStyles(styles)(ProblemDropdown));

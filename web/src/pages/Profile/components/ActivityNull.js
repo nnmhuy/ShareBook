@@ -31,4 +31,4 @@ class ActivityNull extends Component {
     }
 }
 
-export default withStyles(styles)(ActivityNull);
+export default (withStyles(styles)(ActivityNull));

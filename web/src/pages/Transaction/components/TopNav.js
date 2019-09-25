@@ -86,7 +86,7 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-  const { classes, children, avatar, username, position, status, isOnline
+  const { classes, children, avatar, name, position, status, isOnline
   } = props
 
   const handleBack = () => {
@@ -113,7 +113,7 @@ const TopNav = (props) => {
           </OnlineBadge>
           <div className={classes.infoContainer}>
             <div>
-              <span className={classes.username}>{username}</span>
+              <span className={classes.username}>{name}</span>
               <span className={classes.position}>{mapPositionToText[position]}</span>
             </div>
             <div className={classes.status}>{mapTransactionStatusToText[status]}</div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
 
@@ -57,4 +56,4 @@ class BookInfo extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(BookInfo));
+export default (withStyles(styles)(BookInfo));

@@ -85,6 +85,9 @@ const styles = (theme) => ({
   link: {
     textDecoration: 'unset'
   },
+  sidebarWrapper: {
+    // backgroundColor: colors.dark
+  }
 })
 
 const LayoutWrapper = (props) => {
@@ -132,6 +135,9 @@ const LayoutWrapper = (props) => {
         onClose={toggleSidebar(false)}
         onOpen={toggleSidebar(true)}
         className={classes.sidebarWrapper}
+        ModalProps={{
+          keepMounted: true
+        }}
       >
           <Sidebar toggleSidebar={toggleSidebar} account={account} currentPathname={pathname}/>
       </SwipeableDrawer>

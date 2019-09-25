@@ -93,7 +93,7 @@ const styles = (theme => ({
 }))
 
 const TransactionItem = (props) => {
-  const { classes, id, avatar, username, isOnline, image,
+  const { classes, id, avatar, name, isOnline, image,
     position, status, numberOfUnreadMessage, lastMessageTime } = props
   return (
     <Link to={`/transaction/${id}`}>
@@ -118,7 +118,7 @@ const TransactionItem = (props) => {
           <img src={image} alt='book' className={classes.image}/>
         </div>
         <div className={classes.infoContainer}>
-          <div className={classes.username}>{username}</div>
+          <div className={classes.username}>{name}</div>
           <div>
             <span className={classes.position}>{mapPositionToText[position]}</span>
             <span className={classes.status}>{` - ${mapTransactionStatusToText[status]}`}</span>

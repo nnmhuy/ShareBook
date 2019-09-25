@@ -89,4 +89,4 @@ class ReportItem extends Component {
   }
 }
 
-export default withStyles(styles)(ReportItem);
+export default (withStyles(styles)(ReportItem));

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
@@ -33,26 +33,24 @@ const styles = theme => ({
     }
 })
 
-class AccountTab extends Component {
-    render() {
-        const { classes } = this.props;
-        return (
-            <div>
-                <Paper className={classes.wrapper}>
-                    <Link className={classes.title}>Người theo dõi<span className={classes.content}>200</span></Link>
-                    <Link className={classes.title}>Đang theo dõi<span className={classes.content}>240</span></Link>
-                </Paper>
-                <br />
-                <PaperWrapper layout='info' />
-                <br />
-                <PaperWrapper layout='bio' />
-                <br />
-                <CoinInfo />
-                <br />
-                <ActivityWrapper />
-            </div>
-        );
-    }
+const AccountTab = (props) => {
+    const { classes } = props;
+    return (
+        <div>
+            <Paper className={classes.wrapper}>
+                <Link className={classes.title}>Người theo dõi<span className={classes.content}>200</span></Link>
+                <Link className={classes.title}>Đang theo dõi<span className={classes.content}>240</span></Link>
+            </Paper>
+            <br />
+            <PaperWrapper layout='info' />
+            <br />
+            <PaperWrapper layout='bio' />
+            <br />
+            <CoinInfo />
+            <br />
+            <ActivityWrapper />
+        </div>
+    )
 }
 
-export default withStyles(styles)(AccountTab);
+export default (withStyles(styles)(AccountTab));

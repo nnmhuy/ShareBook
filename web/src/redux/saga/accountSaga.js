@@ -43,6 +43,7 @@ function* getUserInfoSaga() {
     localStorage.setItem('isAuth', true)
     localStorage.setItem('userId', data.id)
     localStorage.setItem('username', data.username)
+    localStorage.setItem('name', data.name)
     localStorage.setItem('avatar', data.avatar)
     localStorage.setItem('coin', data.coin)
     yield put(getUserInfoSuccess(data))

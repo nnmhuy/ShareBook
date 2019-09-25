@@ -76,4 +76,4 @@ class BookVertical extends Component {
   }
 }
 
-export default withStyles(styles)(BookVertical);
+export default (withStyles(styles)(BookVertical));

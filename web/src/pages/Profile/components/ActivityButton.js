@@ -48,4 +48,4 @@ class ActivityButton extends Component {
 	}
 }
 
-export default withStyles(styles)(ActivityButton);
+export default (withStyles(styles)(ActivityButton));

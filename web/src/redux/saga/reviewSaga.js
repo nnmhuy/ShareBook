@@ -76,11 +76,11 @@ function* getReviewsOfBookSaga({ payload }) {
     )
 
     const allData = reviewsData.map((review, index) => {
-      const { username, avatar } = userOfReviews[index].data
+      const { name, avatar } = userOfReviews[index].data
       const numberOfReplies = reviewsReply[index].data.count
       return {
         ...review,
-        username,
+        name,
         avatar,
         numberOfReplies,
         likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '', 

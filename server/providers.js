@@ -25,7 +25,7 @@ module.exports = {
     'callbackURL': '/api/auth/facebook/callback',
     'authPath': '/api/auth/facebook',
     'callbackPath': '/api/auth/facebook/callback',
-    'successRedirect': `${FRONTEND_URL}/profile`,
+    'successRedirect': `${FRONTEND_URL}/book-list`,
     'failureRedirect': `${FRONTEND_URL}/account`,
     'scope': [
       'email',

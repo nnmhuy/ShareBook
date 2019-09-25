@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 const styles = theme => ({
   container: {
@@ -22,4 +21,4 @@ class CategoryList extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(CategoryList));
+export default (withStyles(styles)(CategoryList));

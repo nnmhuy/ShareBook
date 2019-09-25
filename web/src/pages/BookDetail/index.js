@@ -59,11 +59,9 @@ class App extends React.Component {
       toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
     }
 
-    const loading = isLoading || isLoadingCategory
-
     return (
       <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
-        <Loading isLoading={loading}/>
+        <Loading isLoading={isLoading}/>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
             <BookInfo {...bookDetail} category={category}/>
@@ -82,6 +80,7 @@ class App extends React.Component {
               url={`/category${category.url}`}
               bookList={bookOfCategory}
               handleToggleBookmark={handleToggleBookmark}
+              isLoading={isLoadingCategory}
             />
           </div>
         </BottomNav>

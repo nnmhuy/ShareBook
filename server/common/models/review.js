@@ -1,6 +1,6 @@
 'use strict';
 const checkExist = require('../../server/helper/checkExist');
-const setUserId = require('../../server/middlerware/setUserId');
+const setUserId = require('../../server/middleware/setUserId');
 
 module.exports = function(Review) {
   Review.validatesPresenceOf('userId', 'bookId');
@@ -43,11 +43,13 @@ module.exports = function(Review) {
         if (err || !book) return next(new Error('Loại sách này đang bị lỗi'));
 
         let newTotalRating = ctx.currentInstance.rating + book.totalOfRating;
+        let newRating = newTotalRating / (book.numberOfRating + 1);
 
         book.updateAttributes(
           {
             totalOfRating: newTotalRating,
             numberOfRating: book.numberOfRating + 1,
+            rating: newRating,
           },
           (err, instance) => {
             if (err) return next(new Error('Cập nhật review gặp lỗi'));

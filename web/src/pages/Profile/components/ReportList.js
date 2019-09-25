@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 
 import { ReactComponent as TechnicIcon } from '../../../static/images/technics.svg';
 import ActivityNull from './ActivityNull';
@@ -26,4 +27,4 @@ class ReportList extends Component {
   }
 }
 
-export default ReportList;
+export default (withStyles(styles)(ReportList));

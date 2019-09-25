@@ -65,14 +65,14 @@ const styles = (theme => ({
 }))
 
 const TopReviewItem = (props) => {
-  const { classes, username, avatar, reviewId, bookName, reviewContent } = props
+  const { classes, name, avatar, reviewId, bookName, reviewContent } = props
   return (
     <div className={classes.container}>
       <Quotation className={classes.quotation} />
       <div className={classes.reviewContainer}>
         <div className={classes.userContainer}>
           <Avatar src={avatar} className={classes.avatar}/>
-          <span className={classes.username}>{username}</span>
+          <span className={classes.username}>{name}</span>
         </div>
         <div className={classes.bookName}>{bookName}</div>
         <div className={classes.review}>"{reviewContent}"</div>

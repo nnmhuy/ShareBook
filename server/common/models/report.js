@@ -1,5 +1,5 @@
 'use strict';
-const setUserId = require('../../server/middlerware/setUserId');
+const setUserId = require('../../server/middleware/setUserId');
 module.exports = function(Report) {
   Report.validatesPresenceOf('reporterId');
 

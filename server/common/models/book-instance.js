@@ -1,6 +1,6 @@
 'use strict';
 const _ = require('lodash');
-const setUserId = require('../../server/middlerware/setUserId');
+const setUserId = require('../../server/middleware/setUserId');
 
 module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
@@ -65,7 +65,6 @@ module.exports = function(BookInstance) {
   });
 
   function triggerBookInstanceCreate(ctx, next) {
-    let Category = BookInstance.app.models.category;
     let Book = BookInstance.app.models.book;
     if (!ctx.currentInstance || !ctx.currentInstance.bookId)
       return next(new Error('Yêu cầu bị lỗi'));
@@ -79,15 +78,16 @@ module.exports = function(BookInstance) {
         if (newlocationStatistic)
           newlocationStatistic[district]++;
         book.updateAttributes({
-          locationStatistic: newlocationStatistic}, (err, result) => {
+          locationStatistic: newlocationStatistic,
+          totalOfBookInstance: book.totalOfBookInstance + 1,
+        }, (err, result) => {
           if (err) return next(err);
-          increaseBookInCategory(Category, book.categoryId, (err) => {
-            if (err) return next(err);
-            return next();
-          });
+          return next();
         });
       } else {
-        increaseBookInCategory(Category, book.categoryId, (err) => {
+        book.updateAttributes({
+          totalOfBookInstance: book.totalOfBookInstance + 1,
+        }, (err, result) => {
           if (err) return next(err);
           return next();
         });
@@ -136,20 +136,5 @@ module.exports = function(BookInstance) {
         return callback(locationInstance.district);
       });
     });
-  }
-
-  function increaseBookInCategory(CategoryModels, categoryId, callback) {
-    CategoryModels.findById(categoryId,
-      (err, category) => {
-        if (err || !category)
-          return callback(new Error('Loại sách này đang bị lỗi'));
-        category.updateAttributes({
-          totalOfBook: category.totalOfBook + 1,
-        }, (err, instance) => {
-          if (err)
-            return CategoryModels(new Error('Thể loại sách này đang bị lỗi'));
-          return callback();
-        });
-      });
   }
 };

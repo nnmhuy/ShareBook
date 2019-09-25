@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
+// import Loading from '../../components/Loading'
 import Link from '../../components/Link'
 import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
@@ -15,8 +16,7 @@ import TopBook from './components/TopBook'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { demoTopBooks } from './demoData'
-import { getCategoryList, getBookList } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 
 const styles = (theme => ({
   container: {
@@ -55,9 +55,73 @@ class BookList extends React.Component {
 
   componentDidMount() {
     this.props.getCategoryListHandler();
-    this.props.getBookListHandler({key:'new'});
-    this.props.getBookListHandler({key:'popular'});
-    this.props.getBookListHandler({key:'high-rating'});
+
+    let minRating = 0 
+    let categoryFilter = {}, districtFilter = {}
+    try {
+      minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
+      categoryFilter = localStorage.getItem('categoryFilter')
+      if (!categoryFilter || categoryFilter === 'false') categoryFilter = false
+      else categoryFilter = JSON.parse(categoryFilter)
+      categoryFilter = this.mapToArray(categoryFilter)
+
+      districtFilter = localStorage.getItem('districtFilter')
+      if (!districtFilter || districtFilter === 'false') districtFilter = false
+      else districtFilter = JSON.parse(districtFilter)
+      districtFilter = this.mapToArray(districtFilter)
+    } catch (err) {
+      console.log(err)
+    }
+    
+    let where = {}
+    where.rating = { gte: minRating }
+    if (categoryFilter) where.categoryId = {inq: categoryFilter}
+    if (districtFilter) {
+      where.or = []
+      districtFilter.forEach(element => {
+        let obIntance = {}
+        obIntance[`locationStatistic.${element}`] = {gte: 1}
+        where.or.push(obIntance)
+      });
+    }
+
+
+    this.props.getBookListHandler({key:'new', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'createdAt DESC'
+    });
+    this.props.getBookListHandler({key:'popular', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'numberOfRating DESC'
+    });
+    this.props.getBookListHandler({key:'high-rating', where,
+      limit: 10,
+      userId: this.props.account.userId,
+      order: 'rating DESC'
+    });
+    this.props.getBookListHandler({key:'top',
+      limit: 3,
+      userId: this.props.account.userId,
+      order: ['numberOfUse DESC', 'numberOfRating DESC']
+    });
+  }
+
+  mapToArray = (object) => {
+    let resultArray = []
+    _.mapKeys(object, function(value, key) {
+      if (value)
+        resultArray.push(key)
+    });
+    if (resultArray.length === 0)
+      return false
+    return resultArray
+  }
+
+  handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+    const { toggleBookmarkHandler } = this.props
+    toggleBookmarkHandler({bookId, bookmarkId, isBookmarked})
   }
 
   render() {
@@ -68,6 +132,7 @@ class BookList extends React.Component {
 
     return (
       <LayoutWrapper account={account} title={'Kệ sách'}>
+        {/* <Loading isLoading={categoryIsLoading}/> */}
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <Search className={classes.search}/>
@@ -78,23 +143,33 @@ class BookList extends React.Component {
             </Link>
           </div>
           <NewsSlider newsData={currentCategoryList}/>
-          <CategoryList categoryList={currentCategoryList}/>
+          <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
           <BookSlider
-            title={'Sách mới'}
+            title={'Sách mới'} // createAt 
             url={`/category/new`}
             bookList={_.get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
-            />
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['new']}
+          />
           <BookSlider
-            title={'Sách đọc nhiều'}
+            title={'Sách đọc nhiều'} // review (number of rate)
             url={`/category/popular`}
-            bookList={_.get(bookListData, 'popular', [])} />
+            bookList={_.get(bookListData, 'popular', [])} 
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['popular']}
+          />
           <BookSlider
-            title={'Sách được đánh giá cao'}
+            title={'Sách được đánh giá cao'} // rating 
             url={`/category/high-rating`}
-            bookList={_.get(bookListData, 'high-rating', [])} />
-          <TopBook 
-            topBookList={demoTopBooks}
+            bookList={_.get(bookListData, 'high-rating', [])} 
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['high-rating']}            
+          />
+          <TopBook  // top number of use
+            topBookList={_.get(bookListData, 'top', [])}
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['top']}
           />
         </div>
       </LayoutWrapper>
@@ -121,7 +196,8 @@ const mapStateToProps = ({ state, book }) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
-  getBookListHandler: getBookList
+  getBookListHandler: getBookList,
+  toggleBookmarkHandler: toggleBookmark 
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookList));

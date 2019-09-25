@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -46,7 +45,7 @@ const reviewDemo = {
 class ReviewTab extends Component {
     render() {
         const { classes } = this.props;
-        const {content, title, avatar, images, createdAt, username } = reviewDemo;
+        const { content, title, avatar, images, createdAt, username } = reviewDemo;
         const createdDay = (date) => {
             let createdYMD = date.split('T')[0].split('-');
             let day = createdYMD[2];
@@ -89,4 +88,4 @@ class ReviewTab extends Component {
     }
 }
 
-export default withStyles(styles)(ReviewTab);
+export default (withStyles(styles)(ReviewTab));

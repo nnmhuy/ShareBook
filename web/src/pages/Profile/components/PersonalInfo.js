@@ -181,4 +181,4 @@ class PersonalInfo extends Component {
     }
 }
 
-export default withStyles(styles)(PersonalInfo);
+export default (withStyles(styles)(PersonalInfo));
