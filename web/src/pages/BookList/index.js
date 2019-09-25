@@ -125,7 +125,8 @@ class BookList extends React.Component {
   }
 
   render() {
-    const { classes, account, categoryIsLoading, categoryList, bookListData, bookListIsLoading } = this.props
+    const { classes, account, categoryIsLoading, categoryList,
+      bookListData, bookListIsLoading, getBookListHandler } = this.props
     let currentCategoryList = []
     if (!categoryIsLoading && categoryList)
       currentCategoryList = categoryList
@@ -136,7 +137,11 @@ class BookList extends React.Component {
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             {/* <Search className={classes.search}/> */}
-            <SearchBar />
+            <SearchBar 
+              getBookListHandler={getBookListHandler}
+              bookList={_.get(bookListData, 'search-total', [])}
+              isLoading={bookListIsLoading['search-total']} 
+            />
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
