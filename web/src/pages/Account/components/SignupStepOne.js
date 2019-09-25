@@ -19,7 +19,7 @@ import { baseURL } from '../../../constants/constants'
 
 import InputField from '../../../components/InputField'
 import { warnAlert } from '../../../components/alert'
-import resizeImage from '../../../helper/resizeImage'
+import { resizeImage, rotateImage } from '../../../helper/resizeImage'
 
 const styles = (theme => ({
   container: {
@@ -142,7 +142,7 @@ class SignupStepOne extends React.Component {
         return;
       }
 
-      resizeImage(newImage, false, ({ url, blob }) => {
+      resizeImage(newImage, 'small', ({ url, blob }) => {
         this.setState({
           avatarSrc: url
         })
@@ -150,6 +150,19 @@ class SignupStepOne extends React.Component {
         this.props.setFieldValue('isLoadingImage', false)
       });
     }
+  }
+
+  rotateImageHandler = () => {
+    this.props.setFieldValue('isLoadingImage', true)
+    let imageName = this.props.values.avatar.imageName
+    rotateImage(this.state.avatarSrc, 6, ({ url, blob }) => {
+      console.log('done')
+      this.setState({
+        avatarSrc: url
+      })
+      this.props.setFieldValue('avatar', { imageName , blob})
+      this.props.setFieldValue('isLoadingImage', false)
+    })
   }
 
   render() {
@@ -186,6 +199,7 @@ class SignupStepOne extends React.Component {
             </div>
           </label>
         </div>
+        <button onClick={this.rotateImageHandler}>Roate</button>
         <InputField
           id='signup-username'
           label='Tên đăng nhập'

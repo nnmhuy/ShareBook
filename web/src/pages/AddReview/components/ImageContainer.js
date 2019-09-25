@@ -6,7 +6,7 @@ import Image from '../../../components/Image'
 
 import colors from '../../../constants/colors'
 import { warnAlert } from '../../../components/alert'
-import resizeImage from '../../../helper/resizeImage'
+import { resizeImage } from '../../../helper/resizeImage'
 import ImagePlaceholder from '../../../static/images/image-placeholder.png'
 import { ReactComponent as AddIcon } from '../../../static/images/add.svg'
 import { ReactComponent as RemoveIcon } from '../../../static/images/cancel.svg'
@@ -85,7 +85,7 @@ const ImageContainer = (props) => {
         return;
       }
 
-      resizeImage(newImage, true, ({ url, blob }) => {
+      resizeImage(newImage, 'large', ({ url, blob }) => {
         arrayHelpers.push({
           url,
           imageName,

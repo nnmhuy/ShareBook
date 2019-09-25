@@ -20,7 +20,7 @@ async function uploadImage(image, callback) {
     }
   })
     .then(function (response) {
-      let imageUrl = baseURL + `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', 'ImageError.jpg');  
+      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', 'ImageError.jpg');  
       callback(null, imageUrl)
     })
     .catch(function (response) {

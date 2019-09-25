@@ -1,4 +1,6 @@
-var dataURLToBlob = (dataURL) => {
+import * as loadImage from 'blueimp-load-image'
+
+const dataURLToBlob = (dataURL) => {
   var BASE64_MARKER = ';base64,';
   var parts, contentType, raw;
   if (dataURL.indexOf(BASE64_MARKER) === -1) {
@@ -22,8 +24,8 @@ var dataURLToBlob = (dataURL) => {
 
   return new Blob([uInt8Array], {type: contentType});
 }
-
-var resizeImage = (file, isBigImage, callback) => {
+// size small, medium, large, extraLarge
+const resizeImage = (file, imageSize, callback) => {
   // Load the image
   var reader = new FileReader();
   reader.onload = function (readerEvent) {
@@ -35,9 +37,9 @@ var resizeImage = (file, isBigImage, callback) => {
         max_size = 200,// TODO : pull max size from a site config
         width = image.width,
         height = image.height;
-      if (isBigImage) {
-        max_size = 400
-      }
+      if (imageSize === 'medium') max_size = 400
+      if (imageSize === 'large') max_size = 600
+      if (imageSize === 'extraLarge') max_size = 800
       if (width > height) {
         if (width > max_size) {
           height *= max_size / width;
@@ -66,4 +68,17 @@ var resizeImage = (file, isBigImage, callback) => {
   reader.readAsDataURL(file);
 }
 
-export default resizeImage;
+const rotateImage = (file, rotateOption, callback) => {
+  console.log(loadImage)
+  loadImage(file, (img) => {
+    console.log('aaa')
+    var dataUrl = img.toDataURL('image/jpeg');
+    var rotatedImage = dataURLToBlob(dataUrl);
+    return callback({url: dataUrl, blob: rotatedImage})
+  }, {
+    orientation: rotateOption,
+    canvas: true
+  });
+} 
+
+export { resizeImage, rotateImage };

@@ -58,7 +58,7 @@ var categoryList = [
 ];
 
 const fullCategoryList = categoryList.map(element => {
-  element.image = BACKEND_URL + '/containers/defaultContainer/download' +
+  element.image = '/containers/defaultContainer/download' +
   element.url + '.svg';
   element.url = '/category' + element.url;
   return element;
