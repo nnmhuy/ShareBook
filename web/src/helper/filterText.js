@@ -1,4 +1,3 @@
-'use strict';
 
 function xoaDau(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
@@ -18,10 +17,13 @@ function xoaDau(str) {
   return str;
 }
 
-module.exports = function(str) {
+function filterText(str) {
   str = str.replace(/\s/g, '');
   str = xoaDau(str);
   str = str.replace(/[^A-Za-z0-9]/g, '');
   str = str.toLowerCase();
   return str;
 };
+
+export default filterText
+

@@ -12,6 +12,7 @@ import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
 import BookSlider from '../../components/BookSlider'
 import TopBook from './components/TopBook'
+import SearchBar from './components/SearchBar'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
@@ -134,7 +135,8 @@ class BookList extends React.Component {
         {/* <Loading isLoading={categoryIsLoading}/> */}
         <div className={classes.container}>
           <div className={classes.searchContainer}>
-            <Search className={classes.search}/>
+            {/* <Search className={classes.search}/> */}
+            <SearchBar />
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
