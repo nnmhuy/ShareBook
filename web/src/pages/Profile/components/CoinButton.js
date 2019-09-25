@@ -18,7 +18,7 @@ const styles = theme => ({
 const CoinButton = (props) => {
 	const { classes, title, bgCoin } = props
 	let path = '';
-	switch (this.props.title) {
+	switch (props.title) {
 		case 'cho mượn': path = '/create-book'; break;
 		case 'ghi review': path = '/book-list'; break;
 		default: path = '/'; break;

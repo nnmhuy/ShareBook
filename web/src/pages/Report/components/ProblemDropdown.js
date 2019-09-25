@@ -40,8 +40,8 @@ const styles = theme => ({
 class ProblemDropdown extends Component {
 
   render() {
-    const { classes, types, type, handleChange } = this.props;
-
+    const { classes, types, type, params, handleChange } = this.props;
+    console.log(params);
     return (
       <div className={classes.container}>
         <p className={classes.title}>Tôi gặp vấn đề với</p>

@@ -42,51 +42,57 @@ const styles = theme => ({
   }
 })
 
-class ReportItem extends Component {
-  render() {
-    const { classes } = this.props;
-    const { id, createdAt, status } = this.props.report;
-    let statusCode = '';
-    switch (status) {
-      case 'pending':
-        statusCode = 'Chờ phản hồi';
-        break;
-      case 'answer':
-        statusCode = 'Đã trả lời';
-        break;
-      case 'resolved':
-        statusCode = 'Đã xử lí';
-        break;
-      case 'reject':
-        statusCode = 'Đã từ chối';
-        break;
-      default:
-        break;
-    }
-    return (
-      <Paper className={classes.container}>
-        <TechnicIcon className={classes.icon} />
-        <div>
-          <div className={classes.flexContainer}>
-            <p className={classes.text}>Đơn report
-                  <span className={classes.textPrimary}> {id}</span>
-            </p>
-            <p className={classes.textPrimary}>
-              {createdAt}
-            </p>
-          </div>
-          <div className={classes.flexContainer}>
-            <p className={classes.text}>Tình trạng:
-                  <span className={classes.textPrimary}> {statusCode}</span>
-            </p>
-            <Link className={classes.textPrimaryLight} to={`/report/${id}`}>
-              Theo dõi
-              </Link>
-          </div>
-        </div>
-      </Paper>
-    );
+const ReportItem = props => {
+  const { classes } = props;
+  const { id, createdAt, status } = props.report;
+  const createdDay = (date) => {
+    let createdYMD = date.split('T')[0].split('-');
+    let day = createdYMD[2];
+    let month = createdYMD[1];
+    let year = createdYMD[0][2] + createdYMD[0][3];
+    let formattedDate = day + '.' + month + '.' + year;
+    return formattedDate;
   }
+  let statusCode = '';
+  switch (status) {
+    case 'pending':
+      statusCode = 'Chờ phản hồi';
+      break;
+    case 'answer':
+      statusCode = 'Đã trả lời';
+      break;
+    case 'resolved':
+      statusCode = 'Đã xử lí';
+      break;
+    case 'reject':
+      statusCode = 'Đã từ chối';
+      break;
+    default:
+      break;
+  }
+  return (
+    <Paper className={classes.container}>
+      <TechnicIcon className={classes.icon} />
+      <div>
+        <div className={classes.flexContainer}>
+          <p className={classes.text}>Đơn report
+            <span className={classes.textPrimary}> {id}</span>
+          </p>
+          <p className={classes.textPrimary}>
+            {createdDay(createdAt)}
+          </p>
+        </div>
+        <div className={classes.flexContainer}>
+          <p className={classes.text}>Tình trạng:
+            <span className={classes.textPrimary}> {statusCode}</span>
+          </p>
+          <Link className={classes.textPrimaryLight} to={`/report/${id}`}>
+            Theo dõi
+          </Link>
+        </div>
+      </div>
+    </Paper>
+  );
 }
 
 export default (withStyles(styles)(ReportItem));

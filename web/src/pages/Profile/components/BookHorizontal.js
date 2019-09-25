@@ -29,7 +29,6 @@ class BookVertical extends Component {
           <>
             <p className={classes.title}>Sách đang giữ</p>
             <ActivityNull Icon={NotebookIcon} content={textNull.passed} />
-            <br />
           </>
         }
         {
@@ -37,7 +36,6 @@ class BookVertical extends Component {
           <>
             <p className={classes.title}>Sách đã đăng</p>
             <ActivityNull Icon={NotebookIcon} content={textNull.owned} />
-            <br />
           </>
         }
         {

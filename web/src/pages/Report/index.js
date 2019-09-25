@@ -56,17 +56,15 @@ const styles = theme => ({
     }
   }
 })
-
 const types = [
   { typeOfTarget: 'other', name: 'Khác' },
+  { typeOfTarget: 'qa', name: 'Q&A' },
   { typeOfTarget: 'book', name: 'Sách' },
   { typeOfTarget: 'bookInstance', name: 'Sách cho mượn' },
   { typeOfTarget: 'review', name: 'Review' },
   { typeOfTarget: 'reply', name: 'Bình luận' },
-  { typeOfTarget: 'user', name: 'Người dùng' },
-  { typeOfTarget: 'qa', name: 'Q&A' },
+  { typeOfTarget: 'user', name: 'Người dùng' }
 ]
-
 class Report extends Component {
 
   constructor(props) {
@@ -85,12 +83,12 @@ class Report extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, match } = this.props;
     const { type, bookInstanceIndex, name } = this.state;
     return (
       <TopNavSend title='Report' textSend='Gửi'>
         <div className={classes.container}>
-          <ProblemDropdown types={types} type={type} handleChange={this.handleChange} />
+          <ProblemDropdown types={types} type={type} params={match.params} handleChange={this.handleChange} />
           {
             type === 'other' &&
             <ProblemContainer />
