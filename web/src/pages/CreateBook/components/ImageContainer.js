@@ -79,7 +79,7 @@ const ImageContainer = (props) => {
 				return;
 			}
 
-			resizeImage(newImage, true, ({ url, blob }) => {
+			resizeImage(newImage, 'medium', ({ url, blob }) => {
 				setFieldValue('image', {
 					url,
 					imageName,
