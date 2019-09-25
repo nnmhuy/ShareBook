@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import colors from '../../../constants/colors';
 
@@ -143,4 +142,4 @@ class Bio extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(Bio));
+export default (withStyles(styles)(Bio));

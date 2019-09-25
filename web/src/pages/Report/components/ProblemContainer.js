@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import colors from '../../../constants/colors';
 
@@ -58,4 +57,4 @@ class ProblemContainer extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(ProblemContainer));
+export default (withStyles(styles)(ProblemContainer));

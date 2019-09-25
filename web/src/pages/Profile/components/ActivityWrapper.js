@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -129,4 +128,4 @@ class ActivityWrapper extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ActivityWrapper));
+export default (withStyles(styles)(ActivityWrapper));

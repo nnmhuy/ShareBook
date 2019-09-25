@@ -1,101 +1,127 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ImagePlaceholder from '../../../static/images/image-placeholder.png';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent, FormHelperText } from '@material-ui/core';
+
+import Image from '../../../components/Image'
+import resizeImage from '../../../helper/resizeImage'
+import { warnAlert } from '../../../components/alert'
 
 const styles = theme => ({
-    wrapper: {
-        display: 'inline-block',
-        width: '100%',
-        height: 140,
-        position: 'relative',
-        textAlign: 'center',
-        margin: '30px 0'
-    },
-    image: {
-        margin: 'auto',
-        width: 100,
-        height: 150,
-        cursor: 'pointer'
-    },
-    imageModal: {
-        width: '100%',
-        height: '100%',
-    },
-    imageChoice: {
-        display: 'flex',
-        position: 'absolute',
-        left: '50%',
-        transform: 'translateX(-50%)'
-    },
-    checkImg: {
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: 'pointer',
-        color: colors.primary,
-        margin: '0 5px 0 0'
-    },
-    changeImg: {
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: 'pointer',
-        color: '#D75A4A',
-        margin: '0 0 0 5px'
-    },
-    modal: {
-        '& .MuiDialogContent-root': {
-            width: '25vw',
-            height: '40vw',
-        }
-    }
+	wrapper: {
+		display: 'inline-block',
+		width: '100%',
+		height: 140,
+		position: 'relative',
+		textAlign: 'center',
+		margin: '30px 0'
+	},
+	image: {
+		margin: 'auto',
+		width: 100,
+		height: 150,
+		cursor: 'pointer'
+	},
+	imageModal: {
+		width: '100%',
+		height: '100%',
+	},
+	imageChoice: {
+		display: 'flex',
+		position: 'absolute',
+		left: '50%',
+		transform: 'translateX(-50%)'
+	},
+	checkImg: {
+		fontSize: 12,
+		fontWeight: 600,
+		cursor: 'pointer',
+		color: colors.primary,
+		margin: '0 5px 0 0'
+	},
+	changeImg: {
+		fontSize: 12,
+		fontWeight: 600,
+		cursor: 'pointer',
+		color: '#D75A4A',
+		margin: '0 0 0 5px'
+	},
+	modal: {
+		'& .MuiPaper-root': {
+			width: '300px',
+			height: '400px',
+			padding: 15,
+			overflow: 'hidden'
+		}
+	},
+	imageError: {
+		textAlign: 'center',
+		'& .MuiFormHelperText-root': {
+			color: 'red',
+			textAlign: 'center'
+		},
+	}
 })
 
-class ImageContainer extends Component {
-    state = { visible: false, image: this.props.book.image, open: false };
+const ImageContainer = (props) => {
+	const { image, setFieldValue, classes, error } = props
 
-    render() {
-        const { classes, book } = this.props;
-        return (
-            <div className={classes.wrapper} >
-                {
-                    this.state.visible ?
-                        <div>
-                            <img src={this.state.image} alt='placeholder' className={classes.image} onClick={this.checkImg} />
-                            <div className={classes.imageChoice}>
-                                <p className={classes.checkImg} onClick={this.checkImg}>Xem</p>
-                                <p className={classes.changeImg} onClick={this.changeImg}>Thay đổi</p>
-                            </div>
-                        </div>
-                        :
-                        <div>
-                            <img src={ImagePlaceholder} alt='placeholder' className={classes.image} onClick={this.handleClick} />
-                        </div>
-                }
-                <Dialog aria-labelledby="customized-dialog-title" open={this.state.open} className={classes.modal}>
-                    <DialogContent>
-                        <img src={this.state.image} alt='placeholder' className={classes.imageModal} />
-                    </DialogContent>
-                </Dialog>
-            </div>
+	const [isViewing, setViewing] = React.useState(false)
 
-        );
-    }
-    handleClick = () => {
-        this.setState({ visible: true });
-    }
-    checkImg = () => {
-        this.setState({ open: false });
-    }
-    changeImg = () => {
-        if (this.state.image === ImagePlaceholder) {
-            this.setState({ image: this.props.book.image });
-        } else {
-            this.setState({ image: ImagePlaceholder });
-        }
+	const uploadImageHandler = (event) => {
+		setFieldValue('isLoadingImage', true)
+		if (event && event.target && event.target.files && event.target.files[0]) {
+			let newImage = event.target.files[0]
+			var imageName = newImage.name
+			if (!newImage.type.match(/image.*/)) {
+				warnAlert('Bạn cần nhập file hình nha')
+				return;
+			}
 
-    }
+			resizeImage(newImage, true, ({ url, blob }) => {
+				setFieldValue('image', {
+					url,
+					imageName,
+					blob
+				})
+				setFieldValue('isLoadingImage', false)
+			});
+		}
+	}
+
+	const toggleViewing = (value) => () => {
+		setViewing(value)
+	}
+
+	return (
+		<div className={classes.wrapper} >
+			<input type='file' style={{ display: 'none' }} id='imageInput' name='imageInput'
+				onChange={uploadImageHandler} accept='image/*' />
+			{
+				image ?
+					<div>
+						<Image src={image} alt='placeholder' className={classes.image} onClick={toggleViewing(true)} />
+						<div className={classes.imageChoice}>
+								<p className={classes.checkImg} onClick={toggleViewing(true)}>Xem</p>
+								<label className={classes.changeImg} htmlFor='imageInput'>Thay đổi</label>
+						</div>
+					</div>
+					:
+					<label htmlFor='imageInput' className={`${error && classes.imageError}`}>
+						<Image src={ImagePlaceholder} alt='placeholder' className={classes.image}/>
+						<FormHelperText className={classes.hidden}>
+							{error}
+						</FormHelperText>
+					</label>
+			}
+			<Dialog aria-labelledby="customized-dialog-title" open={isViewing && !!image} onClose={toggleViewing(false)} className={classes.modal}>
+					<DialogContent>
+							<Image src={image} alt='placeholder' className={classes.imageModal} />
+					</DialogContent>
+			</Dialog>
+		</div>
+	);
 }
 
-export default connect()(withStyles(styles)(ImageContainer));
+export default withStyles(styles)(ImageContainer);

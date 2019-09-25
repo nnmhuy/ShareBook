@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(Book) {
-  Book.validatesPresenceOf('categoryId');
+  Book.validatesPresenceOf('categoryId', 'name', 'author', 'image');
 
   Book.observe('persist', (ctx, next) => {
     if (ctx.isNewInstance) {

@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
 import colors from '../../../constants/colors';
 import { withStyles } from '@material-ui/styles';
@@ -37,30 +36,34 @@ const styles = theme => ({
         },
         '& .MuiInput-underline:after': {
             borderBottom: `2px solid ${colors.primary}`
+        },
+        '& .MuiInputLabel-asterisk': {
+            color: 'red'
         }
     }
 })
 
-class FormGroupInput extends Component {
-    render() {
-        const { classes, id, name, type, error, label, disabled } = this.props
-        return (
-            <FormGroup className={classes.formGroup}>
-                <FormControl className={!disabled ? classes.inputAble : classes.input}>
-                    <InputLabel htmlFor={id}>{label}</InputLabel>
-                    <Input
-                        id={id}
-                        name={name}
-                        type={type}
-                        disabled={disabled}
-                    />
-                    <FormHelperText className={classes.hidden}>
-                        {error}
-                    </FormHelperText>
-                </FormControl>
-            </FormGroup>
-        );
-    }
+const FormGroupInput = (props) => {
+	const { classes, id, name, type, error, value, label, disabled, handleChange, handleBlur, required } = props
+	return (
+		<FormGroup className={classes.formGroup}>
+			<FormControl className={!disabled ? classes.inputAble : classes.input}>
+				<InputLabel htmlFor={id} required={required}>{label}</InputLabel>
+				<Input
+					id={id}
+					name={name}
+					type={type}
+					value={value}
+					disabled={disabled}
+					onChange={handleChange}
+					onBlur={handleBlur}
+				/>
+				<FormHelperText className={classes.hidden}>
+					{error}
+				</FormHelperText>
+			</FormControl>
+		</FormGroup>
+	)
 }
 
-export default connect()(withStyles(styles)(FormGroupInput));
+export default (withStyles(styles)(FormGroupInput));

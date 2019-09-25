@@ -20,7 +20,10 @@ import {
   getBookOfCategoryFail,
   toggleBookmark,
   toggleBookmarkSuccess,
-  toggleBookmarkFail
+  toggleBookmarkFail,
+  createBook,
+  createBookSuccess,
+  createBookFail
 } from '../actions/bookAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -50,7 +53,7 @@ function* getCategoryListSaga({ payload }) {
   try {
     const response = yield call(restConnector.get, '/categories')
     let categoryList = _.get(response, 'data', [])
-    yield put(getCategoryListSuccess(categoryList, '123'));
+    yield put(getCategoryListSuccess(categoryList));
   } catch (error) {
     warnAlert('Hệ thống hoặc kết nối của bạn bị lỗi');
     yield put(getCategoryListFail(error))
@@ -149,6 +152,16 @@ function* toggleBookmarkSaga({ payload }) {
   }
 }
 
+function* createBookSaga({ payload }) {
+  try {
+    const { data: newBook } = yield call(restConnector.post, '/books', { ...payload })
+    window.location = `/book-detail/${newBook.id}`
+    yield put(createBookSuccess())
+  } catch (error) {
+    yield put(createBookFail())
+  }
+}
+
 function* getBookListWatcher() {
   yield takeEvery(getBookList, getBookListSaga)
 }
@@ -173,11 +186,16 @@ function* toggleBookmarkWatcher() {
   yield takeLatest(toggleBookmark, toggleBookmarkSaga)
 }
 
+function* createBookWatcher() {
+  yield takeLatest(createBook, createBookSaga)
+}
+
 export {
   getBookListWatcher,
   getCategoryListWatcher,
   getBookLiteWatcher,
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
-  toggleBookmarkWatcher
+  toggleBookmarkWatcher,
+  createBookWatcher
 }

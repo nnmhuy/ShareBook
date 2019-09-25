@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -34,4 +33,4 @@ class ReviewTab extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ReviewTab));
+export default (withStyles(styles)(ReviewTab));

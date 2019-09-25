@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import colors from '../../../constants/colors';
 import Paper from '@material-ui/core/Paper';
@@ -42,4 +41,4 @@ class Follower extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(Follower));
+export default (withStyles(styles)(Follower));

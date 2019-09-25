@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
-import Loading from '../../components/Loading'
+// import Loading from '../../components/Loading'
 import Link from '../../components/Link'
 import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'

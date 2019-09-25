@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { FormGroup, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import colors from '../../../constants/colors';
@@ -91,4 +90,4 @@ class Radios extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(Radios));
+export default (withStyles(styles)(Radios));

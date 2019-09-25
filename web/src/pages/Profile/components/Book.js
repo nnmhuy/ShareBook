@@ -40,4 +40,4 @@ class Book extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(Book));
+export default (withStyles(styles)(Book));

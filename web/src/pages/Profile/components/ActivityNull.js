@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
@@ -32,4 +31,4 @@ class ActivityNull extends Component {
     }
 }
 
-export default connect()(withStyles(styles)(ActivityNull));
+export default (withStyles(styles)(ActivityNull));

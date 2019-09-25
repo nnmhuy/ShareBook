@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -115,4 +114,4 @@ class PaperWrapper extends Component {
 	}
 }
 
-export default connect()(withStyles(styles)(PaperWrapper));
+export default (withStyles(styles)(PaperWrapper));
