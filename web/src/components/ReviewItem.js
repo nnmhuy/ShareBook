@@ -210,21 +210,11 @@ const ReviewItem = (props) => {
         <Image className={classes.image} src={images[0] || bookImage} alt='feature' />
         <div className={classes.detailContainer}>
           <span className={classes.title}>{title}</span>
-<<<<<<< HEAD
-          <div>
-            <div className={classes.personalWrapper}>
-              <Avatar src={avatar} className={classes.avatar} />
-              <div className={classes.personalInfo}>
-                <Link className={classes.username} to={`/profile/${userId}`}>{username}</Link>
-                <div className={classes.date}>{createdDay(createdAt)}</div>
-              </div>
-=======
           <div className={classes.personalWrapper}>
-            <Avatar src={avatar} className={classes.avatar}/>
+            <Avatar src={avatar} className={classes.avatar} />
             <div className={classes.personalInfo}>
               <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
-              <div className={classes.date}>{createdAt}</div>
->>>>>>> 1bbf5c5d4d3b9cd8567a651cb48f38a4e6ac57c1
+              <div className={classes.date}>{createdDay(createdAt)}</div>
             </div>
             <Rating
               className={classes.rating}

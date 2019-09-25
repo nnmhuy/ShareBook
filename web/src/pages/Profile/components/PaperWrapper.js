@@ -107,8 +107,4 @@ class PaperWrapper extends Component {
 	}
 }
 
-<<<<<<< HEAD
-export default withStyles(styles)(PaperWrapper);
-=======
 export default (withStyles(styles)(PaperWrapper));
->>>>>>> 1bbf5c5d4d3b9cd8567a651cb48f38a4e6ac57c1

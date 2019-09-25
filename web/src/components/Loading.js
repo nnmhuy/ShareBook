@@ -38,13 +38,9 @@ const Loading = (props) => {
     return (
       <Paper tabIndex={-1} className={classes.loading}>
         <Modal className={classes.modal} open={isLoading || true}>
-<<<<<<< HEAD
-          <PacmanLoader color={color.light} />
-=======
           <DialogContent className={classes.content}>
-            <PacmanLoader color={color.light}/>
+            <PacmanLoader color={color.light} />
           </DialogContent>
->>>>>>> 1bbf5c5d4d3b9cd8567a651cb48f38a4e6ac57c1
         </Modal>
       </Paper>
     )
