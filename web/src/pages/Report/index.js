@@ -3,14 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import TopNavSend from '../../components/TopNavSend';
 import ProblemDropdown from './components/ProblemDropdown';
 import ProblemContainer from './components/ProblemContainer';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import colors from '../../constants/colors';
+import ReplyOption from './components/ReplyOption';
+import BookOption from './components/BookOption';
+import InstanceOption from './components/InstanceOption';
+import ReviewOption from './components/ReviewOption';
+import UserOption from './components/UserOption';
 
 const styles = theme => ({
   container: {
@@ -27,12 +26,29 @@ const styles = theme => ({
   },
   flexContainer: {
     display: 'flex',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    marginBottom: 5
   },
   avatar: {
     width: 35,
     height: 35,
     margin: '0 10px'
+  },
+  title: {
+    fontSize: 12,
+    fontWeight: 500,
+    margin: 0,
+    marginBottom: 5,
+    color: colors.primary
+  },
+  name: {
+    margin: 0,
+    marginBottom: 15
+  },
+  date: {
+    margin: 0,
+    fontSize: 10,
+    color: colors.gray
   },
   inputAble: {
     fontFamily: 'Montserrat',
@@ -56,23 +72,16 @@ const styles = theme => ({
     }
   }
 })
-const types = [
-  { typeOfTarget: 'other', name: 'Khác' },
-  { typeOfTarget: 'qa', name: 'Q&A' },
-  { typeOfTarget: 'book', name: 'Sách' },
-  { typeOfTarget: 'bookInstance', name: 'Sách cho mượn' },
-  { typeOfTarget: 'review', name: 'Review' },
-  { typeOfTarget: 'reply', name: 'Bình luận' },
-  { typeOfTarget: 'user', name: 'Người dùng' }
-]
+
+
+let types = [];
+
 class Report extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       type: 'other',
-      bookInstanceIndex: 0,
-      name: ''
     }
   }
 
@@ -82,103 +91,75 @@ class Report extends Component {
     })
   }
 
+  createdDay = (date) => {
+    let createdYMD = date.split('T')[0].split('-');
+    let day = createdYMD[2];
+    let month = createdYMD[1];
+    let year = createdYMD[0];
+    let formattedDate = day + '-' + month + '-' + year;
+    return formattedDate;
+  }
+
   render() {
     const { classes, match } = this.props;
-    const { type, bookInstanceIndex, name } = this.state;
+    const { type } = this.state;
+    const { params } = match;
+
+    if (params.type === undefined) {
+      types = [
+        { typeOfTarget: 'other', name: 'Khác' },
+        { typeOfTarget: 'qa', name: 'Q&A' }
+      ];
+    }
+
+    else
+      switch (params.type) {
+        case 'book':
+          types = [{ typeOfTarget: 'book', name: 'Sách' }];
+          break;
+        case 'bookInstance':
+          types = [{ typeOfTarget: 'bookInstance', name: 'Sách cho mượn' }];
+          break;
+        case 'review':
+          types = [{ typeOfTarget: 'review', name: 'Review' }];
+          break;
+        case 'reply':
+          types = [{ typeOfTarget: 'reply', name: 'Bình luận' }];
+          break;
+        case 'user':
+          types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
+          break;
+        default: break;
+      }
+
+
     return (
       <TopNavSend title='Report' textSend='Gửi'>
         <div className={classes.container}>
-          <ProblemDropdown types={types} type={type} params={match.params} handleChange={this.handleChange} />
+          <ProblemDropdown params={params} types={types} type={type} handleChange={this.handleChange} />
           {
-            type === 'other' &&
+            params.type === undefined &&
             <ProblemContainer />
           }
           {
-            type === 'book' &&
-            <>
-              <FormControl className={classes.inputAble}>
-                <InputLabel htmlFor='book'>Tên sách</InputLabel>
-                <Input
-                  id='book'
-                  name='bookName'
-                  type='string'
-                />
-                <FormHelperText className={classes.hidden}>
-                </FormHelperText>
-              </FormControl>
-              <ProblemContainer />
-            </>
+            params.type === 'book' &&
+            <BookOption bookId={params.value} />
           }
           {
-            type === 'bookInstance' &&
-            <div className={classes.flexColumn}>
-              <TextField
-                label='Tên sách cho mượn'
-                name='bookInstanceName'
-                type='string'
-                margin="normal"
-                onChange={this.handleChange}
-                defaultValue='Animal farm'
-              />
-              <div className={classes.flexContainer}>
-                <TextField
-                  id="standard-uncontrolled"
-                  label="Cuốn thứ"
-                  type='number'
-                  name='bookInstanceIndex'
-                  defaultValue='0'
-                  onChange={this.handleChange}
-                  margin="normal"
-                  style={{ width: '40%' }}
-                />
-                {
-                  bookInstanceIndex !== 0 &&
-                  bookInstanceIndex !== '' &&
-                  <div className={classes.flexContainer}>
-                    <Avatar src='owner' className={classes.avatar} />
-                    <Avatar src='holder' className={classes.avatar} />
-                  </div>
-                }
-              </div>
-              <ProblemContainer />
-            </div>
+            params.type === 'bookInstance' &&
+            <InstanceOption instanceId={params.value} />
           }
           {
-            type === 'review' &&
-            <ProblemContainer />
+            params.type === 'review' &&
+            <ReviewOption reviewId={params.value} createdDay={this.createdDay} />
           }
           {
-            type === 'reply' &&
-            <ProblemContainer />
+            params.type === 'reply' &&
+            <ReplyOption replyId={params.value} createdDay={this.createdDay} />
           }
           {
-            type === 'user' &&
-            <div>
-              <div className={classes.flexContainer}>
-                <TextField
-                  id="standard-uncontrolled"
-                  label="Người dùng"
-                  type='string'
-                  name='name'
-                  defaultValue=''
-                  onChange={this.handleChange}
-                  margin="normal"
-                  style={{ width: '40%' }}
-                />
-                {
-                  name !== '' &&
-                  name !== null &&
-                  <div className={classes.flexContainer}>
-                    <Avatar src='user' className={classes.avatar} />
-                  </div>
-                }
-              </div>
-              <ProblemContainer />
-            </div>
-          }
-          {
-            type === 'qa' &&
-            <ProblemContainer />
+            params.type === 'user' &&
+            <UserOption userId={params.value} />
           }
         </div>
       </TopNavSend>

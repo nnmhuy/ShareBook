@@ -7,7 +7,8 @@ import colors from '../../../constants/colors';
 
 const styles = theme => ({
   container: {
-    display: 'flex'
+    display: 'flex',
+    marginBottom: 10
   },
   formControl: {
     '& .MuiInput-underline:before': {
@@ -27,7 +28,8 @@ const styles = theme => ({
     fontFamily: 'Montserrat',
     fontWeight: 600,
     color: colors.primary,
-    fontSize: 14
+    fontSize: 14,
+    margin: '10px 0'
   },
   title: {
     fontWeight: 500,
@@ -41,27 +43,36 @@ class ProblemDropdown extends Component {
 
   render() {
     const { classes, types, type, params, handleChange } = this.props;
-    console.log(params);
+
     return (
       <div className={classes.container}>
-        <p className={classes.title}>Tôi gặp vấn đề với</p>
-        <FormControl className={classes.formControl}>
-          <NativeSelect
-            value={type}
-            onChange={handleChange}
-            name="type"
-            className={classes.selectEmpty}
-            inputProps={{ 'aria-label': 'type' }}
-          >
-            {
-              types.map((item, index) => {
-                return (
-                  <option value={item.typeOfTarget} key={index}>{item.name}</option>
-                )
-              })
-            }
-          </NativeSelect>
-        </FormControl>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p className={classes.title}>Tôi gặp vấn đề với</p>
+          {
+            params.type === undefined &&
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                value={type}
+                onChange={handleChange}
+                name="type"
+                className={classes.selectEmpty}
+                inputProps={{ 'aria-label': 'type' }}
+              >
+                {
+                  types.map((item, index) => {
+                    return (
+                      <option value={item.typeOfTarget} key={index}>{item.name}</option>
+                    )
+                  })
+                }
+              </NativeSelect>
+            </FormControl>
+          }
+          {
+            params.type !== undefined &&
+            <p className={classes.selectEmpty}>{types[0].name}</p>
+          }
+        </div>
       </div>
     );
   }

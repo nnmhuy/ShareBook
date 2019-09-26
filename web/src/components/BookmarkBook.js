@@ -7,6 +7,7 @@ import bookimg from '../static/images/demo/escape_velocity.png';
 
 import { ReactComponent as BookmarkIcon } from '../static/images/bookmark.svg'
 import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked-btn.svg'
+import Image from './Image';
 
 const styles = (theme => ({
   container: {
@@ -58,7 +59,7 @@ const Book = (props) => {
   return (
     <div className={classes.container} {...other}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <img src={bookimg} alt={name} className={classes.image} />
+        <Image src={bookimg} alt={name} className={classes.image} />
       </Link>
       <div className={classes.rateContainer}>
         {isBookmarked ?

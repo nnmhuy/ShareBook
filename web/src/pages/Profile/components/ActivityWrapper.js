@@ -14,7 +14,6 @@ import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-
 import { ReactComponent as BookmarkIcon } from '../../../static/images/bookmark-btn.svg';
 import { ReactComponent as TransactionIcon } from '../../../static/images/transaction-btn.svg';
 import { ReactComponent as ReportIcon } from '../../../static/images/report-btn.svg';
-import { ReactComponent as TechnicIcon } from '../../../static/images/technics.svg';
 
 import ActivityNull from './ActivityNull';
 
