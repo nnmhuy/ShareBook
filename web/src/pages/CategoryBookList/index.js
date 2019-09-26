@@ -2,12 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
+import { Loading } from '../../components/Loading'
 
 import Link from '../../components/Link'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Search from '../../components/Search'
 import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
+import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 
 import colors from '../../constants/colors'
 import { bookDemoData } from './demoData'
@@ -57,15 +60,27 @@ class CategoryBookList extends React.Component {
     super(props);
 
     this.state = {
+      category: null
+    }
+  }
+
+  componentDidMount() {
+    var { categoryList, getCategoryListHandler } = this.props
+    if (!this.props.categoryIsLoading && categoryList && categoryList[0]) {
+      getCategoryListHandler()
+    } else {
+      
     }
   }
 
   render() {
-    const { classes, account } = this.props
+    const { classes, account, match } = this.props
     const categoryName = 'Lãng mạng'
+    const categoryId = match.params.categoryId
 
     return (
       <LayoutWrapper account={account} title={categoryName}>
+        <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <Search/>
@@ -90,7 +105,7 @@ class CategoryBookList extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state, account }) => {
+const mapStateToProps = ({ state, account, book }) => {
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -100,13 +115,18 @@ const mapStateToProps = ({ state, account }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    categoryIsLoading: book.categoryIsLoading,
+    categoryList: book.categoryList,
+    bookListData: book.bookListData,
+    bookListIsLoading: book.bookListIsLoading,
+    updatedAtForSearch: book.updatedAtForSearch
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getCategoryListHandler: getCategoryList,
+  getBookListHandler: getBookList,
+  toggleBookmarkHandler: toggleBookmark 
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CategoryBookList));

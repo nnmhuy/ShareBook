@@ -12,13 +12,15 @@ const styles = (theme => ({
   }
 }))
 
+const defaultOption = {label:'Thêm sách cho ShareBook', value:'/create-book'}
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      bookListOption: [{label:'Thêm sách', value:'/create-book'}],
-      loadOptions: null ,
+      bookListOption: [defaultOption],
+      loadOptions: null,
       updatedAtForSearch: null
     }
     this._debouncedQueryList = _.debounce(this.handleChange, 500)
@@ -32,7 +34,7 @@ class SearchBar extends React.Component {
           let value = `/book-detail/${book.id}`
           return {label, value}
         })
-        newBookList.push({label:'Thêm sách', value:'/create-book'})
+        newBookList.push(defaultOption)
         state.loadOptions(newBookList)
         return {
           bookListOption: newBookList,
@@ -73,6 +75,7 @@ class SearchBar extends React.Component {
         <AsyncSelect
           onChange={this.handleSelect}
           loadOptions={this.reloadOption}
+          // defaultOptions={this.state.bookListOption}
           placeholder='Tìm sách cùng ShareBook'/>
       </div> 
     ) 
