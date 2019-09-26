@@ -7,7 +7,6 @@ import _ from 'lodash'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Link from '../../components/Link'
-import Search from '../../components/Search'
 import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
 import BookSlider from '../../components/BookSlider'
@@ -126,7 +125,7 @@ class BookList extends React.Component {
 
   render() {
     const { classes, account, categoryIsLoading, categoryList,
-      bookListData, bookListIsLoading, getBookListHandler } = this.props
+      bookListData, bookListIsLoading, getBookListHandler, history, updatedAtForSearch } = this.props
     let currentCategoryList = []
     if (!categoryIsLoading && categoryList)
       currentCategoryList = categoryList
@@ -136,11 +135,11 @@ class BookList extends React.Component {
         {/* <Loading isLoading={categoryIsLoading}/> */}
         <div className={classes.container}>
           <div className={classes.searchContainer}>
-            {/* <Search className={classes.search}/> */}
             <SearchBar 
               getBookListHandler={getBookListHandler}
               bookList={_.get(bookListData, 'search-total', [])}
-              isLoading={bookListIsLoading['search-total']} 
+              updatedAtForSearch={updatedAtForSearch}
+              history={history} 
             />
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>
@@ -196,7 +195,8 @@ const mapStateToProps = ({ state, book }) => {
     categoryIsLoading: book.categoryIsLoading,
     categoryList: book.categoryList,
     bookListData: book.bookListData,
-    bookListIsLoading: book.bookListIsLoading
+    bookListIsLoading: book.bookListIsLoading,
+    updatedAtForSearch: book.updatedAtForSearch
   }
 }
 
