@@ -73,6 +73,9 @@
       "required": true,
       "default": 0
     },
+    "searchValue": {
+      "type":"string"
+    },
     "numberOfUse": {
       "type": "number",
       "required": true,

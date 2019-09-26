@@ -49,7 +49,8 @@ let defaultState = {
   bookLite: {},
   bookListIsLoading: {},
   bookListData: {},
-  isCreating: false
+  isCreating: false,
+  updatedAtForSearch: null
 }
 
 const bookReducer = handleActions(
@@ -62,7 +63,7 @@ const bookReducer = handleActions(
         bookListIsLoading
       }
     },
-    [getBookListSuccess]: (state, { payload: { bookList, key } }) => {
+    [getBookListSuccess]: (state, { payload: { bookList, key, updatedAtForSearch } }) => {
       let { bookListIsLoading, bookListData } = state
       bookListIsLoading[key] = false
       bookListData[key] = bookList
@@ -70,7 +71,8 @@ const bookReducer = handleActions(
         ...state,
         error: null,
         bookListIsLoading, 
-        bookListData
+        bookListData,
+        updatedAtForSearch
       }
     },
     [getBookListFail]: (state, { payload: {error, key} }) => {
