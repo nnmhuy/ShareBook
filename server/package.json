@@ -35,6 +35,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.0.1",
+    "socket.io": "^2.3.0",
     "strong-error-handler": "^3.0.0",
     "uuid": "^3.3.3"
   },

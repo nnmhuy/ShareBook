@@ -88,5 +88,16 @@ app.start = function() {
 
 // start the server if `$ node server.js`
 if (require.main === module) {
-  app.start();
+  app.io = require('socket.io')(app.start());
 }
+
+app.io.on('connection', function(socket) {
+  console.log('a user connected');
+  socket.on('disconnect', function() {
+    console.log('user disconnected');
+  });
+  socket.broadcast.emit('news', {hello: 'world'});
+  socket.on('my other event', function(data) {
+    console.log(data);
+  });
+});

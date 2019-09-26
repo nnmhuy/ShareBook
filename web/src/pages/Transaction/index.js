@@ -6,6 +6,8 @@ import TopNav from './components/TopNav'
 import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
 
+import socket from '../../connectors/Socket'
+
 const styles = (theme => ({
   container: {
     width: '100%',
@@ -31,6 +33,14 @@ class Transaction extends React.Component {
     }
   }
 
+  componentDidMount() {
+    socket.on('news', function (data) {
+      alert(data);
+      console.log('...')
+      socket.emit('my other event', { my: 'data' });
+    });
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -39,7 +49,10 @@ class Transaction extends React.Component {
           <div className={classes.messagesContainer}>
             <MessageSection />
           </div>
-          <InputSection />
+          <InputSection handleSend={() => {
+            socket.emit('my other event', { my: 'data' });
+            console.log('clicked')
+          }}/>
         </div>
       </TopNav>
     )
