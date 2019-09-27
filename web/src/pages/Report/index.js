@@ -133,7 +133,9 @@ class Report extends Component {
         case 'transaction':
           types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
           break;
-        default: break;
+        default:
+          window.location.replace('/404');
+          break;
       }
 
 
