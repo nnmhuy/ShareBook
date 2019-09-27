@@ -1,5 +1,6 @@
 const frontendURL = process.env.REACT_APP_FRONTEND_URL
 const baseURL = process.env.REACT_APP_BASE_URL
+const socketURL = process.env.REACT_APP_SOCKET_URL
 const imageContainer = process.env.REACT_APP_IMAGE_CONTAINER
 const maxMobileWidth = '800px'
 const numberOfReviewsPerPage = 5
@@ -25,6 +26,7 @@ const mapPositionToText = [
 export {
   frontendURL,
   baseURL,
+  socketURL,
   maxMobileWidth,
   imageContainer,
   mapTransactionStatusToText,

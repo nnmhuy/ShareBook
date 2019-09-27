@@ -29,30 +29,43 @@ class Transaction extends React.Component {
     super(props);
 
     this.state = {
-
+      value: ''
     }
   }
 
   componentDidMount() {
-    socket.on('news', function (data) {
-      alert(data);
-      console.log('...')
-      socket.emit('my other event', { my: 'data' });
-    });
+    const { match } = this.props
+    const { transactionId } = match.params
+    socket.emit('connect to transaction', { transactionId })
+  }
+
+  handleSend = () => {
+    const { value } = this.state
+    // sendMessage(value)
+    this.setState(({
+      value: ''
+    }))
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      value: event.target.value
+    })
   }
 
   render() {
     const { classes } = this.props
+    const { value } = this.state
     return (
       <TopNav>
         <div className={classes.container}>
           <div className={classes.messagesContainer}>
             <MessageSection />
           </div>
-          <InputSection handleSend={() => {
-            socket.emit('my other event', { my: 'data' });
-            console.log('clicked')
-          }}/>
+          <InputSection
+            value={value}
+            handleChange={this.handleChange}
+            handleSend={this.handleSend}/>
         </div>
       </TopNav>
     )

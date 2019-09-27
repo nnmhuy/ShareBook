@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-import { baseURL } from '../constants/constants'
+import { socketURL } from '../constants/constants'
 
-const socket = openSocket('ws://localhost:3001');
+const socket = openSocket(socketURL);
 export default socket

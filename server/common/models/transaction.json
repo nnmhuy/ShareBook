@@ -12,7 +12,8 @@
       "silenceWarnings": false
     },
     "ReadOnly": {
-      "id": true
+      "id": true,
+      "status": true
     }
   },
   "properties": {
@@ -23,7 +24,8 @@
         "singleUser",
         "club",
         "station"
-      ]
+      ],
+      "default": "singleUser"
     },
     "status": {
       "type": "string",
@@ -39,7 +41,8 @@
         "isPaidDeposit",
         "isDone",
         "isCancel"
-      ]
+      ],
+      "default": "waitingForResponse"
     },
     "isReviewed": {
       "type": "boolean",
