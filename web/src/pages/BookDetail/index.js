@@ -76,6 +76,7 @@ class App extends React.Component {
               handleToggleLikeReview={handleToggleLikeReview}
             />
             <BookSlider
+              isExtended
               title={'Thể loại tương tự'}
               url={`/category${category.url}`}
               bookList={bookOfCategory}

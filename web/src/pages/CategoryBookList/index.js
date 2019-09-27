@@ -5,7 +5,8 @@ import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
-import { Loading } from '../../components/Loading'
+import Loading  from '../../components/Loading'
+import Pagination from '../../components/Pagination/index'
 
 import Link from '../../components/Link'
 import LayoutWrapper from '../../components/LayoutWrapper'
@@ -68,7 +69,7 @@ class CategoryBookList extends React.Component {
 
   componentDidMount() {
     var { categoryList, getCategoryListHandler } = this.props
-    if (!this.props.categoryIsLoading && categoryList && categoryList[0]) {
+    if (!this.props.categoryIsLoading && !_.get(categoryList, '[0]', null)) {
       getCategoryListHandler()
     }
   }
@@ -90,13 +91,18 @@ class CategoryBookList extends React.Component {
     }
   }
 
+  handlePageChange = (data) => {
+    console.log(data)
+    // getInstances({ bookId, page: data.selected, limit: numberOfBookInstancesPerPage})
+  }
+
   render() {
     const { classes, account, categoryIsLoading } = this.props
     const { category } = this.state
     let isLoading = categoryIsLoading
 
     return (
-      <LayoutWrapper account={account} title={category.name}>
+      <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
@@ -116,6 +122,13 @@ class CategoryBookList extends React.Component {
               })
             }
           </div>
+          <Pagination
+            pageCount={10}
+            breakLabel={'. . .'}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            handlePageChange={this.handlePageChange}
+          />
         </div>
       </LayoutWrapper>
     )

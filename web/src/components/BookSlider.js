@@ -37,12 +37,12 @@ const styles = (theme => ({
 }))
 
 const BookSlider = (props) => {
-  const { classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = props
+  const { isExtended, classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = props
   return (
     <div {...other}>
       <div className={classes.titleContainer}>
         <span className={classes.title}>{title}</span>
-        <Link to={url} className={classes.viewMore}>Xem thêm</Link>
+        {isExtended && <Link to={url} className={classes.viewMore}>Xem thêm</Link>}
       </div>
       {isLoading ?
           <div className={classes.loading}>

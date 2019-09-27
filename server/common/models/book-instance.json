@@ -68,11 +68,6 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "holderId"
-    },
-    "borrower": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "borrowerId"
     }
   },
   "acls": [
