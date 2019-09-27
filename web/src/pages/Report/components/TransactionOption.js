@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
 import ProblemContainer from './ProblemContainer';
+import Image from '../../../components/Image';
 
 const styles = theme => ({
   flexColumn: {
@@ -13,13 +14,13 @@ const styles = theme => ({
   },
   flexContainer: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginBottom: 5
   },
   avatar: {
     width: 35,
     height: 35,
-    marginRight: 10
+    margin: '0 10px'
   },
   title: {
     fontSize: 12,
@@ -30,30 +31,39 @@ const styles = theme => ({
   },
   name: {
     margin: 0,
+    marginBottom: 15,
     color: 'black'
+  },
+  image: {
+    width: 30,
+    height: 40
   }
 })
 
-const UserOption = (props) => {
+const TransactionOption = (props) => {
   const { classes } = props;
-  // const { userId } = props;
-
+  // const { transId } = props;
   return (
     <div className={classes.flexColumn}>
+      <div>
+        <p>Id giao dịch</p>
+        <p>123157adsjg</p>
+      </div>
+      <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
-        <div>
-          <p className={classes.title}>Người dùng</p>
-          <div className={classes.flexContainer}>
-            <Avatar src='user' className={classes.avatar} />
-            <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
-          </div>
-
+        <Image src='{image}' alt='{name}' className={classes.image} />
+        <p className={classes.name}>Animal farm</p>
+      </div>
+      <div>
+        <p className={classes.title}>Người dùng</p>
+        <div className={classes.flexContainer}>
+          <Avatar src='user' className={classes.avatar} />
+          <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
         </div>
-
       </div>
       <ProblemContainer />
     </div>
   );
 };
 
-export default withStyles(styles)(UserOption);
+export default withStyles(styles)(Transaction);
