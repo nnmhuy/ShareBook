@@ -89,6 +89,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "messages": {
+      "type": "hasMany",
+      "model": "messageInTransaction",
+      "foreignKey": "transactionId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
@@ -102,6 +110,12 @@
       "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
       "permission": "ALLOW"
     },
     {

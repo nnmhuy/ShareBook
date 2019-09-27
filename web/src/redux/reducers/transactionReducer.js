@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions'
 import _ from 'lodash'
+import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import {
   sendMessage,
@@ -8,7 +9,10 @@ import {
   getTransaction,
   getTransactionSuccess,
   getTransactionFail,
-  appendMessage
+  appendMessage,
+  getMessages,
+  getMessagesSuccess,
+  getMessagesFail
 } from '../actions/transactionAction'
 
 let defaultState = {
@@ -16,6 +20,10 @@ let defaultState = {
   transaction: {},
   isSending: false,
   error: null,
+  isGetting: false,
+  numberOfAppendedMessages: 0,
+  lastMessageCount: 0,
+  numberOfMessages: 0,
   messages: []
 }
 
@@ -27,10 +35,11 @@ const transactionReducer = handleActions(
         isLoading: true,
       }
     },
-    [getTransactionSuccess]: (state, { payload } ) => {
+    [getTransactionSuccess]: (state, { payload: {transaction, numberOfMessages} } ) => {
       return {
         ...state,
-        transaction: payload,
+        transaction,
+        numberOfMessages,
         isLoading: false
       }
     },
@@ -61,26 +70,39 @@ const transactionReducer = handleActions(
       }
     },
     [appendMessage]: (state, { payload }) => {
-      const { content, direction } = payload
       const messages = JSON.parse(JSON.stringify(state.messages))
-      const position = _.get(state, 'transaction.user.position', 0)
-      if (position === direction) {
-        messages.push({
-          content: content,
-          sender: 0
-        })
-      } else {
-        messages.push({
-          content: content,
-          sender: 1
-        })
-      }
+      messages.push(payload)
 
       return {
         ...state,
+        numberOfAppendedMessages: state.numberOfAppendedMessages + 1,
         messages
       }
-    }
+    },
+    [getMessages]: (state) => {
+      return {
+        ...state,
+        isGetting: true,
+      }
+    },
+    [getMessagesSuccess]: (state, { payload: { messages } }) => {
+      const lastMessageCount = Math.min(state.lastMessageCount + numberOfMessagesPerLoad, state.numberOfMessages)
+      const newMessages = [...messages, ...JSON.parse(JSON.stringify(state.messages))]
+
+      return {
+        ...state,
+        lastMessageCount,
+        messages: newMessages,
+        isGetting: false
+      }
+    },
+    [getMessagesFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isGetting: false,
+        error: error
+      }
+    },
   },
   defaultState
 )

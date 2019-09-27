@@ -13,13 +13,13 @@ const styles = (theme => ({
 }))
 
 const MessageSection = (props) => {
-  const { classes, messages, avatar } = props
+  const { classes, messages, avatar, position } = props
   return (
     <div className={classes.container}>
       {
         messages.map((message, id) => {
-          const { sender, content } = message
-          if (sender === 0) {
+          const { direction, content } = message
+          if (direction === position) {
             return (
               <IncomeMessage
                 key={content+id}

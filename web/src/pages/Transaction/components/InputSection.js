@@ -61,7 +61,12 @@ const styles = (theme => ({
 const CustomTopNav = (props) => {
   const { classes, value, handleChange, handleSend } = props
 
-
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      handleSend()
+    }
+  }
 
   return (
     <AppBar position='fixed' className={classes.appBar}>
@@ -75,6 +80,7 @@ const CustomTopNav = (props) => {
           margin='normal'
           variant='outlined'
           placeholder='Nhập tin nhắn ...'
+          onKeyPress={handleKeyPress}
         />
         <IconButton className={classes.sendButton} onClick={handleSend}>
           <SendIcon fill={colors.primary} className={classes.sendIcon}/>

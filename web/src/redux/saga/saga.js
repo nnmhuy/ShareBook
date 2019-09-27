@@ -27,7 +27,8 @@ import {
 } from './reviewSaga'
 import {
   getTransactionWatcher,
-  sendMessageWatcher
+  sendMessageWatcher,
+  getMessagesWatcher
 } from './transactionSaga'
 
 export default function* rootSaga() {
@@ -54,6 +55,7 @@ export default function* rootSaga() {
     toggleLikeReviewWatcher(),
 
     getTransactionWatcher(),
-    sendMessageWatcher()
+    sendMessageWatcher(),
+    getMessagesWatcher()
   ]);
 }

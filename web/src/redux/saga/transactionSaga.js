@@ -1,5 +1,7 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery, takeLeading } from 'redux-saga/effects'
 import _ from 'lodash'
+
+import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import {
   sendMessage,
@@ -7,7 +9,10 @@ import {
   sendMessageFail,
   getTransaction,
   getTransactionSuccess,
-  getTransactionFail
+  getTransactionFail,
+  getMessages,
+  getMessagesSuccess,
+  getMessagesFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -26,6 +31,9 @@ function* getTransactionSaga({ payload }) {
     }
 
     const { data: book } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}/book`)
+    const { data: messages } = yield call(restConnector.get, `transactions/${transactionId}/messages/count`)
+
+    yield put(getMessages({transactionId, skip: 0}))
 
     transaction.user = {
       avatar: user.avatar,
@@ -39,7 +47,7 @@ function* getTransactionSaga({ payload }) {
       image: book.image
     }
 
-    yield put(getTransactionSuccess(transaction))
+    yield put(getTransactionSuccess({ transaction, numberOfMessages: messages.count }))
   } catch (error) {
     yield put(getTransactionFail(error))
   }
@@ -61,6 +69,20 @@ function* sendMessageSaga({ payload }) {
   }
 }
 
+function* getMessagesSaga({ payload }) {
+  try {
+    const { transactionId, skip } = payload
+
+    const { data: messages } = yield call(restConnector.get, 
+      `/transactions/${transactionId}/messages?filter={"skip":${skip},"limit":${numberOfMessagesPerLoad},"order":"createdAt DESC"}`
+    )
+
+    yield put(getMessagesSuccess({ messages: messages.reverse() }))
+  } catch (error) {
+    yield put(getMessagesFail(error))
+  }
+}
+
 function* getTransactionWatcher() {
   yield takeLatest(getTransaction, getTransactionSaga)
 }
@@ -69,7 +91,12 @@ function* sendMessageWatcher() {
   yield takeEvery(sendMessage, sendMessageSaga)
 }
 
+function* getMessagesWatcher() {
+  yield takeLeading(getMessages, getMessagesSaga)
+}
+
 export {
   getTransactionWatcher,
-  sendMessageWatcher
+  sendMessageWatcher,
+  getMessagesWatcher
 }

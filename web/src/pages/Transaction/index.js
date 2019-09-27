@@ -12,7 +12,8 @@ import InputSection from './components/InputSection'
 import { 
   sendMessage,
   getTransaction,
-  appendMessage
+  appendMessage,
+  getMessages
 } from '../../redux/actions/transactionAction'
 import socket from '../../connectors/Socket'
 
@@ -92,7 +93,11 @@ class Transaction extends React.Component {
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.messagesContainer}>
-            <MessageSection messages={messages} avatar={_.get(transaction, 'user.avatar', '')}/>
+            <MessageSection
+              messages={messages}
+              avatar={_.get(transaction, 'user.avatar', '')}              
+              position={_.get(transaction, 'user.position', '')}
+            />
           </div>
           <InputSection
             value={value}
@@ -116,14 +121,17 @@ const mapStateToProps = ({ transaction }) => {
     },
     isLoading: transaction.isLoading,
     transaction: transaction.transaction,
-    messages: transaction.messages
+    messages: transaction.messages,
+    numberOfMessage: transaction.numberOfMessage,
+    lastMessageCount: transaction.lastMessageCount
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getTransactionInfo: getTransaction,
   send: sendMessage,
-  receive: appendMessage
+  receive: appendMessage,
+  loadMessage: getMessages
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));

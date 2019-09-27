@@ -8,7 +8,10 @@ const {
   sendMessage,
   sendMessageSuccess,
   sendMessageFail,
-  appendMessage
+  appendMessage,
+  getMessages,
+  getMessagesSuccess,
+  getMessagesFail,
 } = createActions(
   'GET_TRANSACTION',
   'GET_TRANSACTION_SUCCESS',
@@ -16,7 +19,10 @@ const {
   'SEND_MESSAGE',
   'SEND_MESSAGE_SUCCESS',
   'SEND_MESSAGE_FAIL',
-  'APPEND_MESSAGE'
+  'APPEND_MESSAGE',
+  'GET_MESSAGES',
+  'GET_MESSAGES_SUCCESS',
+  'GET_MESSAGES_FAIL',
 )
 
 
@@ -28,5 +34,8 @@ export {
   sendMessage,
   sendMessageSuccess,
   sendMessageFail,
-  appendMessage
+  appendMessage,
+  getMessages,
+  getMessagesSuccess,
+  getMessagesFail
 }
