@@ -10,6 +10,7 @@ import BookOption from './components/BookOption';
 import InstanceOption from './components/InstanceOption';
 import ReviewOption from './components/ReviewOption';
 import UserOption from './components/UserOption';
+import TransactionOption from './components/TransactionOption';
 
 const styles = theme => ({
   container: {
@@ -129,6 +130,9 @@ class Report extends Component {
         case 'user':
           types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
           break;
+        case 'transaction':
+          types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
+          break;
         default: break;
       }
 
@@ -160,6 +164,10 @@ class Report extends Component {
           {
             params.type === 'user' &&
             <UserOption userId={params.value} />
+          }
+          {
+            params.type === 'transaction' &&
+            <TransactionOption transId={params.value} />
           }
         </div>
       </TopNavSend>

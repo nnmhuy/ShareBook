@@ -47,9 +47,7 @@ const UserOption = (props) => {
             <Avatar src='user' className={classes.avatar} />
             <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
           </div>
-
         </div>
-
       </div>
       <ProblemContainer />
     </div>

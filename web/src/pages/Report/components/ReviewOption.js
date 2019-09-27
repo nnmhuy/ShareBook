@@ -20,7 +20,7 @@ const styles = theme => ({
   avatar: {
     width: 35,
     height: 35,
-    margin: '0 10px'
+    marginRight: 10
   },
   title: {
     fontSize: 12,

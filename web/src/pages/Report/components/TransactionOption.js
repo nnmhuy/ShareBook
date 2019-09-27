@@ -14,13 +14,18 @@ const styles = theme => ({
   },
   flexContainer: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginBottom: 5
+  },
+  idWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 15
   },
   avatar: {
     width: 35,
     height: 35,
-    margin: '0 10px'
+    marginRight: 10
   },
   title: {
     fontSize: 12,
@@ -29,9 +34,15 @@ const styles = theme => ({
     marginBottom: 5,
     color: colors.primary
   },
+  titleId: {
+    fontSize: 12,
+    fontWeight: 500,
+    margin: 0,
+    marginRight: 25,
+    color: colors.primary
+  },
   name: {
     margin: 0,
-    marginBottom: 15,
     color: 'black'
   },
   image: {
@@ -45,9 +56,9 @@ const TransactionOption = (props) => {
   // const { transId } = props;
   return (
     <div className={classes.flexColumn}>
-      <div>
-        <p>Id giao dịch</p>
-        <p>123157adsjg</p>
+      <div className={classes.idWrapper}>
+        <p className={classes.titleId}>Id giao dịch</p>
+        <p className={classes.name}>123157adsjg</p>
       </div>
       <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
@@ -66,4 +77,4 @@ const TransactionOption = (props) => {
   );
 };
 
-export default withStyles(styles)(Transaction);
+export default withStyles(styles)(TransactionOption);
