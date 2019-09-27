@@ -32,13 +32,15 @@ const styles = theme => ({
     color: colors.primary,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: 12
+    fontSize: 12,
+    '&:hover': {
+      textDecoration: 'none'
+    }
   },
   flexContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
+    flexDirection: 'column'
   }
 })
 
@@ -73,18 +75,18 @@ const ReportItem = props => {
   return (
     <Paper className={classes.container}>
       <TechnicIcon className={classes.icon} />
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
         <div className={classes.flexContainer}>
-          <p className={classes.text}>Đơn report
+          <p className={classes.text} style={{ marginBottom: 5 }}>Đơn report
             <span className={classes.textPrimary}> {id}</span>
           </p>
-          <p className={classes.textPrimary}>
-            {createdDay(createdAt)}
-          </p>
-        </div>
-        <div className={classes.flexContainer}>
           <p className={classes.text}>Tình trạng:
             <span className={classes.textPrimary}> {statusCode}</span>
+          </p>
+        </div>
+        <div className={classes.flexContainer} style={{ alignItems: 'flex-end' }}>
+          <p className={classes.textPrimary}>
+            {createdDay(createdAt)}
           </p>
           <Link className={classes.textPrimaryLight} to={`/report/${id}`}>
             Theo dõi

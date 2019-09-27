@@ -41,7 +41,8 @@ const styles = theme => ({
 })
 
 const InstanceOption = (props) => {
-  const { classes, instanceId } = props;
+  const { classes } = props;
+  // const { instanceId } = props;
   return (
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách cho mượn</p>

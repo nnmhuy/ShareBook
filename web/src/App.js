@@ -21,6 +21,7 @@ import CreateInstance from './pages/CreateInstance'
 import CategoryList from './pages/CategoryList'
 import Profile from './pages/Profile'
 import Report from './pages/Report'
+import TransactionDetail from './pages/TransactionDetail'
 
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
@@ -59,6 +60,7 @@ class App extends React.Component {
           <Route path="/profile" exact component={Profile} />
           <Route path="/report" exact component={Report} />
           <Route path="/report/:type-:value" exact component={Report} />
+          <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
           <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>

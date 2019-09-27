@@ -35,7 +35,8 @@ const styles = theme => ({
 })
 
 const BookOption = props => {
-  const { classes, bookId } = props;
+  const { classes } = props;
+  // const { bookId } = props;
   return (
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách</p>

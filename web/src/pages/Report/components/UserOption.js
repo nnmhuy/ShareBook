@@ -36,7 +36,8 @@ const styles = theme => ({
 })
 
 const UserOption = (props) => {
-  const { classes, reviewId } = props;
+  const { classes } = props;
+  // const { userId } = props;
 
   return (
     <div className={classes.flexColumn}>

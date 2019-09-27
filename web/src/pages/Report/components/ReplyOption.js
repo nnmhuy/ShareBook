@@ -50,7 +50,8 @@ const styles = theme => ({
 })
 
 const ReplyOption = props => {
-  const { classes, replyId, createdDay } = props;
+  const { classes, createdDay } = props;
+  // const { replyId } = props;
   const createdAt = '2019-03-29T00:00:00';
 
   return (

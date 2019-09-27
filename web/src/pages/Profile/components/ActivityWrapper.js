@@ -9,13 +9,12 @@ import ActivityButton from './ActivityButton';
 import BookVertical from './BookVertical';
 import BookHorizontal from './BookHorizontal';
 import ReportList from './ReportList';
+import TransactionList from './TransactionList';
 
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 import { ReactComponent as BookmarkIcon } from '../../../static/images/bookmark-btn.svg';
 import { ReactComponent as TransactionIcon } from '../../../static/images/transaction-btn.svg';
 import { ReactComponent as ReportIcon } from '../../../static/images/report-btn.svg';
-
-import ActivityNull from './ActivityNull';
 
 const styles = theme => ({
     container: {
@@ -93,7 +92,7 @@ class ActivityWrapper extends Component {
     render() {
         const { classes } = this.props;
         const { currentTab } = this.state;
-        const bookTest = 'hello';
+        const bookTest = '';
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={classes.container}>
@@ -115,7 +114,7 @@ class ActivityWrapper extends Component {
                         <BookVertical bookmarked={bookTest} textNull={text.bookmark} />
                     </TabPanel>
                     <TabPanel index={2} value={currentTab} className={classes.wrapper}>
-                        <ActivityNull Icon={TransactionIcon} content={text.transaction} />
+                        <TransactionList transactions={bookTest} textNull={text.transaction} />
                     </TabPanel>
                     <TabPanel index={3} value={currentTab} className={classes.wrapper}>
                         <ReportList report={reportData} />

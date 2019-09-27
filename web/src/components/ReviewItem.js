@@ -216,14 +216,14 @@ const ReviewItem = (props) => {
               <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
               <div className={classes.date}>{createdDay(createdAt)}</div>
             </div>
-            <Rating
-              className={classes.rating}
-              readOnly
-              value={rating}
-              precision={0.5}
-              size='small'
-            />
           </div>
+          <Rating
+            className={classes.rating}
+            readOnly
+            value={rating}
+            precision={0.5}
+            size='small'
+          />
         </div>
       </div>
       <div className={classes.reviewContainer}>{content}</div>

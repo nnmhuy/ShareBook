@@ -46,7 +46,8 @@ const styles = theme => ({
 })
 
 const ReviewOption = (props) => {
-  const { classes, reviewId, createdDay } = props;
+  const { classes, createdDay } = props;
+  // const { reviewId } = props;
   const createdAt = '2019-03-29T00:00:00';
 
   return (

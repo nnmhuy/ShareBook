@@ -17,7 +17,7 @@ const styles = theme => ({
 const Profile = props => {
 	const { classes } = props;
 	return (
-		<TopNav>
+		<TopNav title='Tài khoản'>
 			<div className={classes.container}>
 				<MainTab />
 			</div>
