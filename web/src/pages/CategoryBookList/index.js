@@ -14,9 +14,9 @@ import Search from '../../components/Search'
 import Book from '../../components/Book'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
+import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
-import { bookDemoData } from './demoData'
 
 const styles = (theme => ({
   container: {
@@ -84,11 +84,39 @@ class CategoryBookList extends React.Component {
           this.setState({
             category: element
           })
+          this.queryBook(element)
           return true
         }
         return false
       });
     }
+  }
+
+  queryBook = (category) => {
+    let categoryLabel = _.get(this.props, 'match.params.categoryId')
+    let minRating = 0 
+    let districtFilter = {}
+    minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
+    districtFilter = getListCondition('districtFilter')
+    
+    let where = {}
+    where.rating = { gte: minRating }
+    if (category.id !== 'all') where.categoryId = {inq: [category.id]}
+    if (districtFilter) {
+      where.or = []
+      districtFilter.forEach(element => {
+        let obIntance = {}
+        obIntance[`locationStatistic.${element}`] = {gte: 1}
+        where.or.push(obIntance)
+      });
+    }
+
+
+    this.props.getBookListHandler({key: `category-${categoryLabel}`, where,
+      limit: 20,
+      userId: this.props.account.userId,
+      order: 'createdAt DESC'
+    });
   }
 
   handlePageChange = (data) => {
@@ -97,9 +125,11 @@ class CategoryBookList extends React.Component {
   }
 
   render() {
-    const { classes, account, categoryIsLoading } = this.props
+    const { classes, account, categoryIsLoading, bookListData } = this.props
     const { category } = this.state
+    let categoryUrl = _.get(this.props, 'match.params.categoryId')
     let isLoading = categoryIsLoading
+    const bookList = []
 
     return (
       <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
@@ -115,7 +145,7 @@ class CategoryBookList extends React.Component {
           </div>
           <div className={classes.bookContainer}>
             {
-              bookDemoData.map((book) => {
+              bookList.map((book) => {
                 return (
                   <Book {...book} key={book.bookId}/>
                 )
