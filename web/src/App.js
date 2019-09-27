@@ -57,8 +57,8 @@ class App extends React.Component {
           <Route path="/create-book" exact component={CreateBook} />
           <Route path="/create-instance/:bookId" exact component={CreateInstance} />
           <Route path="/profile" exact component={Profile} />
-          {/* <Route path="/report-info/:reportId" exact component={ReportView} /> */}
           <Route path="/report" exact component={Report} />
+          <Route path="/report/:type-:value" exact component={Report} />
           <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>

@@ -14,7 +14,6 @@ import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-
 import { ReactComponent as BookmarkIcon } from '../../../static/images/bookmark-btn.svg';
 import { ReactComponent as TransactionIcon } from '../../../static/images/transaction-btn.svg';
 import { ReactComponent as ReportIcon } from '../../../static/images/report-btn.svg';
-import { ReactComponent as TechnicIcon } from '../../../static/images/technics.svg';
 
 import ActivityNull from './ActivityNull';
 
@@ -56,22 +55,22 @@ const theme = createMuiTheme({
 const reportData = [
     {
         id: '1238abbd2',
-        createdAt: '23.09.19',
+        createdAt: '2019-03-29T00:00:00',
         status: 'pending'
     },
     {
         id: '1238abbd2',
-        createdAt: '25.09.19',
+        createdAt: '2019-03-29T00:00:00',
         status: 'answer'
     },
     {
         id: '1238abbd2',
-        createdAt: '27.09.19',
+        createdAt: '2019-03-29T00:00:00',
         status: 'resolved'
     },
     {
         id: '1238abbd2',
-        createdAt: '29.09.19',
+        createdAt: '2019-03-29T00:00:00',
         status: 'reject'
     }
 ]
@@ -94,7 +93,7 @@ class ActivityWrapper extends Component {
     render() {
         const { classes } = this.props;
         const { currentTab } = this.state;
-        const bookTest = null;
+        const bookTest = 'hello';
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={classes.container}>
@@ -120,7 +119,6 @@ class ActivityWrapper extends Component {
                     </TabPanel>
                     <TabPanel index={3} value={currentTab} className={classes.wrapper}>
                         <ReportList report={reportData} />
-                        <ActivityNull Icon={TechnicIcon} content={text.report} />
                     </TabPanel>
                 </div>
             </MuiThemeProvider>

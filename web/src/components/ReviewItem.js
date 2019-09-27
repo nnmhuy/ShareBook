@@ -196,7 +196,7 @@ const ReviewItem = (props) => {
               <MoreIcon fill={colors.primary} />
             </IconButton>
             {isShowMore &&
-              <Link to={`/report`}>
+              <Link to={`/report/review-${id}`}>
                 <Button variant='contained' size='small' className={classes.reportButton}>
                   Report
                   <ReportIcon className={classes.reportIcon} fill='#fff' />

@@ -17,7 +17,10 @@ class ReportList extends Component {
           report !== null &&
           report.map(item => {
             return (
-              <ReportItem report={item} />
+              <>
+                <ReportItem report={item} />
+                <br />
+              </>
             )
           })
         }

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+
 import ReviewItem from '../../../components/ReviewItem';
 import colors from '../../../constants/colors';
 
@@ -42,34 +43,27 @@ const reviewDemo = {
     content: 'Thay đổi hoàn toàn nhận thức của ta về thế giới. Sách dựa trên bề dày nghiên cứu gần 30 năm của tác giả nên các thông tin vừa mới lạ, hấp dẫn mà cũng đầy tính thuyết phục. Tác giả không chỉ trả lời được câu hỏi tối hậu: “Vì sao  châu Âu là những người đi chinh phục mà không phải châu” Phi?” hay rộng hơn là: “Vì sao dân tộc này lại giỏi hơn dân tộc khác?',
 }
 
-class ReviewTab extends Component {
-    render() {
-        const { classes } = this.props;
-        const { content, title, avatar, images, createdAt, username } = reviewDemo;
-        const createdDay = (date) => {
-            let createdYMD = date.split('T')[0].split('-');
-            let day = createdYMD[2];
-            let month = createdYMD[1];
-            let year = createdYMD[0];
-            let formattedDate = day + '-' + month + '-' + year;
-            return formattedDate;
-        }
-        return (
-            <div>
-                <Link to='/book-list' className={classes.link}>
-                    <Button className={classes.writeReview} >
-                        ghi review mới
+const ReviewTab = props => {
+    const { classes } = props;
+    const { content, title, avatar, images, createdAt, username } = reviewDemo;
+
+    return (
+        <div>
+            <Link to='/book-list' className={classes.link}>
+                <Button className={classes.writeReview} >
+                    ghi review mới
                 </Button>
-                </Link>
-                <div className={classes.reviewList}>
-                    <ReviewItem
-                        content={content}
-                        username={username}
-                        avatar={avatar}
-                        images={images}
-                        createdAt={createdAt}
-                    />
-                    {/* {
+            </Link>
+            <div className={classes.reviewList}>
+                <ReviewItem
+                    content={content}
+                    username={username}
+                    avatar={avatar}
+                    images={images}
+                    createdAt={createdAt}
+                    title={title}
+                />
+                {/* {
                         reviewList.map((review, id) => {
                             return (
                                 <ReviewItem
@@ -81,11 +75,10 @@ class ReviewTab extends Component {
                             )
                         })
                     } */}
-                </div>
-                <p className={classes.endText}>End of results</p>
             </div>
-        );
-    }
+            <p className={classes.endText}>End of results</p>
+        </div>
+    );
 }
 
 export default (withStyles(styles)(ReviewTab));
