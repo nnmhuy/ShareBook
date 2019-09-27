@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
+import _ from 'lodash'
+
 import { Loading } from '../../components/Loading'
 
 import Link from '../../components/Link'
@@ -68,18 +70,33 @@ class CategoryBookList extends React.Component {
     var { categoryList, getCategoryListHandler } = this.props
     if (!this.props.categoryIsLoading && categoryList && categoryList[0]) {
       getCategoryListHandler()
-    } else {
-      
+    }
+  }
+
+  componentDidUpdate() {
+    let { categoryList } = this.props
+    if (!this.state.category && !this.props.categoryIsLoading &&
+    categoryList && categoryList[0]) {
+      let categoryUrl = _.get(this.props, 'match.params.categoryId')
+      categoryList.some(element => {
+        if (element.url.endsWith(categoryUrl)) {
+          this.setState({
+            category: element
+          })
+          return true
+        }
+        return false
+      });
     }
   }
 
   render() {
-    const { classes, account, match } = this.props
-    const categoryName = 'Lãng mạng'
-    const categoryId = match.params.categoryId
+    const { classes, account, categoryIsLoading } = this.props
+    const { category } = this.state
+    let isLoading = categoryIsLoading
 
     return (
-      <LayoutWrapper account={account} title={categoryName}>
+      <LayoutWrapper account={account} title={category.name}>
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
