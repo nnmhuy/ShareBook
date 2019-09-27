@@ -90,5 +90,6 @@ const initSocket = require('./component/init-socket');
 
 // start the server if `$ node server.js`
 if (require.main === module) {
-  initSocket(app.start());
+  app.io = require('socket.io')(app.start());
+  initSocket(app);
 }

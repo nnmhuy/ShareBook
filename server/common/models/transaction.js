@@ -13,9 +13,9 @@ module.exports = function(Transaction) {
             return next(new Error('Quyển sách này đang bị lỗi'));
           }
           ctx.instance.holderId = instance.holderId;
+          return next();
         }
       );
     }
-    next();
   });
 };

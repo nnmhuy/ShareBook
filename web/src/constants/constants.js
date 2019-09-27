@@ -6,22 +6,22 @@ const maxMobileWidth = '800px'
 const numberOfReviewsPerPage = 5
 const numberOfBookInstancesPerPage = 5
 
-const mapTransactionStatusToText = [
-  'Chờ phản hồi', //waitingForResponse
-  'Chờ nhận sách', //waitingForTake
-  'Đang đọc', //isReading
-  'Quá hạn', //isOvertime
-  'Chờ phản hồi gia hạn', //waitingForDeadlineExtended // borrower ask to extend deadline
-  'Đã gia hạn', //deadlineExtended
-  'Đã báo cáo', //isReported
-  'Đã hoàn thành', //isDone
-  'Đã huỷ', //isCancel // if holder decline borrow request
-]
+const mapTransactionStatusToText = {
+  waitingForResponse: 'Chờ phản hồi', //waitingForResponse
+  waitingForTake: 'Chờ nhận sách', //waitingForTake
+  isReading: 'Đang đọc', //isReading
+  isOvertime: 'Quá hạn', //isOvertime
+  waitingForDeadlineExtended: 'Chờ phản hồi gia hạn', //waitingForDeadlineExtended // borrower ask to extend deadline
+  deadlineExtended: 'Đã gia hạn', //deadlineExtended
+  isReported: 'Đã báo cáo', //isReported
+  isDone: 'Đã hoàn thành', //isDone
+  isCancel: 'Đã huỷ', //isCancel // if holder decline borrow request
+}
 
-const mapPositionToText = [
-  'Người cho mượn',
-  'Người mượn'
-]
+const mapPositionToText = {
+  holder: 'Người cho mượn',
+  borrower: 'Người mượn'
+}
 
 export {
   frontendURL,

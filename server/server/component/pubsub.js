@@ -5,10 +5,10 @@ module.exports = {
   // Publishing a event..
   publish: function(socket, options) {
     if (options) {
-      const room = options.transactionId;
+      const room = options.room;
       const data = options.data;
       socket.to(room).emit('new message', data);
-      console.log('new message');
+      console.log('new message', room);
     } else {
       throw 'Error: Option must be an object type';
     }

@@ -4,7 +4,7 @@ var pubsub = require('../../server/component/pubsub.js');
 const setUserId = require('../../server/middleware/setUserId');
 
 module.exports = function(MessageInTransaction) {
-  MessageInTransaction.validatesPresenceOf('transactionId', 'userId');
+  MessageInTransaction.validatesPresenceOf('transactionId');
 
   MessageInTransaction.observe('before save', function(ctx, next) {
     setUserId(ctx, 'userId');
@@ -14,13 +14,14 @@ module.exports = function(MessageInTransaction) {
         if (error || !instance || !instance.borrowerId || !instance.holderId) {
           return next(new Error('Giao dịch này đang bị lỗi'));
         }
-        if (ctx.instance.userId === instance.holderId) {
+        if (ctx.instance.userId.equals(instance.holderId)) {
           ctx.instance.direction = 'holder';
         }
-        if (ctx.instance.userId === instance.borrowerId) {
+        if (ctx.instance.userId.equals(instance.borrowerId)) {
           ctx.instance.direction = 'borrower';
         }
         ctx.instance.unsetAttribute('userId');
+        return next();
       }
     );
   });
@@ -30,7 +31,7 @@ module.exports = function(MessageInTransaction) {
     var socket = MessageInTransaction.app.io;
     if (ctx.isNewInstance) {
       pubsub.publish(socket, {
-        room: ctx.instance.id,
+        room: ctx.instance.transactionId,
         data: ctx.instance,
       });
     }

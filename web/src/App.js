@@ -6,7 +6,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './pages/Home/index'
-import Counter from './pages/Counter/index'
 import Account from './pages/Account/index'
 import BookDetail from './pages/BookDetail/index'
 import BookReview from './pages/BookReview/index'
@@ -61,7 +60,6 @@ class App extends React.Component {
           <Route path="/report" exact component={Report} />
           <Route path="/report/:type-:value" exact component={Report} />
           <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
-          <Route path="/counter" exact component={Counter} />
           <Route component={NotFound} />
         </Switch>
         <ToastContainer></ToastContainer>

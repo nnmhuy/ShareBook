@@ -1,11 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { withStyles } from '@material-ui/core/styles'
+import _ from 'lodash'
 
 import TopNav from './components/TopNav'
+import Loading from '../../components/Loading'
 import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
 
+import { 
+  sendMessage,
+  getTransaction,
+  appendMessage
+} from '../../redux/actions/transactionAction'
 import socket from '../../connectors/Socket'
 
 const styles = (theme => ({
@@ -34,14 +42,32 @@ class Transaction extends React.Component {
   }
 
   componentDidMount() {
+    const { match, getTransactionInfo, account, receive } = this.props
+    const { userId } = account
+    const { transactionId } = match.params
+    getTransactionInfo({ transactionId, userId })
+    socket.emit('join transaction', { transactionId })
+    socket.on('new message', (data) => {
+      receive(data)
+    })
+  }
+
+  componentWillUnmount() {
     const { match } = this.props
     const { transactionId } = match.params
-    socket.emit('connect to transaction', { transactionId })
+    socket.emit('leave transaction', { transactionId })
   }
 
   handleSend = () => {
+    const { send, match } = this.props
+    const { transactionId } = match.params
     const { value } = this.state
-    // sendMessage(value)
+    if (value === '') return
+
+    send({ 
+      content: value,
+      transactionId
+    })
     this.setState(({
       value: ''
     }))
@@ -54,13 +80,19 @@ class Transaction extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, isLoading, transaction, messages } = this.props
     const { value } = this.state
     return (
-      <TopNav>
+      <TopNav
+        avatar={_.get(transaction, 'user.avatar', '')}
+        name={_.get(transaction, 'user.name', '')}
+        position={_.get(transaction, 'user.position', '')}
+        status={_.get(transaction, 'status', '')}
+      >
+        <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.messagesContainer}>
-            <MessageSection />
+            <MessageSection messages={messages} avatar={_.get(transaction, 'user.avatar', '')}/>
           </div>
           <InputSection
             value={value}
@@ -72,7 +104,7 @@ class Transaction extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state, account }) => {
+const mapStateToProps = ({ transaction }) => {
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -82,13 +114,16 @@ const mapStateToProps = ({ state, account }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    isLoading: transaction.isLoading,
+    transaction: transaction.transaction,
+    messages: transaction.messages
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getTransactionInfo: getTransaction,
+  send: sendMessage,
+  receive: appendMessage
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));

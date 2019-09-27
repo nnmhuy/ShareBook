@@ -114,7 +114,7 @@ const TopNav = (props) => {
           <div className={classes.infoContainer}>
             <div>
               <span className={classes.username}>{name}</span>
-              <span className={classes.position}>{mapPositionToText[position]}</span>
+              <span className={classes.position}>{`  ${mapPositionToText[position]}`}</span>
             </div>
             <div className={classes.status}>{mapTransactionStatusToText[status]}</div>
           </div>
