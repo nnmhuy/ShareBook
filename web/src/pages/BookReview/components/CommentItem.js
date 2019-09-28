@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Avatar } from '@material-ui/core';
 import Link from '../../../components/Link';
 import colors from '../../../constants/colors';
 
+import Avatar from '../../../components/Avatar'
 import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg'
 import { ReactComponent as LikeNotFilledIcon } from '../../../static/images/like.svg'
 

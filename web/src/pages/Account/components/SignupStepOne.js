@@ -2,12 +2,12 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Fab,
-  Avatar,
   CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
+import Avatar from '../../../components/Avatar'
 import Logo from '../../../static/images/logo.png'
 import FacebookLogo from '../../../static/images/facebook-logo.png'
 import AvatarPlaceholder from '../../../static/images/avatar-placeholder.png'

@@ -1,10 +1,12 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
-import { Avatar, Button, IconButton, ClickAwayListener } from '@material-ui/core'
+import { Button, IconButton, ClickAwayListener } from '@material-ui/core'
+
 
 import Link from './Link'
 import Image from './Image'
+import Avatar from './Avatar'
 
 import colors from '../constants/colors'
 import { ReactComponent as LikeNotFilledIcon } from '../static/images/like.svg'

@@ -1,8 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Button, Avatar } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 import Link from '../../../components/Link'
+import Avatar from '../../../components/Avatar'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as DownIcon } from '../../../static/images/right-arrow.svg'

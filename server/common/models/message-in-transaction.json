@@ -18,7 +18,12 @@
   },
   "properties": {
     "direction": {
-      "type": "boolean",
+      "type": "string",
+      "enum": [
+        "system",
+        "holder",
+        "borrower"
+      ],
       "required": true
     },
     "content": {
@@ -48,7 +53,7 @@
       "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "ALLOW"
+      "permission": "DENY"
     },
     {
       "accessType": "WRITE",
@@ -68,6 +73,12 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
     },
     {
       "accessType": "EXECUTE",

@@ -1,8 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  Avatar
-} from '@material-ui/core'
+import Avatar from '../../../components/Avatar'
 
 const styles = (theme => ({
   container: {
