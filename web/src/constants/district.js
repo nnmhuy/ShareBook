@@ -1,5 +1,6 @@
 // 24
 const districtList = [
+    {label: 'Tất cả địa điểm', value: 'all'},
     {label: 'Quận 1', value: '1'},
     {label: 'Quận 2', value: '2'},
     {label: 'Quận 3', value: '3'},

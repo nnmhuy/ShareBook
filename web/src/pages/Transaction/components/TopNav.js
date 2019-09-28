@@ -3,15 +3,13 @@ import { withStyles } from '@material-ui/core/styles'
 import {
   AppBar,
   Toolbar,
-  IconButton,
-  Avatar,
-
+  IconButton
 } from '@material-ui/core'
 
 import colors from '../../../constants/colors'
 import { mapTransactionStatusToText, mapPositionToText } from '../../../constants/constants'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
-import Link from '../../../components/Link'
+import Avatar from '../../../components/Avatar'
 import OnlineBadge from '../../../components/OnlineBadge'
 
 
@@ -114,7 +112,7 @@ const TopNav = (props) => {
           <div className={classes.infoContainer}>
             <div>
               <span className={classes.username}>{name}</span>
-              <span className={classes.position}>{mapPositionToText[position]}</span>
+              <span className={classes.position}>{`  ${mapPositionToText[position]}`}</span>
             </div>
             <div className={classes.status}>{mapTransactionStatusToText[status]}</div>
           </div>

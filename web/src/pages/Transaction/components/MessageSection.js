@@ -13,65 +13,30 @@ const styles = (theme => ({
 }))
 
 const MessageSection = (props) => {
-  const { classes } = props
+  const { classes, messages, avatar, position } = props
   return (
     <div className={classes.container}>
-      <OutcomeMessage 
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage 
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
-      <OutcomeMessage
-        message='Bạn muốn giao dịch sách ở đâu nhỉ?'
-      />
-      <IncomeMessage
-        avatar={require('../../../static/images/avatar-placeholder.png')}
-        message='Chắc hẹn giao ở địa chỉ bạn mong muốn luôn nha, để đỡ phiền bạn.'
-      />
+      {
+        messages.map((message, id) => {
+          const { direction, content } = message
+          if (direction === position) {
+            return (
+              <IncomeMessage
+                key={content+id}
+                message={content}
+                avatar={avatar}
+              />
+            )
+          } else {
+            return (
+              <OutcomeMessage 
+                key={content+id}
+                message={content}
+              />
+            )
+          }
+        })
+      }
     </div>
   )
 }

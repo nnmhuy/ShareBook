@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { demoReview } from '../demoData';
 
-import { Avatar, Button, IconButton } from '@material-ui/core';
+import { Button, IconButton } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import Link from '../../../components/Link';
+import Avatar from '../../../components/Avatar'
 
 import colors from '../../../constants/colors';
 import { ReactComponent as MoreIcon } from '../../../static/images/more.svg';

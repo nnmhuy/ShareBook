@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Link from '../../../components/Link'
+import Image from '../../../components/Image'
 
 import colors from '../../../constants/colors'
 
@@ -39,7 +40,7 @@ const CategoryItem = (props) => {
   const { classes, name, image, totalOfBook, url } = props
   return (
     <Link to={url} className={classes.container}>
-      <img src={image} alt='icon' className={classes.icon}/>
+      <Image src={image} alt='icon' className={classes.icon}/>
       <div className={classes.textContainer}>
         <div className={classes.title}>{name}</div>
         <div className={classes.number_of_books}>{`${totalOfBook} cuốn`}</div>

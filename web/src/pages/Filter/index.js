@@ -130,10 +130,10 @@ const mapStateToProps = ({ account, book }) => {
   let categoryFilter = {}, districtFilter = {}
   try {
     categoryFilter = localStorage.getItem('categoryFilter')
-    if (!categoryFilter || categoryFilter === 'false') categoryFilter = {}
+    if (!categoryFilter || categoryFilter === 'false') categoryFilter = {all: true}
     else categoryFilter = JSON.parse(categoryFilter)
     districtFilter = localStorage.getItem('districtFilter')
-    if (!districtFilter || districtFilter === 'false') districtFilter = {}
+    if (!districtFilter || districtFilter === 'false') districtFilter = {all: true}
     else districtFilter = JSON.parse(districtFilter)
   } catch (err) {
     console.log(err)

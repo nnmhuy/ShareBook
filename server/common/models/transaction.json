@@ -12,7 +12,8 @@
       "silenceWarnings": false
     },
     "ReadOnly": {
-      "id": true
+      "id": true,
+      "status": true
     }
   },
   "properties": {
@@ -23,7 +24,8 @@
         "singleUser",
         "club",
         "station"
-      ]
+      ],
+      "default": "singleUser"
     },
     "status": {
       "type": "string",
@@ -39,7 +41,8 @@
         "isPaidDeposit",
         "isDone",
         "isCancel"
-      ]
+      ],
+      "default": "waitingForResponse"
     },
     "isReviewed": {
       "type": "boolean",
@@ -86,6 +89,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "messages": {
+      "type": "hasMany",
+      "model": "messageInTransaction",
+      "foreignKey": "transactionId",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [
@@ -99,6 +110,12 @@
       "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$owner",
       "permission": "ALLOW"
     },
     {
