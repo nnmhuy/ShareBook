@@ -59,7 +59,7 @@ const ProblemDropdown = props => {
                 {
                   types.map((item, index) => {
                     return (
-                      <option value={item.typeOfTarget} key={index}>{item.name}dsa</option>
+                      <option value={item.typeOfTarget} key={index}>{item.name}</option>
                     )
                   })
                 }
