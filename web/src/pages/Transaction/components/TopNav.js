@@ -3,15 +3,13 @@ import { withStyles } from '@material-ui/core/styles'
 import {
   AppBar,
   Toolbar,
-  IconButton,
-  Avatar,
-
+  IconButton
 } from '@material-ui/core'
 
 import colors from '../../../constants/colors'
 import { mapTransactionStatusToText, mapPositionToText } from '../../../constants/constants'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
-import Link from '../../../components/Link'
+import Avatar from '../../../components/Avatar'
 import OnlineBadge from '../../../components/OnlineBadge'
 
 

@@ -1,12 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Avatar } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as Quotation } from '../../../static/images/quotation.svg'
 import { ReactComponent as RightArrow } from '../../../static/images/right-arrow.svg'
-
+import Avatar from '../../../components/Avatar'
 
 const styles = (theme => ({
   container: {

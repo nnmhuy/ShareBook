@@ -1,12 +1,10 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  Avatar
-} from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
 import colors from '../../constants/colors'
 
+import Avatar from '../Avatar'
 import UserIcon from '../../static/images/user_nologin.svg'
 import { ReactComponent as ArrowIcon } from '../../static/images/right-arrow.svg'
 import { ReactComponent as LoginIcon } from '../../static/images/login.svg'

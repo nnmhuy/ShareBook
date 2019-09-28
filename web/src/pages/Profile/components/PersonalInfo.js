@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import colors from '../../../constants/colors';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 
+import Avatar from '../../../components/Avatar'
 import { ReactComponent as FacebookIcon } from '../../../static/images/facebook.svg';
 
 

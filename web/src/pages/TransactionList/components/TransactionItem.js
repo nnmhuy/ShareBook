@@ -1,10 +1,8 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  Avatar
-} from '@material-ui/core'
 
 import Link from '../../../components/Link'
+import Avatar from '../../../components/Avatar'
 import OnlineBadge from '../../../components/OnlineBadge'
 import { ReactComponent as CompletedIcon } from '../../../static/images/task-complete.svg'
 
