@@ -1,10 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+import Avatar from '@material-ui/core/Avatar'
 
 import colors from '../../constants/colors'
 
-import Avatar from '../Avatar'
+import GetAvatar from '../Avatar'
 import UserIcon from '../../static/images/user_nologin.svg'
 import { ReactComponent as ArrowIcon } from '../../static/images/right-arrow.svg'
 import { ReactComponent as LoginIcon } from '../../static/images/login.svg'
@@ -55,7 +56,11 @@ const ProfileSection = (props) => {
   const { classes, account } = props
   return (
     <Link className={classes.container} to={account.isAuth ? '/profile' : '/account'}>
-      <Avatar className={classes.avatar} src={account.avatar || UserIcon} />
+      {account.avatar?
+        <GetAvatar className={classes.avatar} src={account.avatar} />
+        :
+        <Avatar className={classes.avatar} src={UserIcon} />
+      }
       <div className={classes.info}>
         <span className={classes.username}>{account.isAuth ? account.name : 'Đăng nhập'}</span>
         {account.isAuth && <span className={classes.point}>{account.coin} điểm</span>}

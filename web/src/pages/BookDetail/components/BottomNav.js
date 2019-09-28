@@ -9,7 +9,7 @@ import CustomBottomNav from '../../../components/CustomBottomNav'
 
 const styles = (theme => ({
   addBookButton: {
-    width: 130,
+    width: '90%',
     borderRadius: '0px 6px 6px 0px',
     background: colors.primary,
     color: '#fff',
@@ -18,7 +18,7 @@ const styles = (theme => ({
     fontSize: 14
   },
   borrowBookButton: {
-    width: 227,
+    width: '100%',
     borderRadius: '6px 0px 0px 6px',
     background: `linear-gradient(to right, ${colors.boldPrimary} 0%, ${colors.lightPrimary} 100%)`,
     color: '#fff',
@@ -34,7 +34,7 @@ const BottomNav = (props) => {
     <CustomBottomNav
       left={
         <Link to={`/create-instance/${bookId}`}>
-          <Button className={classes.addBookButton}>Thêm sách</Button>
+          <Button className={classes.addBookButton}>Cho mượn</Button>
         </Link>
       }
       right={
