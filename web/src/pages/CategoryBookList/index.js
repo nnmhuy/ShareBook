@@ -4,10 +4,10 @@ import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
+import ScaleLoader from 'react-spinners/ScaleLoader'
+import axios from 'axios'
 
-import Loading  from '../../components/Loading'
 import Pagination from '../../components/Pagination/index'
-
 import Link from '../../components/Link'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Search from '../../components/Search'
@@ -17,6 +17,7 @@ import { getCategoryList, getBookList, toggleBookmark } from '../../redux/action
 import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
+import { baseURL, imageContainer } from '../../constants/constants'
 
 const styles = (theme => ({
   container: {
@@ -63,33 +64,44 @@ class CategoryBookList extends React.Component {
     super(props);
 
     this.state = {
-      category: null
+      category: null,
+      key: null,
+      condition: null
     }
   }
 
   componentDidMount() {
-    var { categoryList, getCategoryListHandler } = this.props
-    if (!this.props.categoryIsLoading && !_.get(categoryList, '[0]', null)) {
+    var { categoryList, getCategoryListHandler, categoryIsLoading } = this.props
+    if (!categoryIsLoading && !_.get(categoryList, '[0]', null)) {
       getCategoryListHandler()
+    } else {
+      this.runInit()
     }
   }
 
   componentDidUpdate() {
-    let { categoryList } = this.props
-    if (!this.state.category && !this.props.categoryIsLoading &&
-    categoryList && categoryList[0]) {
-      let categoryUrl = _.get(this.props, 'match.params.categoryId')
-      categoryList.some(element => {
-        if (element.url.endsWith(categoryUrl)) {
-          this.setState({
-            category: element
-          })
-          this.queryBook(element)
-          return true
-        }
-        return false
-      });
+    let { categoryList, categoryIsLoading } = this.props
+    if (!categoryIsLoading && _.get(categoryList, '[0]', null)) {
+      this.runInit()
     }
+  }
+
+  runInit = () => {
+    let { categoryList } = this.props
+    let categoryLabel = _.get(this.props, 'match.params.categoryId')
+    categoryList.some(element => {
+      if (element.url.endsWith(categoryLabel)) {
+        let newKey = `category-${categoryLabel}`
+        if (newKey === this.state.key) return true
+        this.setState({
+          category: element,
+          key: newKey
+        })
+        this.queryBook(element)
+        return true
+      }
+      return false
+    });
   }
 
   queryBook = (category) => {
@@ -101,7 +113,7 @@ class CategoryBookList extends React.Component {
     
     let where = {}
     where.rating = { gte: minRating }
-    if (category.id !== 'all') where.categoryId = {inq: [category.id]}
+    if (categoryLabel !== 'all') where.categoryId = {inq: [category.id]}
     if (districtFilter) {
       where.or = []
       districtFilter.forEach(element => {
@@ -111,12 +123,13 @@ class CategoryBookList extends React.Component {
       });
     }
 
-
-    this.props.getBookListHandler({key: `category-${categoryLabel}`, where,
-      limit: 20,
+    let condition = {key: `category-${categoryLabel}`, where,
+      limit: 12,
       userId: this.props.account.userId,
-      order: 'createdAt DESC'
-    });
+      order: ['totalOfBookInstance DESC', 'numberOfRating DESC']
+    }
+    this.props.getBookListHandler(condition);
+    this.setState({condition})
   }
 
   handlePageChange = (data) => {
@@ -124,16 +137,19 @@ class CategoryBookList extends React.Component {
     // getInstances({ bookId, page: data.selected, limit: numberOfBookInstancesPerPage})
   }
 
+  handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+    const { toggleBookmarkHandler } = this.props
+    toggleBookmarkHandler({bookId, bookmarkId, isBookmarked})
+  }
+
   render() {
-    const { classes, account, categoryIsLoading, bookListData } = this.props
-    const { category } = this.state
-    let categoryUrl = _.get(this.props, 'match.params.categoryId')
-    let isLoading = categoryIsLoading
-    const bookList = []
+    const { classes, account, categoryIsLoading, bookListData, bookListIsLoading } = this.props
+    const { category, key } = this.state
+    let isLoading = categoryIsLoading || _.get(bookListIsLoading, key, null)
+    const bookList = _.get(bookListData, key, [])
 
     return (
       <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
-        <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <Search/>
@@ -144,10 +160,23 @@ class CategoryBookList extends React.Component {
             </Link>
           </div>
           <div className={classes.bookContainer}>
-            {
+            {isLoading ?
+              <div className={classes.loading}>
+                <ScaleLoader color={colors.primary}/>
+              </div>
+              :
               bookList.map((book) => {
                 return (
-                  <Book {...book} key={book.bookId}/>
+                  <Book 
+                  id={book.id}
+                  bookmarkId={book.bookmarkId}
+                  name={book.name}
+                  author={book.author}
+                  image={book.image}
+                  isBookmarked={book.isBookmarked}
+                  rating={book.rating}
+                  handleToggleBookmark={this.handleToggleBookmark}
+                  key={`${key}-${book.id}`}/>
                 )
               })
             }

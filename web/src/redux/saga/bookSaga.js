@@ -26,7 +26,6 @@ import {
   createBookFail
 } from '../actions/bookAction'
 import restConnector from '../../connectors/RestConnector'
-import { element } from 'prop-types'
 
 function* getBookListSaga({ payload }) {
   try {

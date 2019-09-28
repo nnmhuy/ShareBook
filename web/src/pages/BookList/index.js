@@ -76,17 +76,17 @@ class BookList extends React.Component {
 
 
     this.props.getBookListHandler({key:'new', where,
-      limit: 20,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'createdAt DESC'
     });
     this.props.getBookListHandler({key:'popular', where,
-      limit: 20,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'numberOfRating DESC'
     });
     this.props.getBookListHandler({key:'high-rating', where,
-      limit: 20,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'rating DESC'
     });

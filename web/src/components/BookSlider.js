@@ -5,7 +5,6 @@ import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Link from './Link'
 import Book from './Book'
-import calculateRating from '../helper/calculateRating'
 import colors from '../constants/colors'
 
 const styles = (theme => ({
@@ -67,7 +66,7 @@ const BookSlider = (props) => {
                   author={book.author}
                   image={book.image}
                   isBookmarked={book.isBookmarked}
-                  rating={calculateRating(book.totalOfRating, book.numberOfRating)}
+                  rating={book.rating}
                   handleToggleBookmark={handleToggleBookmark}
                   key={book.id}
                 />
