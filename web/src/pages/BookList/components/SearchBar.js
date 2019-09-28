@@ -47,9 +47,20 @@ class SearchBar extends React.Component {
 
   handleChange = inputText => {
     inputText = filterText(inputText)
+    let where = {}
+    if (this.props.where) {
+      where = {
+        ...this.props.where, 
+        searchValue: {like: inputText}
+      }
+    } else {
+      where = {
+        searchValue: {like: inputText}
+      }
+    }
     this.props.getBookListHandler({key:'search-total',
       limit: 10,
-      where: { searchValue: {like: inputText} },
+      where: where,
       lite: true,
       fields: {id: true, name: true, author: true},
       order: 'numberOfRating DESC'

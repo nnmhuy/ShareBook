@@ -5,19 +5,18 @@ import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 import ScaleLoader from 'react-spinners/ScaleLoader'
-import axios from 'axios'
 
 import Pagination from '../../components/Pagination/index'
 import Link from '../../components/Link'
 import LayoutWrapper from '../../components/LayoutWrapper'
-import Search from '../../components/Search'
 import Book from '../../components/Book'
+import SearchBar from '../BookList/components/SearchBar'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
-import { baseURL, imageContainer } from '../../constants/constants'
+import restConnector from '../../connectors/RestConnector'
 
 const styles = (theme => ({
   container: {
@@ -59,6 +58,8 @@ const styles = (theme => ({
   }
 }))
 
+const defaultValue = {numberOfBookPerPage: 6}
+
 class CategoryBookList extends React.Component {
   constructor(props) {
     super(props);
@@ -66,6 +67,7 @@ class CategoryBookList extends React.Component {
     this.state = {
       category: null,
       key: null,
+      totalOfBook: null,
       condition: null
     }
   }
@@ -73,6 +75,7 @@ class CategoryBookList extends React.Component {
   componentDidMount() {
     var { categoryList, getCategoryListHandler, categoryIsLoading } = this.props
     if (!categoryIsLoading && !_.get(categoryList, '[0]', null)) {
+      this.setState({key: null})
       getCategoryListHandler()
     } else {
       this.runInit()
@@ -104,7 +107,7 @@ class CategoryBookList extends React.Component {
     });
   }
 
-  queryBook = (category) => {
+  queryBook = async (category) => {
     let categoryLabel = _.get(this.props, 'match.params.categoryId')
     let minRating = 0 
     let districtFilter = {}
@@ -122,18 +125,30 @@ class CategoryBookList extends React.Component {
         where.or.push(obIntance)
       });
     }
-
+    let totalOfBookResponse = null
+    try {
+      totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
+    } catch (error) {
+      console.error(error);
+    }
     let condition = {key: `category-${categoryLabel}`, where,
-      limit: 12,
+      limit: defaultValue.numberOfBookPerPage,
       userId: this.props.account.userId,
       order: ['totalOfBookInstance DESC', 'numberOfRating DESC']
     }
     this.props.getBookListHandler(condition);
-    this.setState({condition})
+    this.setState({
+      condition,
+      totalOfBook: _.get(totalOfBookResponse, 'data.count', 0)
+    })
   }
 
   handlePageChange = (data) => {
-    console.log(data)
+    let newCondition = {
+      ...this.state.condition,
+      skip: data.selected * defaultValue.numberOfBookPerPage
+    }
+    this.props.getBookListHandler(newCondition);
     // getInstances({ bookId, page: data.selected, limit: numberOfBookInstancesPerPage})
   }
 
@@ -143,8 +158,8 @@ class CategoryBookList extends React.Component {
   }
 
   render() {
-    const { classes, account, categoryIsLoading, bookListData, bookListIsLoading } = this.props
-    const { category, key } = this.state
+    const { classes, account, categoryIsLoading, bookListData, bookListIsLoading, getBookListHandler, updatedAtForSearch, history } = this.props
+    const { category, key, totalOfBook, condition } = this.state
     let isLoading = categoryIsLoading || _.get(bookListIsLoading, key, null)
     const bookList = _.get(bookListData, key, [])
 
@@ -152,7 +167,13 @@ class CategoryBookList extends React.Component {
       <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
-            <Search/>
+          <SearchBar 
+              getBookListHandler={getBookListHandler}
+              bookList={_.get(bookListData, 'search-total', [])}
+              updatedAtForSearch={updatedAtForSearch}
+              history={history} 
+              where={_.get(condition, 'where', null)}
+            />
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.icon}/>
@@ -182,7 +203,7 @@ class CategoryBookList extends React.Component {
             }
           </div>
           <Pagination
-            pageCount={10}
+            pageCount={Math.ceil(totalOfBook / defaultValue.numberOfBookPerPage)}
             breakLabel={'. . .'}
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
