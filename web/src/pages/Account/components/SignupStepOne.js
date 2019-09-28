@@ -2,7 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Fab,
-  CircularProgress
+  CircularProgress,
+  Icon
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
@@ -14,6 +15,7 @@ import AvatarPlaceholder from '../../../static/images/avatar-placeholder.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
 import { ReactComponent as Camera } from '../../../static/images/camera.svg'
+import { ReactComponent as Rotate } from '../../../static/images/update-arrow.svg'
 
 import colors from '../../../constants/colors'
 import { baseURL } from '../../../constants/constants'
@@ -36,8 +38,7 @@ const styles = (theme => ({
   },
   avatarContainer: {
     position: 'relative',
-    margin: 15,
-    marginTop: 5
+    margin: '5px 15px',
   },
   avatarImage: {
     width: 100,
@@ -114,6 +115,14 @@ const styles = (theme => ({
   },
   policyLink: {
     color: colors.textPrimary
+  },
+  rotateIcon: {
+    position: 'absolute',
+    height: 20,
+    cursor: 'pointer',
+    top: '50%',
+    right: '-30px',
+    transform: 'translateY(-50%) rotate(200deg)'
   }
 }))
 
@@ -138,7 +147,7 @@ class SignupStepOne extends React.Component {
     if (event && event.target && event.target.files && event.target.files[0]) {
       let newImage = event.target.files[0]
       var imageName = newImage.name
-      if(!newImage.type.match(/image.*/)) {
+      if (!newImage.type.match(/image.*/)) {
         warnAlert('Bạn cần nhập file hình nha')
         return;
       }
@@ -147,7 +156,7 @@ class SignupStepOne extends React.Component {
         this.setState({
           avatarSrc: url
         })
-        this.props.setFieldValue('avatar', {imageName , blob})
+        this.props.setFieldValue('avatar', { imageName, blob })
         this.props.setFieldValue('isLoadingImage', false)
       });
     }
@@ -168,7 +177,7 @@ class SignupStepOne extends React.Component {
       this.setState({
         avatarSrc: url
       })
-      this.props.setFieldValue('avatar', { imageName , blob})
+      this.props.setFieldValue('avatar', { imageName, blob })
       this.props.setFieldValue('isLoadingImage', false)
     })
   }
@@ -193,21 +202,21 @@ class SignupStepOne extends React.Component {
     return (
       <div className={classes.container}>
         <div className={classes.avatarContainer}>
-          <Avatar className={avatarClass} src={avatarSrc || AvatarPlaceholder}/>
+          <Avatar className={avatarClass} src={avatarSrc || AvatarPlaceholder} />
           <label htmlFor='uploadAvatar'>
             <div className={classes.cameraContainer}>
               {!isLoadingImage
-              ?<div>
-                <input type='file' className={classes.hiddenInput} id='uploadAvatar' name='uploadAvatar'
-                onChange={this.uploadAvatarHandler} accept='image/*'/>
-                {!avatarSrc && <Camera width={36} height={28}/>}
-              </div>
-              :<CircularProgress className={classes.progress} />
+                ? <div>
+                  <input type='file' className={classes.hiddenInput} id='uploadAvatar' name='uploadAvatar'
+                    onChange={this.uploadAvatarHandler} accept='image/*' />
+                  {!avatarSrc && <Camera width={36} height={28} />}
+                </div>
+                : <CircularProgress className={classes.progress} />
               }
             </div>
           </label>
+          {avatarSrc && <Rotate onClick={this.rotateImageHandler} className={classes.rotateIcon} />}
         </div>
-        {avatarSrc && <button type="button" onClick={this.rotateImageHandler}>xoay</button>}
         <InputField
           id='signup-username'
           label='Tên đăng nhập'
@@ -231,7 +240,7 @@ class SignupStepOne extends React.Component {
           handleBlur={handleBlur}
           handleIconClick={this.handleClickShowPassword}
         />
-       
+
         <span className={classes.policy}>
           Tôi đồng ý với các <Link to='/policy' className={classes.policyLink}>Điều khoản</Link>
         </span>
