@@ -14,7 +14,7 @@ const styles = (theme => ({
         alignItems: 'center'
     },
     flexContainer: {
-        padding: '0 15px',
+        padding: '0 10px',
         display: 'flex',
         justifyContent: 'space-between',
         marginBottom: 15

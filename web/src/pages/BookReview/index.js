@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import { demoBook, demoReview, demoCommentList } from './demoData';
+import { getReviewsOfBook, toggleLikeReview } from '../../redux/actions/reviewAction';
 
 import PersonalInfo from './components/PersonalInfo';
 import ReviewItem from './components/ReviewItem';
@@ -27,8 +28,8 @@ const styles = (theme => ({
 
 class BookReview extends Component {
     render() {
-        const { classes } = this.props;
-        // const reviewId = match.params.reviewId;
+        const { classes, match } = this.props;
+        const reviewId = match.params.reviewId;
 
         return (
             <TopNav book={demoBook}>
@@ -44,16 +45,15 @@ class BookReview extends Component {
 }
 
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = ({ book, review }) => {
     return {
-
+        reviews: review.reviewsOfBook
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
+// const mapDispatchToProps = (dispatch) => bindActionCreators({
+//     getReviews: getReviewsOfBook,
+//     toggleLikeReviewStatus: toggleLikeReview
+// }, dispatch)
 
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookReview));
+export default connect(mapStateToProps)(withStyles(styles)(BookReview));

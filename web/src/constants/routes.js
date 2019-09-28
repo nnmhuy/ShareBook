@@ -1,35 +1,35 @@
 import { ReactComponent as HomeIcon } from '../static/images/home.svg'
 import { ReactComponent as BookIcon } from '../static/images/booklist.svg'
-import { ReactComponent as  ReviewIcon } from '../static/images/review.svg'
+import { ReactComponent as ReviewIcon } from '../static/images/review.svg'
 import { ReactComponent as TransactionIcon } from '../static/images/transactions.svg'
-import { ReactComponent as ShopIcon } from '../static/images/shop.svg'
-import { ReactComponent as BookmarkIcon } from '../static/images/heart.svg'
+import { ReactComponent as BookAddIcon } from '../static/images/book-add.svg'
+import { ReactComponent as BookmarkIcon } from '../static/images/bookmark-sidebar.svg'
 
 const routes = [
   {
-    label: 'Home',
+    label: 'Trang chủ',
     pathname: '/',
     Icon: HomeIcon
   },
   {
-    label: 'Book list',
+    label: 'Kệ sách',
     pathname: '/book-list',
     Icon: BookIcon
   },
   {
-    label: 'Review',
+    label: 'Newsfeed',
     pathname: '/review',
     Icon: ReviewIcon
   },
   {
-    label: 'Transactions',
+    label: 'Giao dịch',
     pathname: '/transaction',
     Icon: TransactionIcon
   },
   {
-    label: 'Shop',
-    pathname: '/shop',
-    Icon: ShopIcon
+    label: 'Thêm sách',
+    pathname: '/create-book',
+    Icon: BookAddIcon
   },
   {
     label: 'Bookmarks',

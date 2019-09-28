@@ -12,7 +12,7 @@ import CommentItem from './CommentItem';
 
 const styles = (theme => ({
     commentBorder: {
-        margin: '0 20px',
+        margin: '0 10px',
         borderRadius: 15,
         border: '1px solid #b7c7d6',
         display: 'flex',
@@ -23,7 +23,7 @@ const styles = (theme => ({
         }
     },
     commentWrapper: {
-        padding: '0 20px'
+        padding: '0 10px'
     },
     input: {
         marginLeft: theme.spacing(1),

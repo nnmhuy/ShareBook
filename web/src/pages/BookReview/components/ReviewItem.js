@@ -15,10 +15,10 @@ const styles = (theme => ({
     },
     title: {
         marginBottom: 0,
-        padding: '0 15px'
+        padding: '0 10px'
     },
     reviewText: {
-        padding: '0 15px',
+        padding: '0 10px',
         marginTop: 0,
         fontSize: 14
         // minwidth @550px: {fontSize: 16}

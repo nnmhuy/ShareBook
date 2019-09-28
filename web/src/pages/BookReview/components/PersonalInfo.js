@@ -13,7 +13,7 @@ import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg';
 const styles = (theme => ({
     flexContainer: {
         boxSizing: 'border-box',
-        padding: '0 20px',
+        padding: '0 10px',
         display: 'flex',
         justifyContent: 'space-between',
         marginBottom: 10
@@ -47,15 +47,15 @@ const styles = (theme => ({
         fontSize: 12,
         color: '#1c73c6'
     },
-    moreButton: {
-        width: 40,
-        height: 40
-    },
     moreZoneContainer: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
-        position: 'relative'
+        position: 'relative',
+        '& .MuiIconButton-root': {
+            padding: 0,
+            paddingBottom: 15
+        }
     },
     reportButton: {
         backgroundColor: colors.red,
@@ -67,7 +67,7 @@ const styles = (theme => ({
         width: 80,
         height: 30,
         position: 'absolute',
-        right: 15,
+        right: 0,
         zIndex: 1
     },
     reportIcon: {
