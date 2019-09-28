@@ -37,6 +37,7 @@ const styles = (theme => ({
   },
   leftSection: {
     position: 'absolute',
+    width: '50%',
     left: 0
   },
   centerSection: {
@@ -44,6 +45,7 @@ const styles = (theme => ({
   },
   rightSection: {
     position: 'absolute',
+    width: '50%',
     right: 0
   }
 }))

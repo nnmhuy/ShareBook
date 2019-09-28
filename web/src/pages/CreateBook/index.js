@@ -100,7 +100,7 @@ const CreateBookWithFormik = withFormik({
 				errors.image = 'Cần đăng hình cho quyển sách'
 			}
 			if (!values.categoryId) {
-				errors.image = 'Cần chọn thể loại cho quyển sách'
+				errors.categoryId = 'Cần chọn thể loại cho quyển sách'
 			}
 			return errors
 		},
