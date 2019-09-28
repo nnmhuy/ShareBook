@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Slider from 'react-slick'
+import _ from 'lodash'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as CheckedIcon } from '../../../static/images/checked.svg'
@@ -83,7 +84,18 @@ const CheckBoxFilter = (props) => {
   const { classes, title, name, optionList, value, setFieldValue } = props
 
   const handleChooseOption = (option) => () => {
-    setFieldValue(`${name}.${option.value}`, !value[option.value])
+    if (option.value === 'all') {
+      setFieldValue(`${name}`, {all: true})
+    } else {
+      let count = _.countBy(value)
+      if (count.true === 1 && value[option.value]) {
+        setFieldValue(`${name}`, {all: true})
+        return
+      }
+      if (value && value.all)
+        setFieldValue(`${name}.all`, false)
+      setFieldValue(`${name}.${option.value}`, !value[option.value])
+    }
   }
 
   return (

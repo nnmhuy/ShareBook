@@ -12,6 +12,7 @@ import CategoryList from './components/CategoryList'
 import BookSlider from '../../components/BookSlider'
 import TopBook from './components/TopBook'
 import SearchBar from './components/SearchBar'
+import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
@@ -57,20 +58,9 @@ class BookList extends React.Component {
 
     let minRating = 0 
     let categoryFilter = {}, districtFilter = {}
-    try {
-      minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
-      categoryFilter = localStorage.getItem('categoryFilter')
-      if (!categoryFilter || categoryFilter === 'false') categoryFilter = false
-      else categoryFilter = JSON.parse(categoryFilter)
-      categoryFilter = this.mapToArray(categoryFilter)
-
-      districtFilter = localStorage.getItem('districtFilter')
-      if (!districtFilter || districtFilter === 'false') districtFilter = false
-      else districtFilter = JSON.parse(districtFilter)
-      districtFilter = this.mapToArray(districtFilter)
-    } catch (err) {
-      console.log(err)
-    }
+    minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
+    categoryFilter = getListCondition('categoryFilter')
+    districtFilter = getListCondition('districtFilter')
     
     let where = {}
     where.rating = { gte: minRating }
@@ -86,17 +76,17 @@ class BookList extends React.Component {
 
 
     this.props.getBookListHandler({key:'new', where,
-      limit: 10,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'createdAt DESC'
     });
     this.props.getBookListHandler({key:'popular', where,
-      limit: 10,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'numberOfRating DESC'
     });
     this.props.getBookListHandler({key:'high-rating', where,
-      limit: 10,
+      limit: 12,
       userId: this.props.account.userId,
       order: 'rating DESC'
     });
@@ -105,17 +95,6 @@ class BookList extends React.Component {
       userId: this.props.account.userId,
       order: ['numberOfUse DESC', 'numberOfRating DESC']
     });
-  }
-
-  mapToArray = (object) => {
-    let resultArray = []
-    _.mapKeys(object, function(value, key) {
-      if (value)
-        resultArray.push(key)
-    });
-    if (resultArray.length === 0)
-      return false
-    return resultArray
   }
 
   handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {

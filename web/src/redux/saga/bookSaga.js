@@ -35,15 +35,34 @@ function* getBookListSaga({ payload }) {
     let bookList = _.get(response, 'data', [])
     // lite is get bookmark or not
     if (!lite) {
-      const isUserBookmarked = yield all(
-        bookList.map(book => call(restConnector.get, `/books/${book.id}/bookmarks?filter={"where":{"userId":"${userId}"}}`))
-      )
-  
-      const bookFullData = bookList.map((book, index) => ({
-        ...book,
-        bookmarkId: isUserBookmarked[index].data[0] ? isUserBookmarked[index].data[0].id : '',
-        isBookmarked: (isUserBookmarked[index].data[0] || {}).isActive
-      }))
+      let bookIdList = [] 
+      bookList.forEach(book => {
+        bookIdList.push(book.id)
+      })
+      let whereBookmark = {
+        userId: userId,
+        bookId: {inq: bookIdList}
+      }
+      let filterBookmark = {where: whereBookmark}
+      const bookmarkResponse = yield call(restConnector.get, `/bookmarks?filter=${JSON.stringify(filterBookmark)}`)
+      const isUserBookmarked = bookmarkResponse.data
+    
+      const bookFullData = bookList.map((book, index) => {
+        let bookIndex = _.findIndex(isUserBookmarked, (instance) => {
+          return instance.bookId === book.id
+        })
+        if (bookIndex > -1) {
+          return {...book,
+            bookmarkId: isUserBookmarked[bookIndex] ? isUserBookmarked[bookIndex].id : '',
+            isBookmarked: (isUserBookmarked[bookIndex] || {}).isActive}
+        } else {
+          return {
+            ...book,
+            bookmarkId: '',
+            isBookmarked: null
+          }
+        }
+      })
       yield put(getBookListSuccess({bookList: bookFullData, key}))
     } else {
       yield put(getBookListSuccess({bookList: bookList, key, updatedAtForSearch: Date.now()}))
@@ -57,6 +76,11 @@ function* getCategoryListSaga({ payload }) {
   try {
     const response = yield call(restConnector.get, '/categories')
     let categoryList = _.get(response, 'data', [])
+    let allCategory = { name: 'Tất cả sách', url: '/category/all', image:'/containers/defaultContainer/download/logo.png', totalOfBook: 0, id: 'all'}
+    categoryList.forEach(element => {
+      allCategory.totalOfBook += element.totalOfBook
+    });
+    categoryList.unshift(allCategory)
     yield put(getCategoryListSuccess(categoryList));
   } catch (error) {
     warnAlert('Hệ thống hoặc kết nối của bạn bị lỗi');
@@ -104,15 +128,35 @@ function* getBookOfCategorySaga({ payload }) {
     const { categoryId, userId } = payload
     const { data: categoryData } = yield call(restConnector.get, `/categories/${categoryId}`)
     const { data: bookOfCategoryData } = yield call(restConnector.get, `/categories/${categoryId}/books`)
-    const isUserBookmarked = yield all(
-      bookOfCategoryData.map(book => call(restConnector.get, `/books/${book.id}/bookmarks?filter={"where":{"userId":"${userId}"}}`))
-    )
 
-    const allData = bookOfCategoryData.map((book, index) => ({
-      ...book,
-      bookmarkId: isUserBookmarked[index].data[0] ? isUserBookmarked[index].data[0].id : '',
-      isBookmarked: (isUserBookmarked[index].data[0] || {}).isActive
-    }))
+    let bookIdList = [] 
+    bookOfCategoryData.forEach(book => {
+        bookIdList.push(book.id)
+    })
+    let whereBookmark = {
+      userId: userId,
+      bookId: {inq: bookIdList}
+    }
+    let filterBookmark = {where: whereBookmark}
+    const bookmarkResponse = yield call(restConnector.get, `/bookmarks?filter=${JSON.stringify(filterBookmark)}`)
+    const isUserBookmarked = bookmarkResponse.data
+    
+    const allData = bookOfCategoryData.map((book, index) => {
+        let bookIndex = _.findIndex(isUserBookmarked, (instance) => {
+          return instance.bookId === book.id
+        })
+        if (bookIndex > -1) {
+          return {...book,
+            bookmarkId: isUserBookmarked[bookIndex] ? isUserBookmarked[bookIndex].id : '',
+            isBookmarked: (isUserBookmarked[bookIndex] || {}).isActive}
+        } else {
+          return {
+            ...book,
+            bookmarkId: '',
+            isBookmarked: null
+          }
+        }
+      })
 
     const data = {
       category: {
