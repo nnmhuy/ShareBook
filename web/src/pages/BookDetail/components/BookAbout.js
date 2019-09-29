@@ -62,12 +62,12 @@ const styles = (theme => ({
 
 const detailInfo = [
   { label: 'Lượt dùng', key: 'numberOfUse'},
-  { label: 'Volume', key: 'volume'},
+  { label: 'Tập', key: 'volume'},
   { label: 'Số trang', key: 'numberOfPages'},
   null,
   { label: 'Nhà xuất bản', key: 'publisher'},
   { label: 'Năm xuất bản', key: 'publishYear'},
-  { label: 'Giá gốc', key: 'price'},
+  { label: 'Giá bìa', key: 'price'},
 ]
 
 const BookAbout = (props) => {
@@ -86,7 +86,11 @@ const BookAbout = (props) => {
                 detailItem ?
                   <div key={detailItem.key} className={classes.detailItem}>
                     <div className={classes.itemLabel}>{detailItem.label}</div>
-                    <div className={classes.itemValue}>{book[detailItem.key]}</div>
+                    <div className={classes.itemValue}>
+                      { detailItem.key === 'volume' && book[detailItem.key] === -1
+                      ? 'Sách lẻ'
+                      : book[detailItem.key]}
+                    </div>
                   </div>
                   :
                   <div className={classes.break} key='break'></div>

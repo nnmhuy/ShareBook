@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
 import _ from 'lodash'
 import { warnAlert} from '../../components/alert'
 

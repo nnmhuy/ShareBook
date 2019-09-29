@@ -1,4 +1,5 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
+import _ from 'lodash'
 
 import {
   getBookInstances,
@@ -17,17 +18,35 @@ function* getBookInstancesSaga({ payload }) {
     const { data: bookInstances } = yield call(restConnector.get, 
       `/books/${bookId}/bookInstances?filter={"skip":${page * limit},"limit":${limit},"order":"isAvailable DESC"}`
     )
-    const ownerOfBookInstances = yield all(
-      bookInstances.map(instance => call(restConnector.get, `/bookInstances/${instance.id}/owner`))
-    )
 
-    const holderOfBookInstances = yield all(
-      bookInstances.map(instance => call(restConnector.get, `/bookInstances/${instance.id}/holder`))
-    )
+    let userIdList = [] 
+    bookInstances.forEach(instance => {
+      userIdList.push(instance.ownerId)
+      userIdList.push(instance.holderId)
+    })
+    let whereBookInstance = {
+      id: {inq: userIdList}
+    }
+    let filterUserBookInstance = {where: whereBookInstance}
+    const { data: userList } = yield call(restConnector.get, `/users?filter=${JSON.stringify(filterUserBookInstance)}`)
 
     const allData = bookInstances.map((instance, index) => {
-      const { avatar: ownerAvatar, name: ownerName } = ownerOfBookInstances[index].data
-      const { avatar: holderAvatar, name: holderName } = holderOfBookInstances[index].data
+      let ownerIndex = _.findIndex(userList, (oneUser) => {
+        return instance.ownerId === oneUser.id
+      })
+      let holderIndex = _.findIndex(userList, (oneUser) => {
+        return instance.ownerId === oneUser.id
+      })
+      let ownerAvatar = '', ownerName = '', holderAvatar = '', holderName = ''
+      if (ownerIndex > -1) {
+        ownerName = userList[ownerIndex].name
+        ownerAvatar = userList[ownerIndex].avatar
+      }
+      if (holderIndex > -1) {
+        holderName = userList[holderIndex].name
+        holderAvatar = userList[holderIndex].avatar
+      }
+
       return {
         ...instance,
         ownerAvatar,
@@ -36,7 +55,7 @@ function* getBookInstancesSaga({ payload }) {
         holderName
       }
     })
-
+    console.log(allData)
     yield put(getBookInstancesSuccess(allData))
   } catch (error) {
     yield put(getBookInstancesFail(error))
