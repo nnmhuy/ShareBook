@@ -159,7 +159,7 @@ const BookInfo = (props) => {
           <div className={classes.textItem}>
             <div className={classes.name}>
               {name}
-              <span className={classes.author}>{`  do ${author}`}</span>
+              <span className={classes.author}>{`   ${author}`}</span>
             </div>
           </div>
           <div className={classes.textItem}>

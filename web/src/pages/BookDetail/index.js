@@ -78,7 +78,7 @@ class App extends React.Component {
             <BookSlider
               isExtended
               title={'Thể loại tương tự'}
-              url={`/category${category.url}`}
+              url={category.url}
               bookList={bookOfCategory}
               handleToggleBookmark={handleToggleBookmark}
               isLoading={isLoadingCategory}

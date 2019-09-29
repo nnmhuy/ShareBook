@@ -247,17 +247,17 @@ const BookInstance = (props) => {
       <div className={classes.userWrapper}>
         <div className={classes.label}>
           <span className={classes.marker}></span>
-          Thông tin chủ sách
+          Chủ sách
         </div>
         <div className={classes.infoWrapper}>
           <Link to={`/profile/${ownerId}`}>
             <Avatar src={ownerAvatar} className={classes.avatar}/>
           </Link>
           <div>
-            <div className={classes.nameLabel}>
+            {/* <div className={classes.nameLabel}>
               <span className={classes.dot}/>
               Họ tên
-            </div>
+            </div> */}
             <Link className={classes.username} to={`/profile/${ownerId}`}>{ownerName}</Link>
           </div>
         </div>
@@ -266,7 +266,7 @@ const BookInstance = (props) => {
         <div className={classes.labelWrapper}>
           <div className={classes.label}>
             <span className={classes.marker}></span>
-            Thông tin người giữ sách 
+            Người giữ sách 
           </div>
         </div>
         <div className={classes.infoWrapper}>
@@ -274,10 +274,10 @@ const BookInstance = (props) => {
             <Avatar src={holderAvatar} className={classes.avatar} />
           </Link>
           <div>
-            <div className={classes.nameLabel}>
+            {/* <div className={classes.nameLabel}>
               <span className={classes.dot} />
               Họ tên
-            </div>
+            </div> */}
             <Link className={classes.username} to={`/profile/${holderId}`}>{holderName}</Link>
           </div>
         </div>
