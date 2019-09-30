@@ -22,10 +22,7 @@
     "book": {
       "type": "belongsTo",
       "model": "book",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookId"
     },
     "tag": {
       "type": "belongsTo",

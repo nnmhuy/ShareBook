@@ -15,8 +15,17 @@ import { successAlert } from '../../components/alert'
 function* getBookInstancesSaga({ payload }) {
   try {
     const { bookId, page, limit } = payload
+    const whereBookInstances = {
+      where: {
+        bookId
+      },
+      skip: page * limit,
+      limit,
+      order: 'isAvailable DESC'
+    }
+
     const { data: bookInstances } = yield call(restConnector.get, 
-      `/books/${bookId}/bookInstances?filter={"skip":${page * limit},"limit":${limit},"order":"isAvailable DESC"}`
+      `/bookInstances?filter=${JSON.stringify(whereBookInstances)}`
     )
 
     let userIdList = [] 

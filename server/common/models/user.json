@@ -81,82 +81,52 @@
     "homeLocations": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "homeLocationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "homeLocationId"
     },
     "club": {
       "type": "belongsTo",
       "model": "club",
-      "foreignKey": "clubId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "clubId"
     },
     "likeReviews": {
       "type": "hasMany",
       "model": "likeReview",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "likeReplies": {
       "type": "hasMany",
       "model": "likeReply",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "logUserRoles": {
       "type": "hasMany",
       "model": "logUserRole",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "joinClubRequests": {
       "type": "hasMany",
       "model": "joinClubRequest",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "notifications": {
       "type": "hasMany",
       "model": "notification",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "userLocations": {
       "type": "hasMany",
       "model": "userLocation",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "bookmarks": {
       "type": "hasMany",
       "model": "bookmark",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "reviews": {
       "type": "hasMany",
       "model": "review",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     }
   },
   "acls": [

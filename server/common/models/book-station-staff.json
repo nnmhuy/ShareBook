@@ -39,18 +39,12 @@
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "bookStation": {
       "type": "belongsTo",
       "model": "bookStation",
-      "foreignKey": "bookStationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookStationId"
     }
   },
   "acls": [

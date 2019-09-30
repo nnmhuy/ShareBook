@@ -123,26 +123,17 @@
     "category": {
       "type": "belongsTo",
       "model": "category",
-      "foreignKey": "categoryId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "categoryId"
     },
     "bookInstances": {
       "type": "hasMany",
       "model": "bookInstance",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookId"
     },
     "reviews": {
       "type": "hasMany",
       "model": "review",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": false
-      }
+      "foreignKey": "bookId"
     },
     "bookmarks": {
       "type": "hasMany",

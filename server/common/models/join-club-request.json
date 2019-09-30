@@ -36,18 +36,12 @@
     "clubAdmin": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "clubAdminId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "clubAdminId"
     },
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     }
   },
   "acls": [

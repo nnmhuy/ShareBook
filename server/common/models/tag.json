@@ -33,10 +33,7 @@
     "bookTags": {
       "type": "hasMany",
       "model": "bookTag",
-      "foreignKey": "tagId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "tagId"
     },
     "category": {
       "type": "belongsTo",

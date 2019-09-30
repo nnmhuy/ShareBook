@@ -42,10 +42,7 @@
     "books": {
       "type": "hasMany",
       "model": "book",
-      "foreignKey": "categoryId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "categoryId"
     }
   },
   "acls": [

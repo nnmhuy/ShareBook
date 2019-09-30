@@ -37,10 +37,7 @@
     "report": {
       "type": "belongsTo",
       "model": "report",
-      "foreignKey": "reportId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "reportId"
     }
   },
   "acls": [

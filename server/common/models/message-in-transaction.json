@@ -36,10 +36,7 @@
     "transaction": {
       "type": "belongsTo",
       "model": "transaction",
-      "foreignKey": "transactionId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "transactionId"
     }
   },
   "acls": [

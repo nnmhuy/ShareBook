@@ -49,50 +49,32 @@
     "book": {
       "type": "belongsTo",
       "model": "book",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookId"
     },
     "bookInstance": {
       "type": "belongsTo",
       "model": "bookInstance",
-      "foreignKey": "bookInstanceId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookInstanceId"
     },
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "reply": {
       "type": "belongsTo",
       "model": "reply",
-      "foreignKey": "replyId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "replyId"
     },
     "review": {
       "type": "belongsTo",
       "model": "review",
-      "foreignKey": "reviewId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "reviewId"
     },
     "reporter": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "reporterId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "reporterId"
     }
   },
   "acls": [

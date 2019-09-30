@@ -69,34 +69,22 @@
     "bookInstance": {
       "type": "belongsTo",
       "model": "bookInstance",
-      "foreignKey": "bookInstanceId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookInstanceId"
     },
     "borrower": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "borrowerId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "borrowerId"
     },
     "holder": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "holderId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "holderId"
     },
     "messages": {
       "type": "hasMany",
       "model": "messageInTransaction",
-      "foreignKey": "transactionId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "transactionId"
     }
   },
   "acls": [
