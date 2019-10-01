@@ -9,6 +9,9 @@ import {
   getTransaction,
   getTransactionSuccess,
   getTransactionFail,
+  getTransactions,
+  getTransactionsSuccess,
+  getTransactionsFail,
   appendMessage,
   getMessages,
   getMessagesSuccess,
@@ -32,6 +35,8 @@ const transactionReducer = handleActions(
     [getTransaction]: (state) => {
       return {
         ...state,
+        numberOfAppendedMessages: 0,
+        lastMessageCount: 0,
         isLoading: true,
       }
     },

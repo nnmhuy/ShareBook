@@ -80,8 +80,19 @@ class Transaction extends React.Component {
     })
   }
 
+  handleFetchMoreMessages = () => {
+    const { match, lastMessageCount, numberOfAppendedMessages, loadMessage } = this.props
+    const { transactionId } = match.params
+    loadMessage({
+      transactionId,
+      skip: lastMessageCount + numberOfAppendedMessages
+    })
+  }
+
   render() {
-    const { classes, isLoading, transaction, messages } = this.props
+    const { classes, isLoading, transaction, messages,
+      numberOfMessages, lastMessageCount
+    } = this.props
     const { value } = this.state
     return (
       <TopNav
@@ -95,6 +106,8 @@ class Transaction extends React.Component {
           <div className={classes.messagesContainer}>
             <MessageSection
               messages={messages}
+              fetchMoreMessages={this.handleFetchMoreMessages}
+              hasMore={numberOfMessages < lastMessageCount}
               avatar={_.get(transaction, 'user.avatar', '')}              
               position={_.get(transaction, 'user.position', '')}
             />
@@ -122,8 +135,9 @@ const mapStateToProps = ({ transaction }) => {
     isLoading: transaction.isLoading,
     transaction: transaction.transaction,
     messages: transaction.messages,
-    numberOfMessage: transaction.numberOfMessage,
-    lastMessageCount: transaction.lastMessageCount
+    numberOfMessages: transaction.numberOfMessages,
+    lastMessageCount: transaction.lastMessageCount,
+    numberOfAppendedMessages: transaction.numberOfAppendedMessages,
   }
 }
 

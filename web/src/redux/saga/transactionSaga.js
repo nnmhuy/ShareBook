@@ -47,6 +47,7 @@ function* getTransactionSaga({ payload }) {
       image: book.image
     }
 
+
     yield put(getTransactionSuccess({ transaction, numberOfMessages: messages.count }))
   } catch (error) {
     yield put(getTransactionFail(error))

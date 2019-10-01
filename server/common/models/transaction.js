@@ -9,6 +9,9 @@ module.exports = function(Transaction) {
       let BookInstance = Transaction.app.models.bookInstance;
       BookInstance.findById(ctx.instance.bookInstanceId,
         (error, instance) => {
+          if (!instance.isAvailable) {
+            return next(new Error('Quyển sách này đang được mượn'));
+          }
           if (error || !instance || !instance.holderId) {
             return next(new Error('Quyển sách này đang bị lỗi'));
           }
