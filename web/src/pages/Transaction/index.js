@@ -8,6 +8,7 @@ import TopNav from './components/TopNav'
 import Loading from '../../components/Loading'
 import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
+import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import { 
   sendMessage,
@@ -38,7 +39,8 @@ class Transaction extends React.Component {
     super(props);
 
     this.state = {
-      value: ''
+      value: '',
+      rendered: false
     }
   }
 
@@ -81,11 +83,20 @@ class Transaction extends React.Component {
   }
 
   handleFetchMoreMessages = () => {
-    const { match, lastMessageCount, numberOfAppendedMessages, loadMessage } = this.props
+    const { match, lastMessageCount, numberOfAppendedMessages, loadMessage, isGetting } = this.props
+    const { rendered } = this.state
     const { transactionId } = match.params
-    loadMessage({
-      transactionId,
-      skip: lastMessageCount + numberOfAppendedMessages
+    if (!isGetting && rendered) {
+      loadMessage({
+        transactionId,
+        skip: lastMessageCount + numberOfAppendedMessages
+      })
+    }
+  }
+
+  finishRendered = () => {
+    this.setState({
+      rendered: true
     })
   }
 
@@ -105,9 +116,11 @@ class Transaction extends React.Component {
         <div className={classes.container}>
           <div className={classes.messagesContainer}>
             <MessageSection
+              finishRendered={this.finishRendered}
               messages={messages}
               fetchMoreMessages={this.handleFetchMoreMessages}
-              hasMore={numberOfMessages < lastMessageCount}
+              hasMore={lastMessageCount < numberOfMessages}
+              isFirstLoad={lastMessageCount === numberOfMessagesPerLoad}
               avatar={_.get(transaction, 'user.avatar', '')}              
               position={_.get(transaction, 'user.position', '')}
             />
@@ -138,6 +151,7 @@ const mapStateToProps = ({ transaction }) => {
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
     numberOfAppendedMessages: transaction.numberOfAppendedMessages,
+    isGetting: transaction.isGetting
   }
 }
 
