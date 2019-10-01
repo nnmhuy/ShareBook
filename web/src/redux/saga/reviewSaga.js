@@ -1,4 +1,5 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects'
+import _ from 'lodash';
 
 import {
   getReviewsOfBook,
@@ -12,14 +13,17 @@ import {
   getReviewByUserFail,
   postReview,
   postReviewSuccess,
-  postReviewFail
+  postReviewFail,
+  getReviewById,
+  getReviewByIdSuccess,
+  getReviewByIdFail,
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
 
 function* getReviewByUserSaga({ payload }) {
   try {
     const { userId, bookId } = payload
-    const { data: review } = yield call(restConnector.get, 
+    const { data: review } = yield call(restConnector.get,
       `/reviews?filter={"where":{"userId":"${userId}","bookId":"${bookId}"}}`)
 
     yield put(getReviewByUserSuccess(review[0]))
@@ -37,7 +41,7 @@ function* postReviewSaga({ payload }) {
         images,
         content,
         bookId,
-        attachUser: true        
+        attachUser: true
       })
     } else {
       yield call(restConnector.post, `/reviews`, {
@@ -57,9 +61,9 @@ function* postReviewSaga({ payload }) {
 
 function* getReviewsOfBookSaga({ payload }) {
   try {
-    const { userId, bookId, page=0, limit=5 } = payload
+    const { userId, bookId, page = 0, limit = 5 } = payload
 
-    const { data: reviewsData } = yield call(restConnector.get, 
+    const { data: reviewsData } = yield call(restConnector.get,
       `/books/${bookId}/reviews?filter={"skip":${page * limit},"limit":${limit},"order":"numberOfLike DESC"}`
     )
 
@@ -83,7 +87,7 @@ function* getReviewsOfBookSaga({ payload }) {
         name,
         avatar,
         numberOfReplies,
-        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '', 
+        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '',
         likeStatus: reviewLike[index].data[0] ? reviewLike[index].data[0].isLike : 0
       }
     })
@@ -122,11 +126,64 @@ function* toggleLikeReviewSaga({ payload }) {
   }
 }
 
+function* getReviewByIdSaga({ payload }) {
+  try {
+    const { userId, reviewId } = payload
+
+    const { data: reviewData } = yield call(restConnector.get,
+      `/reviews/${reviewId}`)
+
+    const reviewReplyList = yield call(restConnector.get, `/reviews/${reviewId}/replyReviews`)
+
+    const reviewLike = yield call(restConnector.get, `/likeReviews?filter={"where":{"userId":"${userId}","reviewId":"${reviewId}"}}`)
+    const userOfReview = yield call(restConnector.get, `/reviews/${reviewId}/user`)
+    const bookOfReview = yield call(restConnector.get, `/reviews/${reviewId}/book`)
+
+    const userReply = yield all(
+      reviewReplyList.data.map(reply => call(restConnector.get, `/replies/${reply.userId}/user`))
+    )
+    const replyLike = yield all(
+      reviewReplyList.data.map(reply => call(restConnector.get, `/likeReplies?filter={"where":{"userId":"${userId}","replyId":"${reply.id}"}}`))
+    )
+
+
+    let replies
+    reviewReplyList.data.map(reply => {
+      userReply.map(user => {
+        if (user.data.replyId === reply.id) {
+          replies.push({
+            reply,
+            avatar: user.data.avatar,
+            name: user.data.name
+          })
+        }
+      })
+    })
+
+    const { avatar, name } = userOfReview.data
+    const { image } = bookOfReview.data
+    const allData = {
+      name,
+      avatar,
+      bookName: bookOfReview.data.name,
+      image,
+      replies,
+      review: { ...reviewData },
+      likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
+      likeStatus: reviewLike.data[0] ? reviewLike.data[0].isLike : 0
+    }
+    console.log(allData)
+    yield put(getReviewByIdSuccess(allData))
+  } catch (error) {
+    yield put(getReviewByIdFail(error))
+  }
+}
+
 function* getReviewByUserWatcher() {
   yield takeLatest(getReviewByUser, getReviewByUserSaga)
 }
 
-function* postReviewWatcher(){
+function* postReviewWatcher() {
   yield takeLatest(postReview, postReviewSaga)
 }
 
@@ -138,9 +195,14 @@ function* toggleLikeReviewWatcher() {
   yield takeLatest(toggleLikeReview, toggleLikeReviewSaga)
 }
 
+function* getReviewByIdWatcher() {
+  yield takeLatest(getReviewById, getReviewByIdSaga)
+}
+
 export {
   postReviewWatcher,
   getReviewByUserWatcher,
   getReviewsOfBookWatcher,
-  toggleLikeReviewWatcher
+  toggleLikeReviewWatcher,
+  getReviewByIdWatcher
 }

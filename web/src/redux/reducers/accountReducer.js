@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 
-import { 
+import {
   logInLocal,
   logInLocalSuccess,
   logInLocalFail,
@@ -22,7 +22,7 @@ const unAuthorizedUser = {
   fbLink: '',
   phoneNumber: '',
   avatar: '',
-  name:'',
+  name: '',
   role: '',
   coin: 0,
   contribution: 0,
@@ -67,7 +67,7 @@ const accountReducer = handleActions(
         isLoading: true
       }
     },
-    [getUserInfoSuccess]: (state, { payload: { id, username, email, fbLink, phoneNumber, avatar, name, role, coin, contribution, homeLocationId, clubId}} ) => {
+    [getUserInfoSuccess]: (state, { payload: { id, username, email, fbLink, phoneNumber, avatar, name, role, coin, contribution, homeLocationId, clubId } }) => {
       return {
         ...state,
         isLoading: false,
