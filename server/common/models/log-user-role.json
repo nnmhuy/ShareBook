@@ -53,18 +53,12 @@
     "madeBy": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "madeById",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "madeById"
     },
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     }
   },
   "acls": [

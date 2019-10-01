@@ -71,10 +71,7 @@
     "book": {
       "type": "belongsTo",
       "model": "book",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookId"
     },
     "user": {
       "type": "belongsTo",
@@ -84,18 +81,12 @@
     "likeReviews": {
       "type": "hasMany",
       "model": "likeReview",
-      "foreignKey": "likeReviewId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "likeReviewId"
     },
     "replyReviews": {
       "type": "hasMany",
       "model": "reply",
-      "foreignKey": "replyId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "replyId"
     }
   },
   "acls": [

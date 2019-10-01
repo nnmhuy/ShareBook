@@ -44,18 +44,12 @@
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "review": {
       "type": "belongsTo",
       "model": "review",
-      "foreignKey": "reviewId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "reviewId"
     }
   },
   "acls": [

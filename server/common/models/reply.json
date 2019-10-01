@@ -39,26 +39,17 @@
     "review": {
       "type": "belongsTo",
       "model": "review",
-      "foreignKey": "reviewId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "reviewId"
     },
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "likeReplies": {
       "type": "hasMany",
       "model": "likeReply",
-      "foreignKey": "replyId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "replyId"
     }
   },
   "acls": [

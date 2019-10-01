@@ -54,10 +54,7 @@
     "book": {
       "type": "belongsTo",
       "model": "book",
-      "foreignKey": "bookId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookId"
     },
     "owner": {
       "type": "belongsTo",

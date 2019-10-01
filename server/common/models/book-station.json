@@ -35,18 +35,12 @@
     "location": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "locationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "locationId"
     },
     "bookStationStaffs": {
       "type": "hasMany",
       "model": "bookStationStaff",
-      "foreignKey": "bookStationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookStationId"
     }
   },
   "acls": [

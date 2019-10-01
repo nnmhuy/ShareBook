@@ -69,86 +69,51 @@
     "bookInstance": {
       "type": "belongsTo",
       "model": "bookInstance",
-      "foreignKey": "bookInstanceId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "bookInstanceId"
     },
     "borrower": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "borrowerId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "borrowerId"
     },
     "holder": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "holderId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "holderId"
     },
     "messages": {
       "type": "hasMany",
       "model": "messageInTransaction",
-      "foreignKey": "transactionId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "transactionId"
     }
   },
   "acls": [
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "superAdmin",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "DENY"
-    },
-    {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "superAdmin",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
       "permission": "ALLOW"
     },
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "create"
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "DENY",
       "property": "destroyById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "destroyAll"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "deleteById"
     }
   ],
   "methods": {}

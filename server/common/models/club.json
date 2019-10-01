@@ -56,26 +56,17 @@
     "locations": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "locationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "locationId"
     },
     "logUserRoles": {
       "type": "hasMany",
       "model": "logUserRole",
-      "foreignKey": "clubId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "clubId"
     },
     "joinClubRequests": {
       "type": "hasMany",
       "model": "joinClubRequest",
-      "foreignKey": "clubId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "clubId"
     }
   },
   "acls": [

@@ -37,34 +37,22 @@
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "userId"
     },
     "club": {
       "type": "belongsTo",
       "model": "club",
-      "foreignKey": "clubId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "clubId"
     },
     "location": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "shippingAddressId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "shippingAddressId"
     },
     "orderItems": {
       "type": "hasMany",
       "model": "orderItem",
-      "foreignKey": "orderId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "orderId"
     }
   },
   "acls": [

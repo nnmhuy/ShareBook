@@ -28,10 +28,7 @@
     "location": {
       "type": "belongsTo",
       "model": "location",
-      "foreignKey": "locationId",
-      "options": {
-        "nestRemoting": true
-      }
+      "foreignKey": "locationId"
     }
   },
   "acls": [
