@@ -1,11 +1,15 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
 import _ from 'lodash'
+import axios from 'axios'
 import { warnAlert} from '../../components/alert'
 
 import {
   getBookList,
   getBookListSuccess,
   getBookListFail,
+  getBookSearch,
+  getBookSearchSuccess,
+  getBookSearchFail,
   getCategoryList,
   getCategoryListSuccess,
   getCategoryListFail,
@@ -69,6 +73,27 @@ function* getBookListSaga({ payload }) {
     }
   } catch (error) {
     yield put(getBookListFail(error))
+  }
+}
+
+function getGGBookSearch(url) {
+  return axios.request({
+    method: 'get',
+    url: url
+  });
+}
+
+function* getBookSearchSaga({ payload }) {
+  try {
+    let { where, skip, limit, order, include, fields, fullText } = payload
+    let filter = { where, skip, limit, order, include, fields }
+    const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
+    let bookList = _.get(response, 'data', [])
+    let ggBookList = yield call(getGGBookSearch, `https://www.googleapis.com/books/v1/volumes?q=${fullText}&maxResults=3`);
+    console.log(ggBookList)
+    yield put(getBookSearchSuccess({bookList: bookList, updatedAtForSearch: Date.now()}))
+  } catch (error) {
+    yield put(getBookSearchFail(error))
   }
 }
 
@@ -214,6 +239,10 @@ function* getBookListWatcher() {
   yield takeEvery(getBookList, getBookListSaga)
 }
 
+function* getBookSearchWatcher() {
+  yield takeEvery(getBookSearch, getBookSearchSaga)
+}
+
 function* getCategoryListWatcher() {
   yield takeLatest(getCategoryList, getCategoryListSaga)
 }
@@ -240,6 +269,7 @@ function* createBookWatcher() {
 
 export {
   getBookListWatcher,
+  getBookSearchWatcher,
   getCategoryListWatcher,
   getBookLiteWatcher,
   getBookInfoWatcher,
