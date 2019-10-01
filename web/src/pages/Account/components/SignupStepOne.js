@@ -2,8 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import {
   Fab,
-  CircularProgress,
-  Icon
+  CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'

@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions'
 
 
-const { 
+const {
   logInLocal,
   logInLocalSuccess,
   logInLocalFail,

@@ -4,9 +4,9 @@ import {
   getReviewByUser,
   getReviewByUserSuccess,
   getReviewByUserFail,
-  getReview,
-  getReviewSuccess,
-  getReviewFail,
+  getReviewById,
+  getReviewByIdSuccess,
+  getReviewByIdFail,
   postReview,
   postReviewSuccess,
   postReviewFail,
@@ -25,7 +25,9 @@ let defaultState = {
   totalNumberOfReview: 0,
   isLoadingReviewByUser: false,
   userReview: {},
-  isPostingReview: false
+  isPostingReview: false,
+  isLoadingReviewById: false,
+  singleReview: {}
 }
 
 const bookReducer = handleActions(
@@ -49,7 +51,7 @@ const bookReducer = handleActions(
         error: error
       }
     },
-    [toggleLikeReview]: (state, { payload: { reviewId, likeStatus }}) => {
+    [toggleLikeReview]: (state, { payload: { reviewId, likeStatus } }) => {
       const reviewsOfBook = JSON.parse(JSON.stringify(state.reviewsOfBook))
       reviewsOfBook.forEach(review => {
         if (review.id === reviewId) {
@@ -134,6 +136,27 @@ const bookReducer = handleActions(
         error: error
       }
     },
+    [getReviewById]: (state) => {
+      return {
+        ...state,
+        isLoadingReviewById: true
+      }
+    },
+    [getReviewByIdSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        isLoadingReviewById: false,
+        singleReview: payload,
+        error: null
+      }
+    },
+    [getReviewByIdFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoadingReviewById: false,
+        error: error
+      }
+    }
   },
   defaultState
 )

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import colors from '../../../constants/colors';
@@ -40,44 +40,45 @@ const styles = (theme => ({
     }
 }))
 
-class CommentList extends Component {
-    render() {
-        const { classes, commentList } = this.props;
+const CommentList = props => {
+    const { classes, commentList, review } = props;
+    review && review.replies &&
+        console.log('g', review.replies)
+    console.log('g')
+    const handleChange = (event, value) => {
 
-        const handleChange = (event, value) => {
-
-        }
-        const handleComment = (event, value) => {
-
-        }
-        return (
-            <div>
-                <div className={classes.commentBorder}>
-                    <InputBase
-                        className={classes.input}
-                        placeholder='Ghi bình luận...'
-                        onChange={handleChange}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                    <IconButton disableRipple className={classes.iconButton} aria-label="search" onClick={handleComment}>
-                        <CommentIcon fill={colors.primary} className={classes.icon} />
-                    </IconButton>
-                </div>
-                <div className={classes.commentWrapper}>
-                    {
-                        commentList.map(comment => {
-                            return (
-                                <CommentItem
-                                    {...comment}
-                                    key={comment.id}
-                                />
-                            )
-                        })
-                    }
-                </div>
-            </div>
-        );
     }
+    const handleComment = (event, value) => {
+
+    }
+
+    return (
+        <div>
+            <div className={classes.commentBorder}>
+                <InputBase
+                    className={classes.input}
+                    placeholder='Ghi bình luận...'
+                    onChange={handleChange}
+                    inputProps={{ 'aria-label': 'search' }}
+                />
+                <IconButton disableRipple className={classes.iconButton} aria-label="search" onClick={handleComment}>
+                    <CommentIcon fill={colors.primary} className={classes.icon} />
+                </IconButton>
+            </div>
+            <div className={classes.commentWrapper}>
+                {
+                    review && review.replies && review.replies.map(reply => {
+                        return (
+                            <CommentItem
+                                reply={reply}
+                                key={reply.id}
+                            />
+                        )
+                    })
+                }
+            </div>
+        </div>
+    );
 }
 
 export default withStyles(styles)(CommentList);

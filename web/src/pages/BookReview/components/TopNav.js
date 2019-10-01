@@ -22,7 +22,8 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-    const { classes, children, book } = props
+    const { classes, children, review } = props;
+    // const { image, bookName } = props.review;
 
     const handleBack = () => {
         window.history.back()
@@ -36,7 +37,7 @@ const TopNav = (props) => {
                 </IconButton>
             }
             right={
-                <img src={book.image} alt={book.name} className={classes.bookImage} />
+                <img src={review && review.image} alt={review && review.bookName} className={classes.bookImage} />
             }
         >
             {children}
