@@ -71,25 +71,25 @@ function* getReviewsOfBookSaga({ payload }) {
       reviewsData.map(review => call(restConnector.get, `/reviews/${review.id}/replyReviews/count`))
     )
 
-    let reviewIdList = [] 
+    let reviewIdList = []
     reviewsData.forEach(instance => {
       reviewIdList.push(instance.id)
     })
     let whereLikeReview = {
       userId: userId,
-      reviewId: {inq: reviewIdList}
+      reviewId: { inq: reviewIdList }
     }
-    let filterLikeReview = {where: whereLikeReview}
+    let filterLikeReview = { where: whereLikeReview }
     const { data: likeList } = yield call(restConnector.get, `/likeReviews?filter=${JSON.stringify(filterLikeReview)}`)
 
-    let userIdList = [] 
+    let userIdList = []
     reviewsData.forEach(instance => {
       userIdList.push(instance.userId)
     })
     let whereUserReview = {
-      id: {inq: userIdList}
+      id: { inq: userIdList }
     }
-    let filterUserReview = {where: whereUserReview}
+    let filterUserReview = { where: whereUserReview }
     const { data: userList } = yield call(restConnector.get, `/users?filter=${JSON.stringify(filterUserReview)}`)
 
     const allData = reviewsData.map((review, index) => {
@@ -97,7 +97,7 @@ function* getReviewsOfBookSaga({ payload }) {
         return review.userId === oneUser.id
       })
 
-      let name = '', avatar = '' 
+      let name = '', avatar = ''
       if (userIndex > -1) {
         name = userList[userIndex].name
         avatar = userList[userIndex].avatar
@@ -119,8 +119,8 @@ function* getReviewsOfBookSaga({ payload }) {
         name,
         avatar,
         numberOfReplies,
-        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '',
-        likeStatus: reviewLike[index].data[0] ? reviewLike[index].data[0].isLike : 0
+        likeReviewId: likeReviewId,
+        likeStatus: likeStatus
       }
     })
 
