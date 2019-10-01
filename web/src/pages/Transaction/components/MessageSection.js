@@ -1,7 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import InfiniteScroll from 'react-infinite-scroller'
+import PulseLoader from 'react-spinners/PulseLoader'
 
+import colors from '../../../constants/colors'
 import IncomeMessage from './IncomeMessage'
 import OutcomeMessage from './OutcomeMessage'
 
@@ -10,6 +12,9 @@ const styles = (theme => ({
     boxSizing: 'border-box',
     width: '100%',
     padding: '20px 15px'
+  },
+  loader: {
+    textAlign: 'center'
   }
 }))
 
@@ -40,13 +45,17 @@ class MessageSection  extends React.Component  {
     return (
       <div className={classes.container}>
         <InfiniteScroll
-          threshold={50}
+          threshold={100}
           pageStart={0}
           isReverse={true}
           loadMore={fetchMoreMessages}
           hasMore={hasMore}
           initialLoad={false}
-          loader={<div className="loader" key={0}>Loading ...</div>}
+          loader={
+            <div className={classes.loader} key={0}>
+              <PulseLoader color={colors.primary} size={5}/>
+            </div>
+          }
           useWindow={true}
         >
         {

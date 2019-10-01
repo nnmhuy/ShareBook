@@ -86,7 +86,7 @@ class Transaction extends React.Component {
     const { match, lastMessageCount, numberOfAppendedMessages, loadMessage, isGetting } = this.props
     const { rendered } = this.state
     const { transactionId } = match.params
-    if (!isGetting && rendered) {
+    if (rendered) {
       loadMessage({
         transactionId,
         skip: lastMessageCount + numberOfAppendedMessages

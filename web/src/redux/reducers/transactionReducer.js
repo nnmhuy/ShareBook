@@ -27,7 +27,8 @@ let defaultState = {
   numberOfAppendedMessages: 0,
   lastMessageCount: 0,
   numberOfMessages: 0,
-  messages: []
+  messages: [],
+  transactionList: []
 }
 
 const transactionReducer = handleActions(
@@ -105,6 +106,26 @@ const transactionReducer = handleActions(
       return {
         ...state,
         isGetting: false,
+        error: error
+      }
+    },
+    [getTransactions]: (state) => {
+      return {
+        ...state,
+        isLoading: true,
+      }
+    },
+    [getTransactionsSuccess]: (state, { payload: { transactionList } }) => {
+      return {
+        ...state,
+        transactionList,
+        isLoading: false
+      }
+    },
+    [getTransactionsFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoading: false,
         error: error
       }
     },
