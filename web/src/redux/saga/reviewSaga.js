@@ -119,7 +119,7 @@ function* getReviewsOfBookSaga({ payload }) {
         name,
         avatar,
         numberOfReplies,
-        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '', 
+        likeReviewId: reviewLike[index].data[0] ? reviewLike[index].data[0].id : '',
         likeStatus: reviewLike[index].data[0] ? reviewLike[index].data[0].isLike : 0
       }
     })
