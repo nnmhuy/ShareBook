@@ -17,7 +17,7 @@ import {
   signUpFail
 } from '../actions/accountAction'
 import restConnector from '../../connectors/RestConnector'
-import {successAlert, warnAlert} from '../../components/alert'
+import { successAlert, warnAlert } from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
   try {
@@ -47,7 +47,7 @@ function* getUserInfoSaga() {
     localStorage.setItem('avatar', data.avatar)
     localStorage.setItem('coin', data.coin)
     yield put(getUserInfoSuccess(data))
-  } catch(error) {
+  } catch (error) {
     yield put(getUserInfoFail(error))
   }
 }

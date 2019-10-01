@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 
-import { 
+import {
   logInLocalWatcher,
   getUserInfoWatcher,
   logOutWatcher,
@@ -23,7 +23,8 @@ import {
   getReviewByUserWatcher,
   getReviewsOfBookWatcher,
   toggleLikeReviewWatcher,
-  postReviewWatcher
+  postReviewWatcher,
+  getReviewByIdWatcher
 } from './reviewSaga'
 import {
   getTransactionWatcher,
@@ -53,6 +54,7 @@ export default function* rootSaga() {
     postReviewWatcher(),
     getReviewsOfBookWatcher(),
     toggleLikeReviewWatcher(),
+    getReviewByIdWatcher(),
 
     getTransactionWatcher(),
     sendMessageWatcher(),
