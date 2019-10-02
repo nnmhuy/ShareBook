@@ -9,18 +9,27 @@ module.exports = function(MessageInTransaction) {
   MessageInTransaction.observe('before save', function(ctx, next) {
     setUserId(ctx, 'userId');
     let Transaction = MessageInTransaction.app.models.transaction;
-    Transaction.findById(ctx.instance.transactionId,
-      (error, instance) => {
-        if (error || !instance || !instance.borrowerId || !instance.holderId) {
+    Transaction.findById(ctx.instance.transactionId, {},
+      (error, transaction) => {
+        if (error || !transaction ||
+        !transaction.borrowerId || !transaction.holderId) {
           return next(new Error('Giao dịch này đang bị lỗi'));
         }
-        if (ctx.instance.userId.equals(instance.holderId)) {
+        if (ctx.instance.userId.equals(transaction.holderId)) {
           ctx.instance.direction = 'holder';
         }
-        if (ctx.instance.userId.equals(instance.borrowerId)) {
+        if (ctx.instance.userId.equals(transaction.borrowerId)) {
           ctx.instance.direction = 'borrower';
         }
         ctx.instance.unsetAttribute('userId');
+
+        // transaction.updateAttribute('lastMessageTime', ctx.instance.createdAt,
+        //   (err, instance) => {
+        //     console.log(123);
+        //     if (err) return next(new Error('Cập nhật transaction gặp lỗi'));
+        //     return next();
+        //   }
+        // );
         return next();
       }
     );

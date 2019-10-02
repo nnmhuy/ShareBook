@@ -29,7 +29,8 @@ import {
 import {
   getTransactionWatcher,
   sendMessageWatcher,
-  getMessagesWatcher
+  getMessagesWatcher,
+  getTransactionsWatcher
 } from './transactionSaga'
 
 export default function* rootSaga() {
@@ -58,6 +59,7 @@ export default function* rootSaga() {
 
     getTransactionWatcher(),
     sendMessageWatcher(),
-    getMessagesWatcher()
+    getMessagesWatcher(),
+    getTransactionsWatcher()
   ]);
 }

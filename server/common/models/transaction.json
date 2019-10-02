@@ -62,6 +62,9 @@
     },
     "note": {
       "type": "string"
+    },
+    "lastMessageTime": {
+      "type": "date"
     }
   },
   "validations": [],

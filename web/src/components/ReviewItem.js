@@ -7,6 +7,7 @@ import { Button, IconButton, ClickAwayListener } from '@material-ui/core'
 import Link from './Link'
 import Image from './Image'
 import Avatar from './Avatar'
+import getFormattedDate from '../helper/getFormattedDate'
 
 import colors from '../constants/colors'
 import { ReactComponent as LikeNotFilledIcon } from '../static/images/like.svg'
@@ -166,15 +167,6 @@ const ReviewItem = (props) => {
     handleToggleLikeReview, likeReviewId
   } = props
 
-  const createdDay = (date) => {
-    let createdYMD = date.split('T')[0].split('-');
-    let day = createdYMD[2];
-    let month = createdYMD[1];
-    let year = createdYMD[0];
-    let formattedDate = day + '-' + month + '-' + year;
-    return formattedDate;
-  }
-
   const [isShowMore, setShowMore] = React.useState(false)
 
   const handleToggleMore = () => {
@@ -216,7 +208,7 @@ const ReviewItem = (props) => {
             <Avatar src={avatar} className={classes.avatar} />
             <div className={classes.personalInfo}>
               <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
-              <div className={classes.date}>{createdDay(createdAt)}</div>
+              <div className={classes.date}>{getFormattedDate(createdAt)}</div>
             </div>
           </div>
           <Rating

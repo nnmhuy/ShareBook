@@ -1,8 +1,6 @@
 import React from 'react'
-import HashLoader from 'react-spinners/HashLoader'
 
 import { baseURL } from '../constants/constants'
-import colors from '../constants/colors'
 
 const getImageUrl = (imageUrl) => {
   if (imageUrl[0] !== '/' || imageUrl.includes('http')) return imageUrl
