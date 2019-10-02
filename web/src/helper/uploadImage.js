@@ -20,7 +20,10 @@ async function uploadImage(image, callback) {
     }
   })
     .then(function (response) {
-      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', 'ImageError.jpg');  
+      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', null);
+      if (imageUrl === `/containers/${imageContainer}/download/`) {
+        imageUrl = '/containers/defaultContainer/download/defaultBook.png'
+      }
       callback(null, imageUrl)
     })
     .catch(function (response) {
@@ -48,7 +51,10 @@ function uploadImagePromise(image) {
     }
   })
     .then(function (response) {
-      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', 'ImageError.jpg');
+      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', null);
+      if (imageUrl === `/containers/${imageContainer}/download/`) {
+        imageUrl = '/containers/defaultContainer/download/defaultBook.png'
+      }
       return imageUrl
     })
     .catch(function (response) {

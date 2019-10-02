@@ -12,7 +12,7 @@ const styles = (theme => ({
   }
 }))
 
-const defaultOption = {label:'Thêm sách cho ShareBook', value:'/create-book'}
+const defaultOption = {label:'Thêm sách mới cho ShareBook', value:'/create-book'}
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -27,9 +27,9 @@ class SearchBar extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.bookList) {
+    if (props.bookSearch) {
       if (state.loadOptions && !_.isEqual(props.updatedAtForSearch, state.updatedAtForSearch) && props.updatedAtForSearch) {
-        let newBookList = props.bookList.map(book => {
+        let newBookList = props.bookSearch.map(book => {
           let label = book.name + ` (${book.author})`
           let value = `/book-detail/${book.id}`
           return {label, value}
@@ -46,22 +46,22 @@ class SearchBar extends React.Component {
   }
 
   handleChange = inputText => {
-    inputText = filterText(inputText)
+    let filterInputText = filterText(inputText)
     let where = {}
     if (this.props.where) {
       where = {
         ...this.props.where, 
-        searchValue: {like: inputText}
+        searchValue: {like: filterInputText}
       }
     } else {
       where = {
-        searchValue: {like: inputText}
+        searchValue: {like: filterInputText}
       }
     }
-    this.props.getBookListHandler({key:'search-total',
-      limit: 10,
+    this.props.getBookSearchHandler({
+      limit: 5,
       where: where,
-      lite: true,
+      fullText: inputText,
       fields: {id: true, name: true, author: true},
       order: 'numberOfRating DESC'
     });
@@ -70,6 +70,7 @@ class SearchBar extends React.Component {
 
   handleSelect = selectedOption => {
     if (selectedOption.value){
+      console.log(selectedOption)
       this.props.history.push(selectedOption.value)
     }
   }

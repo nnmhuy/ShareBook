@@ -16,7 +16,7 @@ import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
-import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
 
 const styles = (theme => ({
   container: {
@@ -104,7 +104,8 @@ class BookList extends React.Component {
 
   render() {
     const { classes, account, categoryIsLoading, categoryList,
-      bookListData, bookListIsLoading, getBookListHandler, history, updatedAtForSearch } = this.props
+      bookListData, bookListIsLoading, history,
+      updatedAtForSearch, getBookSearchHandler, bookSearchData } = this.props
     let currentCategoryList = []
     if (!categoryIsLoading && categoryList)
       currentCategoryList = categoryList
@@ -115,8 +116,8 @@ class BookList extends React.Component {
         <div className={classes.container}>
           <div className={classes.searchContainer}>
             <SearchBar 
-              getBookListHandler={getBookListHandler}
-              bookList={_.get(bookListData, 'search-total', [])}
+              getBookSearchHandler={getBookSearchHandler}
+              bookSearch={bookSearchData || []}
               updatedAtForSearch={updatedAtForSearch}
               history={history} 
             />
@@ -175,6 +176,8 @@ const mapStateToProps = ({ state, book }) => {
     categoryList: book.categoryList,
     bookListData: book.bookListData,
     bookListIsLoading: book.bookListIsLoading,
+    bookSearchData: book.bookSearchData,
+    bookSearchIsLoading: book.bookSearchIsLoading,
     updatedAtForSearch: book.updatedAtForSearch
   }
 }
@@ -182,6 +185,7 @@ const mapStateToProps = ({ state, book }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
   getBookListHandler: getBookList,
+  getBookSearchHandler: getBookSearch,
   toggleBookmarkHandler: toggleBookmark 
 }, dispatch)
 

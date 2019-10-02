@@ -2,6 +2,7 @@ import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
 import _ from 'lodash'
 import axios from 'axios'
 import { warnAlert} from '../../components/alert'
+import filterText from '../../helper/filterText'
 
 import {
   getBookList,
@@ -89,8 +90,50 @@ function* getBookSearchSaga({ payload }) {
     let filter = { where, skip, limit, order, include, fields }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
     let bookList = _.get(response, 'data', [])
-    let ggBookList = yield call(getGGBookSearch, `https://www.googleapis.com/books/v1/volumes?q=${fullText}&maxResults=3`);
-    console.log(ggBookList)
+    let ggBookList = yield call(getGGBookSearch, `https://www.googleapis.com/books/v1/volumes?q=${fullText}&maxResults=4`);
+    let newBookSearchList = ggBookList.data.items.map(oneElement => {
+      let description = (_.get(oneElement, 'volumeInfo.subtitle') || '') + ' ' +  _.get(oneElement, 'volumeInfo.description' ,'')
+      _.get(oneElement, 'volumeInfo.categories', []).forEach(element => {
+        description += ' #' + element
+      })
+      let author = ''
+      _.get(oneElement, 'volumeInfo.authors', ['']).forEach(element => {
+        author += element + ' '
+      })
+      let image = _.get(oneElement, 'volumeInfo.imageLinks.thumbnail', '/containers/defaultContainer/download/defaultBook.png')
+      let numberOfPages = _.get(oneElement, 'volumeInfo.pageCount', 0)
+      let name = _.get(oneElement, 'volumeInfo.title', 'Tên bị lỗi')
+      if (name.length > 70) {
+        name = name.substr(0, 69) + '...'
+      }
+      let publisher = _.get(oneElement, 'volumeInfo.publisher', null) 
+      let price = _.get(oneElement, 'saleInfo.listPrice.amount', null) || _.get(oneElement, 'saleInfo.retailPrice.amount', null)
+      let publishYear = _.get(oneElement, 'volumeInfo.publishedDate', null)
+
+      return {
+        description,
+        author,
+        image,
+        numberOfPages,
+        name,
+        publisher,
+        price,
+        publishYear,
+        fromGG: true
+      }
+    })
+    newBookSearchList = newBookSearchList.filter((element) => {
+      let checkConflict = false
+      bookList.forEach(oldBook => {
+        let oldName = filterText(oldBook.name)
+        let newName = filterText(element.name)
+        if (oldName.indexOf(newName) > -1 || newName.indexOf(oldName) > -1) {
+          checkConflict = true
+        }
+      })
+      return !checkConflict
+    })
+    bookList = bookList.concat(newBookSearchList)
     yield put(getBookSearchSuccess({bookList: bookList, updatedAtForSearch: Date.now()}))
   } catch (error) {
     yield put(getBookSearchFail(error))
