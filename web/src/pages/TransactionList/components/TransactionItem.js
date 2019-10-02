@@ -8,6 +8,7 @@ import { ReactComponent as CompletedIcon } from '../../../static/images/task-com
 import Image from '../../../components/Image'
 
 import colors from '../../../constants/colors'
+import getFormattedDate from '../../../helper/getFormattedDate'
 import { mapTransactionStatusToText, mapPositionToText } from '../../../constants/constants'
 
 const styles = (theme => ({
@@ -124,7 +125,7 @@ const TransactionItem = (props) => {
           </div>
         </div>
         <div className={classes.numberContainer}>
-          <div className={classes.lastMessageTime}>{lastMessageTime}</div>
+          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime)}</div>
           <div className={classes.numberOfUnreadMessage} style={{ opacity: numberOfUnreadMessage ? 1 : 0 }}>
             {numberOfUnreadMessage >= 10 ? '9+' : numberOfUnreadMessage}
           </div>
