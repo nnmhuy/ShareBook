@@ -211,7 +211,6 @@ function* getReviewByIdSaga({ payload }) {
       likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
       likeStatus: reviewLike.data[0] ? reviewLike.data[0].isLike : 0
     }
-
     yield put(getReviewByIdSuccess(allData))
   } catch (error) {
     yield put(getReviewByIdFail(error))

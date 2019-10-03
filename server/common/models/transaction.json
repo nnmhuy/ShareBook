@@ -65,6 +65,9 @@
     },
     "lastMessageTime": {
       "type": "date"
+    },
+    "address": {
+      "type": "string"
     }
   },
   "validations": [],

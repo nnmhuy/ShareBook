@@ -46,6 +46,7 @@ function* getTransactionSaga({ payload }) {
     }
 
     transaction.book = {
+      id: book.id,
       name: book.name,
       image: book.image
     }
