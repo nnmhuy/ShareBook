@@ -73,7 +73,7 @@ const DetailSection = (props) => {
                 <div className={classes.content}>{passingDate}</div>
               </div>
               <div>
-                <div className={classes.label}>Địa chỉ</div>
+                <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>
@@ -82,11 +82,11 @@ const DetailSection = (props) => {
           return (
             <div>
               <div>
-                <div className={classes.label}>Ngày trả sách</div>
+                <div className={classes.label}>Ngày trả sách:</div>
                 <div className={classes.content}>{returnDate}</div>
               </div>
               <div>
-                <div className={classes.label}>Địa chỉ</div>
+                <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>
