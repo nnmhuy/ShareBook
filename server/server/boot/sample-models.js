@@ -23,19 +23,20 @@ module.exports = function(app) {
   console.log('running initialization');
 
   function createDefaultSuperAdmin() {
-    User.create([
+    User.create(
       {
         username: superAdminUsername,
         email: superAdminEmail,
         password: superAdminPassword,
         role: currentRole.SUPERADMIN,
-      },
-    ], function(err, users) {
+      }, function(err, user) {
       if (err) throw err;
 
-      console.log('Created users:', users);
+      console.log('Created users:', user);
       // create the admin role
-      Role.create({
+      Role.findOrCreate({
+        name: currentRole.SUPERADMIN,
+      }, {
         name: currentRole.SUPERADMIN,
       }, function(err, role) {
         if (err) throw err;
@@ -45,7 +46,7 @@ module.exports = function(app) {
         // make an admin
         role.principals.create({
           principalType: RoleMapping.USER,
-          principalId: users[0].id,
+          principalId: user.id,
         }, function(err, principal) {
           if (err) throw err;
 
