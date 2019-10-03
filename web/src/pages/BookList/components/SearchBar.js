@@ -1,8 +1,14 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import _ from 'lodash'
+import axios from 'axios'
+
 import filterText from '../../../helper/filterText'
 import AsyncSelect from 'react-select/async';
+import Loading from '../../../components/Loading'
+import { warnAlert } from '../../../components/alert'
+
+import { baseURL } from '../../../constants/constants'
 
 const styles = (theme => ({
   container: {
@@ -19,6 +25,7 @@ class SearchBar extends React.Component {
     super(props);
 
     this.state = {
+      ultraWaiting: false,
       bookListOption: [defaultOption],
       loadOptions: null,
       updatedAtForSearch: null
@@ -32,7 +39,7 @@ class SearchBar extends React.Component {
         let newBookList = props.bookSearch.map(book => {
           let label = book.name + ` (${book.author})`
           let value = `/book-detail/${book.id}`
-          return {label, value}
+          return {label, value, ...book}
         })
         newBookList.push(defaultOption)
         state.loadOptions(newBookList)
@@ -68,10 +75,27 @@ class SearchBar extends React.Component {
   }
   
 
-  handleSelect = selectedOption => {
+  handleSelect = (selectedOption) => {
+    let currentThis = this
     if (selectedOption.value){
-      console.log(selectedOption)
-      this.props.history.push(selectedOption.value)
+      if (!selectedOption.fromGG) {
+        this.props.history.push(selectedOption.value)
+      } else {
+        this.setState({ultraWaiting: true})
+        axios.post(`${baseURL}/books/createBySearch`, {
+          data: selectedOption
+        })
+        .then(function (response) {
+          currentThis.setState({ultraWaiting: false})
+          let bookId = _.get(response, 'data.newBook.id')
+          currentThis.props.history.push(`/book-detail/${bookId}`)
+        })
+        .catch(function (error) {
+          console.log(error);
+          currentThis.setState({ultraWaiting: false})
+          warnAlert('Xin lỗi bạn nha, sách này đang bị lỗi')
+        });
+      }
     }
   }
 
@@ -84,9 +108,11 @@ class SearchBar extends React.Component {
     const { classes } = this.props
     return (
       <div className={classes.container}>
+        <Loading isLoading={this.state.ultraWaiting}/>
         <AsyncSelect
           onChange={this.handleSelect}
           loadOptions={this.reloadOption}
+          cacheOptions
           // defaultOptions={this.state.bookListOption}
           placeholder='Tìm sách cùng ShareBook'/>
       </div> 

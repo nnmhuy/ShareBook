@@ -18,6 +18,12 @@
     }
   },
   "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "defaultFn": "guid"
+    },
     "name": {
       "type": "string",
       "required": true,
