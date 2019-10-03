@@ -5,6 +5,9 @@ import {
   getBookList,
   getBookListSuccess,
   getBookListFail,
+  getBookSearch,
+  getBookSearchSuccess,
+  getBookSearchFail,
   getCategoryList,
   getCategoryListSuccess,
   getCategoryListFail,
@@ -49,6 +52,8 @@ let defaultState = {
   bookLite: {},
   bookListIsLoading: {},
   bookListData: {},
+  bookSearchIsLoading: false,
+  bookSearchData: [],
   isCreating: false,
   updatedAtForSearch: null
 }
@@ -82,6 +87,28 @@ const bookReducer = handleActions(
         ...state,
         error,
         bookListIsLoading
+      }
+    },
+    [getBookSearch]: (state) => {
+      return {
+        ...state,
+        bookSearchIsLoading: true
+      }
+    },
+    [getBookSearchSuccess]: (state, { payload: { bookList, updatedAtForSearch } }) => {
+      return {
+        ...state,
+        error: null,
+        bookSearchIsLoading: false, 
+        bookSearchData: bookList,
+        updatedAtForSearch
+      }
+    },
+    [getBookSearchFail]: (state, { payload: {error} }) => {
+      return {
+        ...state,
+        error,
+        bookSearchIsLoading: false, 
       }
     },
     [getCategoryList]: (state) => {

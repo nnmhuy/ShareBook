@@ -102,7 +102,7 @@ const SignupWithFormik = withFormik({
           setSubmitting(false);
       })
     } else {
-      props.signUpHandler({username: values.username, password: values.password})
+      props.signUpHandler({username: values.username, password: values.password, avatar: '/containers/defaultContainer/download/defaultBook.png'})
       setSubmitting(false);
     }
   }

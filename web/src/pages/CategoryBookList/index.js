@@ -12,7 +12,7 @@ import LayoutWrapper from '../../components/LayoutWrapper'
 import Book from '../../components/Book'
 import SearchBar from '../BookList/components/SearchBar'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
-import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
 import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
@@ -158,7 +158,8 @@ class CategoryBookList extends React.Component {
   }
 
   render() {
-    const { classes, account, categoryIsLoading, bookListData, bookListIsLoading, getBookListHandler, updatedAtForSearch, history } = this.props
+    const { classes, account, categoryIsLoading, bookListData, bookListIsLoading,
+      updatedAtForSearch, history, bookSearchData, getBookSearchHandler } = this.props
     const { category, key, totalOfBook, condition } = this.state
     let isLoading = categoryIsLoading || _.get(bookListIsLoading, key, null)
     const bookList = _.get(bookListData, key, [])
@@ -168,8 +169,8 @@ class CategoryBookList extends React.Component {
         <div className={classes.container}>
           <div className={classes.searchContainer}>
           <SearchBar 
-              getBookListHandler={getBookListHandler}
-              bookList={_.get(bookListData, 'search-total', [])}
+              getBookSearchHandler={getBookSearchHandler}
+              bookSearch={bookSearchData || []}
               updatedAtForSearch={updatedAtForSearch}
               history={history} 
               where={_.get(condition, 'where', null)}
@@ -229,6 +230,8 @@ const mapStateToProps = ({ state, account, book }) => {
     categoryList: book.categoryList,
     bookListData: book.bookListData,
     bookListIsLoading: book.bookListIsLoading,
+    bookSearchData: book.bookSearchData,
+    bookSearchIsLoading: book.bookSearchIsLoading,
     updatedAtForSearch: book.updatedAtForSearch
   }
 }
@@ -236,6 +239,7 @@ const mapStateToProps = ({ state, account, book }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
   getBookListHandler: getBookList,
+  getBookSearchHandler: getBookSearch,
   toggleBookmarkHandler: toggleBookmark 
 }, dispatch)
 
