@@ -30,7 +30,7 @@ const styles = (theme => ({
 const InputField = (props) => {
   const {
     classes, id, label, name, value, touched, error,
-    optionValues, handleChange, className
+    optionValues, handleChange, className, handleBlur
   } = props
 
   const inputLabel = React.useRef(null);
@@ -49,6 +49,7 @@ const InputField = (props) => {
         value={value}
         name={name}
         onChange={handleChange}
+        onBlur={handleBlur}
         input={
           <OutlinedInput labelWidth={labelWidth} name={name} id={id}/>
         }
@@ -62,7 +63,9 @@ const InputField = (props) => {
       </Select>
       <FormHelperText
         id={`${id}-error`}
-        className={!(touched && error) && classes.hidden}
+        className={`${!(touched && error) && classes.hidden}`}
+        style={{margin: '8px 0px 16px 0px'}}
+        error
       >
         {error}
       </FormHelperText>

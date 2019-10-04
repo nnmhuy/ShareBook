@@ -50,7 +50,7 @@ const typeOfBook = [
 ]
 
 const InputPanel = (props) => {
-	const { classes, errors, handleChange, handleBlur, values, setFieldValue, categoryList } = props;
+	const { classes, errors, handleChange, handleBlur, values, setFieldValue, categoryList, touched } = props;
 
 	const categoryOptions = categoryList.map(category => ({
 		label: category.name,
@@ -68,6 +68,7 @@ const InputPanel = (props) => {
 						value={values.name}
 						handleChange={handleChange}
 						handleBlur={handleBlur}
+						touched={touched.name}
 						label='Tên sách'
 				/>
 				<FormGroupInput
@@ -79,6 +80,7 @@ const InputPanel = (props) => {
 						value={values.author}
 						handleChange={handleChange}
 						handleBlur={handleBlur}
+						touched={touched.author}
 						label='Tác giả'
 				/>
 				<SelectField
@@ -88,7 +90,9 @@ const InputPanel = (props) => {
 					value={values.category}
 					optionValues={categoryOptions}
 					handleChange={handleChange}
+					handleBlur={handleBlur}
 					error={errors.categoryId}
+					touched={touched.categoryId}
 					className={classes.select}
 				/>
 				<RadioButtons mb='15px' name="type" label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue}/>

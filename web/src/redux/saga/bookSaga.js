@@ -142,18 +142,21 @@ function* getBookSearchSaga({ payload }) {
 
 function* getCategoryListSaga({ payload }) {
   try {
+    const { skipAllBook } = payload
     const response = yield call(restConnector.get, '/categories')
     let categoryList = _.get(response, 'data', [])
-    let allCategory = { name: 'Tất cả sách', url: '/category/all', image:'/containers/defaultContainer/download/logo.png', totalOfBook: 0, id: 'all'}
-    categoryList.forEach(element => {
-      allCategory.totalOfBook += element.totalOfBook
-    });
     categoryList.sort((pre, suf) => {
       if (pre.name === 'Chưa xác định') return 1
       if (suf.name === 'Chưa xác định') return -1 
-      return pre.id-suf.id     
+      return pre.id-suf.id
     })
-    categoryList.unshift(allCategory)
+    if (!skipAllBook) {
+      let allCategory = { name: 'Tất cả sách', url: '/category/all', image: '/containers/defaultContainer/download/logo.png', totalOfBook: 0, id: 'all' }
+      categoryList.forEach(element => {
+        allCategory.totalOfBook += element.totalOfBook
+      });
+      categoryList.unshift(allCategory)
+    }
     yield put(getCategoryListSuccess(categoryList));
   } catch (error) {
     warnAlert('Hệ thống hoặc kết nối của bạn bị lỗi');

@@ -40,11 +40,14 @@ const styles = theme => ({
         '& .MuiInputLabel-asterisk': {
             color: 'red'
         }
+    },
+    hidden: {
+        visibility: 'hidden'
     }
 })
 
 const FormGroupInput = (props) => {
-	const { classes, id, name, type, error, value, label, disabled, handleChange, handleBlur, required } = props
+	const { classes, id, name, type, error, value, label, disabled, handleChange, handleBlur, required, touched } = props
 	return (
 		<FormGroup className={classes.formGroup}>
 			<FormControl className={!disabled ? classes.inputAble : classes.input}>
@@ -58,9 +61,12 @@ const FormGroupInput = (props) => {
 					onChange={handleChange}
 					onBlur={handleBlur}
 				/>
-				<FormHelperText className={classes.hidden}>
-					{error}
-				</FormHelperText>
+                <FormHelperText
+                    id={`${id}-error`}
+                    className={`${!(touched && error) && classes.hidden}`}
+                >
+                    {error}
+                </FormHelperText>
 			</FormControl>
 		</FormGroup>
 	)

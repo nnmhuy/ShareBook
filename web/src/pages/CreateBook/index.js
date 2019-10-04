@@ -35,12 +35,12 @@ const styles = theme => ({
 class CreateBook extends Component {
 	componentDidMount() {
 		const { getCategories } = this.props
-		getCategories()
+		getCategories({ skipAllBook: true})
 	}
 	render() {
 		const { classes, handleSubmit, handleBlur, 
 			values, errors, handleChange, setFieldValue, isSubmitting,
-			categoryIsLoading, categoryList
+			categoryIsLoading, categoryList, touched
 		} = this.props;
 		
 		return (
@@ -59,6 +59,7 @@ class CreateBook extends Component {
 						handleBlur={handleBlur}
 						setFieldValue={setFieldValue}
 						categoryList={categoryList}
+						touched={touched}
 					/>
 					<Button
 						className={classes.button}
@@ -78,6 +79,7 @@ const CreateBookWithFormik = withFormik({
 			return {
 				name: '',
 				author: '',
+				categoryId: '',
 				bookType: '',
 				volume: '',
 				numberOfPages: '',
