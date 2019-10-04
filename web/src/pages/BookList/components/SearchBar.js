@@ -1,8 +1,14 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import _ from 'lodash'
+import axios from 'axios'
+
 import filterText from '../../../helper/filterText'
 import AsyncSelect from 'react-select/async';
+import Loading from '../../../components/Loading'
+import { warnAlert } from '../../../components/alert'
+
+import { baseURL } from '../../../constants/constants'
 
 const styles = (theme => ({
   container: {
@@ -12,13 +18,14 @@ const styles = (theme => ({
   }
 }))
 
-const defaultOption = {label:'Thêm sách cho ShareBook', value:'/create-book'}
+const defaultOption = {label:'Thêm sách mới cho ShareBook', value:'/create-book'}
 
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      ultraWaiting: false,
       bookListOption: [defaultOption],
       loadOptions: null,
       updatedAtForSearch: null
@@ -27,12 +34,12 @@ class SearchBar extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.bookList) {
+    if (props.bookSearch) {
       if (state.loadOptions && !_.isEqual(props.updatedAtForSearch, state.updatedAtForSearch) && props.updatedAtForSearch) {
-        let newBookList = props.bookList.map(book => {
+        let newBookList = props.bookSearch.map(book => {
           let label = book.name + ` (${book.author})`
           let value = `/book-detail/${book.id}`
-          return {label, value}
+          return {label, value, ...book}
         })
         newBookList.push(defaultOption)
         state.loadOptions(newBookList)
@@ -46,31 +53,49 @@ class SearchBar extends React.Component {
   }
 
   handleChange = inputText => {
-    inputText = filterText(inputText)
+    let filterInputText = filterText(inputText)
     let where = {}
     if (this.props.where) {
       where = {
         ...this.props.where, 
-        searchValue: {like: inputText}
+        searchValue: {like: filterInputText}
       }
     } else {
       where = {
-        searchValue: {like: inputText}
+        searchValue: {like: filterInputText}
       }
     }
-    this.props.getBookListHandler({key:'search-total',
-      limit: 10,
+    this.props.getBookSearchHandler({
+      limit: 5,
       where: where,
-      lite: true,
+      fullText: inputText,
       fields: {id: true, name: true, author: true},
       order: 'numberOfRating DESC'
     });
   }
   
 
-  handleSelect = selectedOption => {
+  handleSelect = (selectedOption) => {
+    let currentThis = this
     if (selectedOption.value){
-      this.props.history.push(selectedOption.value)
+      if (!selectedOption.fromGG) {
+        this.props.history.push(selectedOption.value)
+      } else {
+        this.setState({ultraWaiting: true})
+        axios.post(`${baseURL}/books/createBySearch`, {
+          data: selectedOption
+        })
+        .then(function (response) {
+          currentThis.setState({ultraWaiting: false})
+          let bookId = _.get(response, 'data.newBook.id')
+          currentThis.props.history.push(`/book-detail/${bookId}`)
+        })
+        .catch(function (error) {
+          console.log(error);
+          currentThis.setState({ultraWaiting: false})
+          warnAlert('Xin lỗi bạn nha, sách này đang bị lỗi')
+        });
+      }
     }
   }
 
@@ -83,9 +108,11 @@ class SearchBar extends React.Component {
     const { classes } = this.props
     return (
       <div className={classes.container}>
+        <Loading isLoading={this.state.ultraWaiting}/>
         <AsyncSelect
           onChange={this.handleSelect}
           loadOptions={this.reloadOption}
+          cacheOptions
           // defaultOptions={this.state.bookListOption}
           placeholder='Tìm sách cùng ShareBook'/>
       </div> 

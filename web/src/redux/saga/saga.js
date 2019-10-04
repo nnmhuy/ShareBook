@@ -13,7 +13,8 @@ import {
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher,
-  createBookWatcher
+  createBookWatcher,
+  getBookSearchWatcher
 } from './bookSaga'
 import {
   getBookInstancesWatcher,
@@ -29,7 +30,8 @@ import {
 import {
   getTransactionWatcher,
   sendMessageWatcher,
-  getMessagesWatcher
+  getMessagesWatcher,
+  getTransactionsWatcher
 } from './transactionSaga'
 import {
   postReplyWatcher
@@ -43,6 +45,7 @@ export default function* rootSaga() {
     signUpWatcher(),
 
     getBookListWatcher(),
+    getBookSearchWatcher(),
     getCategoryListWatcher(),
     getBookLiteWatcher(),
     getBookInfoWatcher(),
@@ -61,8 +64,8 @@ export default function* rootSaga() {
 
     getTransactionWatcher(),
     sendMessageWatcher(),
-    getMessagesWatcher(),
-
     postReplyWatcher()
+    getTransactionsWatcher()
+    getMessagesWatcher(),
   ]);
 }

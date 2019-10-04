@@ -127,6 +127,16 @@
       "type": "hasMany",
       "model": "review",
       "foreignKey": "userId"
+    },
+    "holdingTransactions": {
+      "type": "hasMany",
+      "model": "transaction",
+      "foreignKey": "holderId"
+    },
+    "borrowingTransactions": {
+      "type": "hasMany",
+      "model": "transaction",
+      "foreignKey": "borrowerId"
     }
   },
   "acls": [

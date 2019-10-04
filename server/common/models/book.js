@@ -1,6 +1,15 @@
 'use strict';
 const filterText = require('../../server/helper/filterText');
 
+const download = require('image-downloader');
+const uuidv4 = require('uuid/v4');
+const ImageSearchAPIClient = require('azure-cognitiveservices-imagesearch');
+const CognitiveServicesCredentials =
+  require('ms-rest-azure').CognitiveServicesCredentials;
+const serviceKey = process.env.BING_KEY;
+const credentials = new CognitiveServicesCredentials(serviceKey);
+const imageSearchApiClient = new ImageSearchAPIClient(credentials);
+
 module.exports = function(Book) {
   Book.validatesPresenceOf('categoryId', 'name', 'author', 'image');
 
@@ -43,4 +52,86 @@ module.exports = function(Book) {
       });
     });
   }
+
+  Book.createBySearch = function(data, cb) {
+    let {description, author, image, numberOfPages,
+      name, publisher, price, publishYear} = data;
+    let searchValue = name + author;
+    searchValue = filterText(searchValue);
+    Book.find({where: {searchValue: searchValue}},
+    (err, bookList) => {
+      if (err) return cb(err);
+      if (bookList && bookList[0]) {
+        return cb(null, bookList[0]);
+      } else {
+        let newBook = {description, author, image, numberOfPages,
+          name, publisher, price, publishYear, categoryId: '14'};
+
+        if (image === '/containers/defaultContainer/download/defaultBook.png') {
+          let keyWord = 'sách ' + name + ' ' + author;
+          imageSearchApiClient.imagesOperations.search(keyWord,
+          {safeSearch: 'Strict', count: 3, imageType: 'Photo'},
+          (err, result, request, response) => {
+            if (err || !result || !result.value || !result.value[0] ||
+            !result.value[0].contentUrl || !result.value[0].thumbnailUrl) {
+              console.log(err);
+              createBook(newBook, cb);
+              return;
+            }
+            let random = uuidv4();
+            let newFileName = random;
+            let options = {
+              url: result.value[0].thumbnailUrl,
+              dest: `../image-storage/imageContainer/${newFileName}`,
+              extractFilename: false,
+            };
+            download.image(options)
+            .then(({filename, image}) => {
+              newBook.image =
+              '/containers/imageContainer/download/' + newFileName;
+              createBook(newBook, cb);
+              return;
+            })
+            .catch((err) => {
+              console.log('store err', err);
+              createBook(newBook, cb);
+              return;
+            });
+          });
+        } else {
+          let random = uuidv4();
+          let newFileName = random;
+          let options = {
+            url: image,
+            dest: `../image-storage/imageContainer/${newFileName}`,
+            extractFilename: false,
+          };
+          download.image(options)
+          .then(({filename, image}) => {
+            newBook.image =
+            '/containers/imageContainer/download/' + newFileName;
+            createBook(newBook, cb);
+            return;
+          })
+          .catch((err) => {
+            console.log('store err', err);
+            createBook(newBook, cb);
+            return;
+          });
+        }
+      }
+    });
+  };
+
+  function createBook(newBook, cb) {
+    Book.create(newBook, (err, instance) => {
+      if (err) return cb(err);
+      return cb(null, instance);
+    });
+  }
+
+  Book.remoteMethod('createBySearch', {
+    accepts: {arg: 'data', type: 'object'},
+    returns: {arg: 'newBook', type: 'object'},
+  });
 };

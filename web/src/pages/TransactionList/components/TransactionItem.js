@@ -5,8 +5,10 @@ import Link from '../../../components/Link'
 import Avatar from '../../../components/Avatar'
 import OnlineBadge from '../../../components/OnlineBadge'
 import { ReactComponent as CompletedIcon } from '../../../static/images/task-complete.svg'
+import Image from '../../../components/Image'
 
 import colors from '../../../constants/colors'
+import getFormattedDate from '../../../helper/getFormattedDate'
 import { mapTransactionStatusToText, mapPositionToText } from '../../../constants/constants'
 
 const styles = (theme => ({
@@ -91,8 +93,8 @@ const styles = (theme => ({
 }))
 
 const TransactionItem = (props) => {
-  const { classes, id, avatar, name, isOnline, image,
-    position, status, numberOfUnreadMessage, lastMessageTime } = props
+  const { classes, id, user: { avatar, name, position }, isOnline, image,
+    status, numberOfUnreadMessage, lastMessageTime } = props
   return (
     <Link to={`/transaction/${id}`}>
       <div className={classes.container}>
@@ -113,7 +115,7 @@ const TransactionItem = (props) => {
               <CompletedIcon fill='#29FF83' className={classes.completedIcon}/>
             </div>
           }
-          <img src={image} alt='book' className={classes.image}/>
+          <Image src={image} alt='book' className={classes.image}/>
         </div>
         <div className={classes.infoContainer}>
           <div className={classes.username}>{name}</div>
@@ -123,7 +125,7 @@ const TransactionItem = (props) => {
           </div>
         </div>
         <div className={classes.numberContainer}>
-          <div className={classes.lastMessageTime}>{lastMessageTime}</div>
+          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime)}</div>
           <div className={classes.numberOfUnreadMessage} style={{ opacity: numberOfUnreadMessage ? 1 : 0 }}>
             {numberOfUnreadMessage >= 10 ? '9+' : numberOfUnreadMessage}
           </div>

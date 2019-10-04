@@ -1,12 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
+import { bindActionCreators } from 'redux'
 
+import Loading from '../../components/Loading'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Search from '../../components/Search'
 import TransactionItem from './components/TransactionItem'
 
-import { demoTransactionList } from './demoData'
+import { getTransactions } from '../../redux/actions/transactionAction'
 
 const styles = (theme => ({
   container: {
@@ -35,15 +37,21 @@ class TransactionList extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { getTransactionsInfo, account: { userId } } = this.props
+    getTransactionsInfo({ userId })
+  }
+
   render() {
-    const { classes, account } = this.props
+    const { classes, account, transactionList, isLoading } = this.props
     return (
       <LayoutWrapper title='Giao dịch' account={account}>
+        <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <Search className={classes.search}/>
           <div>
             {
-              demoTransactionList.map((transaction) => {
+              transactionList.map((transaction) => {
                 return (
                   <TransactionItem 
                     {...transaction}
@@ -59,7 +67,7 @@ class TransactionList extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state, account }) => {
+const mapStateToProps = ({ transaction }) => {
   return {
     account: {
       isAuth: !!(localStorage.getItem('isAuth')),
@@ -69,13 +77,13 @@ const mapStateToProps = ({ state, account }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    transactionList: transaction.transactionList,
+    isLoading: transaction.isLoading
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getTransactionsInfo: getTransactions
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TransactionList));

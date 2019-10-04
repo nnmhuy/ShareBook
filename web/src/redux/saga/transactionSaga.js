@@ -12,9 +12,13 @@ import {
   getTransactionFail,
   getMessages,
   getMessagesSuccess,
-  getMessagesFail
+  getMessagesFail,
+  getTransactions,
+  getTransactionsSuccess,
+  getTransactionsFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
+import TransactionList from '../../pages/TransactionList'
 
 function* getTransactionSaga({ payload }) {
   try {
@@ -47,9 +51,100 @@ function* getTransactionSaga({ payload }) {
       image: book.image
     }
 
+
     yield put(getTransactionSuccess({ transaction, numberOfMessages: messages.count }))
   } catch (error) {
     yield put(getTransactionFail(error))
+  }
+}
+
+function* getTransactionsSaga({ payload }) {
+  try {
+    const { userId } = payload
+
+    const { data: borrowingTransaction } = yield call(restConnector.get, `users/${userId}/borrowingTransactions?filter={"order":"updatedAt DESC"}`)
+    const { data: holdingTransaction } = yield call(restConnector.get, `users/${userId}/holdingTransactions?filter={"order":"updatedAt DESC"}`)
+
+
+    let userIdList = []
+    let bookInstanceIdList = []
+    borrowingTransaction.forEach(instance => {
+      userIdList.push(instance.holderId)
+      bookInstanceIdList.push(instance.bookInstanceId)
+    })
+    holdingTransaction.forEach(instance => {
+      userIdList.push(instance.borrowerId)
+      bookInstanceIdList.push(instance.bookInstanceId)
+    })
+    let filterUser = { 
+      where: {
+        id: { inq: userIdList }
+      }
+    }
+    const { data: userList } = yield call(restConnector.get, `/users?filter=${JSON.stringify(filterUser)}`)
+
+    let filterBookInstance = { 
+      where: {
+        id: { inq: bookInstanceIdList }
+      }
+    }
+    const { data: bookInstanceList } = yield call(restConnector.get, `/bookInstances?filter=${JSON.stringify(filterBookInstance)}`)
+    let filterBook = {
+      where: {
+        id: { inq: bookInstanceList.map(instance => instance.bookId) }
+      }
+    }
+    const { data: bookList } = yield call(restConnector.get, `/books?filter=${JSON.stringify(filterBook)}`)
+
+    const bookIndexList = bookInstanceIdList.map(instanceId => {
+      const matchInstance = _.find(bookInstanceList, (oneInstance) => {
+        return instanceId === oneInstance.id
+      })
+
+      return _.findIndex(bookList, (oneBook) => {
+        return matchInstance.bookId === oneBook.id
+      })
+    })
+
+    let transactionList = []
+    borrowingTransaction.forEach((transaction, index) => {
+      let userIndex = _.findIndex(userList, (oneUser) => {
+        return transaction.holderId === oneUser.id
+      })
+      const { id, name, avatar } = userList[userIndex]
+      transactionList.push({
+        ...transaction,
+        user: {
+          id,
+          name,
+          avatar,
+          position: 'holder'
+        },
+        image: bookList[bookIndexList[index]].image
+      })
+    })
+
+
+    holdingTransaction.forEach((transaction, index) => {
+      let userIndex = _.findIndex(userList, (oneUser) => {
+        return transaction.borrowerId === oneUser.id
+      })
+      const { id, name, avatar } = userList[userIndex]
+      transactionList.push({
+        ...transaction,
+        user: {
+          id,
+          name,
+          avatar,
+          position: 'borrower'
+        },
+        image: bookList[bookIndexList[borrowingTransaction.length + index]].image
+      })
+    })
+
+    yield put(getTransactionsSuccess({transactionList}))
+  } catch (error) {
+    yield put(getTransactionsFail(error))
   }
 }
 
@@ -95,8 +190,13 @@ function* getMessagesWatcher() {
   yield takeLeading(getMessages, getMessagesSaga)
 }
 
+function* getTransactionsWatcher() {
+  yield takeLatest(getTransactions, getTransactionsSaga)
+}
+
 export {
   getTransactionWatcher,
   sendMessageWatcher,
-  getMessagesWatcher
+  getMessagesWatcher,
+  getTransactionsWatcher
 }
