@@ -64,8 +64,8 @@ export default function* rootSaga() {
 
     getTransactionWatcher(),
     sendMessageWatcher(),
-    postReplyWatcher()
-    getTransactionsWatcher()
+    postReplyWatcher(),
+    getTransactionsWatcher(),
     getMessagesWatcher(),
   ]);
 }
