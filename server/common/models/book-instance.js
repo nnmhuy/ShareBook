@@ -31,16 +31,19 @@ module.exports = function(BookInstance) {
       // create
       if (ctx.instance.holderId) {
         getUserDistrict(ctx.instance.holderId, (district) => {
-          if (district)
+          if (!isNaN(district))
             ctx.instance.holderLocationDistrict = district;
           return next();
         });
-      } else return next();
+      } else {
+        ctx.instance.holderLocationDistrict = 0;
+        return next();
+      }
     } else {
       // update
       if (ctx.data && ctx.data.holderId) {
         getUserDistrict(ctx.data.holderId, (district) => {
-          if (district)
+          if (!isNaN(district))
             ctx.data.holderLocationDistrict = district;
           return next();
         });
@@ -72,7 +75,7 @@ module.exports = function(BookInstance) {
     (err, book) => {
       if (err || !book || !book.categoryId)
         return next(new Error('Loại sách này đang bị lỗi'));
-      if (ctx.currentInstance.holderLocationDistrict) {
+      if (!isNaN(ctx.currentInstance.holderLocationDistrict)) {
         let newlocationStatistic = book.locationStatistic;
         let district = ctx.currentInstance.holderLocationDistrict;
         if (newlocationStatistic)
@@ -97,7 +100,7 @@ module.exports = function(BookInstance) {
 
   function triggerBookInstanceUpdate(ctx, next) {
     let Book = BookInstance.app.models.book;
-    if (!ctx.data || !ctx.data.holderLocationDistrict) return next();
+    if (!ctx.data || isNaN(ctx.data.holderLocationDistrict)) return next();
     if (!ctx.currentInstance || !ctx.currentInstance.id ||
     !ctx.currentInstance.bookId)
       return next(new Error('Yêu cầu bị lỗi'));
@@ -111,9 +114,9 @@ module.exports = function(BookInstance) {
         let newlocationStatistic = book.locationStatistic;
         let newDistrict = ctx.data.holderLocationDistrict;
         let oldDistrict = bookInstance.holderLocationDistrict;
-        if (newlocationStatistic && newDistrict)
+        if (newlocationStatistic && !isNaN(newDistrict))
           newlocationStatistic[newDistrict]++;
-        if (newlocationStatistic && oldDistrict)
+        if (newlocationStatistic && !isNaN(oldDistrict))
           newlocationStatistic[oldDistrict]--;
         book.updateAttributes({
           locationStatistic: newlocationStatistic}, (err, result) => {

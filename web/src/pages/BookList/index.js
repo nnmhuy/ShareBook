@@ -67,6 +67,8 @@ class BookList extends React.Component {
     if (categoryFilter) where.categoryId = {inq: categoryFilter}
     if (districtFilter) {
       where.or = []
+      // for no address book
+      districtFilter.push(0)
       districtFilter.forEach(element => {
         let obIntance = {}
         obIntance[`locationStatistic.${element}`] = {gte: 1}
