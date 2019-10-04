@@ -8,6 +8,7 @@ var currentRole = require('../../common/models/Role');
 const superAdminUsername = process.env.superAdminUsername;
 const superAdminPassword = process.env.superAdminPassword;
 const superAdminEmail = process.env.superAdminEmail;
+const superAdminAvatar = process.env.superAdminAvatar;
 const imageContainer = process.env.imageContainer;
 const defaultContainner = 'defaultContainer';
 
@@ -29,6 +30,7 @@ module.exports = function(app) {
         email: superAdminEmail,
         password: superAdminPassword,
         role: currentRole.SUPERADMIN,
+        avatar: superAdminAvatar,
       }, function(err, user) {
       if (err) throw err;
 
