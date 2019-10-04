@@ -148,6 +148,11 @@ function* getCategoryListSaga({ payload }) {
     categoryList.forEach(element => {
       allCategory.totalOfBook += element.totalOfBook
     });
+    categoryList.sort((pre, suf) => {
+      if (pre.name === 'Chưa xác định') return 1
+      if (suf.name === 'Chưa xác định') return -1 
+      return pre.id-suf.id     
+    })
     categoryList.unshift(allCategory)
     yield put(getCategoryListSuccess(categoryList));
   } catch (error) {
