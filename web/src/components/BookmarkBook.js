@@ -1,6 +1,5 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Rating } from '@material-ui/lab'
 
 import Link from './Link'
 import bookimg from '../static/images/demo/escape_velocity.png';

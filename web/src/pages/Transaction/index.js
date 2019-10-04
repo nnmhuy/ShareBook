@@ -83,7 +83,7 @@ class Transaction extends React.Component {
   }
 
   handleFetchMoreMessages = () => {
-    const { match, lastMessageCount, numberOfAppendedMessages, loadMessage, isGetting } = this.props
+    const { match, lastMessageCount, numberOfAppendedMessages, loadMessage } = this.props
     const { rendered } = this.state
     const { transactionId } = match.params
     if (rendered) {
@@ -150,8 +150,7 @@ const mapStateToProps = ({ transaction }) => {
     messages: transaction.messages,
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
-    numberOfAppendedMessages: transaction.numberOfAppendedMessages,
-    isGetting: transaction.isGetting
+    numberOfAppendedMessages: transaction.numberOfAppendedMessages
   }
 }
 

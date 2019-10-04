@@ -1,6 +1,5 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Link from '../../../components/Link'
 import Carousel from 'nuka-carousel'
 import ScaleLoader from 'react-spinners/ScaleLoader'
 

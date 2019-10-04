@@ -18,7 +18,6 @@ import {
   getTransactionsFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
-import TransactionList from '../../pages/TransactionList'
 
 function* getTransactionSaga({ payload }) {
   try {

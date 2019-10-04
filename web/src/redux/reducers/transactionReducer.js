@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions'
-import _ from 'lodash'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import {

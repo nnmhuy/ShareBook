@@ -10,7 +10,7 @@ import {
 function* postReplySaga({ payload }) {
   try {
     const { content, reviewId } = payload
-    const newReply = yield call(restConnector.post, `/reviews/${reviewId}/replyReviews`, {
+    yield call(restConnector.post, `/reviews/${reviewId}/replyReviews`, {
       numberOfLike: 0,
       numberOfDislike: 0,
       content,
