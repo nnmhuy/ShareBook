@@ -5,7 +5,6 @@ import colors from '../../../constants/colors';
 
 import Avatar from '../../../components/Avatar'
 import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg'
-import { ReactComponent as LikeNotFilledIcon } from '../../../static/images/like.svg'
 
 const styles = (theme => ({
 	flexContainer: {
@@ -30,7 +29,9 @@ const styles = (theme => ({
 		fontWeight: 600,
 		fontSize: 16,
 		color: '#1c73c6',
-		marginRight: 10
+		marginRight: 10,
+		textDecoration: 'none',
+		cursor: 'pointer'
 	},
 	date: {
 		fontSize: 12,
@@ -84,22 +85,22 @@ const styles = (theme => ({
 }))
 
 const CommentItem = props => {
-	const { classes, reply } = props;
+	const { classes, reply, createdDay } = props;
 
 	return (
 		<div className={classes.flexContainer}>
-			<Link className={classes.username} to={`/profile/${reply && reply.reply && reply.replyuserId}`}>
-				<Avatar src={reply && reply.avatar} />
+			<Link className={classes.username} to={`/profile/${reply && reply.userId}`}>
+				<Avatar src='{reply && reply.avatar}' />
 			</Link>
 			<div className={classes.replyWrapper}>
 				<div className={classes.reply}>
 					<span>
-						<Link className={classes.name} to={`/profile/${reply && reply.reply && reply.replyuserId}`}>{reply && reply.name}</Link>
+						<Link className={classes.username} to={`/profile/${reply && reply.userId}`}>{reply && reply.name}</Link>
 					</span>
-					{reply && reply.reply && reply.reply.content}
+					{reply && reply.content}
 				</div>
 				<div className={classes.rateContainer}>
-					<div className={classes.date}>{reply && reply.reply && reply.reply.createdAt}</div>
+					<div className={classes.date}>{createdDay(reply && reply.createdAt)}</div>
 					{/* {likeStatus === 1 ?
 						<LikeFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateIcon].join(' ')} />
 						:
@@ -116,11 +117,11 @@ const CommentItem = props => {
 				<div className={classes.ratingsCounter}>
 					<div className={[classes.likeCounter, classes.rateCounter].join(' ')} >
 						<LikeFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateSmallIcon].join(' ')} />
-						{reply && reply.reply && reply.reply.numberOfLike}
+						{reply && reply.numberOfLike}
 					</div>
 					<div className={classes.rateCounter}>
 						<LikeFilledIcon fill='#D75A4A' className={[classes.dislikeIcon, classes.rateSmallIcon].join(' ')} />
-						{reply && reply.reply && reply.reply.numberOfDislike}
+						{reply && reply.numberOfDislike}
 					</div>
 				</div>
 			</div>

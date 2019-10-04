@@ -31,6 +31,9 @@ import {
   sendMessageWatcher,
   getMessagesWatcher
 } from './transactionSaga'
+import {
+  postReplyWatcher
+} from './replySaga'
 
 export default function* rootSaga() {
   yield all([
@@ -58,6 +61,8 @@ export default function* rootSaga() {
 
     getTransactionWatcher(),
     sendMessageWatcher(),
-    getMessagesWatcher()
+    getMessagesWatcher(),
+
+    postReplyWatcher()
   ]);
 }

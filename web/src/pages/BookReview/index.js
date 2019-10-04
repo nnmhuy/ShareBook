@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
 
 import { demoCommentList } from './demoData';
 import { getReviewById, toggleLikeReview } from '../../redux/actions/reviewAction';
+import { postReply } from '../../redux/actions/replyAction';
 
 import PersonalInfo from './components/PersonalInfo';
 import ReviewItem from './components/ReviewItem';
@@ -17,16 +19,17 @@ const styles = (theme => ({
 	container: {
 		width: '100%',
 		minWidth: 350,
-		maxWidth: 550,
-		margin: 'auto',
-		paddingTop: 15
+		maxWidth: 551,
+		paddingTop: 15,
+		border: '1px solid #D8E0E8',
+		borderRadius: 3,
+		margin: '10px auto'
 	},
 	flexContainer: {
 		display: 'flex',
 		justifyContent: 'space-between'
 	}
 }))
-
 
 class BookReview extends Component {
 
@@ -38,9 +41,10 @@ class BookReview extends Component {
 
 	render() {
 		const {
-			classes, isLoadingReviewById, review
+			classes, isLoadingReviewById, isSubmitting, review, handleSubmit,
+			values, handleChange, handleBlur
 		} = this.props;
-		const isLoading = isLoadingReviewById;
+		const isLoading = isLoadingReviewById || isSubmitting;
 
 		const createdDay = (date) => {
 			let createdYMD = date.split('T')[0].split('-');
@@ -55,6 +59,7 @@ class BookReview extends Component {
 			const { toggleLikeReviewStatus } = this.props
 			toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
 		}
+
 		return (
 			<TopNav review={review}>
 				<Loading isLoading={isLoading} />
@@ -62,13 +67,51 @@ class BookReview extends Component {
 					<PersonalInfo review={review} createdDay={createdDay} />
 					<ReviewItem review={review} />
 					<RateSection review={review} handleToggleLikeReview={handleToggleLikeReview} />
-					<CommentList commentList={demoCommentList} review={review} />
+					<CommentList
+						commentList={demoCommentList}
+						values={values}
+						review={review}
+						handleSubmit={handleSubmit}
+						handleChange={handleChange}
+						handleBlur={handleBlur}
+						createdDay={createdDay}
+					/>
 				</div>
 			</TopNav>
 		);
 	}
 }
 
+const CreateReplyWithFormik = withFormik({
+	mapPropsToValues: (props) => {
+		return {
+			content: ''
+		}
+	},
+
+	handleSubmit: async (values, { setSubmitting, props }) => {
+		const {
+			isSubmitting,
+			createNewReply,
+			match
+		} = props
+		const reviewId = match.params.reviewId
+
+		if (isSubmitting) return
+		setSubmitting(true)
+
+		let { content } = values
+
+		const data = {
+			content,
+			reviewId
+		}
+
+		createNewReply(data)
+		values.content = ''
+		setSubmitting(false)
+	}
+})(withStyles(styles)(BookReview))
 
 const mapStateToProps = ({ review }) => {
 	return {
@@ -80,7 +123,8 @@ const mapStateToProps = ({ review }) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
 	getReview: getReviewById,
+	createNewReply: postReply,
 	toggleLikeReviewStatus: toggleLikeReview
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookReview));
+export default connect(mapStateToProps, mapDispatchToProps)(CreateReplyWithFormik);

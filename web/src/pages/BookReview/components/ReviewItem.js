@@ -21,7 +21,8 @@ const styles = (theme => ({
 	},
 	reviewImages: {
 		display: 'grid',
-		gridTemplateColumns: `repeat(${getGrid()}, 1fr)`
+		gridTemplateColumns: `repeat(${getGrid()}, 1fr)`,
+
 	},
 	reviewImagesThree: {
 		'& :nth-child(3)': {
@@ -31,12 +32,12 @@ const styles = (theme => ({
 	imageContainer: {
 		textAlign: 'center',
 		backgroundColor: '#EBEAEA',
-		height: `calc(550px/${getGrid()})`,
-
+		height: `calc(550px/${getGrid()})`
 		// min-width @550: {height: 550} else 100vw
 	},
 	reviewImage: {
-		height: `calc(550px/${getGrid()})`
+		height: `calc(550px/${getGrid()})`,
+		width: `calc(550px/${getGrid()})`
 		// min-width @550: {height: 550} else 100vw
 	}
 }))

@@ -10,6 +10,7 @@ const demoReview = {
     images: [
         require('../../static/images/demo/animal-farm.png'),
         require('../../static/images/demo/animal-farm.png'),
+        require('../../static/images/demo/animal-farm.png'),
         require('../../static/images/demo/animal-farm.png')
     ],
     avatar: require('../../static/images/demo/demo_avatar.png'),
