@@ -14,7 +14,8 @@ const styles = (theme => ({
   container: {
     width: '100%',
     margin: 5,
-    marginRight: 10
+    marginRight: 10,
+    zIndex: 100
   }
 }))
 
@@ -106,6 +107,7 @@ class SearchBar extends React.Component {
 
   render() {
     const { classes } = this.props
+    const last = this.state.bookListOption.slice(-1)[0];
     return (
       <div className={classes.container}>
         <Loading isLoading={this.state.ultraWaiting}/>
@@ -114,7 +116,9 @@ class SearchBar extends React.Component {
           loadOptions={this.reloadOption}
           cacheOptions
           // defaultOptions={this.state.bookListOption}
-          placeholder='Tìm sách cùng ShareBook'/>
+          placeholder='Tìm sách cùng ShareBook'
+          defaultValue={last}
+        />
       </div> 
     ) 
   }

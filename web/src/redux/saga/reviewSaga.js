@@ -17,6 +17,9 @@ import {
   getReviewById,
   getReviewByIdSuccess,
   getReviewByIdFail,
+  toggleLikeSingleReview,
+  toggleLikeSingleReviewSuccess,
+  toggleLikeSingleReviewFail,
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -158,6 +161,34 @@ function* toggleLikeReviewSaga({ payload }) {
   }
 }
 
+function* toggleLikeSingleReviewSaga({ payload }) {
+  try {
+    const { reviewId, likeReviewId, likeStatus } = payload
+    console.log(likeStatus)
+    let likeReviewResponse
+    if (!likeReviewId) {
+      likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
+        reviewId,
+        isLike: likeStatus,
+        attachUser: true
+      })
+    } else {
+      likeReviewResponse = yield call(restConnector.patch, `/likeReviews/${likeReviewId}`, {
+        reviewId,
+        isLike: likeStatus,
+        attachUser: true
+      })
+    }
+
+    yield put(toggleLikeSingleReviewSuccess({
+      reviewId,
+      likeReviewId: likeReviewResponse.data.id
+    }))
+  } catch (error) {
+    yield put(toggleLikeSingleReviewFail(error))
+  }
+}
+
 function* getReviewByIdSaga({ payload }) {
   try {
     const { userId, reviewId } = payload
@@ -218,6 +249,10 @@ function* toggleLikeReviewWatcher() {
   yield takeLatest(toggleLikeReview, toggleLikeReviewSaga)
 }
 
+function* toggleLikeSingleReviewWatcher() {
+  yield takeLatest(toggleLikeSingleReview, toggleLikeSingleReviewSaga)
+}
+
 function* getReviewByIdWatcher() {
   yield takeLatest(getReviewById, getReviewByIdSaga)
 }
@@ -227,5 +262,6 @@ export {
   getReviewByUserWatcher,
   getReviewsOfBookWatcher,
   toggleLikeReviewWatcher,
-  getReviewByIdWatcher
+  getReviewByIdWatcher,
+  toggleLikeSingleReviewWatcher
 }
