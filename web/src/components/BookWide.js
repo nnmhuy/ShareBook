@@ -118,15 +118,13 @@ const Book = (props) => {
           </Link>
         </div>
         <div className={classes.author}>
-          <Link to={`/filter/author=${author}`}>
-            <LinesEllipsis
-              text={author}
-              maxLine='1'
-              ellipsis='..'
-              trimRight
-              basedOn='words'
-            />
-          </Link>
+          <LinesEllipsis
+            text={author}
+            maxLine='1'
+            ellipsis='..'
+            trimRight
+            basedOn='words'
+          />
         </div>
         <Rating value={rating} precision={0.5} readOnly className={classes.rating} />
         {isBookmarked ?

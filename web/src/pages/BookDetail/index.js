@@ -30,7 +30,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-
+      bookId: null
     }
   }
 
@@ -39,6 +39,19 @@ class App extends React.Component {
     const bookId = match.params.bookId
     getBookDetail({ bookId, userId })
   }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.match.params.bookId !== prevState.bookId){
+      const { getBookDetail, match, getReviews, userId, getInstances } = nextProps
+      const bookId = match.params.bookId
+      getBookDetail({ bookId, userId })
+      getReviews({ userId, bookId, page: 0, limit: numberOfReviewsPerPage})
+      getInstances({ bookId, page: 0, limit: numberOfBookInstancesPerPage})
+      return {
+        bookId: bookId
+      }
+   }
+   return null;
+ }
 
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
