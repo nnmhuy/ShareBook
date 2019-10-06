@@ -150,14 +150,11 @@ function* getCategoryListSaga({ payload }) {
       if (suf.name === 'Chưa xác định') return -1 
       return pre.id-suf.id
     })
-    console.log(skipAllBook)
     if (!skipAllBook) {
       let allCategory = { name: 'Tất cả sách', url: '/category/all', image: '/containers/defaultContainer/download/logo.png', totalOfBook: 0, id: 'all' }
-      console.log(allCategory)
       categoryList.forEach(element => {
         allCategory.totalOfBook += element.totalOfBook
       });
-      console.log(allCategory)
       categoryList.unshift(allCategory)
     }
     yield put(getCategoryListSuccess(categoryList));

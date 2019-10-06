@@ -13,7 +13,7 @@ import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked.sv
 const styles = (theme => ({
   container: {
     height: 200,
-    width: 'fit-content'
+    width: 110
   },
   imageContainer: {
     height: 150,

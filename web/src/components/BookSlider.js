@@ -36,50 +36,69 @@ const styles = (theme => ({
   }
 }))
 
-const BookSlider = (props) => {
-  const { isExtended, classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = props
-  return (
-    <div {...other}>
-      <div className={classes.titleContainer}>
-        <span className={classes.title}>{title}</span>
-        {isExtended && <Link to={url} className={classes.viewMore}>Xem thêm</Link>}
-      </div>
-      {isLoading ?
-        <div className={classes.loading}>
-          <ScaleLoader color={colors.primary} />
+class BookSlider extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      visibleBook: 3
+    }
+
+    window.clearInterval(this.throttleCalculate)
+    this.throttleCalculate = window.setInterval(this.calculateNumber, 500)
+  }
+
+  calculateNumber = () => {
+    this.setState({visibleBook: Math.min(window.innerWidth / 150, 6)})
+  }
+
+  render() {
+
+    const { isExtended, classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = this.props
+    
+    return (
+      <div {...other}>
+        <div className={classes.titleContainer}>
+          <span className={classes.title}>{title}</span>
+          {isExtended && <Link to={url} className={classes.viewMore}>Xem thêm</Link>}
         </div>
-        :
-        <CarouselProvider
-          className={classes.carousel}
-          naturalSlideWidth={102}
-          naturalSlideHeight={205}
-          totalSlides={bookList.length}
-          visibleSlides={6}
-        >
-          <Slider>
-            {
-              bookList.map(book => {
-                return (
-                  <Slide key={book.id}>
-                    <Book
-                      id={book.id}
-                      bookmarkId={book.bookmarkId}
-                      name={book.name}
-                      author={book.author}
-                      image={book.image}
-                      isBookmarked={book.isBookmarked}
-                      rating={book.rating}
-                      handleToggleBookmark={handleToggleBookmark}
-                    />
-                  </Slide>
-                )
-              })
-            }
-          </Slider>
-        </CarouselProvider>
-      }
-    </div>
-  )
+        {isLoading ?
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary} />
+          </div>
+          :
+          <CarouselProvider
+            className={classes.carousel}
+            naturalSlideWidth={102}
+            naturalSlideHeight={165}
+            totalSlides={bookList.length}
+            visibleSlides={this.state.visibleBook}
+          >
+            <Slider>
+              {
+                bookList.map(book => {
+                  return (
+                    <Slide key={book.id}>
+                      <Book
+                        id={book.id}
+                        bookmarkId={book.bookmarkId}
+                        name={book.name}
+                        author={book.author}
+                        image={book.image}
+                        isBookmarked={book.isBookmarked}
+                        rating={book.rating}
+                        handleToggleBookmark={handleToggleBookmark}
+                      />
+                    </Slide>
+                  )
+                })
+              }
+            </Slider>
+          </CarouselProvider>
+        }
+      </div>
+    )
+  }
 }
 
 export default withStyles(styles)(BookSlider)

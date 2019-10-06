@@ -7,7 +7,6 @@ import TabPanel from '../../../components/TabPanel'
 import BookAbout from './BookAbout'
 import BookInstanceList from './BookInstanceList'
 import ReviewList from './ReviewList'
-import Loading from '../../../components/LocalLoading'
 
 import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../../constants/constants'
 import LocalLoading from '../../../components/LocalLoading'
