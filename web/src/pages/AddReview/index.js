@@ -1,9 +1,11 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from "react-router"
+import { withRouter } from 'react-router'
 import { withStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
+import Button from '@material-ui/core/Button'
+
 
 import Loading from '../../components/Loading'
 import TopNav from './components/TopNav'
@@ -16,6 +18,8 @@ import { getReviewByUser, postReview } from '../../redux/actions/reviewAction'
 import { uploadImagePromise } from '../../helper/uploadImage'
 import _ from 'lodash'
 
+import colors from '../../constants/colors'
+
 
 const styles = (theme => ({
   container: {
@@ -24,6 +28,13 @@ const styles = (theme => ({
     minWidth: 350,
     maxWidth: 800,
     margin: 'auto',
+  },
+  button: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 20,
+    background: colors.primary,
+    color: '#fff'
   }
 }))
 
@@ -89,6 +100,13 @@ class AddReview extends React.Component {
             handleChange={handleChange}
             handleBlur={handleBlur}
           />
+          <Button
+            className={classes.button}
+            onClick={handleSubmit}
+            disableFocusRipple
+          >
+            Đăng
+					</Button>
         </div>
       </TopNav>
     )
