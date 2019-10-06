@@ -30,21 +30,47 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-
+      bookId: null,
+      touched: {},
+      activeTab: 0
     }
   }
 
-  componentWillMount() {
-    const { getBookDetail, match, userId } = this.props
-    const bookId = match.params.bookId
-    getBookDetail({ bookId, userId })
+  setTouched = (touched) => {
+    this.setState({
+      touched
+    })
   }
+
+  setActiveTab = (value) => {
+    this.setState({
+      activeTab: value
+    })
+  }
+
+  
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.match.params.bookId !== prevState.bookId){
+      const { getBookDetail, match, userId } = nextProps
+      const bookId = match.params.bookId
+      getBookDetail({ bookId, userId })
+      return {
+        bookId: bookId,
+        touched: {},
+        activeTab: 0
+      }
+   }
+   return null;
+ }
 
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
       bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory,
       isLoadingReview, isLoadingInstances
     } = this.props
+
+    const { touched, activeTab } = this.state
+
     const bookId = match.params.bookId
 
     const handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
@@ -74,6 +100,10 @@ class App extends React.Component {
               isLoadingReview={isLoadingReview}
               userId={userId}
               handleToggleLikeReview={handleToggleLikeReview}
+              touched={touched}
+              setTouched={this.setTouched}
+              activeTab={activeTab}
+              setActiveTab={this.setActiveTab}
             />
             <BookSlider
               isExtended
