@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { demoReview } from '../demoData';
 import Image from '../../../components/Image';
 
 const getGrid = () => {
-	if (demoReview.images.length >= 2) return 2;
+	if (4 >= 2) return 2;
 	else return 1;
 }
 

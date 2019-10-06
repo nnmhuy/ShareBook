@@ -32,7 +32,6 @@ const styles = (theme => ({
 		position: 'relative',
 		height: 'auto',
 		transform: 'rotate(180deg)',
-		marginLeft: '-5px',
 		width: 16
 	},
 	rateIcon: {
@@ -62,6 +61,13 @@ const styles = (theme => ({
 		fontWeight: 600,
 		fontSize: 14,
 		marginLeft: 7
+	},
+	dislikeIconLeft: {
+		position: 'relative',
+		height: 'auto',
+		transform: 'rotate(180deg)',
+		width: 16,
+		marginLeft: '-5px'
 	}
 }))
 
@@ -73,57 +79,122 @@ class RateSection extends Component {
 		}
 	}
 
+	renderLikes = (classes, likeStatus, numberOfLike, numberOfDislike) => {
+		return <div className={classes.buttonContainer}>
+			{
+					numberOfDislike === 0 && numberOfLike === 0
+					?
+					<>Hãy là người đầu tiên like</>
+					:
+					<>
+						{
+							numberOfLike !== 0 &&
+							<LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
+						}
+						{
+							numberOfDislike !== 0 &&
+							<LikeFilledIcon fill='#D75A4A' className={numberOfLike === 0 ? classes.dislikeIcon : classes.dislikeIconLeft} />
+						}
+						<span className={classes.reactionText}>
+							{
+								(
+									(likeStatus === 1 && numberOfDislike === 0 && numberOfLike === 1)
+									||
+									(likeStatus === -1 && numberOfDislike === 0 && numberOfDislike === 1)
+								) &&
+								`Tên của bạn`
+							}
+							{
+								(likeStatus !== 0 && (numberOfDislike >= 1 || numberOfLike >= 1))
+								&&
+								`Bạn và ${(numberOfDislike + numberOfLike - 1)} người`
+							}
+							{
+								likeStatus === 0 &&
+								`${(numberOfDislike + numberOfLike)} người`
+							}
+						</span>
+					</>
+			}
+		</div>
+	}
+
 	render() {
-		const { classes, review, handleToggleLikeReview } = this.props;
-		// const { numberOfDislike, numberOfLike } = review.review;
-		// const { likeReviewId, likeStatus } = review;
+		const { classes, review, handleToggleLikeReview, isLoading } = this.props;
 		const onToggleLike = (likeStatus) => () => {
 			handleToggleLikeReview(review.review.id, review.likeReviewId, likeStatus);
 		}
 		return (
 			<div className={classes.flexContainer}>
-				<div className={classes.buttonContainer}>
-					{
-						review && review.review &&
-							review.review.numberOfDislike === 0 &&
-							review.review.numberOfLike === 0
-							// this.state.status === 0
-							?
-							<>Hãy là người đầu tiên like</>
-							:
-							<>
-								{
-									review && review.review && review.review.numberOfLike !== 0 &&
-									<LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
-								}
-								{
-									review && review.review && review.review.numberOfDislike !== 0 &&
-									<LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} />
-								}
-								<span className={classes.reactionText}>
-									{
-										review && review.review && review.review.numberOfLike !== 0 && review.review.numberOfDislike !== 0 ?
-											`Bạn và ${review && review.review && (review.review.numberOfDislike + review.review.numberOfLike - 1)} người`
-											:
-											`${review && review.review && (review.review.numberOfDislike + review.review.numberOfLike)} người`
-									}
-								</span>
-							</>
-					}
-				</div>
-				<div>
-					{review && review.likeStatus === 1 ?
-						<LikeFilledIcon fill={colors.primary} className={classes.rateIcon} onClick={onToggleLike(0)} />
+				{
+					isLoading ?
+						<>
+							<div className={classes.buttonContainer}>
+								<LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
+								<LikeFilledIcon fill='#D75A4A' className={classes.dislikeIcon} style={{marginLeft: '-5px'}}/>
+							</div>
+							<div>
+								<LikeNotFilledIcon fill={colors.primary} className={classes.rateIcon}/>
+								<LikeNotFilledIcon fill='#D75A4A' className={[classes.icon, classes.rateIcon].join(' ')}/>
+								<ShareIcon fill={colors.primary} className={classes.rateIcon} />
+							</div>
+						</>
 						:
-						<LikeNotFilledIcon fill={colors.primary} className={classes.rateIcon} onClick={onToggleLike(1)} />
-					}
-					{review && review.likeStatus === -1 ?
-						<LikeFilledIcon fill='#D75A4A' className={[classes.icon, classes.rateIcon].join(' ')} onClick={onToggleLike(0)} />
-						:
-						<LikeNotFilledIcon fill='#D75A4A' className={[classes.icon, classes.rateIcon].join(' ')} onClick={onToggleLike(-1)} />
-					}
-					<ShareIcon fill={colors.primary} className={classes.rateIcon} />
-				</div>
+						<>
+							<div className={classes.buttonContainer}>
+								{
+									review && review.review &&
+										review.review.numberOfDislike === 0 &&
+										review.review.numberOfLike === 0
+										?
+										<>Hãy là người đầu tiên like</>
+										:
+										<>
+											{
+												review && review.review && review.review.numberOfLike !== 0 &&
+												<LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
+											}
+											{
+												review && review.review && review.review.numberOfDislike !== 0 &&
+												<LikeFilledIcon fill='#D75A4A' className={review.review.numberOfLike===0 ? classes.dislikeIcon : classes.dislikeIconLeft} />
+											}
+											<span className={classes.reactionText}>
+												{
+													(
+														(review && review.likeStatus === 1 && review.review && review.review.numberOfDislike === 0 && review.review.numberOfLike === 1)
+														||
+														(review && review.likeStatus === -1 && review.review && review.review.numberOfDislike === 1 && review.review.numberOfLike === 0)
+													) &&
+													`Tên của bạn`
+												}
+												{
+													(review && review.likeStatus !== 0 && review.review && (review.review.numberOfDislike >= 1 || review.review.numberOfLike >= 1))
+													&&
+													`Bạn và ${review && review.review && (review.review.numberOfDislike + review.review.numberOfLike - 1)} người`
+												}
+												{
+													review && review.likeStatus === 0 && 
+														`${review && review.review && (review.review.numberOfDislike + review.review.numberOfLike)} người`
+												}
+											</span>
+										</>
+								}
+							</div>
+							<div>
+								{review && review.likeStatus === 1 ?
+									<LikeFilledIcon fill={colors.primary} className={classes.rateIcon} onClick={onToggleLike(0)} />
+									:
+									<LikeNotFilledIcon fill={colors.primary} className={classes.rateIcon} onClick={onToggleLike(1)} />
+								}
+								{review && review.likeStatus === -1 ?
+									<LikeFilledIcon fill='#D75A4A' className={[classes.icon, classes.rateIcon].join(' ')} onClick={onToggleLike(0)} />
+									:
+									<LikeNotFilledIcon fill='#D75A4A' className={[classes.icon, classes.rateIcon].join(' ')} onClick={onToggleLike(-1)} />
+								}
+								<ShareIcon fill={colors.primary} className={classes.rateIcon} />
+							</div>
+						</>
+				}
 			</div>
 		);
 	}
