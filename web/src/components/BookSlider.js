@@ -1,7 +1,8 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Carousel from 'nuka-carousel'
 import ScaleLoader from 'react-spinners/ScaleLoader'
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import Link from './Link'
 import Book from './Book'
@@ -44,36 +45,38 @@ const BookSlider = (props) => {
         {isExtended && <Link to={url} className={classes.viewMore}>Xem thêm</Link>}
       </div>
       {isLoading ?
-          <div className={classes.loading}>
-            <ScaleLoader color={colors.primary}/>
-          </div>
+        <div className={classes.loading}>
+          <ScaleLoader color={colors.primary} />
+        </div>
         :
-        <Carousel
+        <CarouselProvider
           className={classes.carousel}
-          slideWidth='102px'
-          cellSpacing={40}
-          withoutControls
-          slidesToScroll='auto'
-          initialSlideHeight={205}
+          naturalSlideWidth={102}
+          naturalSlideHeight={205}
+          totalSlides={bookList.length}
+          visibleSlides={6}
         >
-          {
-            bookList.map(book => {
-              return (
-                <Book
-                  id={book.id}
-                  bookmarkId={book.bookmarkId}
-                  name={book.name}
-                  author={book.author}
-                  image={book.image}
-                  isBookmarked={book.isBookmarked}
-                  rating={book.rating}
-                  handleToggleBookmark={handleToggleBookmark}
-                  key={book.id}
-                />
-              )
-            })
-          }
-        </Carousel>
+          <Slider>
+            {
+              bookList.map(book => {
+                return (
+                  <Slide key={book.id}>
+                    <Book
+                      id={book.id}
+                      bookmarkId={book.bookmarkId}
+                      name={book.name}
+                      author={book.author}
+                      image={book.image}
+                      isBookmarked={book.isBookmarked}
+                      rating={book.rating}
+                      handleToggleBookmark={handleToggleBookmark}
+                    />
+                  </Slide>
+                )
+              })
+            }
+          </Slider>
+        </CarouselProvider>
       }
     </div>
   )
