@@ -162,7 +162,6 @@ const bookReducer = handleActions(
     },
     [toggleLikeSingleReview]: (state, { payload: { reviewId, likeStatus } }) => {
       const singleReview = JSON.parse(JSON.stringify(state.singleReview))
-      const { review } = singleReview
       if (singleReview.likeStatus === -1) {
         --singleReview.review.numberOfDislike
       }
@@ -176,7 +175,6 @@ const bookReducer = handleActions(
         ++singleReview.review.numberOfLike
       }
       singleReview.likeStatus = likeStatus
-      console.log(singleReview)
 
       return {
         ...state,
