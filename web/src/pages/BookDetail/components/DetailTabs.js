@@ -22,11 +22,9 @@ const styles = (theme => ({
 
 const DetailTabs = (props) => {
   const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances,
-    handleToggleLikeReview, isLoadingReview, isLoadingInstances
+    handleToggleLikeReview, isLoadingReview, isLoadingInstances, touched, setTouched,
+    activeTab, setActiveTab
   } = props
-  const [ activeTab, setActiveTab ] = React.useState(0)
-  const [ touched, setTouched ] = React.useState({})
-
 
   const handleChangeTab = (event, value) => {
     if (!touched[value]) {
