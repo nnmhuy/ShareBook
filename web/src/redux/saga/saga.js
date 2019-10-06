@@ -24,6 +24,7 @@ import {
   getReviewByUserWatcher,
   getReviewsOfBookWatcher,
   toggleLikeReviewWatcher,
+  toggleLikeSingleReviewWatcher,
   postReviewWatcher,
   getReviewByIdWatcher
 } from './reviewSaga'
@@ -61,6 +62,7 @@ export default function* rootSaga() {
     getReviewsOfBookWatcher(),
     toggleLikeReviewWatcher(),
     getReviewByIdWatcher(),
+    toggleLikeSingleReviewWatcher(),
 
     getTransactionWatcher(),
     sendMessageWatcher(),

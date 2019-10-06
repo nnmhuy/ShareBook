@@ -10,6 +10,7 @@ import Link from '../../components/Link'
 import NewsSlider from './components/NewsSlider'
 import CategoryList from './components/CategoryList'
 import BookSlider from '../../components/BookSlider'
+import BookSliderTest from '../../components/BookSliderTest'
 import TopBook from './components/TopBook'
 import SearchBar from './components/SearchBar'
 import getListCondition from '../../helper/getListCondition'
@@ -131,7 +132,7 @@ class BookList extends React.Component {
           </div>
           <NewsSlider newsData={currentCategoryList}/>
           <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
-          <BookSlider
+          <BookSliderTest
             title={'Sách mới'} // createAt 
             url={`/category/new`}
             bookList={_.get(bookListData, 'new', [])} 

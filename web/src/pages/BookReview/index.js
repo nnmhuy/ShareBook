@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
 
 import { demoCommentList } from './demoData';
-import { getReviewById, toggleLikeReview } from '../../redux/actions/reviewAction';
+import { getReviewById, toggleLikeSingleReview } from '../../redux/actions/reviewAction';
 import { postReply } from '../../redux/actions/replyAction';
 
 import PersonalInfo from './components/PersonalInfo';
@@ -124,7 +124,7 @@ const mapStateToProps = ({ review }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
 	getReview: getReviewById,
 	createNewReply: postReply,
-	toggleLikeReviewStatus: toggleLikeReview
+	toggleLikeReviewStatus: toggleLikeSingleReview
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReplyWithFormik);
