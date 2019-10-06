@@ -181,7 +181,6 @@ function* getBookInfoSaga({ payload }) {
   try {
     const { bookId, userId } = payload
     const { data: bookData } = yield call(restConnector.get, `/books/${bookId}`)
-    yield put(getBookOfCategory({ categoryId: bookData.categoryId, userId }))
     const { data: bookmarkData } = yield call(restConnector.get, `/books/${bookId}/bookmarks/count?where={"isActive":true}`)
     const { data: numberOfReviews } = yield call(restConnector.get, `/books/${bookId}/reviews/count`)
     const { data: numberOfBookInstances } = yield call(restConnector.get, `/books/${bookId}/bookInstances/count`)
@@ -197,6 +196,7 @@ function* getBookInfoSaga({ payload }) {
     }
 
     yield put(getBookInfoSuccess(data))
+    yield put(getBookOfCategory({ categoryId: bookData.categoryId, userId }))
   } catch (error) {
     yield put(getBookInfoFail(error))
   }
@@ -206,7 +206,7 @@ function* getBookOfCategorySaga({ payload }) {
   try {
     const { categoryId, userId } = payload
     const { data: categoryData } = yield call(restConnector.get, `/categories/${categoryId}`)
-    const { data: bookOfCategoryData } = yield call(restConnector.get, `/categories/${categoryId}/books`)
+    const { data: bookOfCategoryData } = yield call(restConnector.get, `/categories/${categoryId}/books?filter={"limit":12,"orderBy":"numberOfRating DESC"}`)
 
     let bookIdList = [] 
     bookOfCategoryData.forEach(book => {

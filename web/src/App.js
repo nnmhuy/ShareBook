@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ScrollToTop from './components/ScrollToTop'
+
 import Home from './pages/Home/index'
 import Account from './pages/Account/index'
 import BookDetail from './pages/BookDetail/index'
@@ -42,26 +44,28 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/account" exact component={Account} />
-          <Route path="/book-detail/:bookId" exact component={BookDetail} />
-          <Route path="/book-list" exact component={BookList} />
-          <Route path="/category/:categoryId" exact component={CategoryBookList} />
-          <Route path="/categories" exact component={CategoryList} />
-          <Route path="/add-review/:bookId" exact component={AddReview} />
-          <Route path="/filter" exact component={Filter} />
-          <Route path="/transaction-list" exact component={TransactionList} />
-          <Route path="/transaction/:transactionId" exact component={Transaction} />
-          <Route path="/review/:reviewId" exact component={BookReview} />
-          <Route path="/create-book" exact component={CreateBook} />
-          <Route path="/create-instance/:bookId" exact component={CreateInstance} />
-          <Route path="/profile" exact component={Profile} />
-          <Route path="/report" exact component={Report} />
-          <Route path="/report/:type-:value" exact component={Report} />
-          <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
-          <Route component={NotFound} />
-        </Switch>
+        <ScrollToTop>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/account" exact component={Account} />
+            <Route path="/book-detail/:bookId" exact component={BookDetail} />
+            <Route path="/book-list" exact component={BookList} />
+            <Route path="/category/:categoryId" exact component={CategoryBookList} />
+            <Route path="/categories" exact component={CategoryList} />
+            <Route path="/add-review/:bookId" exact component={AddReview} />
+            <Route path="/filter" exact component={Filter} />
+            <Route path="/transaction-list" exact component={TransactionList} />
+            <Route path="/transaction/:transactionId" exact component={Transaction} />
+            <Route path="/review/:reviewId" exact component={BookReview} />
+            <Route path="/create-book" exact component={CreateBook} />
+            <Route path="/create-instance/:bookId" exact component={CreateInstance} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/report" exact component={Report} />
+            <Route path="/report/:type-:value" exact component={Report} />
+            <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
+            <Route component={NotFound} />
+          </Switch>
+        </ScrollToTop>
         <ToastContainer></ToastContainer>
       </Router>
     )

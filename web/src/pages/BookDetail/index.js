@@ -12,7 +12,6 @@ import RateSection from './components/RateSection'
 import DetailTabs from './components/DetailTabs'
 import BookSlider from '../../components/BookSlider'
 
-import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
 import { getBookInfo, toggleBookmark } from '../../redux/actions/bookAction'
 import { getBookInstances } from '../../redux/actions/bookInstanceAction'
 import { getReviewsOfBook, toggleLikeReview } from '../../redux/actions/reviewAction'
@@ -36,16 +35,15 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const { getBookDetail, match, getReviews, userId, getInstances } = this.props
+    const { getBookDetail, match, userId } = this.props
     const bookId = match.params.bookId
     getBookDetail({ bookId, userId })
-    getReviews({ userId, bookId, page: 0, limit: numberOfReviewsPerPage})
-    getInstances({ bookId, page: 0, limit: numberOfBookInstancesPerPage})
   }
 
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
-      bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory
+      bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory,
+      isLoadingReview, isLoadingInstances
     } = this.props
     const bookId = match.params.bookId
 
@@ -70,8 +68,10 @@ class App extends React.Component {
               book={bookDetail}
               bookInstanceList={bookInstances}
               getInstances={getInstances}
+              isLoadingInstances={isLoadingInstances}
               reviewList={reviews}
               getReviews={getReviews}
+              isLoadingReview={isLoadingReview}
               userId={userId}
               handleToggleLikeReview={handleToggleLikeReview}
             />
@@ -98,7 +98,9 @@ const mapStateToProps = ({ book, review, bookInstances }) => {
     category: book.category,
     isLoadingCategory: book.isLoadingCategory,
     bookOfCategory: book.bookOfCategory,
+    isLoadingReview: review.isLoading,
     reviews: review.reviewsOfBook,
+    isLoadingInstances: bookInstances.isLoading,
     bookInstances: bookInstances.bookInstances
   }
 }

@@ -58,7 +58,7 @@ const styles = (theme => ({
   }
 }))
 
-const defaultValue = {numberOfBookPerPage: 6}
+const defaultValue = {numberOfBookPerPage: 12}
 
 class CategoryBookList extends React.Component {
   constructor(props) {

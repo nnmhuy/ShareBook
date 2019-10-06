@@ -77,7 +77,11 @@ class BookList extends React.Component {
     }
 
 
-    this.props.getBookListHandler({key:'new', where,
+    this.props.getBookListHandler({key:'new', 
+      where: {
+        ...where,
+        totalOfBookInstance: {gte: 1}
+      },
       limit: 12,
       userId: this.props.account.userId,
       order: 'createdAt DESC'
