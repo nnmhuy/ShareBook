@@ -15,7 +15,10 @@ import {
   getReviewsOfBookFail,
   toggleLikeReview,
   toggleLikeReviewSuccess,
-  toggleLikeReviewFail
+  toggleLikeReviewFail,
+  toggleLikeSingleReview,
+  toggleLikeSingleReviewSuccess,
+  toggleLikeSingleReviewFail
 } from '../actions/reviewAction'
 
 let defaultState = {
@@ -156,7 +159,45 @@ const bookReducer = handleActions(
         isLoadingReviewById: false,
         error: error
       }
-    }
+    },
+    [toggleLikeSingleReview]: (state, { payload: { reviewId, likeStatus } }) => {
+      const singleReview = JSON.parse(JSON.stringify(state.singleReview))
+      const { review } = singleReview
+      if (singleReview.likeStatus === -1) {
+        --singleReview.review.numberOfDislike
+      }
+      if (singleReview.likeStatus === 1) {
+        --singleReview.review.numberOfLike
+      }
+      if (likeStatus === -1) {
+        ++singleReview.review.numberOfDislike
+      }
+      if (likeStatus === 1) {
+        ++singleReview.review.numberOfLike
+      }
+      singleReview.likeStatus = likeStatus
+      console.log(singleReview)
+
+      return {
+        ...state,
+        singleReview
+      }
+    },
+    [toggleLikeSingleReviewSuccess]: (state, { payload: { reviewId, likeReviewId } }) => {
+      const singleReview = JSON.parse(JSON.stringify(state.singleReview))
+      singleReview.review.likeReviewId = likeReviewId
+      return {
+        ...state,
+        singleReview,
+        error: null
+      }
+    },
+    [toggleLikeSingleReviewFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error: error
+      }
+    },
   },
   defaultState
 )
