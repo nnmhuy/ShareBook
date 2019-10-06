@@ -5,8 +5,8 @@ import { IconButton } from '@material-ui/core'
 import colors from '../../../constants/colors'
 import CustomTopNav from '../../../components/CustomTopNav'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
-import { ReactComponent as HeartIcon } from '../../../static/images/heart.svg'
-import { ReactComponent as HeartFullIcon } from '../../../static/images/heart-full.svg'
+import { ReactComponent as BookmarkIcon } from '../../../static/images/bookmark.svg'
+import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked.svg'
 
 const styles = (theme => ({
   backButton: {
@@ -16,7 +16,7 @@ const styles = (theme => ({
     width: 14,
     height: 'auto',
   },
-  heartIcon: {
+  bookmarkIcon: {
     height: 25,
     width: 'auto',
     cursor: 'pointer',
@@ -53,9 +53,9 @@ const TopNav = (props) => {
       }
       right={
         isBookmarked?
-          <HeartFullIcon className={classes.heartIcon} onClick={handleToggleLike}/>
+          <BookmarkedIcon className={classes.bookmarkIcon} fill={colors.primary} onClick={handleToggleLike}/>
           :
-          <HeartIcon className={classes.heartIcon} fill={colors.primary} onClick={handleToggleLike}/>
+          <BookmarkIcon className={classes.bookmarkIcon} fill={colors.primary} onClick={handleToggleLike}/>
       }
     >
       {children}
