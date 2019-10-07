@@ -4,7 +4,8 @@ import Link from '../../../components/Link';
 import colors from '../../../constants/colors';
 
 import Avatar from '../../../components/Avatar'
-import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg'
+import { ReactComponent as LikeFilledIcon } from '../../../static/images/like-filled.svg';
+import { ReactComponent as LikeNotFilledIcon } from '../../../static/images/like.svg';
 
 const styles = (theme => ({
 	flexContainer: {
@@ -37,7 +38,7 @@ const styles = (theme => ({
 		fontSize: 12,
 		lineHeight: 1.5,
 		color: 'gray',
-		marginRight: 10
+		marginLeft: 10
 	},
 	likeIcon: {
 		zIndex: 2
@@ -49,7 +50,7 @@ const styles = (theme => ({
 		position: 'relative',
 		height: 'auto',
 		cursor: 'pointer',
-		width: 18,
+		width: 13,
 		marginLeft: 5
 	},
 	rateSmallIcon: {
@@ -85,8 +86,13 @@ const styles = (theme => ({
 }))
 
 const CommentItem = props => {
-	const { classes, reply, createdDay } = props;
-
+	const { classes, reply, createdDay, handleToggleLikeReply, isLoading } = props;
+	const onToggleLike = (likeStatus) => {
+		// console.log(reply.id);
+		console.log('hello')
+		handleToggleLikeReply(reply.id, reply.likeReplyId, likeStatus)
+		// console.log(likeStatus)
+	}
 	return (
 		<div className={classes.flexContainer}>
 			<Link className={classes.username} to={`/profile/${reply && reply.userId}`}>
@@ -100,19 +106,17 @@ const CommentItem = props => {
 					{reply && reply.content}
 				</div>
 				<div className={classes.rateContainer}>
-					<div className={classes.date}>{createdDay(reply && reply.createdAt)}</div>
-					{/* {likeStatus === 1 ?
-						<LikeFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateIcon].join(' ')} />
+					{reply && reply.likeStatus === 1 ?
+						<LikeFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateIcon].join(' ')} onClick={()=>onToggleLike(0)}/>
 						:
-						<LikeNotFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateIcon].join(' ')} />
+						<LikeNotFilledIcon fill={colors.primary} className={[classes.likeIcon, classes.rateIcon].join(' ')} onClick={()=>onToggleLike(1)}/>
 					}
-					{likeStatus === 2 ?
-						<LikeFilledIcon fill='#D75A4A' className={[classes.dislikeIcon, classes.rateIcon].join(' ')} />
+					{reply && reply.likeStatus === -1 ?
+						<LikeFilledIcon fill='#D75A4A' className={[classes.dislikeIcon, classes.rateIcon].join(' ')} onClick={()=>onToggleLike(0)}/>
 						:
-						<LikeNotFilledIcon fill='#D75A4A' className={[classes.dislikeIcon, classes.rateIcon].join(' ')} />
-					} */}
-
-
+						<LikeNotFilledIcon fill='#D75A4A' className={[classes.dislikeIcon, classes.rateIcon].join(' ')} onClick={()=>onToggleLike(-1)}/>
+					}
+					<div className={classes.date}>{createdDay(reply && reply.createdAt)}</div>
 				</div>
 				<div className={classes.ratingsCounter}>
 					<div className={[classes.likeCounter, classes.rateCounter].join(' ')} >

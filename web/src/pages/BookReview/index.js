@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
 
 import { getReviewById, toggleLikeSingleReview } from '../../redux/actions/reviewAction';
-import { getReplies, postReply } from '../../redux/actions/replyAction';
+import { getReplies, postReply, toggleLikeReply } from '../../redux/actions/replyAction';
 
 import PersonalInfo from './components/PersonalInfo';
 import ReviewItem from './components/ReviewItem';
@@ -60,6 +60,11 @@ class BookReview extends Component {
 			toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
 		}
 
+		const handleToggleLikeReply = (replyId, likeReplyId, likeStatus) => {
+			const { toggleLikeReplyStatus } = this.props
+			toggleLikeReplyStatus({replyId, likeReplyId, likeStatus})
+		}
+
 		return (
 			<TopNav review={review}>
 				<Loading isLoading={isLoading} />
@@ -74,6 +79,7 @@ class BookReview extends Component {
 						handleChange={handleChange}
 						handleBlur={handleBlur}
 						createdDay={createdDay}
+						handleToggleLikeReply={handleToggleLikeReply}
 					/>
 				</div>
 			</TopNav>
@@ -126,7 +132,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 	getReview: getReviewById,
 	getRepliesOfReview: getReplies,
 	createNewReply: postReply,
-	toggleLikeReviewStatus: toggleLikeSingleReview
+	toggleLikeReviewStatus: toggleLikeSingleReview,
+	toggleLikeReplyStatus: toggleLikeReply
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReplyWithFormik);

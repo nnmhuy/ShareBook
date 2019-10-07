@@ -76,6 +76,7 @@ class BookSlider extends React.Component {
           >
             <Slider>
               {
+                
                 bookList.map(book => {
                   return (
                     <Slide key={book.id}>
@@ -88,6 +89,7 @@ class BookSlider extends React.Component {
                         isBookmarked={book.isBookmarked}
                         rating={book.rating}
                         handleToggleBookmark={handleToggleBookmark}
+                        totalOfBookInstance={book.totalOfBookInstance}
                       />
                     </Slide>
                   )

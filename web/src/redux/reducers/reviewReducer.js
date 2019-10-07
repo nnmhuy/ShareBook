@@ -94,7 +94,7 @@ const bookReducer = handleActions(
     [toggleLikeReviewFail]: (state, { payload: error }) => {
       return {
         ...state,
-        error: error
+        error
       }
     },
     [getReviewByUser]: (state) => {
@@ -160,7 +160,7 @@ const bookReducer = handleActions(
         error: error
       }
     },
-    [toggleLikeSingleReview]: (state, { payload: { reviewId, likeStatus } }) => {
+    [toggleLikeSingleReview]: (state, { payload: { likeStatus } }) => {
       const singleReview = JSON.parse(JSON.stringify(state.singleReview))
       if (singleReview.likeStatus === -1) {
         --singleReview.review.numberOfDislike

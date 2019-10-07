@@ -65,8 +65,8 @@ const styles = (theme => ({
 }))
 
 const CommentList = props => {
-	const { classes, values, handleChange, handleBlur, handleSubmit, createdDay } = props;
-	const replies = props.replies.replies;
+	const { classes, values, handleChange, handleToggleLikeReply, handleBlur, handleSubmit, createdDay } = props;
+	const replies = props.replies && props.replies.replies;
 	
 	return (
 		<div>
@@ -94,6 +94,7 @@ const CommentList = props => {
 								reply={reply}
 								key={reply.id}
 								createdDay={createdDay}
+								handleToggleLikeReply={handleToggleLikeReply}
 							/>
 						)
 					})

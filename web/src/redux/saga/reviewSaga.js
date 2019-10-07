@@ -71,7 +71,8 @@ function* getReviewsOfBookSaga({ payload }) {
     )
 
     const reviewsReply = yield all(
-      reviewsData.map(review => call(restConnector.get, `/reviews/${review.id}/replyReviews/count`))
+      // reviewsData.map(review => call(restConnector.get, `/reviews/${review.id}/replyReviews/count`))
+      reviewsData.map(review => call(restConnector.get, `/replies?filter={"where":{"reviewId":${JSON.stringify(review.id)}}}`))
     )
 
     let reviewIdList = []
@@ -116,7 +117,8 @@ function* getReviewsOfBookSaga({ payload }) {
         likeStatus = likeList[likeIndex].isLike
       }
 
-      const numberOfReplies = reviewsReply[index].data.count
+      // const numberOfReplies = reviewsReply[index].data.count
+      const numberOfReplies = reviewsReply[index].data.length
       return {
         ...review,
         name,

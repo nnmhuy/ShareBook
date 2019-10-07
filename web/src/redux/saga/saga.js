@@ -36,7 +36,8 @@ import {
 } from './transactionSaga'
 import {
   getRepliesWatcher,
-  postReplyWatcher
+  postReplyWatcher,
+  toggleLikeReplyWatcher
 } from './replySaga'
 
 export default function* rootSaga() {
@@ -72,5 +73,6 @@ export default function* rootSaga() {
 
     getRepliesWatcher(),
     postReplyWatcher(),
+    toggleLikeReplyWatcher()
   ]);
 }

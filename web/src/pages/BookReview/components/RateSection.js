@@ -79,46 +79,6 @@ class RateSection extends Component {
 		}
 	}
 
-	renderLikes = (classes, likeStatus, numberOfLike, numberOfDislike) => {
-		return <div className={classes.buttonContainer}>
-			{
-					numberOfDislike === 0 && numberOfLike === 0
-					?
-					<>Hãy là người đầu tiên like</>
-					:
-					<>
-						{
-							numberOfLike !== 0 &&
-							<LikeFilledIcon fill={colors.primary} className={classes.likeIcon} />
-						}
-						{
-							numberOfDislike !== 0 &&
-							<LikeFilledIcon fill='#D75A4A' className={numberOfLike === 0 ? classes.dislikeIcon : classes.dislikeIconLeft} />
-						}
-						<span className={classes.reactionText}>
-							{
-								(
-									(likeStatus === 1 && numberOfDislike === 0 && numberOfLike === 1)
-									||
-									(likeStatus === -1 && numberOfDislike === 0 && numberOfDislike === 1)
-								) &&
-								`Tên của bạn`
-							}
-							{
-								(likeStatus !== 0 && (numberOfDislike >= 1 || numberOfLike >= 1))
-								&&
-								`Bạn và ${(numberOfDislike + numberOfLike - 1)} người`
-							}
-							{
-								likeStatus === 0 &&
-								`${(numberOfDislike + numberOfLike)} người`
-							}
-						</span>
-					</>
-			}
-		</div>
-	}
-
 	render() {
 		const { classes, review, handleToggleLikeReview, isLoading } = this.props;
 		const onToggleLike = (likeStatus) => () => {
@@ -168,7 +128,7 @@ class RateSection extends Component {
 													`Tên của bạn`
 												}
 												{
-													(review && review.likeStatus !== 0 && review.review && (review.review.numberOfDislike >= 1 || review.review.numberOfLike >= 1))
+													(review && review.likeStatus !== 0 && review.review && (review.review.numberOfDislike + review.review.numberOfLike >= 2))
 													&&
 													`Bạn và ${review && review.review && (review.review.numberOfDislike + review.review.numberOfLike - 1)} người`
 												}

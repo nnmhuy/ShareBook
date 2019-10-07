@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import LinesEllipsis from 'react-lines-ellipsis'
+import Badge from '@material-ui/core/Badge'
 
 import Link from './Link'
 import Image from './Image'
@@ -13,7 +14,8 @@ import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked.sv
 const styles = (theme => ({
   container: {
     height: 200,
-    width: 110
+    width: 100,
+    marginTop: '5px'
   },
   imageContainer: {
     height: 150,
@@ -44,11 +46,16 @@ const styles = (theme => ({
   },
   rating: {
     fontSize: 12
+  },
+  customBadge: {
+    backgroundColor: '#30c37c',
+    width: 8,
+    height: 8
   }
 }))
 
 const Book = (props) => {
-  const { classes, id, bookmarkId, name, author, image, isBookmarked, handleToggleBookmark, ...other } = props
+  const { classes, id, bookmarkId, name, author, image, isBookmarked, handleToggleBookmark, totalOfBookInstance, ...other } = props
   let { rating } = props
   try {
     if (typeof rating === 'string')
@@ -64,7 +71,9 @@ const Book = (props) => {
   return (
     <div className={classes.container} {...other}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={image} alt={name} className={classes.image} />
+        <Badge classes={{ badge: classes.customBadge }} variant="dot" invisible={totalOfBookInstance===0?true:false}>
+          <Image src={image} alt={name} className={classes.image} />
+        </Badge>
       </Link>
       <div className={classes.name}>
         <Link to={`/book-detail/${id}`}>
