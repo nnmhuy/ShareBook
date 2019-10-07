@@ -48,7 +48,21 @@ class BookSlider extends React.Component {
     this.throttleCalculate = window.setInterval(this.calculateNumber, 500)
   }
 
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({visibleBook: Math.min(window.innerWidth / 150, 6)})
+  }
+
   calculateNumber = () => {
+
     this.setState({visibleBook: Math.min(window.innerWidth / 150, 6)})
   }
 
