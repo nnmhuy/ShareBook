@@ -55,12 +55,13 @@ function* getUserInfoSaga() {
 
 function* logOutSaga() {
   try {
-    const data = yield call(restConnector.post, '/users/logout')
     restConnector.removeAccessToken()
     Cookies.remove('userId')
     Cookies.remove('access_token')
     localStorage.clear()
     successAlert('Đăng xuất thành công')
+    window.location = '/book-list'
+    const data = yield call(restConnector.post, '/users/logout')
     yield put(logOutSuccess(data))
   } catch (error) {
     yield put(logOutFail(error))

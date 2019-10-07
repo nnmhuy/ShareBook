@@ -87,6 +87,20 @@ module.exports = function(Transaction) {
     return transaction.status;
   };
 
+  Transaction.remoteMethod('holderUpdate', {
+    accepts: [
+      {arg: 'transactionId', type: 'string', http: {source: 'path'}},
+      {arg: 'data', type: 'object', 'object': {source: 'body'}},
+      {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
+    ],
+    returns: {arg: 'newStatus', type: 'string'},
+    http: {
+      path: '/:transactionId/holder-status',
+      verb: 'put',
+      errorStatus: 400,
+    },
+  });
+
   Transaction.borrowerUpdate = async function(transactionId, data, ctx) {
     const {requestStatus} = data;
     const userId = _.get(ctx, 'req.accessToken.userId', null);
@@ -135,20 +149,6 @@ module.exports = function(Transaction) {
     return transaction.status;
   };
 
-  Transaction.remoteMethod('holderUpdate', {
-    accepts: [
-      {arg: 'transactionId', type: 'string', http: {source: 'path'}},
-      {arg: 'data', type: 'object', 'object': {source: 'body'}},
-      {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
-    ],
-    returns: {arg: 'newStatus', type: 'string'},
-    http: {
-      path: '/:transactionId/holder-status',
-      verb: 'put',
-      errorStatus: 400,
-    },
-  });
-
   Transaction.remoteMethod('borrowerUpdate', {
     accepts: [
       {arg: 'transactionId', type: 'string', http: {source: 'path'}},
@@ -158,6 +158,87 @@ module.exports = function(Transaction) {
     returns: {arg: 'newStatus', type: 'string'},
     http: {
       path: '/:transactionId/borrower-status',
+      verb: 'put',
+      errorStatus: 400,
+    },
+  });
+
+  Transaction.initTransaction = async function(bookId, ctx, instanceId) {
+    const userId = _.get(ctx, 'req.accessToken.userId', null);
+    const UserModel = Transaction.app.models.user;
+    const user = await UserModel.findById(userId);
+    if (!user || user.coin < 2) {
+      throw new Error(
+        'Người dùng không đủ điểm để mượn sách.\
+        Cho mượn sách hoặc viết review để nhận điểm nhé!'
+      );
+    }
+    // TODO: check number of borrowing transaction < 2
+    const BookInstanceModel = Transaction.app.models.bookInstance;
+    let instance = null;
+    if (instanceId) {
+      instance = await BookInstanceModel.findById(instanceId);
+    } else {
+      const BookModel = Transaction.app.models.book;
+      const book = await BookModel.findById(bookId);
+      if (!book) {
+        throw new Error('Sách không tồn tại!');
+      }
+      // TODO: filter/order by user location
+      instance = await BookInstanceModel.findOne({
+        where: {
+          isAvailable: true,
+        },
+      });
+      if (!instance || !instance.isAvailable) {
+        throw new Error('Sách không có sẵn!');
+      }
+    }
+    await instance.updateAttribute('isAvailable', false);
+    await user.updateAttribute('coin', user.coin - 2);
+    const newTransaction = await Transaction.create({
+      holderId: instance.holderId,
+      borrowerId: userId,
+      bookInstanceId: instance.id,
+    });
+
+    const MessageInTransaction =
+      Transaction.app.models.messageInTransaction;
+
+    let newSystemMessage = {
+      transactionId: newTransaction.id,
+      direction: 'system',
+      secretKey,
+      content: 'Đã gửi đề nghị mượn sách.',
+    };
+
+    MessageInTransaction.create(newSystemMessage);
+
+    return newTransaction;
+  };
+
+  Transaction.remoteMethod('initTransaction', {
+    accepts: [
+      {arg: 'bookId', type: 'string', http: {source: 'path'}},
+      {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
+      {arg: 'instanceId', type: 'string', http: {source: 'path'}},
+    ],
+    returns: {arg: 'transaction', type: 'object'},
+    http: {
+      path: '/init-transaction/book/:bookId/instance/:instanceId',
+      verb: 'put',
+      errorStatus: 400,
+    },
+  });
+
+  Transaction.remoteMethod('initTransaction', {
+    accepts: [
+      {arg: 'bookId', type: 'string', http: {source: 'path'}},
+      {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
+    ],
+    returns: {arg: 'transaction', type: 'object'},
+    http: {
+      path: '/init-transaction/book/:bookId',
       verb: 'put',
       errorStatus: 400,
     },
