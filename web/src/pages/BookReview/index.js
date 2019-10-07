@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
 
-import { demoCommentList } from './demoData';
 import { getReviewById, toggleLikeSingleReview } from '../../redux/actions/reviewAction';
-import { postReply } from '../../redux/actions/replyAction';
+import { getReplies, postReply } from '../../redux/actions/replyAction';
 
 import PersonalInfo from './components/PersonalInfo';
 import ReviewItem from './components/ReviewItem';
@@ -34,17 +33,18 @@ const styles = (theme => ({
 class BookReview extends Component {
 
 	componentDidMount() {
-		const { match, getReview, userId } = this.props;
+		const { match, getReview, userId, getRepliesOfReview } = this.props;
 		const reviewId = match.params.reviewId;
 		getReview({ userId, reviewId });
+		getRepliesOfReview({ reviewId });
 	}
 
 	render() {
 		const {
-			classes, isLoadingReviewById, isSubmitting, review, handleSubmit,
+			classes, isLoadingReviewById, replies, isLoadingReplies, isSubmitting, review, handleSubmit,
 			values, handleChange, handleBlur
 		} = this.props;
-		const isLoading = isLoadingReviewById || isSubmitting;
+		const isLoading = isLoadingReviewById || isLoadingReplies || isSubmitting;
 
 		const createdDay = (date) => {
 			let createdYMD = date.split('T')[0].split('-');
@@ -66,11 +66,10 @@ class BookReview extends Component {
 				<div className={classes.container}>
 					<PersonalInfo review={review} createdDay={createdDay} />
 					<ReviewItem review={review} />
-					<RateSection review={review} handleToggleLikeReview={handleToggleLikeReview} />
+					<RateSection review={review} handleToggleLikeReview={handleToggleLikeReview} isLoading={isLoading}/>
 					<CommentList
-						commentList={demoCommentList}
 						values={values}
-						review={review}
+						replies={replies}
 						handleSubmit={handleSubmit}
 						handleChange={handleChange}
 						handleBlur={handleBlur}
@@ -113,16 +112,19 @@ const CreateReplyWithFormik = withFormik({
 	}
 })(withStyles(styles)(BookReview))
 
-const mapStateToProps = ({ review }) => {
+const mapStateToProps = ({ review, reply }) => {
 	return {
 		userId: localStorage.getItem('userId'),
 		review: review.singleReview,
+		replies: reply.replies,
 		isLoadingReviewById: review.isLoadingReviewById,
+		isLoadingReplies: reply.isLoadingReplies
 	}
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
 	getReview: getReviewById,
+	getRepliesOfReview: getReplies,
 	createNewReply: postReply,
 	toggleLikeReviewStatus: toggleLikeSingleReview
 }, dispatch)

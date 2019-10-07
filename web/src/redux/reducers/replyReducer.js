@@ -1,6 +1,9 @@
 import { handleActions } from 'redux-actions'
 
 import {
+  getReplies,
+  getRepliesSuccess,
+  getRepliesFail,
   postReply,
   postReplySuccess,
   postReplyFail
@@ -8,20 +11,45 @@ import {
 
 let defaultState = {
   error: null,
-  isCreating: false
+  isCreating: false,
+  isLoadingReplies: false,
+  replies: []
 }
 
 const replyReducer = handleActions(
   {
+    [getReplies]: (state) => {
+      return {
+        ...state,
+        isLoadingReplies: true,
+      }
+    },
+    [getRepliesSuccess]: (state, { payload }) => {
+      return {
+        isLoadingReplies: false,
+        replies: payload,
+        error: null
+      }
+    },
+    [getRepliesFail]: (state, { payload: error }) => {
+      return {
+        isLoadingReplies: false,
+        error: error
+      }
+    },
     [postReply]: (state) => {
       return {
         ...state,
         isCreating: true
       }
     },
-    [postReplySuccess]: (state, { payload }) => {
+    [postReplySuccess]: (state, { replies }) => {
+      const repliesOfCurReview = JSON.parse(JSON.stringify(state.replies))
+      repliesOfCurReview.push(replies);
+      
       return {
         ...state,
+        replies: repliesOfCurReview,
         error: null,
         isCreating: false
       }

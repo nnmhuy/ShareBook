@@ -11,7 +11,7 @@ import CommentItem from './CommentItem';
 
 const styles = (theme => ({
 	commentBorder: {
-		margin: '0 10px',
+		margin: '0 10px 10px 10px',
 		borderRadius: 15,
 		border: '1px solid #b7c7d6',
 		display: 'flex',
@@ -65,8 +65,9 @@ const styles = (theme => ({
 }))
 
 const CommentList = props => {
-	const { classes, review, values, handleChange, handleBlur, handleSubmit, createdDay } = props;
-
+	const { classes, values, handleChange, handleBlur, handleSubmit, createdDay } = props;
+	const replies = props.replies.replies;
+	
 	return (
 		<div>
 			<div className={classes.commentBorder}>
@@ -80,7 +81,6 @@ const CommentList = props => {
 							value={values.content}
 							onChange={handleChange}
 							onBlur={handleBlur}
-
 						/>
 					</FormControl>
 				</FormGroup>
@@ -88,8 +88,7 @@ const CommentList = props => {
 			</div>
 			<div className={classes.commentWrapper}>
 				{
-					review && review.replies &&
-					review.replies.map(reply => {
+					replies && replies.map(reply => {
 						return (
 							<CommentItem
 								reply={reply}

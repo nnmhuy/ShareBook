@@ -43,9 +43,6 @@ class BookSlider extends React.Component {
     this.state = {
       visibleBook: 3
     }
-
-    window.clearInterval(this.throttleCalculate)
-    this.throttleCalculate = window.setInterval(this.calculateNumber, 500)
   }
 
   componentDidMount() {

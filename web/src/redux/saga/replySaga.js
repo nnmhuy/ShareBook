@@ -1,11 +1,40 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest, all } from 'redux-saga/effects'
 import restConnector from '../../connectors/RestConnector'
 
 import {
+  getReplies,
+  getRepliesSuccess,
+  getRepliesFail,
   postReply,
   postReplySuccess,
   postReplyFail
 } from '../actions/replyAction'
+
+function* getRepliesSaga({ payload }) {
+  try {
+    const { reviewId } = payload
+    const { data: curReplies } = yield call(restConnector.get, `/reviews/${reviewId}/replyReviews`)
+
+    const user = yield all(
+      curReplies.map(reply => {
+        return call(restConnector.get, `/replies/${reply.id}/user`)
+      })
+    )
+
+    const replies = user.map((oneUser, index) => {
+      const user = oneUser.data;
+      if (user.avatar) curReplies[index].avatar = user.avatar
+      curReplies[index].name = user.name
+      return curReplies[index]
+    })
+
+    console.log(replies)
+
+    yield put(getRepliesSuccess({ replies }))
+  } catch (error) {
+    yield put(getRepliesFail(error))
+  }
+}
 
 function* postReplySaga({ payload }) {
   try {
@@ -17,11 +46,14 @@ function* postReplySaga({ payload }) {
       reviewId,
       attachUser: true
     })
-
     yield put(postReplySuccess())
   } catch (error) {
     yield put(postReplyFail(error))
   }
+}
+
+function* getRepliesWatcher() {
+  yield takeLatest(getReplies, getRepliesSaga)
 }
 
 function* postReplyWatcher() {
@@ -29,5 +61,6 @@ function* postReplyWatcher() {
 }
 
 export {
-  postReplyWatcher
+  postReplyWatcher,
+  getRepliesWatcher
 }
