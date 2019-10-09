@@ -40,7 +40,7 @@ const styles = theme => ({
 
 
 const ProblemDropdown = props => {
-  const { classes, types, type, params, handleChange } = props;
+  const { classes, types, values, params, handleChange, handleBlur } = props;
   return (
     <div className={classes.container}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -50,9 +50,10 @@ const ProblemDropdown = props => {
             <p className={classes.title}>Tôi gặp vấn đề với</p>
             <FormControl className={classes.formControl}>
               <NativeSelect
-                value={type}
+                value={values.type}
                 onChange={handleChange}
-                name="type"
+                onBlur={handleBlur}
+                name='type'
                 className={classes.selectEmpty}
                 inputProps={{ 'aria-label': 'type' }}
               >

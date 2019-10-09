@@ -3,18 +3,16 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 import Image from '../../../components/Image';
 
 const styles = theme => ({
   flexColumn: {
     display: 'flex',
-    flexDirection: 'column',
-    color: colors.primary
+    flexDirection: 'column'
   },
   flexContainer: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginBottom: 5
   },
   avatar: {
@@ -30,37 +28,39 @@ const styles = theme => ({
     color: colors.primary
   },
   name: {
-    margin: 0,
-    marginBottom: 15,
-    color: 'black'
+    margin: 0
   },
   image: {
-    width: 30,
-    height: 40
+    width: 60,
+    height: 80,
+    marginRight: 10
   }
 })
 
 const InstanceOption = (props) => {
-  const { classes } = props;
-  // const { instanceId } = props;
+  const { classes, instance } = props;
+  
   return (
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
-        <Image src='{image}' alt='{name}' className={classes.image} />
-        <p className={classes.name}>Animal farm</p>
+        <Image src={`${instance.bookImage}`} alt={`${instance.bookName}`} className={classes.image} />
+        <p className={classes.name}>{instance.bookName}</p>
       </div>
-      <div className={classes.flexContainer}>
-        <div>
-          <p className={classes.title}>Cuốn thứ</p>
-          <p className={classes.name}>1</p>
-        </div>
+      <div>
+        <p className={classes.title}>Người giữ</p>
         <div className={classes.flexContainer}>
-          <Avatar src='owner' className={classes.avatar} />
-          <Avatar src='holder' className={classes.avatar} />
+          <Avatar src={`${instance.ownerAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{instance.ownerName}</p>
         </div>
       </div>
-      <ProblemContainer />
+      <div>
+        <p className={classes.title}>Người mượn</p>
+        <div className={classes.flexContainer}>
+          <Avatar src={`${instance.holderAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{instance.holderName}</p>
+        </div>
+      </div>
     </div>
   );
 };

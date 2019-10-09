@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControl from '@material-ui/core/FormControl';
+
 import colors from '../../../constants/colors';
 
 const styles = theme => ({
@@ -39,16 +42,24 @@ const styles = theme => ({
 
 class ProblemContainer extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, values, handleChange, handleBlur } = this.props;
+
     return (
       <div className={classes.container}>
         <label className={classes.title}>
           Vấn đề gặp phải
-          <textarea
-            className={classes.inputTextArea}
-            placeholder='. . .'
-            name='problem'
-          />
+          <FormGroup className={classes.formGroup}>
+            <FormControl className={classes.input}>
+              <textarea
+                className={classes.inputTextArea}
+                placeholder='. . .'
+                name='content'
+                value={values.content}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </FormControl>
+          </FormGroup>
         </label>
       </div>
     );

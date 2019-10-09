@@ -1,11 +1,37 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Image from '../../../components/Image';
+import { makeStyles } from '@material-ui/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 
-const getGrid = () => {
-	if (4 >= 2) return 2;
-	else return 1;
-}
+const useStyles = makeStyles({
+	_reviewImages: {
+		display: 'grid',
+		gridTemplateColumns: props => `repeat(${props.count}, 1fr)`
+	},
+	_imageContainer: {
+		boxSizing: 'border-box',
+		textAlign: 'center',
+		cursor: 'pointer',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#EBEAEA',
+		height: props => `calc(100vw/${props.count})`,
+		'@media (min-width: 550px)': {
+			height: props => `calc(550px/${props.count})`
+		}
+	},
+	_reviewImage: {
+		height: props => `calc(100vw/${props.count})`,
+		maxWidth: props => `calc(100vw/${props.count})`,
+		'@media (min-width: 550px)': {
+			height: props => `calc(550px/${props.count})`,
+			maxWidth: props => `calc(550px/${props.count})`
+		}
+	}
+});
 
 const styles = (theme => ({
 	reviewContainer: {
@@ -18,51 +44,64 @@ const styles = (theme => ({
 		marginTop: 0,
 		fontSize: 14
 	},
-	reviewImages: {
-		display: 'grid',
-		gridTemplateColumns: `repeat(${getGrid()}, 1fr)`,
-
-	},
 	reviewImagesThree: {
 		'& :nth-child(3)': {
 			gridColumn: '1/span2'
 		}
 	},
-	imageContainer: {
-		textAlign: 'center',
-		backgroundColor: '#EBEAEA',
-		height: `calc(550px/${getGrid()})`
-		// min-width @550: {height: 550} else 100vw
-	},
-	reviewImage: {
-		height: `calc(550px/${getGrid()})`,
-		width: `calc(550px/${getGrid()})`
-		// min-width @550: {height: 550} else 100vw
+	modal: {
+	
 	}
 }))
 
-class ReviewItem extends Component {
-	render() {
-		const { classes, review } = this.props;
-		// const { bookName } = review;
-		// const { images, content } = review.review;
-		return (
+function ImageContainer(props) {
+	const { review, isViewing, toggleViewing, curImg, setImg } = props;
+	const classes = useStyles(props);
+	const openModal = (image, isViewing) => {
+		toggleViewing(isViewing);
+		setImg(image);
+	}
+
+	return (
+		<div className={`${classes._reviewImages} ${review && review.review && review.review.images.length === 3 ? classes.reviewImagesThree : ''}`}>
+			{
+				review && review.review && review.review.images.map((image, index) => {
+					return (
+						<Fragment key={index}>
+							<div className={classes._imageContainer} onClick={()=>openModal(image, true)}>
+								<Image src={image} className={classes._reviewImage} alt={review && review.bookName} />
+							</div>
+						</Fragment>
+					)
+				})
+			}
+			<Dialog
+				aria-labelledby="customized-dialog-title" open={isViewing} onClose={() => openModal(curImg, false)} className={classes.modal}>
+				<DialogContent style={{padding: 0}}>
+					<Image src={curImg} alt='placeholder' className={classes.imageModal} />
+				</DialogContent>
+			</Dialog>
+		</div>
+	);
+}
+
+const ReviewItem = props => {
+	const { classes, review } = props;
+	const [isViewing, setViewing] = React.useState(false)
+	const [curImg, setImg] = React.useState('')
+
+	const toggleViewing = (value) => {
+		setViewing(value)
+	}
+
+	return (
+		<>
 			<div className={classes.reviewContainer}>
 				<p className={classes.reviewText}>{review && review.review && review.review.content}</p>
-				<div className={`${classes.reviewImages} ${review && review.review && review.review.images.length === 3 ? classes.reviewImagesThree : ''}`}>
-					{
-						review && review.review && review.review.images.map((image, index) => {
-							return (
-								<div className={classes.imageContainer} key={index}>
-									<Image src={image} className={classes.reviewImage} alt={review && review.bookName} />
-								</div>
-							)
-						})
-					}
-				</div>
+				<ImageContainer toggleViewing={toggleViewing} isViewing={isViewing} curImg={curImg} setImg={setImg} count={review && review.review && review.review.images.length >= 2 ? 2 : 1} review={review}></ImageContainer>
 			</div>
-		);
-	}
+		</>
+	);
 }
 
 export default withStyles(styles)(ReviewItem);

@@ -7,6 +7,7 @@ import bookInstancesReducer from './reducers/bookInstanceReducer'
 import reviewReducer from './reducers/reviewReducer'
 import transactionReducer from './reducers/transactionReducer'
 import replyReducer from './reducers/replyReducer'
+import reportReducer from './reducers/reportReducer'
 import rootSaga from './saga/saga.js'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -20,7 +21,8 @@ export const store = createStore(
     review: reviewReducer,
     bookInstances: bookInstancesReducer,
     transaction: transactionReducer,
-    reply: replyReducer
+    reply: replyReducer,
+    report: reportReducer
   }),
   composeEnhancers(
     applyMiddleware(

@@ -7,7 +7,10 @@ import {
   getBookInstancesFail,
   createBookInstance,
   createBookInstanceSuccess,
-  createBookInstanceFail
+  createBookInstanceFail,
+  getBookInstanceById,
+  getBookInstanceByIdSuccess,
+  getBookInstanceByIdFail
 } from '../actions/bookInstanceAction'
 import restConnector from '../../connectors/RestConnector'
 import { successAlert } from '../../components/alert'
@@ -90,6 +93,32 @@ function* createBookInstanceSaga({ payload }) {
   }
 }
 
+function* getBookInstanceByIdSaga({ payload }) {
+  try {
+    const { bookInstanceId } = payload
+
+    const { data: instance } = yield call(restConnector.get, `/bookInstances/${bookInstanceId}`)
+
+    const { data: book } = yield call(restConnector.get, `/books/${instance.bookId}`)
+    const { data: owner } = yield call(restConnector.get, `/users/${instance.ownerId}`)
+    const { data: holder } = yield call(restConnector.get, `/users/${instance.holderId}`)
+
+    const allData = {
+      id: instance.id,
+      ownerName: owner.name,
+      ownerAvatar: owner.avatar,
+      holderName: holder.name,
+      holderAvatar: holder.avatar,
+      bookName: book.name,
+      bookImage: book.image
+    }
+
+    yield put(getBookInstanceByIdSuccess(allData))
+  } catch (error) {
+    yield put(getBookInstanceByIdFail(error))
+  }
+}
+
 function* getBookInstancesWatcher() {
   yield takeLatest(getBookInstances, getBookInstancesSaga)
 }
@@ -98,7 +127,12 @@ function* createBookInstanceWatcher() {
   yield takeLatest(createBookInstance, createBookInstanceSaga)
 }
 
+function* getBookInstanceByIdWatcher() {
+  yield takeLatest(getBookInstanceById, getBookInstanceByIdSaga)
+}
+
 export {
   getBookInstancesWatcher,
-  createBookInstanceWatcher
+  createBookInstanceWatcher,
+  getBookInstanceByIdWatcher
 }

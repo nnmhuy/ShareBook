@@ -2,14 +2,12 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 import Image from '../../../components/Image';
 
 const styles = theme => ({
   flexColumn: {
     display: 'flex',
-    flexDirection: 'column',
-    color: colors.primary
+    flexDirection: 'column'
   },
   flexContainer: {
     display: 'flex',
@@ -25,26 +23,25 @@ const styles = theme => ({
   },
   name: {
     margin: 0,
-    marginBottom: 15,
-    color: 'black'
+    marginBottom: 5
   },
   image: {
-    width: 30,
-    height: 40
+    width: 90,
+    height: 120,
+    marginRight: 10
   }
 })
 
 const BookOption = props => {
-  const { classes } = props;
-  // const { bookId } = props;
+  const { classes, bookDetail } = props;
+
   return (
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách</p>
-      <div className={classes.flexContainer}>
-        <Image src='{image}' alt='{name}' className={classes.image} />
-        <p className={classes.name}>Animal farm</p>
+      <div>
+        <Image src={`${bookDetail.image}`} alt={`${bookDetail.name}`} className={classes.image} />
+        <p className={classes.name}>{bookDetail.name}</p>
       </div>
-      <ProblemContainer />
     </div>
   );
 };

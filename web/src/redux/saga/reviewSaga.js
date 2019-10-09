@@ -138,7 +138,6 @@ function* getReviewsOfBookSaga({ payload }) {
 function* toggleLikeReviewSaga({ payload }) {
   try {
     const { reviewId, likeReviewId, likeStatus } = payload
-    console.log(likeReviewId)
     let likeReviewResponse
     if (!likeReviewId) {
       likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
@@ -166,7 +165,6 @@ function* toggleLikeReviewSaga({ payload }) {
 function* toggleLikeSingleReviewSaga({ payload }) {
   try {
     const { reviewId, likeReviewId, likeStatus } = payload
-    console.log(likeStatus)
     let likeReviewResponse
     if (!likeReviewId) {
       likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
@@ -198,23 +196,9 @@ function* getReviewByIdSaga({ payload }) {
     const { data: reviewData } = yield call(restConnector.get,
       `/reviews/${reviewId}`)
 
-    // const { data: reviewReplyList } = yield call(restConnector.get, `/reviews/${reviewId}/replyReviews`)
     const reviewLike = yield call(restConnector.get, `/likeReviews?filter={"where":{"userId":"${userId}","reviewId":"${reviewId}"}}`)
     const userOfReview = yield call(restConnector.get, `/reviews/${reviewId}/user`)
     const bookOfReview = yield call(restConnector.get, `/reviews/${reviewId}/book`)
-
-    // const userReply = yield all(
-    //   reviewReplyList.map(reply => {
-    //     return call(restConnector.get, `/replies/${reply.id}/user`)
-    //   })
-    // )
-
-    // const replies = userReply.map((oneUser, index) => {
-    //   const user = oneUser.data;
-    //   if (user.avatar) reviewReplyList[index].avatar = user.avatar
-    //   reviewReplyList[index].name = user.name
-    //   return reviewReplyList[index]
-    // })
 
     const { avatar, name } = userOfReview.data
     const { image } = bookOfReview.data
@@ -223,7 +207,6 @@ function* getReviewByIdSaga({ payload }) {
       avatar,
       bookName: bookOfReview.data.name,
       image,
-      // replies: [...replies],
       review: { ...reviewData },
       likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
       likeStatus: reviewLike.data[0] ? reviewLike.data[0].isLike : 0

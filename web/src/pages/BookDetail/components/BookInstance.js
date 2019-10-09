@@ -1,12 +1,16 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 import Link from '../../../components/Link'
 import Avatar from '../../../components/Avatar'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as DownIcon } from '../../../static/images/right-arrow.svg'
+import { ReactComponent as MoreIcon } from '../../../static/images/more.svg'
+import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
 
 const styles = (theme => ({
   container: {
@@ -15,7 +19,8 @@ const styles = (theme => ({
   },
   titleContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
   },
   availableDot: {
     display: 'inline-block',
@@ -45,9 +50,10 @@ const styles = (theme => ({
     background: 'linear-gradient(to right, #0076ff 0%, #04abe8 100%)',
     boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
     color: '#fff',
+    fontFamily: 'Montserrat',
     textTransform: 'none',
-    width: 82,
-    height: 24,
+    // width: 82,
+    // height: 24,
     fontWeight: 600,
     fontSize: 11,
   },
@@ -164,6 +170,40 @@ const styles = (theme => ({
     background: '#f5f9fd',
     fontSize: 13,
     padding: 10
+  },
+  moreZone: {
+    position: 'absolute',
+    top: 5,
+    right: 5
+  },
+  moreButton: {
+    padding: '0 0 5px 5px',
+    '&.MuiIconButton-root:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
+  moreZoneContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
+  reportButton: {
+    backgroundColor: colors.darkRed,
+    color: '#fff',
+    textTransform: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 11,
+    width: 80,
+    height: 30,
+    '&:hover': {
+      backgroundColor: colors.darkRed,
+    }
+  },
+  reportIcon: {
+    width: 15,
+    height: 15,
+    marginLeft: 5
   }
 }))
 
@@ -229,9 +269,19 @@ const BookInstance = (props) => {
   const { classes, isAvailable, index, 
     ownerId, ownerName, ownerAvatar,
     holderId, holderName, holderAvatar,
+    id, userId
   } = props
 
+  const [isShowMore, setShowMore] = React.useState(false)
   const [isExpanded, setExpanded] = React.useState(false)
+
+  const handleToggleMore = () => {
+    setShowMore(!isShowMore)
+  }
+
+  const handleClickAway = () => {
+    setShowMore(false)
+  }
   
   const handleToggleExpand = () => {
     setExpanded(!isExpanded)
@@ -243,6 +293,26 @@ const BookInstance = (props) => {
         <span className={isAvailable ? classes.availableDot : classes.unavailableDot}/>
         <span className={classes.titleText}>{`Cuốn ${index + 1}`}</span>
         <Button disabled={!isAvailable} className={classes.borrowButton} variant='contained' size='small'>Mượn sách</Button>
+        {
+          (userId !== holderId) &&
+          <div className={classes.moreZone}>
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <div className={classes.moreZoneContainer}>
+                <IconButton onClick={handleToggleMore} className={classes.moreButton} disableTouchRipple>
+                  <MoreIcon fill={colors.primary} />
+                </IconButton>
+                {isShowMore &&
+                  <Link to={`/report/bookInstance-${id}`}>
+                    <Button variant='contained' size='small' className={classes.reportButton}>
+                      Report
+                  <ReportIcon className={classes.reportIcon} fill='#fff' />
+                    </Button>
+                  </Link>
+                }
+              </div>
+            </ClickAwayListener>
+          </div>
+        }
       </div>
       <div className={classes.userWrapper}>
         <div className={classes.label}>

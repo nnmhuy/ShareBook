@@ -3,7 +3,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import colors from '../../../constants/colors';
 
-import { FormGroup, FormControl, Input } from '@material-ui/core';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
 
 import { ReactComponent as CommentIcon } from '../../../static/images/send-arrow.svg';
 import CommentItem from './CommentItem';
@@ -65,9 +67,13 @@ const styles = (theme => ({
 }))
 
 const CommentList = props => {
-	const { classes, values, handleChange, handleToggleLikeReply, handleBlur, handleSubmit, createdDay } = props;
-	const replies = props.replies && props.replies.replies;
-	
+	const { classes, values, userId, handleChange, handleToggleLikeReply, handleBlur, handleSubmit, createdDay } = props;
+	const replies = props.replies;
+	const onKeyPress = (e) => {
+		if (e.key === 'Enter') {
+			handleSubmit()
+		}
+	}
 	return (
 		<div>
 			<div className={classes.commentBorder}>
@@ -81,6 +87,7 @@ const CommentList = props => {
 							value={values.content}
 							onChange={handleChange}
 							onBlur={handleBlur}
+							onKeyPress={onKeyPress}
 						/>
 					</FormControl>
 				</FormGroup>
@@ -93,6 +100,7 @@ const CommentList = props => {
 							<CommentItem
 								reply={reply}
 								key={reply.id}
+								userId={userId}
 								createdDay={createdDay}
 								handleToggleLikeReply={handleToggleLikeReply}
 							/>

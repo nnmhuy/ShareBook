@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 import Image from '../../../components/Image';
 
 const styles = theme => ({
@@ -72,7 +71,6 @@ const TransactionOption = (props) => {
           <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
         </div>
       </div>
-      <ProblemContainer />
     </div>
   );
 };

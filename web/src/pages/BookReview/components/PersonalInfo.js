@@ -1,6 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, IconButton } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 import { Rating } from '@material-ui/lab';
 import Link from '../../../components/Link';
 import Avatar from '../../../components/Avatar'
@@ -52,8 +55,9 @@ const styles = (theme => ({
 		alignItems: 'flex-end',
 		position: 'relative',
 		'& .MuiIconButton-root': {
-			padding: 0,
-			paddingBottom: 15
+			paddingTop: 0,
+			paddingBottom: 0,
+			paddingRight: 0
 		}
 	},
 	reportButton: {
@@ -67,7 +71,11 @@ const styles = (theme => ({
 		height: 30,
 		position: 'absolute',
 		right: 0,
-		zIndex: 1
+		top: 20,
+		zIndex: 1,
+		'&.MuiButton-root:hover': {
+			backgroundColor: colors.red
+		}
 	},
 	reportIcon: {
 		width: 15,
@@ -78,8 +86,15 @@ const styles = (theme => ({
 
 const PersonalInfo = props => {
 	const { classes, createdDay, review } = props;
-	// const { name, bookName, avatar } = review;
-	// const { userId, rating, createdAt } = review.review;
+	const [isShowMore, setShowMore] = React.useState(false)
+
+	const handleToggleMore = () => {
+		setShowMore(!isShowMore)
+	}
+
+	const handleClickAway = () => {
+		setShowMore(false)
+	}
 
 	return (
 		<div className={classes.flexContainer}>
@@ -101,17 +116,22 @@ const PersonalInfo = props => {
 				</div>
 			</div>
 			<div className={classes.moreZone}>
-				<div className={classes.moreZoneContainer}>
-					<IconButton className={classes.moreButton}>
-						<MoreIcon fill={colors.primary} />
-					</IconButton>
-					<Link to={`/report`}>
-						<Button variant='contained' size='small' className={classes.reportButton}>
-							Report
-                  <ReportIcon className={classes.reportIcon} fill='#fff' />
-						</Button>
-					</Link>
-				</div>
+				<ClickAwayListener onClickAway={handleClickAway}>
+					<div className={classes.moreZoneContainer}>
+						<IconButton onClick={handleToggleMore} disableTouchRipple style={{ backgroundColor: 'transparent' }} className={classes.moreButton}>
+							<MoreIcon fill={colors.primary} />
+						</IconButton>
+						{
+							isShowMore &&
+							<Link to={`/report/review-${review && review.review.id}`}>
+								<Button variant='contained' size='small' className={classes.reportButton}>
+									Report
+											<ReportIcon className={classes.reportIcon} fill='#fff' />
+								</Button>
+							</Link>
+						}
+					</div>
+				</ClickAwayListener>
 			</div>
 		</div>
 	);

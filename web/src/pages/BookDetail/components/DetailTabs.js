@@ -60,10 +60,11 @@ const DetailTabs = (props) => {
             <LocalLoading isLoading />
           :
             <BookInstanceList
-              bookId={book.id}
-              bookInstanceList={bookInstanceList}
-              getInstances={getInstances}
-              numberOfInstances={book.numberOfBookInstances}
+            bookId={book.id}
+            userId={userId}
+            bookInstanceList={bookInstanceList}
+            getInstances={getInstances}
+            numberOfInstances={book.numberOfBookInstances}
             />
         }
       </TabPanel>
