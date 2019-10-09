@@ -128,6 +128,11 @@ const styles = (theme => ({
     top: 5,
     right: 5
   },
+  editLink: {
+    position: 'absolute',
+    top: 55,
+    right: 5
+  },
   reportIcon: {
     width: 15,
     height: 15
@@ -144,6 +149,9 @@ const BookInfo = (props) => {
         <IconButton>
           <ReportIcon className={classes.reportIcon} />
         </IconButton>
+      </Link>
+      <Link to={`/edit-book/${id}`} className={classes.editLink}>
+        <button>Sửa</button>
       </Link>
       <div className={classes.infoSection}>
         <div className={classes.imagePart}>

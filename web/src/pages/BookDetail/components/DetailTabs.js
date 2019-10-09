@@ -26,18 +26,18 @@ const DetailTabs = (props) => {
   } = props
 
   const handleChangeTab = (event, value) => {
-    if (!touched[value]) {
-      const newTouched = JSON.parse(JSON.stringify(touched))
-      newTouched[value] = true
-      if (value === 1) {
-        getInstances({ bookId: book.id, page: 0, limit: numberOfBookInstancesPerPage })
+    // if (!touched[value]) {
+    //   const newTouched = JSON.parse(JSON.stringify(touched))
+    //   newTouched[value] = true
+    //   if (value === 1) {
+    //     getInstances({ bookId: book.id, page: 0, limit: numberOfBookInstancesPerPage })
         
-      }
-      if (value === 2) {
-        getReviews({ userId, bookId: book.id, page: 0, limit: numberOfReviewsPerPage })
-      }
-      setTouched(newTouched)
-    }
+    //   }
+    //   if (value === 2) {
+    //     getReviews({ userId, bookId: book.id, page: 0, limit: numberOfReviewsPerPage })
+    //   }
+    //   setTouched(newTouched)
+    // }
     setActiveTab(value)
   }
 

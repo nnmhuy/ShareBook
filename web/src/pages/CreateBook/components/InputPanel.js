@@ -51,7 +51,6 @@ const typeOfBook = [
 
 const InputPanel = (props) => {
 	const { classes, errors, handleChange, handleBlur, values, setFieldValue, categoryList, touched } = props;
-
 	const categoryOptions = categoryList.map(category => ({
 		label: category.name,
 		value: category.id
@@ -95,7 +94,7 @@ const InputPanel = (props) => {
 					touched={touched.categoryId}
 					className={classes.select}
 				/>
-				<RadioButtons mb='15px' name="type" label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue}/>
+				<RadioButtons mb='15px' name="type" currentValue={values.bookType} label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue}/>
 				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 						<FormGroupInput
 							id='volume'

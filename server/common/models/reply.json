@@ -36,15 +36,15 @@
   },
   "validations": [],
   "relations": {
-    "review": {
-      "type": "belongsTo",
-      "model": "review",
-      "foreignKey": "reviewId"
-    },
     "user": {
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId"
+    },
+    "review": {
+      "type": "belongsTo",
+      "model": "review",
+      "foreignKey": "reviewId"
     },
     "likeReplies": {
       "type": "hasMany",
