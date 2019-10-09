@@ -15,7 +15,8 @@ import {
   sendMessage,
   getTransaction,
   appendMessage,
-  getMessages
+  getMessages,
+  requestStatus
 } from '../../redux/actions/transactionAction'
 import socket from '../../connectors/Socket'
 
@@ -105,8 +106,9 @@ class Transaction extends React.Component {
 
   render() {
     const { classes, isLoading, transaction, messages,
-      numberOfMessages, lastMessageCount
+      numberOfMessages, lastMessageCount, sendRequestStatus, match
     } = this.props
+    const { transactionId } = match.params
     const { value } = this.state
     const userId = _.get(transaction, 'user.id', '')
     const avatar = _.get(transaction, 'user.avatar', '')
@@ -124,10 +126,12 @@ class Transaction extends React.Component {
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
           <TransactionInfoSection
+            transactionId={transactionId}
             book={_.get(transaction, 'book', {})}
             name={username}
             position={position}
             status={status}
+            sendRequestStatus={sendRequestStatus}
           />
           <div className={classes.messagesContainer}>
             <MessageSection
@@ -158,14 +162,13 @@ const mapStateToProps = ({ transaction }) => {
       username: localStorage.getItem('username'),
       name: localStorage.getItem('name'),
       avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
     },
     isLoading: transaction.isLoading,
     transaction: transaction.transaction,
     messages: transaction.messages,
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
-    numberOfAppendedMessages: transaction.numberOfAppendedMessages
+    numberOfAppendedMessages: transaction.numberOfAppendedMessages,
   }
 }
 
@@ -173,7 +176,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getTransactionInfo: getTransaction,
   send: sendMessage,
   receive: appendMessage,
-  loadMessage: getMessages
+  loadMessage: getMessages,
+  sendRequestStatus: requestStatus
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));

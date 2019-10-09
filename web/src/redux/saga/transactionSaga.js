@@ -1,6 +1,7 @@
 import { call, put, takeLatest, takeEvery, takeLeading } from 'redux-saga/effects'
 import _ from 'lodash'
 
+import { successAlert, errorAlert } from '../../components/alert'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import {
@@ -15,7 +16,10 @@ import {
   getMessagesFail,
   getTransactions,
   getTransactionsSuccess,
-  getTransactionsFail
+  getTransactionsFail,
+  requestStatus,
+  requestStatusSuccess,
+  requestStatusFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -178,6 +182,38 @@ function* getMessagesSaga({ payload }) {
   }
 }
 
+function* requestStatusSaga({ payload }) {
+  try {
+    const { transactionId, status, direction } = payload
+
+    const data = {
+      requestStatus: status
+    }
+
+    let newTransaction = {}
+
+    if (direction === 'holder') {
+      newTransaction = _.get(yield call(
+        restConnector.put, 
+        `/transactions/${transactionId}/holder-status`,
+        { data }
+      ), 'data', {})
+    } else {
+      newTransaction = _.get(yield call(
+        restConnector.put,
+        `/transactions/${transactionId}/borrower-status`,
+        { data }
+      ), 'data', {})
+    }
+
+    yield put(requestStatusSuccess(newTransaction))
+    successAlert('Thao tác thành công');
+  } catch (error) {
+    yield put(requestStatusFail({ error }))
+    error('Đã có lỗi xảy ra. Vui lòng thử lại.');
+  }
+}
+
 function* getTransactionWatcher() {
   yield takeLatest(getTransaction, getTransactionSaga)
 }
@@ -194,9 +230,14 @@ function* getTransactionsWatcher() {
   yield takeLatest(getTransactions, getTransactionsSaga)
 }
 
+function* requestStatusWatcher() {
+  yield takeLatest(requestStatus, requestStatusSaga)
+}
+
 export {
   getTransactionWatcher,
   sendMessageWatcher,
   getMessagesWatcher,
-  getTransactionsWatcher
+  getTransactionsWatcher,
+  requestStatusWatcher
 }

@@ -59,8 +59,16 @@ module.exports = function(Transaction) {
         }
         newSystemMessage.content = 'Yêu cầu gia hạn đọc sách bị từ chối';
         break;
-      case 'deadlineExtended':
+      case 'isOvertime': // decline to extend deadline when overtime
         if (transaction.status !== 'waitingForDeadlineExtended') {
+          throw new Error('Sai quy trình');
+        }
+        newSystemMessage.content = 'Yêu cầu gia hạn đọc sách bị từ chối';
+        break;
+      case 'deadlineExtended':
+        if (transaction.status !== 'waitingForDeadlineExtended' &&
+          transaction.status !== 'isReading'
+        ) {
           throw new Error('Sai quy trình');
         }
         newSystemMessage.content = 'Đã được gia hạn trả sách';
@@ -73,7 +81,10 @@ module.exports = function(Transaction) {
           throw new Error('Sai quy trình');
         }
         const holder = await UserModel.findById(userId);
-        const owner = await UserModel.findById(transaction.ownerId);
+        const BookInstanceModel = Transaction.app.models.bookInstance;
+        const instance =
+          await BookInstanceModel.findById(transaction.bookInstanceId);
+        const owner = await UserModel.findById(instance.ownerId);
         await holder.updateAttribute(
           'coin', holder.coin + coinConstants.transactionHolder
         );
@@ -107,7 +118,7 @@ module.exports = function(Transaction) {
     }
     await transaction.updateAttribute('status', requestStatus);
     await MessageInTransaction.create(newSystemMessage);
-    return transaction.status;
+    return transaction;
   };
 
   Transaction.remoteMethod('holderUpdate', {
@@ -131,7 +142,7 @@ module.exports = function(Transaction) {
     if (!transaction) {
       throw new Error('Không tìm thấy giao dịch');
     }
-    if (!transaction.holderId.equals(userId)) {
+    if (!transaction.borrowerId.equals(userId)) {
       throw new Error('Không có quyền truy cập');
     }
     const MessageInTransaction =
@@ -174,7 +185,7 @@ module.exports = function(Transaction) {
     }
     await transaction.updateAttribute('status', requestStatus);
     await MessageInTransaction.create(newSystemMessage);
-    return transaction.status;
+    return transaction;
   };
 
   Transaction.remoteMethod('borrowerUpdate', {

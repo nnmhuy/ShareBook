@@ -1,4 +1,5 @@
 const getFormattedDate = (date) => {
+  if (!date) return '';
   let createdYMD = date.split('T')[0].split('-');
   let day = createdYMD[2];
   let month = createdYMD[1];

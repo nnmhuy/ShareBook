@@ -47,20 +47,39 @@ const styles = (theme => ({
     fontWeight: 500,
     fontSize: 12,
     color: colors.red
+  },
+  fieldWrapper: {
+    marginTop: 5
   }
 }))
 
 const DetailSection = (props) => {
-  const { classes, status, position, passingDate, returnDate, address, extendedDeadline } = props
+  const { classes, transactionId, status, 
+    position, passingDate, returnDate, address, 
+    extendedDeadline, sendRequestStatus
+  } = props
+
+  const handleRequest = (newStatus, direction) => () => {
+    sendRequestStatus({
+      transactionId,
+      status: newStatus,
+      direction
+    })
+  }
+
   if (position === 'borrower') {
       switch (status) {
         case 'waitingForResponse':
           return (
             <div className={classes.container}>
-              <Button variant='outlined' size='small' className={classes.acceptButton}>
+              <Button variant='outlined' size='small' className={classes.acceptButton}
+                onClick={handleRequest('waitingForTake', 'holder')}
+              >
                 Đồng ý
               </Button>
-              <Button variant='outlined' size='small' className={classes.declineButton}>
+              <Button variant='outlined' size='small' className={classes.declineButton}
+                onClick={handleRequest('isCancel', 'holder')}              
+              >
                 Từ chối
               </Button>
             </div>
@@ -68,11 +87,11 @@ const DetailSection = (props) => {
         case 'waitingForTake':
           return (
             <div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Ngày giao sách:</div>
                 <div className={classes.content}>{passingDate}</div>
               </div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
               </div>
@@ -81,11 +100,11 @@ const DetailSection = (props) => {
         case 'isReading':
           return (
             <div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Ngày trả sách:</div>
                 <div className={classes.content}>{returnDate}</div>
               </div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
               </div>
@@ -94,24 +113,24 @@ const DetailSection = (props) => {
         case 'isOvertime':
           return (
             <div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.labelError}>Ngày trả sách</div>
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ</div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>
           )
-        case 'waitingForExtending':
+        case 'waitingForDeadlineExtended':
           return (
             <div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.labelError}>Ngày trả sách</div>
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ</div>
                 <div className={classes.content}>{address}</div>
               </div>
@@ -120,13 +139,13 @@ const DetailSection = (props) => {
         case 'deadlineExtended':
           return (
             <div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>
                   Ngày trả sách <span className={classes.labelError}>(đã gia hạn)</span>
                 </div>
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
-              <div>
+              <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ</div>
                 <div className={classes.content}>{address}</div>
               </div>
@@ -156,7 +175,9 @@ const DetailSection = (props) => {
     case 'waitingForResponse':
       return (
         <div className={classes.container}>
-          <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer'}}>
+          <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer'}}
+            onClick={handleRequest('isCancel', 'borrower')}
+          >
             Huỷ đơn
           </div>
         </div>
@@ -164,11 +185,11 @@ const DetailSection = (props) => {
     case 'waitingForTake':
       return (
         <div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Ngày nhận sách:</div>
             <div className={classes.content}>{passingDate}</div>
           </div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>
             <div className={classes.content}>{address}</div>
           </div>
@@ -177,37 +198,47 @@ const DetailSection = (props) => {
     case 'isReading':
       return (
         <div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Ngày trả sách</div>
             <div className={classes.content}>{returnDate}</div>
           </div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>
             <div className={classes.content}>{address}</div>
+          </div>
+          <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer' }}
+            onClick={handleRequest('waitingForDeadlineExtended', 'borrower')}
+          >
+            Xin gia hạn
           </div>
         </div>
       )
     case 'isOvertime':
       return (
         <div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.labelError}>Ngày trả sách</div>
             <div className={classes.contentError}>{returnDate}</div>
           </div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>
             <div className={classes.content}>{address}</div>
           </div>
+          <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer' }}
+            onClick={handleRequest('waitingForDeadlineExtended', 'borrower')}
+          >
+             Xin gia hạn
+          </div>
         </div>
       )
-    case 'waitingForExtending':
+    case 'waitingForDeadlineExtended':
       return (
         <div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.labelError}>Ngày trả sách</div>
             <div className={classes.contentError}>{returnDate}</div>
           </div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>
             <div className={classes.content}>{address}</div>
           </div>
@@ -216,13 +247,13 @@ const DetailSection = (props) => {
     case 'deadlineExtended':
       return (
         <div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>
               Ngày trả sách <span className={classes.labelError}>(đã gia hạn)</span>
             </div>
             <div className={classes.contentError}>{extendedDeadline}</div>
           </div>
-          <div>
+          <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>
             <div className={classes.content}>{address}</div>
           </div>
@@ -233,7 +264,7 @@ const DetailSection = (props) => {
         <div className={classes.container}>
           <div className={classes.labelError}>
             Giao dịch đã bị báo cáo
-              </div>
+          </div>
         </div>
       )
     case 'isDone':

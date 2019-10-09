@@ -1,12 +1,10 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
-import HideOnScroll from '../../../components/HideOnScroll'
 import Image from '../../../components/Image'
 import Link from '../../../components/Link'
 import DetailSection from './DetailSection'
 import ButtonSection from './ButtonSection'
-import colors from '../../../constants/colors'
 
 const styles = (theme => ({
   container: {
@@ -46,37 +44,45 @@ const styles = (theme => ({
 }))
 
 const TransactionInfoSection = (props) => {
-  const { classes, book: { id, image, name }, name: username, position, status } = props
+  const { classes, transactionId, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
   return (
-    <HideOnScroll>
-        <div className={classes.container}>
-          <div className={classes.infoContainer}>
-            <Link to={`/book-detail/${id}`}>
-              <Image src={image} alt={'book'} className={classes.image}/>
-            </Link>
-            <div className={classes.detailContainer}>
-              {position==='holder'?
-                <div className={classes.text}>
-                  Mượn sách
-                    <span className={classes.bold}>{` ${name} `}</span>
-                  từ
-                    <span className={classes.bold}>{` ${username} `}</span>
-                </div>
-                :
-                <div className={classes.text}>
-                  Bạn đọc
-                  <span className={classes.bold}>{` ${username} `}</span>
-                  mượn sách
-                  <span className={classes.bold}>{` ${name} `}</span>
-                </div>
-              }
-              
-              <DetailSection position={position} status={status}/>
+    <div className={classes.container}>
+      <div className={classes.infoContainer}>
+        <Link to={`/book-detail/${id}`}>
+          <Image src={image} alt={'book'} className={classes.image}/>
+        </Link>
+        <div className={classes.detailContainer}>
+          {position==='holder'?
+            <div className={classes.text}>
+              Mượn sách
+                <span className={classes.bold}>{` ${name} `}</span>
+              từ
+                <span className={classes.bold}>{` ${username} `}</span>
             </div>
-          </div>
-          <ButtonSection position={position} status={status}/>
+            :
+            <div className={classes.text}>
+              Bạn đọc
+              <span className={classes.bold}>{` ${username} `}</span>
+              mượn sách
+              <span className={classes.bold}>{` ${name} `}</span>
+            </div>
+          }
+          
+          <DetailSection 
+            transactionId={transactionId}
+            position={position}
+            status={status}
+            sendRequestStatus={sendRequestStatus}
+          />
         </div>
-    </HideOnScroll>
+      </div>
+      <ButtonSection 
+        transactionId={transactionId}
+        position={position} 
+        status={status}
+        sendRequestStatus={sendRequestStatus}
+      />
+    </div>
   )
 }
 

@@ -15,6 +15,9 @@ const {
   getMessages,
   getMessagesSuccess,
   getMessagesFail,
+  requestStatus,
+  requestStatusSuccess,
+  requestStatusFail,
 } = createActions(
   'GET_TRANSACTION',
   'GET_TRANSACTION_SUCCESS',
@@ -29,6 +32,9 @@ const {
   'GET_MESSAGES',
   'GET_MESSAGES_SUCCESS',
   'GET_MESSAGES_FAIL',
+  'REQUEST_STATUS',
+  'REQUEST_STATUS_SUCCESS',
+  'REQUEST_STATUS_FAIL',
 )
 
 
@@ -46,5 +52,8 @@ export {
   appendMessage,
   getMessages,
   getMessagesSuccess,
-  getMessagesFail
+  getMessagesFail,
+  requestStatus,
+  requestStatusSuccess,
+  requestStatusFail
 }

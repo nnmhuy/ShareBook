@@ -32,7 +32,7 @@ const styles = (theme => ({
   toolBar: {
     position: 'relative',
     height: 50,
-    paddingLeft: 20,
+    paddingLeft: 0,
     paddingRight: 20,
     minHeight: 'unset',
     display: 'flex',
@@ -41,6 +41,8 @@ const styles = (theme => ({
     backgroundColor: '#fff'
   },
   backButton: {
+    width: 50,
+    height: 50
   },
   backIcon: {
     width: 14,
