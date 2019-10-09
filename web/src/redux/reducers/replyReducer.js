@@ -7,6 +7,9 @@ import {
   postReply,
   postReplySuccess,
   postReplyFail,
+  getReplyById,
+  getReplyByIdSuccess,
+  getReplyByIdFail,
   toggleLikeReply,
   toggleLikeReplySuccess,
   toggleLikeReplyFail
@@ -16,7 +19,9 @@ let defaultState = {
   error: null,
   isCreating: false,
   isLoadingReplies: false,
-  replies: []
+  replies: [],
+  isLoadingReply: false,
+  reply: {}
 }
 
 const replyReducer = handleActions(
@@ -27,7 +32,7 @@ const replyReducer = handleActions(
         isLoadingReplies: true,
       }
     },
-    [getRepliesSuccess]: (state, { payload }) => {
+    [getRepliesSuccess]: (state, {payload}) => {
       return {
         isLoadingReplies: false,
         replies: payload,
@@ -48,7 +53,7 @@ const replyReducer = handleActions(
     },
     [postReplySuccess]: (state, { payload: reply }) => {
       const repliesOfCurReview = JSON.parse(JSON.stringify(state.replies))
-      repliesOfCurReview.replies.push(reply.reply);
+      repliesOfCurReview.push(reply.reply);
 
       return {
         ...state,
@@ -64,9 +69,27 @@ const replyReducer = handleActions(
         isCreating: false
       }
     },
+    [getReplyById]: (state) => {
+      return {
+        ...state,
+        isLoadingReply: true,
+      }
+    },
+    [getReplyByIdSuccess]: (state, { payload }) => {
+      return {
+        isLoadingReply: false,
+        reply: payload,
+        error: null
+      }
+    },
+    [getReplyByIdFail]: (state, { payload: error }) => {
+      return {
+        isLoadingReply: false,
+        error: error
+      }
+    },
     [toggleLikeReply]: (state, { payload: { replyId, likeStatus } }) => {
-      const _reply = JSON.parse(JSON.stringify(state.replies));
-      const replies = _reply.replies;
+      const replies = JSON.parse(JSON.stringify(state.replies));
       const index = replies.findIndex(reply => replyId === reply.id)
 
       if (replies[index].likeStatus === -1) {
@@ -83,10 +106,9 @@ const replyReducer = handleActions(
       }
       replies[index].likeStatus = likeStatus
 
-      _reply.replies = replies;
       return {
         ...state,
-        _reply
+        replies
       }
     },
     [toggleLikeReplySuccess]: (state, { replyId, likeReplyId }) => {

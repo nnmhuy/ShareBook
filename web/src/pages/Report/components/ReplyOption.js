@@ -3,14 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 import Image from '../../../components/Image';
 
 const styles = theme => ({
   flexColumn: {
     display: 'flex',
-    flexDirection: 'column',
-    color: colors.primary
+    flexDirection: 'column'
   },
   flexContainer: {
     display: 'flex',
@@ -44,43 +42,45 @@ const styles = theme => ({
     color: colors.gray
   },
   image: {
-    width: 30,
-    height: 40
+    width: 60,
+    height: 80,
+    marginRight: 10
   }
 })
 
 const ReplyOption = props => {
-  const { classes, createdDay } = props;
-  // const { replyId } = props;
-  const createdAt = '2019-03-29T00:00:00';
+  const { classes, createdDay, reply } = props;
+  let createdAt = '0000-00-00T00:00:00';
+  if (reply && reply.createdAt) createdAt = reply.createdAt
 
   return (
     <div className={classes.flexColumn}>
       <div>
         <p className={classes.title}>Tên sách</p>
         <div className={classes.flexContainer}>
-          <Image src='{image}' alt='{name}' className={classes.image} />
+          <Image src={`${reply.bookImage}`} alt={`${reply.bookName}`} className={classes.image} />
           <p className={classes.nameMargin}>Animal farm</p>
         </div>
         <p className={classes.title}>Review của</p>
         <div className={classes.flexContainer}>
-          <Avatar src='user' className={classes.avatar} />
-          <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
+          <Avatar src={`${reply.reviewAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{reply.reviewName}</p>
         </div>
         <div>
           <div>
             <p className={classes.title} style={{ marginTop: 10 }}>Người reply</p>
           </div>
           <div className={classes.flexContainer} style={{ marginBottom: 15 }}>
-            <Avatar src='user' className={classes.avatar} />
+            <Avatar src={`${reply.replyAvatar}`} className={classes.avatar} />
             <div>
-              <div style={{ color: 'black' }}>Nguyễn Ngọc Minh Huy</div>
+              {
+                reply.replyName !== undefined && <>{`${reply.replyName}`}</>
+              }
               <p className={classes.date}>{createdDay(createdAt)}</p>
             </div>
           </div>
         </div>
       </div>
-      <ProblemContainer />
     </div>
   );
 };

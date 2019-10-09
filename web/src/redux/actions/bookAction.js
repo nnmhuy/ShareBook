@@ -25,7 +25,7 @@ const {
   toggleBookmarkFail,
   createBook,
   createBookSuccess,
-  createBookFail,
+  createBookFail
 } = createActions(
   'GET_BOOK_LITE',
   'GET_BOOK_LITE_SUCCESS',

@@ -18,7 +18,8 @@ import {
 } from './bookSaga'
 import {
   getBookInstancesWatcher,
-  createBookInstanceWatcher
+  createBookInstanceWatcher,
+  getBookInstanceByIdWatcher
 } from './bookInstancesSaga'
 import {
   getReviewByUserWatcher,
@@ -37,8 +38,12 @@ import {
 import {
   getRepliesWatcher,
   postReplyWatcher,
+  getReplyByIdWatcher,
   toggleLikeReplyWatcher
 } from './replySaga'
+import {
+  createReportWatcher
+} from './reportSaga'
 
 export default function* rootSaga() {
   yield all([
@@ -58,6 +63,7 @@ export default function* rootSaga() {
 
     getBookInstancesWatcher(),
     createBookInstanceWatcher(),
+    getBookInstanceByIdWatcher(),
 
     getReviewByUserWatcher(),
     postReviewWatcher(),
@@ -73,6 +79,9 @@ export default function* rootSaga() {
 
     getRepliesWatcher(),
     postReplyWatcher(),
-    toggleLikeReplyWatcher()
+    getReplyByIdWatcher(),
+    toggleLikeReplyWatcher(),
+
+    createReportWatcher()
   ]);
 }

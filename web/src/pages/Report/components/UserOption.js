@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 
 const styles = theme => ({
   flexColumn: {
@@ -49,7 +48,6 @@ const UserOption = (props) => {
           </div>
         </div>
       </div>
-      <ProblemContainer />
     </div>
   );
 };

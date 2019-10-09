@@ -6,7 +6,10 @@ import {
   getBookInstancesFail,
   createBookInstance,
   createBookInstanceSuccess,
-  createBookInstanceFail
+  createBookInstanceFail,
+  getBookInstanceById,
+  getBookInstanceByIdSuccess,
+  getBookInstanceByIdFail
 } from '../actions/bookInstanceAction'
 
 let defaultState = {
@@ -14,6 +17,8 @@ let defaultState = {
   error: null,
   bookInstances: [],
   isCreating: false,
+  bookInstance: {},
+  isLoadingInstance: false
 }
 
 const bookReducer = handleActions(
@@ -56,6 +61,27 @@ const bookReducer = handleActions(
       return {
         ...state,
         isCreating: false,
+        error: error
+      }
+    },
+    [getBookInstanceById]: (state) => {
+      return {
+        ...state,
+        isLoadingInstance: true,
+      }
+    },
+    [getBookInstanceByIdSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        isLoadingInstance: false,
+        bookInstance: payload,
+        error: null
+      }
+    },
+    [getBookInstanceByIdFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoadingInstance: false,
         error: error
       }
     },

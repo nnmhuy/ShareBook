@@ -20,9 +20,12 @@ const styles = (theme => ({
 		minWidth: 350,
 		maxWidth: 551,
 		paddingTop: 15,
-		border: '1px solid #D8E0E8',
-		borderRadius: 3,
-		margin: '10px auto'
+		borderTop: '1px solid #D8E0E8',
+		borderBottom: '1px solid #D8E0E8',
+		margin: '10px auto',
+		'@media (min-width: 550px)': {
+			border: '1px solid #D8E0E8',
+		}
 	},
 	flexContainer: {
 		display: 'flex',
@@ -36,13 +39,13 @@ class BookReview extends Component {
 		const { match, getReview, userId, getRepliesOfReview } = this.props;
 		const reviewId = match.params.reviewId;
 		getReview({ userId, reviewId });
-		getRepliesOfReview({ reviewId });
+		getRepliesOfReview({ userId, reviewId });
 	}
 
 	render() {
 		const {
 			classes, isLoadingReviewById, replies, isLoadingReplies, isSubmitting, review, handleSubmit,
-			values, handleChange, handleBlur
+			values, handleChange, handleBlur, userId
 		} = this.props;
 		const isLoading = isLoadingReviewById || isLoadingReplies || isSubmitting;
 
@@ -75,6 +78,7 @@ class BookReview extends Component {
 					<CommentList
 						values={values}
 						replies={replies}
+						userId={userId}
 						handleSubmit={handleSubmit}
 						handleChange={handleChange}
 						handleBlur={handleBlur}

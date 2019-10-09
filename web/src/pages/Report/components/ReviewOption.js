@@ -3,14 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import colors from '../../../constants/colors';
-import ProblemContainer from './ProblemContainer';
 import Image from '../../../components/Image';
 
 const styles = theme => ({
   flexColumn: {
     display: 'flex',
-    flexDirection: 'column',
-    color: colors.primary
+    flexDirection: 'column'
   },
   flexContainer: {
     display: 'flex',
@@ -41,39 +39,41 @@ const styles = theme => ({
   },
   image: {
     width: 30,
-    height: 40
+    height: 40,
+    marginRight: 10
   }
 })
 
 const ReviewOption = (props) => {
-  const { classes, createdDay } = props;
-  // const { reviewId } = props;
-  const createdAt = '2019-03-29T00:00:00';
+  const { classes, createdDay, review } = props;
+  let createdAt = '0000-00-00T00:00:00';
+  if (review && review.review) createdAt = review.review.createdAt;
 
   return (
     <div className={classes.flexColumn}>
       <div>
         <p className={classes.title}>Tên sách</p>
         <div className={classes.flexContainer}>
-          <Image src='{image}' alt='{name}' className={classes.image} />
-          <p className={classes.name}>Animal farm</p>
+          <Image src={`${review.image}`} alt={`${review.bookName}`} className={classes.image} />
+          <p className={classes.name}>{review.bookName}</p>
         </div>
         <div>
           <div>
             <p className={classes.title}>Người review</p>
           </div>
           <div className={classes.flexContainer} style={{ marginBottom: 15 }}>
-            <Avatar src='user' className={classes.avatar} />
+            <Avatar src={`${review.avatar}`} className={classes.avatar} />
             <div>
-              <>Nguyễn Ngọc Minh Huy</>
+              <>{review.name}</>
               <p className={classes.date}>{createdDay(createdAt)}</p>
             </div>
           </div>
         </div>
       </div>
-      <ProblemContainer />
     </div>
   );
 };
+
+
 
 export default withStyles(styles)(ReviewOption);

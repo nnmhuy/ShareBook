@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { Button } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
+import Badge from '@material-ui/core/Badge'
 
 import Link from './Link'
 import Image from './Image'
@@ -91,11 +92,16 @@ const styles = (theme => ({
     position: 'absolute',
     right: 0,
     bottom: 0
+  },
+  customBadge: {
+    backgroundColor: '#30c37c',
+    width: 8,
+    height: 8
   }
 }))
 
 const Book = (props) => {
-  const { classes, id, name, author, image, isBookmarked, rating, numberOfUse, bookmarkId, handleToggleBookmark } = props
+  const { classes, id, name, author, image, isBookmarked, rating, numberOfUse, bookmarkId, handleToggleBookmark, totalOfBookInstance } = props
   const onBookmark = () => {
     handleToggleBookmark(id, bookmarkId, !isBookmarked)
   }
@@ -103,7 +109,9 @@ const Book = (props) => {
   return (
     <div className={classes.container} >
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={image} alt={name} className={classes.image} />
+        <Badge classes={{ badge: classes.customBadge }} variant="dot" invisible={totalOfBookInstance === 0 ? true : false}>
+          <Image src={image} alt={name} className={classes.image} />
+        </Badge>
       </Link>
       <div className={classes.infoContainer}>
         <div className={classes.name}>

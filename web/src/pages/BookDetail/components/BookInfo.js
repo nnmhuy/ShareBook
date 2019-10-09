@@ -6,8 +6,8 @@ import { IconButton } from '@material-ui/core'
 import Link from '../../../components/Link'
 import Image from '../../../components/Image'
 
-import { ReactComponent as LikeIcon } from '../../../static/images/like-filled.svg'
-import { ReactComponent as HeartIcon } from '../../../static/images/heart-full.svg'
+import { ReactComponent as StarIcon } from '../../../static/images/star.svg'
+import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked.svg'
 import { ReactComponent as UserIcon } from '../../../static/images/man-user.svg'
 import { ReactComponent as ReportIcon } from '../../../static/images/alert.svg'
 
@@ -136,11 +136,11 @@ const styles = (theme => ({
 
 const BookInfo = (props) => {
   const { classes, image, totalOfRating, numberOfRating, name, author, tags = [],
-    numberOfBookmarks, numberOfUse, category } = props
+    numberOfBookmarks, numberOfUse, category, id } = props
   const rating = calculateRating(totalOfRating, numberOfRating)
   return (
     <div className={classes.container}>
-      <Link to='/report' className={classes.reportLink}>
+      <Link to={`/report/book-${id}`} className={classes.reportLink}>
         <IconButton>
           <ReportIcon className={classes.reportIcon} />
         </IconButton>
@@ -183,9 +183,9 @@ const BookInfo = (props) => {
         <div className={classes.numberItem}>
           <div className={classes.numberLabel}>Đánh giá</div>
           <div className={classes.numberContainer}>
-            <LikeIcon className={classes.numberIconLeft} fill={colors.primary} />
+            <StarIcon className={classes.numberIconLeft} fill={colors.primary} />
             <span className={classes.numberWrapper}>
-              <span className={classes.number} style={{ color: colors.primary }}>
+              <span className={classes.number} style={{ color: '#fd8824' }}>
                 {rating}
               </span>
               {` / 5`}
@@ -196,11 +196,11 @@ const BookInfo = (props) => {
           <div className={classes.numberLabel}>Bookmark</div>
           <div className={classes.numberContainer}>
             <span className={classes.numberWrapper}>
-              <span className={classes.number} style={{ color: colors.red }}>
+              <span className={classes.number} style={{ color: colors.primary }}>
                 {numberOfBookmarks}
               </span>
             </span>
-            <HeartIcon className={classes.numberIconRight} />
+            <BookmarkedIcon className={classes.numberIconRight} fill={colors.primary}/>
           </div>
         </div>
         <div className={classes.numberItem}>

@@ -45,6 +45,7 @@ const TopBook = (props) => {
                 rating={book.rating}
                 numberOfUse={book.numberOfUse}
                 isBookmarked={book.isBookmarked}
+                totalOfBookInstance={book.totalOfBookInstance}
                 bookmarkId={book.bookmarkId}
                 handleToggleBookmark={handleToggleBookmark}
               />
