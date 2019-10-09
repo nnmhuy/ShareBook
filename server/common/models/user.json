@@ -37,7 +37,7 @@
     "coin": {
       "type": "number",
       "required": true,
-      "default": 0
+      "default": 50
     },
     "contribution": {
       "type": "number",

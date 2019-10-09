@@ -4,7 +4,6 @@ var pubsub = require('../../server/component/pubsub.js');
 const setUserId = require('../../server/middleware/setUserId');
 const secretKey = process.env.SUPER_SECRET_KEY;
 
-
 module.exports = function(MessageInTransaction) {
   MessageInTransaction.validatesPresenceOf('transactionId');
 

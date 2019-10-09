@@ -1,30 +1,31 @@
 'use strict';
 const _ = require('lodash');
 const secretKey = process.env.SUPER_SECRET_KEY;
+const coinConstants = require('../../server/helper/coinConstants');
 
 const setUserId = require('../../server/middleware/setUserId');
 module.exports = function(Transaction) {
   Transaction.validatesPresenceOf('borrowerId', 'bookInstanceId');
 
-  Transaction.observe('before save', (ctx, next) => {
-    setUserId(ctx, 'borrowerId');
-    if (ctx.isNewInstance) {
-      let BookInstance = Transaction.app.models.bookInstance;
-      BookInstance.findById(ctx.instance.bookInstanceId,
-        (error, instance) => {
-          if (!instance.isAvailable) {
-            return next(new Error('Quyển sách này đang được mượn'));
-          }
-          if (error || !instance || !instance.holderId) {
-            return next(new Error('Quyển sách này đang bị lỗi'));
-          }
-          ctx.instance.holderId = instance.holderId;
-          return next();
-        }
-      );
-    }
-    next();
-  });
+  // Transaction.observe('before save', (ctx, next) => {
+  //   setUserId(ctx, 'borrowerId');
+  //   if (ctx.isNewInstance) {
+  //     let BookInstance = Transaction.app.models.bookInstance;
+  //     BookInstance.findById(ctx.instance.bookInstanceId,
+  //       (error, instance) => {
+  //         if (!instance.isAvailable) {
+  //           return next(new Error('Quyển sách này đang được mượn'));
+  //         }
+  //         if (error || !instance || !instance.holderId) {
+  //           return next(new Error('Quyển sách này đang bị lỗi'));
+  //         }
+  //         ctx.instance.holderId = instance.holderId;
+  //         return next();
+  //       }
+  //     );
+  //   }
+  //   next();
+  // });
 
   Transaction.holderUpdate = async function(transactionId, data, ctx) {
     const {requestStatus} = data;
@@ -43,6 +44,8 @@ module.exports = function(Transaction) {
       direction: 'system',
       secretKey,
     };
+    const UserModel = Transaction.app.models.user;
+    const borrower = await UserModel.findById(transaction.borrowerId);
     switch (requestStatus) {
       case 'waitingForTake':
         if (transaction.status !== 'waitingForResponse') {
@@ -69,6 +72,23 @@ module.exports = function(Transaction) {
         ) {
           throw new Error('Sai quy trình');
         }
+        const holder = await UserModel.findById(userId);
+        const owner = await UserModel.findById(transaction.ownerId);
+        await holder.updateAttribute(
+          'coin', holder.coin + coinConstants.transactionHolder
+        );
+        await owner.updateAttribute(
+          'coin', owner.coin + coinConstants.transactionOwner
+        );
+        if (transaction.status === 'isReading') {
+          await borrower.updateAttribute(
+            'coin', borrower.coin + coinConstants.transactionReturn
+          );
+        } else {
+          await borrower.updateAttribute(
+            'coin', borrower.coin + coinConstants.transactionLateReturn
+          );
+        }
         newSystemMessage.content = 'Giao dịch hoàn tất';
         break;
       case 'isCancel':
@@ -77,6 +97,9 @@ module.exports = function(Transaction) {
         ) {
           throw new Error('Sai quy trình');
         }
+        await borrower.updateAttribute(
+          'coin', borrower.coin + coinConstants.transactionBorrow
+        );
         newSystemMessage.content = 'Giao dịch đã bị huỷ';
         break;
       default:
@@ -113,11 +136,13 @@ module.exports = function(Transaction) {
     }
     const MessageInTransaction =
       Transaction.app.models.messageInTransaction;
+    const UserModel = Transaction.app.models.user;
     let newSystemMessage = {
       transactionId,
       direction: 'system',
       secretKey,
     };
+    const borrower = await UserModel.findById(transaction.borrowerId);
     switch (requestStatus) {
       case 'isReading':
         if (transaction.status !== 'waitingForTake') {
@@ -139,6 +164,9 @@ module.exports = function(Transaction) {
         ) {
           throw new Error('Sai quy trình');
         }
+        await borrower.updateAttribute(
+          'coin', borrower.coin + coinConstants.transactionBorrow
+        );
         newSystemMessage.content = 'Giao dịch đã bị huỷ';
         break;
       default:
@@ -167,7 +195,7 @@ module.exports = function(Transaction) {
     const userId = _.get(ctx, 'req.accessToken.userId', null);
     const UserModel = Transaction.app.models.user;
     const user = await UserModel.findById(userId);
-    if (!user || user.coin < 2) {
+    if (!user || user.coin < coinConstants.transactionBorrow) {
       throw new Error(
         'Người dùng không đủ điểm để mượn sách.\
         Cho mượn sách hoặc viết review để nhận điểm nhé!'
@@ -194,8 +222,13 @@ module.exports = function(Transaction) {
         throw new Error('Sách không có sẵn!');
       }
     }
-    await instance.updateAttribute('isAvailable', false);
-    await user.updateAttribute('coin', user.coin - 2);
+    await instance.updateAttributes({
+      'isAvailable': false,
+      secretKey,
+    });
+    await user.updateAttribute(
+      'coin', user.coin - coinConstants.transactionBorrow
+    );
     const newTransaction = await Transaction.create({
       holderId: instance.holderId,
       borrowerId: userId,
