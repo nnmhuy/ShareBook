@@ -44,21 +44,21 @@ const InstanceOption = (props) => {
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
-        <Image src={`${instance.bookImage}`} alt={`${instance.bookName}`} className={classes.image} />
-        <p className={classes.name}>{instance.bookName}</p>
+        <Image src={`${instance && instance.bookImage}`} alt={`${instance && instance.bookName}`} className={classes.image} />
+        <p className={classes.name}>{instance && instance.bookName}</p>
       </div>
       <div>
         <p className={classes.title}>Người giữ</p>
         <div className={classes.flexContainer}>
-          <Avatar src={`${instance.ownerAvatar}`} className={classes.avatar} />
-          <p className={classes.name}>{instance.ownerName}</p>
+          <Avatar src={`${instance && instance.ownerAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{instance && instance.ownerName}</p>
         </div>
       </div>
       <div>
         <p className={classes.title}>Người mượn</p>
         <div className={classes.flexContainer}>
-          <Avatar src={`${instance.holderAvatar}`} className={classes.avatar} />
-          <p className={classes.name}>{instance.holderName}</p>
+          <Avatar src={`${instance && instance.holderAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{instance && instance.holderName}</p>
         </div>
       </div>
     </div>

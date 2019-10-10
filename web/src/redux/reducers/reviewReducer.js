@@ -18,7 +18,10 @@ import {
   toggleLikeReviewFail,
   toggleLikeSingleReview,
   toggleLikeSingleReviewSuccess,
-  toggleLikeSingleReviewFail
+  toggleLikeSingleReviewFail,
+  getAllReviews,
+  getAllReviewsSuccess,
+  getAllReviewsFail
 } from '../actions/reviewAction'
 
 let defaultState = {
@@ -30,7 +33,9 @@ let defaultState = {
   userReview: {},
   isPostingReview: false,
   isLoadingReviewById: false,
-  singleReview: {}
+  review: {},
+  allReviews: [],
+  isLoadingAllReviews: false
 }
 
 const bookReducer = handleActions(
@@ -149,7 +154,7 @@ const bookReducer = handleActions(
       return {
         ...state,
         isLoadingReviewById: false,
-        singleReview: payload,
+        review: payload,
         error: null
       }
     },
@@ -161,38 +166,57 @@ const bookReducer = handleActions(
       }
     },
     [toggleLikeSingleReview]: (state, { payload: { likeStatus } }) => {
-      const singleReview = JSON.parse(JSON.stringify(state.singleReview))
-      if (singleReview.likeStatus === -1) {
-        --singleReview.review.numberOfDislike
+      const review = JSON.parse(JSON.stringify(state.review))
+      if (review.likeStatus === -1) {
+        --review.numberOfDislike
       }
-      if (singleReview.likeStatus === 1) {
-        --singleReview.review.numberOfLike
+      if (review.likeStatus === 1) {
+        --review.numberOfLike
       }
       if (likeStatus === -1) {
-        ++singleReview.review.numberOfDislike
+        ++review.numberOfDislike
       }
       if (likeStatus === 1) {
-        ++singleReview.review.numberOfLike
+        ++review.numberOfLike
       }
-      singleReview.likeStatus = likeStatus
+      review.likeStatus = likeStatus
 
       return {
         ...state,
-        singleReview
+        review
       }
     },
     [toggleLikeSingleReviewSuccess]: (state, { payload: { reviewId, likeReviewId } }) => {
-      const singleReview = JSON.parse(JSON.stringify(state.singleReview))
-      singleReview.review.likeReviewId = likeReviewId
+      const review = JSON.parse(JSON.stringify(state.review))
+      review.likeReviewId = likeReviewId
       return {
         ...state,
-        singleReview,
+        review,
         error: null
       }
     },
     [toggleLikeSingleReviewFail]: (state, { payload: error }) => {
       return {
         ...state,
+        error: error
+      }
+    },
+    [getAllReviews]: (state) => {
+      return {
+        ...state,
+        isLoadingAllReviews: true,
+      }
+    },
+    [getAllReviewsSuccess]: (state, { payload }) => {
+      return {
+        isLoadingAllReviews: false,
+        allReviews: payload,
+        error: null
+      }
+    },
+    [getAllReviewsFail]: (state, { payload: error }) => {
+      return {
+        isLoadingAllReviews: false,
         error: error
       }
     },

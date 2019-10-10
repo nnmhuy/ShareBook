@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+import getFormattedDate from '../../../helper/getFormattedDate';
 
 import colors from '../../../constants/colors';
 import Image from '../../../components/Image';
@@ -45,27 +46,27 @@ const styles = theme => ({
 })
 
 const ReviewOption = (props) => {
-  const { classes, createdDay, review } = props;
+  const { classes, review } = props;
   let createdAt = '0000-00-00T00:00:00';
-  if (review && review.review) createdAt = review.review.createdAt;
+  if (review && review.createdAt) createdAt = review.createdAt;
 
   return (
     <div className={classes.flexColumn}>
       <div>
         <p className={classes.title}>Tên sách</p>
         <div className={classes.flexContainer}>
-          <Image src={`${review.image}`} alt={`${review.bookName}`} className={classes.image} />
-          <p className={classes.name}>{review.bookName}</p>
+          <Image src={`${review && review.image}`} alt={`${review && review.bookName}`} className={classes.image} />
+          <p className={classes.name}>{review && review.bookName}</p>
         </div>
         <div>
           <div>
             <p className={classes.title}>Người review</p>
           </div>
           <div className={classes.flexContainer} style={{ marginBottom: 15 }}>
-            <Avatar src={`${review.avatar}`} className={classes.avatar} />
+            <Avatar src={`${review && review.avatar}`} className={classes.avatar} />
             <div>
-              <>{review.name}</>
-              <p className={classes.date}>{createdDay(createdAt)}</p>
+              <>{review && review.name}</>
+              <p className={classes.date}>{review && getFormattedDate(createdAt)}</p>
             </div>
           </div>
         </div>

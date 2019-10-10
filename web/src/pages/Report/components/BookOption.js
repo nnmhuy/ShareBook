@@ -39,8 +39,8 @@ const BookOption = props => {
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách</p>
       <div>
-        <Image src={`${bookDetail.image}`} alt={`${bookDetail.name}`} className={classes.image} />
-        <p className={classes.name}>{bookDetail.name}</p>
+        <Image src={`${bookDetail && bookDetail.image}`} alt={`${bookDetail && bookDetail.name}`} className={classes.image} />
+        <p className={classes.name}>{bookDetail && bookDetail.name}</p>
       </div>
     </div>
   );

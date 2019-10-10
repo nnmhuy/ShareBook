@@ -208,7 +208,7 @@ const ReviewItem = (props) => {
             <Avatar src={avatar} className={classes.avatar} />
             <div className={classes.personalInfo}>
               <Link className={classes.username} to={`/profile/${userId}`}>{name}</Link>
-              <div className={classes.date}>{getFormattedDate(createdAt)}</div>
+              <div className={classes.date}>{getFormattedDate(createdAt, true)}</div>
             </div>
           </div>
           <Rating

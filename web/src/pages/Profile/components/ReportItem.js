@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import getFormattedDate from '../../../helper/getFormattedDate';
 
 import { ReactComponent as TechnicIcon } from '../../../static/images/technics.svg';
 import colors from '../../../constants/colors';
@@ -47,14 +48,7 @@ const styles = theme => ({
 const ReportItem = props => {
   const { classes } = props;
   const { id, createdAt, status } = props.report;
-  const createdDay = (date) => {
-    let createdYMD = date.split('T')[0].split('-');
-    let day = createdYMD[2];
-    let month = createdYMD[1];
-    let year = createdYMD[0][2] + createdYMD[0][3];
-    let formattedDate = day + '.' + month + '.' + year;
-    return formattedDate;
-  }
+ 
   let statusCode = '';
   switch (status) {
     case 'pending':
@@ -86,7 +80,7 @@ const ReportItem = props => {
         </div>
         <div className={classes.flexContainer} style={{ alignItems: 'flex-end' }}>
           <p className={classes.textPrimary}>
-            {createdDay(createdAt)}
+            {getFormattedDate(createdAt)}
           </p>
           <Link className={classes.textPrimaryLight} to={`/report/${id}`}>
             Theo dõi

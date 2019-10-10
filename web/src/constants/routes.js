@@ -18,7 +18,7 @@ const routes = [
   },
   {
     label: 'Newsfeed',
-    pathname: '/review',
+    pathname: '/newsfeed',
     Icon: ReviewIcon
   },
   {
