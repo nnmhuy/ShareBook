@@ -25,6 +25,7 @@ module.exports = function(Book) {
         bookName = filterText(bookName);
         ctx.data.searchValue = bookName;
       }
+      ctx.hookState.categoryId = ctx.currentInstance.categoryId;
     }
     return next();
   });
@@ -63,15 +64,25 @@ module.exports = function(Book) {
   }
 
   function triggerBookUpdate(ctx, next) {
+    if (!ctx.data || !ctx.data.categoryId || !ctx.hookState.categoryId)
+      return next();
+    updateCategory(ctx.data.categoryId, 1, (err) => {
+      if (err) return next(err);
+      updateCategory(ctx.hookState.categoryId, -1, (err) => {
+        if (err) return next(err);
+        return next();
+      });
+    });
+  }
+
+  function updateCategory(id, delta, next) {
     let Category = Book.app.models.category;
-    if (!ctx.currentInstance || !ctx.currentInstance.categoryId)
-      return next(new Error('Yêu cầu bị lỗi'));
-    Category.findById(ctx.currentInstance.categoryId,
+    Category.findById(id,
     (err, categoryInstance) => {
       if (err || !categoryInstance)
         return next(new Error('Loại sách này đang bị lỗi'));
       categoryInstance.updateAttributes({
-        totalOfBook: categoryInstance.totalOfBook + 1,
+        totalOfBook: categoryInstance.totalOfBook + delta,
       }, (err, instance) => {
         if (err || !instance)
           return next(new Error('Thể loại sách này đang bị lỗi'));

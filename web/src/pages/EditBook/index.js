@@ -156,9 +156,13 @@ const CreateBookWithFormik = withFormik({
     if (!bookType || bookType === 'single') {
       data.volume = -1
     }
-    if (!numberOfPages) delete data.numberOfPages
-    if (!publishYear) delete data.publishYear
-    if (!price) delete data.price
+    if (!numberOfPages || bookDetail.numberOfPages === numberOfPages) delete data.numberOfPages
+    if (!publishYear || bookDetail.publishYear === publishYear) delete data.publishYear
+    if (!price || bookDetail.price === price) delete data.price
+    if (bookDetail.categoryId === categoryId) delete data.categoryId
+    if (bookDetail.image === data.image) delete data.image
+    if (bookDetail.description === description) delete data.description
+    // not remove name, author => for search value
 
     editNewBook(data)
     setSubmitting(false)
