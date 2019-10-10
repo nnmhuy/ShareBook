@@ -15,7 +15,7 @@ const styles = theme => ({
 });
 
 const RadioButtons = (props) => {
-	const { classes, name, label, attrs, mb, value, setFieldValue} = props
+	const { classes, name, label, attrs, mb, value, setFieldValue, currentValue} = props
 
 	const handleChange = (event) => {
 		setFieldValue('bookType', event.target.value)
@@ -28,6 +28,11 @@ const RadioButtons = (props) => {
 				<RadioGroup aria-label={name} name={name} style={{ flexDirection: 'row' }} value={value} onChange={handleChange}>
 					{
 						attrs.map((item, index) => {
+							if (item.value === currentValue) {
+								return (
+									<FormControlLabel checked key={index} value={item.value} control={<Radio color="primary" />} label={item.label} />
+								)
+							}
 							return (
 								<FormControlLabel key={index} value={item.value} control={<Radio color="primary" />} label={item.label} />
 							)

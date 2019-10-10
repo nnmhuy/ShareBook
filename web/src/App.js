@@ -23,6 +23,7 @@ import CategoryList from './pages/CategoryList'
 import Profile from './pages/Profile'
 import Report from './pages/Report'
 import TransactionDetail from './pages/TransactionDetail'
+import EditBook from './pages/EditBook/index'
 
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
@@ -49,6 +50,7 @@ class App extends React.Component {
             <Route path="/" exact component={Home} />
             <Route path="/account" exact component={Account} />
             <Route path="/book-detail/:bookId" exact component={BookDetail} />
+            <Route path="/edit-book/:bookId" exact component={EditBook} />
             <Route path="/book-list" exact component={BookList} />
             <Route path="/category/:categoryId" exact component={CategoryBookList} />
             <Route path="/categories" exact component={CategoryList} />

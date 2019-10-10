@@ -25,7 +25,10 @@ import {
   toggleBookmarkFail,
   createBook,
   createBookSuccess,
-  createBookFail
+  createBookFail,
+  editBook,
+  editBookSuccess,
+  editBookFail,
 } from '../actions/bookAction'
 
 let defaultState = {
@@ -55,6 +58,7 @@ let defaultState = {
   bookSearchIsLoading: false,
   bookSearchData: [],
   isCreating: false,
+  isEdited: false,
   updatedAtForSearch: null
 }
 
@@ -292,6 +296,26 @@ const bookReducer = handleActions(
         ...state,
         error,
         isCreating: false
+      }
+    },
+    [editBook]: (state) => {
+      return {
+        ...state,
+        isEdited: true
+      }
+    },
+    [editBookSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        error: null,
+        isEdited: false
+      }
+    },
+    [editBookFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error,
+        isEdited: false
       }
     },
   },

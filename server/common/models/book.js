@@ -19,6 +19,13 @@ module.exports = function(Book) {
       let bookName = ctx.instance.name + ctx.instance.author;
       bookName = filterText(bookName);
       ctx.instance.searchValue = bookName;
+    } else {
+      if (ctx.data && ctx.data.author && ctx.data.name) {
+        let bookName = ctx.data.name + ctx.data.author;
+        bookName = filterText(bookName);
+        ctx.data.searchValue = bookName;
+      }
+      ctx.hookState.categoryId = ctx.currentInstance.categoryId;
     }
     return next();
   });
@@ -32,7 +39,10 @@ module.exports = function(Book) {
       });
     } else {
       // for update
-      return next();
+      triggerBookUpdate(ctx, (err) => {
+        if (err) return next(err);
+        return next();
+      });
     }
   });
   function triggerBookCreate(ctx, next) {
@@ -45,6 +55,34 @@ module.exports = function(Book) {
         return next(new Error('Loại sách này đang bị lỗi'));
       categoryInstance.updateAttributes({
         totalOfBook: categoryInstance.totalOfBook + 1,
+      }, (err, instance) => {
+        if (err || !instance)
+          return next(new Error('Thể loại sách này đang bị lỗi'));
+        return next();
+      });
+    });
+  }
+
+  function triggerBookUpdate(ctx, next) {
+    if (!ctx.data || !ctx.data.categoryId || !ctx.hookState.categoryId)
+      return next();
+    updateCategory(ctx.data.categoryId, 1, (err) => {
+      if (err) return next(err);
+      updateCategory(ctx.hookState.categoryId, -1, (err) => {
+        if (err) return next(err);
+        return next();
+      });
+    });
+  }
+
+  function updateCategory(id, delta, next) {
+    let Category = Book.app.models.category;
+    Category.findById(id,
+    (err, categoryInstance) => {
+      if (err || !categoryInstance)
+        return next(new Error('Loại sách này đang bị lỗi'));
+      categoryInstance.updateAttributes({
+        totalOfBook: categoryInstance.totalOfBook + delta,
       }, (err, instance) => {
         if (err || !instance)
           return next(new Error('Thể loại sách này đang bị lỗi'));

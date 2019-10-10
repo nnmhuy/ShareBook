@@ -72,7 +72,7 @@ const rotateImage = (file, rotateOption, callback) => {
   loadImage(file, (img) => {
     if (img.type === "error") {
       console.error("Error loading image ");
-      return callback(img.type)
+      return callback('err')
     }
     var dataUrl = img.toDataURL('image/jpeg');
     var rotatedImage = dataURLToBlob(dataUrl);

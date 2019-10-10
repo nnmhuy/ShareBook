@@ -66,7 +66,7 @@ class App extends React.Component {
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
       bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory,
-      isLoadingReview, isLoadingInstances
+      isLoadingReview, isLoadingInstances, role
     } = this.props
 
     const { touched, activeTab } = this.state
@@ -88,7 +88,7 @@ class App extends React.Component {
         <Loading isLoading={isLoading}/>
         <BottomNav bookId={bookId}>
           <div className={classes.container}>
-            <BookInfo {...bookDetail} category={category}/>
+            <BookInfo {...bookDetail} role={role} category={category}/>
             <RateSection bookId={bookId} history={history} />
             <DetailTabs
               book={bookDetail}
@@ -123,6 +123,7 @@ class App extends React.Component {
 const mapStateToProps = ({ book, review, bookInstances }) => {
   return {
     userId: localStorage.getItem('userId'),
+    role: localStorage.getItem('role'),
     isLoading: book.isLoading,
     bookDetail: book.bookDetail,
     category: book.category,

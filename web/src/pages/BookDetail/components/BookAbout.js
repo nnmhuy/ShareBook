@@ -87,7 +87,7 @@ const BookAbout = (props) => {
                   <div key={detailItem.key} className={classes.detailItem}>
                     <div className={classes.itemLabel}>{detailItem.label}</div>
                     <div className={classes.itemValue}>
-                      { detailItem.key === 'volume' && book[detailItem.key] === -1
+                      { detailItem.key === 'volume' && (book[detailItem.key] === -1 || !book[detailItem.key])
                       ? 'Sách lẻ'
                       : book[detailItem.key]}
                     </div>

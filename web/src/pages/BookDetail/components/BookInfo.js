@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
 import { IconButton } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 import Link from '../../../components/Link'
 import Image from '../../../components/Image'
@@ -128,15 +129,30 @@ const styles = (theme => ({
     top: 5,
     right: 5
   },
+  editLink: {
+    position: 'absolute',
+    top: 155,
+    right: 5
+  },
   reportIcon: {
     width: 15,
     height: 15
-  }
+  },
+  editBookButton: {
+    width: 50,
+    // borderRadius: '0px 6px 6px 0px',
+    background: colors.primary,
+    color: '#fff',
+    textTransform: 'none',
+    fontWeight: 500,
+    fontSize: 14
+  },
 }))
 
 const BookInfo = (props) => {
   const { classes, image, totalOfRating, numberOfRating, name, author, tags = [],
-    numberOfBookmarks, numberOfUse, category, id } = props
+    numberOfBookmarks, numberOfUse, category, id, role } = props
+  let isSuperAdmin = role === "superAdmin"
   const rating = calculateRating(totalOfRating, numberOfRating)
   return (
     <div className={classes.container}>
@@ -145,6 +161,10 @@ const BookInfo = (props) => {
           <ReportIcon className={classes.reportIcon} />
         </IconButton>
       </Link>
+      {isSuperAdmin &&
+      <Link to={`/edit-book/${id}`} className={classes.editLink}>
+        <Button className={classes.editBookButton}>Sửa</Button>
+      </Link>}
       <div className={classes.infoSection}>
         <div className={classes.imagePart}>
           <Image src={image} className={classes.image} alt={name} />

@@ -28,14 +28,37 @@ import {
   toggleBookmarkFail,
   createBook,
   createBookSuccess,
-  createBookFail
+  createBookFail,
+  editBook,
+  editBookSuccess,
+  editBookFail,
 } from '../actions/bookAction'
+import { getBookInstances } from '../actions/bookInstanceAction'
+import { getReviewsOfBook } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
+
+import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../constants/constants'
+
 
 function* getBookListSaga({ payload }) {
   try {
     let { where, skip, limit, order, include, key, userId, fields, lite } = payload
-    let filter = { where, skip, limit, order, include, fields }
+    let newFields = {
+      id: true,
+      name: true,
+      author: true,
+      numberOfRating: true,
+      totalOfRating: true,
+      rating: true,
+      numberOfUse: true,
+      totalOfBookInstance: true,
+      image: true
+    }
+    newFields = {
+      ...newFields,
+      ...fields
+    }
+    let filter = { where, skip, limit, order, include, fields: newFields }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
     let bookList = _.get(response, 'data', [])
     // lite is get bookmark or not
@@ -194,6 +217,8 @@ function* getBookInfoSaga({ payload }) {
 
     yield put(getBookInfoSuccess(data))
     yield put(getBookOfCategory({ categoryId: bookData.categoryId, userId }))
+    yield put(getBookInstances({ bookId: bookData.id, page: 0, limit: numberOfBookInstancesPerPage }))
+    yield put(getReviewsOfBook({ userId, bookId: bookData.id, page: 0, limit: numberOfReviewsPerPage }))    
   } catch (error) {
     yield put(getBookInfoFail(error))
   }
@@ -286,6 +311,16 @@ function* createBookSaga({ payload }) {
   }
 }
 
+function* editBookSaga({ payload }) {
+  try {
+    const { data: newBook } = yield call(restConnector.patch, `/books/${payload.id}`, { ...payload })
+    window.location = `/book-detail/${newBook.id}`
+    yield put(editBookSuccess())
+  } catch (error) {
+    yield put(editBookFail())
+  }
+}
+
 function* getBookListWatcher() {
   yield takeEvery(getBookList, getBookListSaga)
 }
@@ -318,6 +353,9 @@ function* createBookWatcher() {
   yield takeLatest(createBook, createBookSaga)
 }
 
+function* editBookWatcher() {
+  yield takeLatest(editBook, editBookSaga)
+}
 export {
   getBookListWatcher,
   getBookSearchWatcher,
@@ -326,5 +364,6 @@ export {
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher,
-  createBookWatcher
+  createBookWatcher,
+  editBookWatcher
 }
