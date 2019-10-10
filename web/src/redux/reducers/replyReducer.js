@@ -111,7 +111,8 @@ const replyReducer = handleActions(
         replies
       }
     },
-    [toggleLikeReplySuccess]: (state, { replyId, likeReplyId }) => {
+    [toggleLikeReplySuccess]: (state, { payload }) => {
+      const { replyId, likeReplyId } = payload
       const replies = JSON.parse(JSON.stringify(state.replies));
       const index = replies.findIndex(reply => replyId === reply.id)
       replies[index].likeReplyId = likeReplyId;

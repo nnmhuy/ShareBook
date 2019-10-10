@@ -23,6 +23,7 @@ import CategoryList from './pages/CategoryList'
 import Profile from './pages/Profile'
 import Report from './pages/Report'
 import TransactionDetail from './pages/TransactionDetail'
+import Newsfeed from './pages/Newsfeed'
 
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
@@ -63,6 +64,7 @@ class App extends React.Component {
             <Route path="/report" exact component={Report} />
             <Route path="/report/:type-:value" exact component={Report} />
             <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
+            <Route path="/newsfeed" exact component={Newsfeed} />
             <Route component={NotFound} />
           </Switch>
         </ScrollToTop>

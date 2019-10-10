@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import restConnector from '../../connectors/RestConnector'
 
 import {
@@ -14,16 +14,6 @@ function* createReportSaga({ payload }) {
     switch (typeOfTarget) {
       case 'book':
         yield call(restConnector.post, `/reports`, {
-          status: 'pending',
-          content,
-          typeOfTarget,
-          bookId: valueId,
-          authUser: true
-        })
-        break;
-      case 'book':
-        yield call(restConnector.post, `/reports`, {
-          status: 'pending',
           content,
           typeOfTarget,
           bookId: valueId,
@@ -32,7 +22,6 @@ function* createReportSaga({ payload }) {
         break;
       case 'bookInstance':
         yield call(restConnector.post, `/reports`, {
-          status: 'pending',
           content,
           typeOfTarget,
           bookInstanceId: valueId,
@@ -41,7 +30,6 @@ function* createReportSaga({ payload }) {
         break;
       case 'review':
         yield call(restConnector.post, `/reports`, {
-          status: 'pending',
           content,
           typeOfTarget,
           reviewId: valueId,
@@ -50,7 +38,6 @@ function* createReportSaga({ payload }) {
         break;
       case 'reply':
         yield call(restConnector.post, `/reports`, {
-          status: 'pending',
           content,
           typeOfTarget,
           replyId: valueId,
@@ -59,10 +46,23 @@ function* createReportSaga({ payload }) {
         break;
       case 'user':
         yield call(restConnector.post, `/reports`, {
-          status: 'pending',
           content,
           typeOfTarget,
           userId: valueId,
+          attachUser: true
+        })
+        break;
+      case 'other':
+        yield call(restConnector.post, `/reports`, {
+          content,
+          typeOfTarget,
+          attachUser: true
+        })
+        break;
+      case 'qa':
+        yield call(restConnector.post, `/reports`, {
+          content,
+          typeOfTarget,
           attachUser: true
         })
         break;

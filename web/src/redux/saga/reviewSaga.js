@@ -20,6 +20,9 @@ import {
   toggleLikeSingleReview,
   toggleLikeSingleReviewSuccess,
   toggleLikeSingleReviewFail,
+  getAllReviews,
+  getAllReviewsSuccess,
+  getAllReviewsFail
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -207,7 +210,7 @@ function* getReviewByIdSaga({ payload }) {
       avatar,
       bookName: bookOfReview.data.name,
       image,
-      review: { ...reviewData },
+      ...reviewData,
       likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
       likeStatus: reviewLike.data[0] ? reviewLike.data[0].isLike : 0
     }
@@ -215,6 +218,93 @@ function* getReviewByIdSaga({ payload }) {
     yield put(getReviewByIdSuccess(allData))
   } catch (error) {
     yield put(getReviewByIdFail(error))
+  }
+}
+
+function* getAllReviewsSaga({payload}) {
+  try {
+    const { userId } = payload;
+    // let allReviews = []
+    const { data: allReviews } = yield call(restConnector.get,
+      `/reviews?filter={"where":{"userId": {"neq":${JSON.stringify(userId)}}},"order":"createdAt DESC"}`)
+
+    let curData = []
+    //assign review
+    allReviews.forEach((review, index) => {
+      curData.push({review: review, reply: []})
+    })
+
+    //get reviewLikes
+    const reviewLike = yield all(
+      curData.map((data) =>
+        call(restConnector.get, `/likeReviews?filter={"where":{"userId":"${userId}","reviewId":"${data.review.id}"}}`)
+      )
+    )
+      
+    //get reviewUsers
+    const userOfReview = yield all(
+      curData.map((data) =>
+        call(restConnector.get, `/reviews/${data.review.id}/user`)
+      )
+    )
+
+    //get reviewBook
+    const bookOfReview = yield all(
+      curData.map((data) =>
+        call(restConnector.get, `/reviews/${data.review.id}/book`)
+      )
+    )
+
+    //get reviewReplies
+    const reviewsReply = yield all(
+      curData.map((data, index) =>
+        call(restConnector.get, `/replies?filter={"where":{"reviewId":${JSON.stringify(data.review.id)}}}`)
+      )
+    )
+
+    //get replyUser
+    
+    // get replyLike
+    // const replyLike = yield all(
+    //   reviewsReply.map((reply, index) =>
+    //     reply.data.map((single, index) => 
+    //       call(restConnector.get, `/likeReplies?filter={"where":{"userId":"${userId}","replyId":"${single.id}"}}`)
+    //     )
+    //   )
+    // )
+
+    // reviewsReply.forEach((reply, index) =>
+    //   // console.log(reply.data)
+    // )
+
+    //assign replies, book, users, like
+    curData.forEach((data, index) => {
+      data.reply = reviewsReply[index].data
+
+      data.review.bookName = bookOfReview[index].data.name
+      data.review.image = bookOfReview[index].data.image
+      data.review.name = userOfReview[index].data.name
+      data.review.avatar = userOfReview[index].data.avatar
+
+      if (reviewLike[index].data[0]) {
+        data.review.likeReviewId = reviewLike[index].data[0].id
+        data.review.likeStatus = reviewLike[index].data[0].isLike
+      } else {
+        data.review.likeReviewId = ''
+        data.review.likeStatus = 0
+      }
+    })
+
+    // curData.forEach((data, index) => {
+    //   data.reply.forEach(reply => {
+    //     console.log(reply)
+    //   })
+    // })
+
+
+    yield put(getAllReviewsSuccess(curData))
+  } catch (error) {
+    yield put(getAllReviewsFail(error))
   }
 }
 
@@ -242,11 +332,16 @@ function* getReviewByIdWatcher() {
   yield takeLatest(getReviewById, getReviewByIdSaga)
 }
 
+function* getAllReviewsWatcher() {
+  yield takeLatest(getAllReviews, getAllReviewsSaga)
+}
+
 export {
   postReviewWatcher,
   getReviewByUserWatcher,
   getReviewsOfBookWatcher,
   toggleLikeReviewWatcher,
   getReviewByIdWatcher,
-  toggleLikeSingleReviewWatcher
+  toggleLikeSingleReviewWatcher,
+  getAllReviewsWatcher
 }

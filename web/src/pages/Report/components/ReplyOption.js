@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+import getFormattedDate from '../../../helper/getFormattedDate'
 
 import colors from '../../../constants/colors';
 import Image from '../../../components/Image';
@@ -49,7 +50,7 @@ const styles = theme => ({
 })
 
 const ReplyOption = props => {
-  const { classes, createdDay, reply } = props;
+  const { classes, reply } = props;
   let createdAt = '0000-00-00T00:00:00';
   if (reply && reply.createdAt) createdAt = reply.createdAt
 
@@ -58,25 +59,25 @@ const ReplyOption = props => {
       <div>
         <p className={classes.title}>Tên sách</p>
         <div className={classes.flexContainer}>
-          <Image src={`${reply.bookImage}`} alt={`${reply.bookName}`} className={classes.image} />
-          <p className={classes.nameMargin}>Animal farm</p>
+          <Image src={`${reply && reply.bookImage}`} alt={`${reply && reply.bookName}`} className={classes.image} />
+          <p className={classes.nameMargin}>{reply && reply.bookName}</p>
         </div>
         <p className={classes.title}>Review của</p>
         <div className={classes.flexContainer}>
-          <Avatar src={`${reply.reviewAvatar}`} className={classes.avatar} />
-          <p className={classes.name}>{reply.reviewName}</p>
+          <Avatar src={`${reply && reply.reviewAvatar}`} className={classes.avatar} />
+          <p className={classes.name}>{reply && reply.reviewName}</p>
         </div>
         <div>
           <div>
             <p className={classes.title} style={{ marginTop: 10 }}>Người reply</p>
           </div>
           <div className={classes.flexContainer} style={{ marginBottom: 15 }}>
-            <Avatar src={`${reply.replyAvatar}`} className={classes.avatar} />
+            <Avatar src={`${reply && reply.replyAvatar}`} className={classes.avatar} />
             <div>
               {
-                reply.replyName !== undefined && <>{`${reply.replyName}`}</>
+                reply && reply.replyName !== undefined && <>{`${reply && reply.replyName}`}</>
               }
-              <p className={classes.date}>{createdDay(createdAt)}</p>
+              <p className={classes.date}>{reply && getFormattedDate(createdAt)}</p>
             </div>
           </div>
         </div>
