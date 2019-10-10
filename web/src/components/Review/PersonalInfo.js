@@ -32,7 +32,7 @@ const styles = (theme => ({
   },
   username: {
     fontWeight: 600,
-    fontSize: 16,
+    fontSize: 14,
     color: '#1c73c6',
     marginRight: 10
   },
