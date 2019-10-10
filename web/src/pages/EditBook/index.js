@@ -10,7 +10,7 @@ import TopNavSend from '../../components/TopNavSend';
 import InputPanel from '../CreateBook/components/InputPanel';
 import Loading from '../../components/Loading';
 
-import { createBook, getCategoryList } from '../../redux/actions/bookAction'
+import { editBook, getCategoryList } from '../../redux/actions/bookAction'
 import { uploadImagePromise } from '../../helper/uploadImage'
 import colors from '../../constants/colors'
 
@@ -34,18 +34,23 @@ const styles = theme => ({
 
 class EditBook extends Component {
   componentDidMount() {
-    const { getCategories } = this.props
+    const { getCategories, history, match, bookDetail } = this.props
+    const bookId = match.params.bookId
+    let role = localStorage.getItem('role')
+    if (role !== "superAdmin" || bookId !== bookDetail.id) {  
+      history.push('/book-list')
+    }
     getCategories({ skipAllBook: true })
   }
   render() {
     const { classes, handleSubmit, handleBlur,
       values, errors, handleChange, setFieldValue, isSubmitting,
-      categoryIsLoading, categoryList, touched
+      categoryIsLoading, categoryList, touched, isEdited
     } = this.props;
 
     return (
       <TopNavSend title='Chỉnh sửa sách' textSend='Lưu' handleSubmit={handleSubmit}>
-        <Loading isLoading={values.isImageLoading || isSubmitting || categoryIsLoading} />
+        <Loading isLoading={values.isImageLoading || isSubmitting || categoryIsLoading || isEdited } />
         <div className={classes.container}>
           <ImageContainer
             image={values.image}
@@ -77,12 +82,13 @@ class EditBook extends Component {
 const CreateBookWithFormik = withFormik({
   mapPropsToValues: (props) => {
     let bookDetail = props.bookDetail
+    let image = { url: bookDetail.image, imageName: bookDetail.id, cannotRotate: true }
     let bookType = 'single'
     if (bookDetail && bookDetail.volume && bookDetail.volume > -1)
       bookType = 'multiple'
     return {
       name: bookDetail.name,
-      image: bookDetail.image,
+      image: image,
       author: bookDetail.author,
       categoryId: bookDetail.categoryId,
       bookType: bookType,
@@ -115,7 +121,8 @@ const CreateBookWithFormik = withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
     const {
       isSubmitting,
-      createNewBook
+      editNewBook,
+      bookDetail
     } = props
 
     if (isSubmitting || values.isLoadingImage) return
@@ -126,7 +133,11 @@ const CreateBookWithFormik = withFormik({
       publisher, publishYear, price, description, categoryId
     } = values
 
-    const imagesUrl = await uploadImagePromise(image)
+    let imagesUrl = bookDetail.image
+    // change image
+    if (!image.cannotRotate) {
+      imagesUrl = await uploadImagePromise(image)
+    }
 
     let data = {
       name,
@@ -138,17 +149,18 @@ const CreateBookWithFormik = withFormik({
       publisher,
       publishYear,
       price,
-      description
+      description,
+      id: bookDetail.id
     }
 
     if (!bookType || bookType === 'single') {
-      delete data.volume
+      data.volume = -1
     }
     if (!numberOfPages) delete data.numberOfPages
     if (!publishYear) delete data.publishYear
     if (!price) delete data.price
 
-    createNewBook(data)
+    editNewBook(data)
     setSubmitting(false)
   }
 })(withStyles(styles)(EditBook))
@@ -156,18 +168,16 @@ const CreateBookWithFormik = withFormik({
 const mapStateToProps = ({ book }) => {
   return {
     userId: localStorage.getItem('userId'),
-    book: book.bookLite,
     categoryList: book.categoryList,
     categoryIsLoading: book.categoryIsLoading,
-    isLoadingBookLite: book.isLoadingBookLite,
     isLoading: book.isLoading,
     bookDetail: book.bookDetail,
-    category: book.category,
+    isEdited: book.isEdited
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  createNewBook: createBook,
+  editNewBook: editBook,
   getCategories: getCategoryList
 }, dispatch)
 

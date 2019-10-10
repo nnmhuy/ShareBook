@@ -110,11 +110,12 @@ const ImageContainer = (props) => {
       setFieldValue('isLoadingImage', false)
       return
     }
-    rotateImage(image.url, 6, (err, { url, blob }) => {
+    rotateImage(image.url, 6, (err, response) => {
       if (err) {
         setFieldValue('isLoadingImage', false)
         return
       }
+      let { url, blob } = response
       setFieldValue('image', {
         url,
         imageName,
@@ -149,7 +150,7 @@ const ImageContainer = (props) => {
             </FormHelperText>
           </label>
       }
-      {image && <Rotate onClick={rotateImageHandler} className={classes.rotateIcon} />}
+      {image && !image.cannotRotate &&<Rotate onClick={rotateImageHandler} className={classes.rotateIcon} />}
       <Dialog aria-labelledby="customized-dialog-title" open={isViewing && !!image} onClose={toggleViewing(false)} className={classes.modal}>
         <DialogContent>
           <Image src={image} alt='placeholder' className={classes.imageModal} />

@@ -137,7 +137,7 @@ const CreateBookWithFormik = withFormik({
 			}
 
 			if (!bookType || bookType === 'single') {
-				delete data.volume
+				data.volume = -1
 			}
 			if (!numberOfPages) delete data.numberOfPages
 			if (!publishYear) delete data.publishYear

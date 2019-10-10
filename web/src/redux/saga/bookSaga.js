@@ -28,7 +28,10 @@ import {
   toggleBookmarkFail,
   createBook,
   createBookSuccess,
-  createBookFail
+  createBookFail,
+  editBook,
+  editBookSuccess,
+  editBookFail,
 } from '../actions/bookAction'
 import { getBookInstances } from '../actions/bookInstanceAction'
 import { getReviewsOfBook } from '../actions/reviewAction'
@@ -55,7 +58,7 @@ function* getBookListSaga({ payload }) {
       ...newFields,
       ...fields
     }
-    let filter = { where, skip, limit, order, include, newFields }
+    let filter = { where, skip, limit, order, include, fields: newFields }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
     let bookList = _.get(response, 'data', [])
     // lite is get bookmark or not
@@ -308,6 +311,16 @@ function* createBookSaga({ payload }) {
   }
 }
 
+function* editBookSaga({ payload }) {
+  try {
+    const { data: newBook } = yield call(restConnector.patch, `/books/${payload.id}`, { ...payload })
+    window.location = `/book-detail/${newBook.id}`
+    yield put(editBookSuccess())
+  } catch (error) {
+    yield put(editBookFail())
+  }
+}
+
 function* getBookListWatcher() {
   yield takeEvery(getBookList, getBookListSaga)
 }
@@ -340,6 +353,9 @@ function* createBookWatcher() {
   yield takeLatest(createBook, createBookSaga)
 }
 
+function* editBookWatcher() {
+  yield takeLatest(editBook, editBookSaga)
+}
 export {
   getBookListWatcher,
   getBookSearchWatcher,
@@ -348,5 +364,6 @@ export {
   getBookInfoWatcher,
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher,
-  createBookWatcher
+  createBookWatcher,
+  editBookWatcher
 }

@@ -86,7 +86,7 @@ const InputPanel = (props) => {
 					id='category'
 					label='Thể loại'
 					name='categoryId'
-					value={values.category}
+					value={values.categoryId}
 					optionValues={categoryOptions}
 					handleChange={handleChange}
 					handleBlur={handleBlur}

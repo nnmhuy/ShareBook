@@ -19,6 +19,12 @@ module.exports = function(Book) {
       let bookName = ctx.instance.name + ctx.instance.author;
       bookName = filterText(bookName);
       ctx.instance.searchValue = bookName;
+    } else {
+      if (ctx.data && ctx.data.author && ctx.data.name) {
+        let bookName = ctx.data.name + ctx.data.author;
+        bookName = filterText(bookName);
+        ctx.data.searchValue = bookName;
+      }
     }
     return next();
   });
@@ -32,10 +38,31 @@ module.exports = function(Book) {
       });
     } else {
       // for update
-      return next();
+      triggerBookUpdate(ctx, (err) => {
+        if (err) return next(err);
+        return next();
+      });
     }
   });
   function triggerBookCreate(ctx, next) {
+    let Category = Book.app.models.category;
+    if (!ctx.currentInstance || !ctx.currentInstance.categoryId)
+      return next(new Error('Yêu cầu bị lỗi'));
+    Category.findById(ctx.currentInstance.categoryId,
+    (err, categoryInstance) => {
+      if (err || !categoryInstance)
+        return next(new Error('Loại sách này đang bị lỗi'));
+      categoryInstance.updateAttributes({
+        totalOfBook: categoryInstance.totalOfBook + 1,
+      }, (err, instance) => {
+        if (err || !instance)
+          return next(new Error('Thể loại sách này đang bị lỗi'));
+        return next();
+      });
+    });
+  }
+
+  function triggerBookUpdate(ctx, next) {
     let Category = Book.app.models.category;
     if (!ctx.currentInstance || !ctx.currentInstance.categoryId)
       return next(new Error('Yêu cầu bị lỗi'));

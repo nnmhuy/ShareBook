@@ -42,6 +42,7 @@ function* getUserInfoSaga() {
     let data = _.get(response, 'data', {})
     localStorage.setItem('isAuth', true)
     localStorage.setItem('userId', data.id)
+    localStorage.setItem('role', data.role)
     localStorage.setItem('username', data.username)
     localStorage.setItem('name', data.name)
     localStorage.setItem('avatar', data.avatar)
