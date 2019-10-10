@@ -209,7 +209,7 @@ function* requestStatusSaga({ payload }) {
       ), 'data', {})
     }
 
-    yield put(requestStatusSuccess(newTransaction))
+    yield put(requestStatusSuccess({ newTransaction }))
     successAlert('Thao tác thành công');
   } catch (error) {
     yield put(requestStatusFail({ error }))
