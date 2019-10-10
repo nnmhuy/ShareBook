@@ -28,7 +28,6 @@ async function uploadImage(image, callback) {
     })
     .catch(function (response) {
       //handle error
-      console.log(response);
       callback(response);
     });
 }
@@ -59,7 +58,6 @@ function uploadImagePromise(image) {
     })
     .catch(function (response) {
       //handle error
-      console.log(response);
       return response
     });
 }

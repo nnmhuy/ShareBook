@@ -46,6 +46,9 @@ module.exports = function(Transaction) {
     };
     const UserModel = Transaction.app.models.user;
     const borrower = await UserModel.findById(transaction.borrowerId);
+    const BookInstanceModel = Transaction.app.models.bookInstance;
+    const instance =
+      await BookInstanceModel.findById(transaction.bookInstanceId);
     switch (requestStatus) {
       case 'waitingForTake':
         if (transaction.status !== 'waitingForResponse') {
@@ -81,9 +84,10 @@ module.exports = function(Transaction) {
           throw new Error('Sai quy trình');
         }
         const holder = await UserModel.findById(userId);
-        const BookInstanceModel = Transaction.app.models.bookInstance;
-        const instance =
-          await BookInstanceModel.findById(transaction.bookInstanceId);
+        await instance.updateAttributes({
+          'isAvailable': true,
+          secretKey,
+        });
         const owner = await UserModel.findById(instance.ownerId);
         await holder.updateAttribute(
           'coin', holder.coin + coinConstants.transactionHolder
@@ -108,6 +112,10 @@ module.exports = function(Transaction) {
         ) {
           throw new Error('Sai quy trình');
         }
+        await instance.updateAttributes({
+          'isAvailable': true,
+          secretKey,
+        });
         await borrower.updateAttribute(
           'coin', borrower.coin + coinConstants.transactionBorrow
         );
@@ -175,6 +183,13 @@ module.exports = function(Transaction) {
         ) {
           throw new Error('Sai quy trình');
         }
+        const BookInstanceModel = Transaction.app.models.bookInstance;
+        const instance =
+          await BookInstanceModel.findById(transaction.bookInstanceId);
+        await instance.updateAttributes({
+          'isAvailable': true,
+          secretKey,
+        });
         await borrower.updateAttribute(
           'coin', borrower.coin + coinConstants.transactionBorrow
         );
@@ -202,7 +217,8 @@ module.exports = function(Transaction) {
     },
   });
 
-  Transaction.initTransaction = async function(bookId, ctx, instanceId) {
+  Transaction.initTransaction = async function(bookId, ctx, data = {}) {
+    const {instanceId} = data;
     const userId = _.get(ctx, 'req.accessToken.userId', null);
     const UserModel = Transaction.app.models.user;
     const user = await UserModel.findById(userId);
@@ -265,25 +281,12 @@ module.exports = function(Transaction) {
     accepts: [
       {arg: 'bookId', type: 'string', http: {source: 'path'}},
       {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
-      {arg: 'instanceId', type: 'string', http: {source: 'path'}},
-    ],
-    returns: {arg: 'transaction', type: 'object'},
-    http: {
-      path: '/init-transaction/book/:bookId/instance/:instanceId',
-      verb: 'put',
-      errorStatus: 400,
-    },
-  });
-
-  Transaction.remoteMethod('initTransaction', {
-    accepts: [
-      {arg: 'bookId', type: 'string', http: {source: 'path'}},
-      {arg: 'ctx', type: 'object', 'http': {source: 'context'}},
+      {arg: 'data', type: 'object', 'object': {source: 'body'}},
     ],
     returns: {arg: 'transaction', type: 'object'},
     http: {
       path: '/init-transaction/book/:bookId',
-      verb: 'put',
+      verb: 'post',
       errorStatus: 400,
     },
   });

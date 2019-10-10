@@ -36,6 +36,7 @@ import {
   getMessagesWatcher,
   getTransactionsWatcher,
   requestStatusWatcher,
+  initTransactionWatcher
 } from './transactionSaga'
 import {
   getRepliesWatcher,
@@ -80,6 +81,7 @@ export default function* rootSaga() {
     getTransactionsWatcher(),
     getMessagesWatcher(),
     requestStatusWatcher(),
+    initTransactionWatcher(),
 
     getRepliesWatcher(),
     postReplyWatcher(),

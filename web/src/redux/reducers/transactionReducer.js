@@ -17,7 +17,10 @@ import {
   getMessagesFail,
   requestStatus,
   requestStatusSuccess,
-  requestStatusFail
+  requestStatusFail,
+  initTransaction,
+  initTransactionSuccess,
+  initTransactionFail
 } from '../actions/transactionAction'
 
 let defaultState = {
@@ -31,7 +34,8 @@ let defaultState = {
   numberOfMessages: 0,
   messages: [],
   transactionList: [],
-  isRequestingStatus: false
+  isRequestingStatus: false,
+  isInitializingTransaction: false
 }
 
 const transactionReducer = handleActions(
@@ -142,7 +146,7 @@ const transactionReducer = handleActions(
     },
     [requestStatusSuccess]: (state, { payload: { newTransaction } }) => {
       const transaction = JSON.parse(JSON.stringify(state.transaction))
-      alert(JSON.stringify(newTransaction))
+
       return {
         ...state,
         transaction: {
@@ -159,6 +163,24 @@ const transactionReducer = handleActions(
         isRequestingStatus: false
       }
     },
+    [initTransaction]: (state) => {
+      return {
+        ...state,
+        isInitializingTransaction: true
+      }
+    },
+    [initTransactionSuccess]: (state) => {
+      return {
+        ...state,
+        isInitializingTransaction: false
+      }
+    },
+    [initTransactionFail]: (state) => {
+      return {
+        ...state,
+        isInitializingTransaction: false
+      }
+    }
   },
   defaultState
 )

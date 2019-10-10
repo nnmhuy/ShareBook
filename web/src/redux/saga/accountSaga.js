@@ -78,7 +78,6 @@ function* signUpSaga({ payload }) {
   } catch (error) {
     yield put(signUpFail(error))
     let errorMessage = _.get(error, 'response.data.error.message', 'Đăng ký lỗi')
-    console.log(errorMessage)
     if (errorMessage.indexOf('User already exists') > -1) {
       errorMessage = 'Tài khoản đã được sử dụng'
     }

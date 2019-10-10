@@ -19,7 +19,10 @@ import {
   getTransactionsFail,
   requestStatus,
   requestStatusSuccess,
-  requestStatusFail
+  requestStatusFail,
+  initTransaction,
+  initTransactionSuccess,
+  initTransactionFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -210,7 +213,29 @@ function* requestStatusSaga({ payload }) {
     successAlert('Thao tác thành công');
   } catch (error) {
     yield put(requestStatusFail({ error }))
-    error('Đã có lỗi xảy ra. Vui lòng thử lại.');
+    console.log(error)
+    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+  }
+}
+
+function* initTransactionSaga({ payload }) {
+  try {
+    const { bookId, instanceId } = payload
+    console.log(payload)
+    const response = yield call(
+      restConnector.post,
+      `/transactions/init-transaction/book/${bookId}`,
+      {
+        instanceId: instanceId || null
+      }
+    )
+    const data = _.get(response, 'data', {})
+    yield put(initTransactionSuccess(data))
+    successAlert('Gửi yêu cầu mượn sách thành công')
+    window.location = `/transaction/${data.transaction.id}`
+  } catch (error) {
+    yield put(initTransactionFail({ error }))
+    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
   }
 }
 
@@ -234,10 +259,15 @@ function* requestStatusWatcher() {
   yield takeLatest(requestStatus, requestStatusSaga)
 }
 
+function* initTransactionWatcher() {
+  yield takeLeading(initTransaction, initTransactionSaga)
+}
+
 export {
   getTransactionWatcher,
   sendMessageWatcher,
   getMessagesWatcher,
   getTransactionsWatcher,
-  requestStatusWatcher
+  requestStatusWatcher,
+  initTransactionWatcher
 }

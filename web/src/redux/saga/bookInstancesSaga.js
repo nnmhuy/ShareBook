@@ -67,7 +67,6 @@ function* getBookInstancesSaga({ payload }) {
         holderName
       }
     })
-    console.log(allData)
     yield put(getBookInstancesSuccess(allData))
   } catch (error) {
     yield put(getBookInstancesFail(error))
