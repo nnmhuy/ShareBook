@@ -126,17 +126,6 @@ class Report extends Component {
     })
   }
 
-  createdDay = (date) => {
-    let createdYMD = date.split('T')[0].split('-');
-    let day = createdYMD[2];
-    let month = createdYMD[1];
-    let year = createdYMD[0];
-    let formattedDate = day + '-' + month + '-' + year;
-    return formattedDate;
-  }
-
-  
-
   render() {
     const { classes, match, bookDetail, instance, review, reply, values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
@@ -197,14 +186,14 @@ class Report extends Component {
           {
             params.type === 'review' &&
             <>
-              <ReviewOption reviewId={params.value} createdDay={this.createdDay} review={review} />
+              <ReviewOption reviewId={params.value} review={review} />
               <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
             </>
           }
           {
             params.type === 'reply' &&
             <>
-              <ReplyOption replyId={params.value} createdDay={this.createdDay} reply={reply} />
+              <ReplyOption replyId={params.value} reply={reply} />
               <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
             </>
           }
@@ -266,7 +255,7 @@ const CreateReplyWithFormik = withFormik({
 const mapStateToProps = ({ book, review, reply, bookInstances }) => {
   return {
     userId: localStorage.getItem('userId'),
-    review: review.singleReview, //done
+    review: review.review, //done
     reply: reply.reply, //done
     instance: bookInstances.bookInstance, //done
     bookDetail: book.bookLite, //done

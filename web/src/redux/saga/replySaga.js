@@ -101,7 +101,7 @@ function* postReplySaga({ payload }) {
 
 function* toggleLikeReplySaga({ payload }) {
   try {
-    const { replyId, likeReplyId, likeStatus } = payload
+    const { type, replyId, likeReplyId, likeStatus } = payload
     let likeReplyResponse
     if (!likeReplyId) {
       likeReplyResponse = yield call(restConnector.post, '/likeReplies', {
@@ -117,6 +117,7 @@ function* toggleLikeReplySaga({ payload }) {
       })
     }
     yield put(toggleLikeReplySuccess({
+      type,
       replyId,
       likeReplyId: likeReplyResponse.data.id
     }))

@@ -20,6 +20,9 @@ const {
   toggleLikeSingleReview,
   toggleLikeSingleReviewSuccess,
   toggleLikeSingleReviewFail,
+  getAllReviews,
+  getAllReviewsSuccess,
+  getAllReviewsFail
 } = createActions(
   'GET_REVIEW_BY_USER',
   'GET_REVIEW_BY_USER_SUCCESS',
@@ -39,6 +42,9 @@ const {
   'TOGGLE_LIKE_SINGLE_REVIEW',
   'TOGGLE_LIKE_SINGLE_REVIEW_SUCCESS',
   'TOGGLE_LIKE_SINGLE_REVIEW_FAIL',
+  'GET_ALL_REVIEWS',
+  'GET_ALL_REVIEWS_SUCCESS',
+  'GET_ALL_REVIEWS_FAIL'
 )
 
 
@@ -61,5 +67,8 @@ export {
   toggleLikeReviewFail,
   toggleLikeSingleReview,
   toggleLikeSingleReviewSuccess,
-  toggleLikeSingleReviewFail
+  toggleLikeSingleReviewFail,
+  getAllReviews,
+  getAllReviewsSuccess,
+  getAllReviewsFail
 }
