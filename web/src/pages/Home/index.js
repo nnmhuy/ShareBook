@@ -12,6 +12,7 @@ import NewsfeedIntro from './components/NewsfeedIntro'
 import BookSlider from '../../components/BookSlider'
 import Footer from './components/Footer'
 import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
+import VideoFrame from './components/VideoFrame'
 
 const styles = (theme => ({
   container: {
@@ -53,7 +54,8 @@ class App extends React.Component {
       <LayoutWrapper title='Home' account={account}>
         <div className={classes.container}>
           <AboutUs/>
-          <Tutorial/>
+          <Tutorial />
+          <VideoFrame />
           <NewsfeedIntro/>
           <BookSlider
             title={'Sách Hot của ShareBook'} 
