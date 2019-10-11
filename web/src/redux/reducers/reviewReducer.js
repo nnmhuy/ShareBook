@@ -165,34 +165,77 @@ const bookReducer = handleActions(
         error: error
       }
     },
-    [toggleLikeSingleReview]: (state, { payload: { likeStatus } }) => {
-      const review = JSON.parse(JSON.stringify(state.review))
-      if (review.likeStatus === -1) {
-        --review.numberOfDislike
-      }
-      if (review.likeStatus === 1) {
-        --review.numberOfLike
-      }
-      if (likeStatus === -1) {
-        ++review.numberOfDislike
-      }
-      if (likeStatus === 1) {
-        ++review.numberOfLike
-      }
-      review.likeStatus = likeStatus
-
-      return {
-        ...state,
-        review
+    [toggleLikeSingleReview]: (state, { payload }) => {
+      const { type, likeStatus, reviewId } = payload;
+      let review
+      switch (type) {
+        case 'single':
+          review = JSON.parse(JSON.stringify(state.review))
+          if (review.likeStatus === -1) {
+            --review.numberOfDislike
+          }
+          if (review.likeStatus === 1) {
+            --review.numberOfLike
+          }
+          if (likeStatus === -1) {
+            ++review.numberOfDislike
+          }
+          if (likeStatus === 1) {
+            ++review.numberOfLike
+          }
+          review.likeStatus = likeStatus
+          return {
+            ...state,
+            review
+          }
+        case 'newsfeed':
+          const allReviews = JSON.parse(JSON.stringify(state.allReviews))
+          const index = allReviews.findIndex(review => review.review.id === reviewId)
+          review = allReviews[index].review
+          if (review.likeStatus === -1) {
+            --review.numberOfDislike
+          }
+          if (review.likeStatus === 1) {
+            --review.numberOfLike
+          }
+          if (likeStatus === -1) {
+            ++review.numberOfDislike
+          }
+          if (likeStatus === 1) {
+            ++review.numberOfLike
+          }
+          review.likeStatus = likeStatus
+          return {
+            ...state,
+            allReviews
+          }
+        default: return
       }
     },
-    [toggleLikeSingleReviewSuccess]: (state, { payload: { reviewId, likeReviewId } }) => {
-      const review = JSON.parse(JSON.stringify(state.review))
-      review.likeReviewId = likeReviewId
-      return {
-        ...state,
-        review,
-        error: null
+    [toggleLikeSingleReviewSuccess]: (state, { payload }) => {
+      const { type, reviewId, likeReviewId } = payload
+      let review
+      switch (type) {
+        case 'single':
+          review = JSON.parse(JSON.stringify(state.review))
+          review.likeReviewId = likeReviewId
+          return {
+            ...state,
+            review,
+            error: null
+          }
+        case 'newsfeed':
+          const allReviews = JSON.parse(JSON.stringify(state.allReviews))
+          const index = allReviews.findIndex(review => review.review.id === reviewId)
+          review = allReviews[index].review
+          review.likeReviewId = likeReviewId
+          return {
+            ...state,
+            allReviews,
+            error: null
+          }
+        default:
+          return
       }
     },
     [toggleLikeSingleReviewFail]: (state, { payload: error }) => {

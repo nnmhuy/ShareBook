@@ -66,7 +66,7 @@ class App extends React.Component {
             <Route path="/report" exact component={Report} />
             <Route path="/report/:type-:value" exact component={Report} />
             <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
-            <Route path="/newsfeed" exact component={Newsfeed} />
+            {/* <Route path="/newsfeed" exact component={Newsfeed} /> */}
             <Route component={NotFound} />
           </Switch>
         </ScrollToTop>

@@ -177,7 +177,7 @@ const CommentItem = props => {
         <div className={classes.replyWrapper}>
           <div className={classes.reply}>
             <span>
-              <Link className={classes.username} to={`/profile/${reply && reply.userId}`}>{reply && reply.name}New User</Link>
+              <Link className={classes.username} to={`/profile/${reply && reply.userId}`}>{reply && reply.name}</Link>
             </span>
             {reply && reply.content}
           </div>

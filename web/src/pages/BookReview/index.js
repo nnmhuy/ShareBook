@@ -36,12 +36,12 @@ class BookReview extends Component {
 
 		const handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
 			const { toggleLikeReviewStatus } = this.props
-			toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
+			toggleLikeReviewStatus({ type: 'single', reviewId, likeReviewId, likeStatus })
 		}
 
 		const handleToggleLikeReply = (replyId, likeReplyId, likeStatus) => {
 			const { toggleLikeReplyStatus } = this.props
-			toggleLikeReplyStatus({ replyId, likeReplyId, likeStatus })
+			toggleLikeReplyStatus({ type: 'single', replyId, likeReplyId, likeStatus })
 		}
 
 		return (

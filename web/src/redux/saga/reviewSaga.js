@@ -167,7 +167,7 @@ function* toggleLikeReviewSaga({ payload }) {
 
 function* toggleLikeSingleReviewSaga({ payload }) {
   try {
-    const { reviewId, likeReviewId, likeStatus } = payload
+    const { type, reviewId, likeReviewId, likeStatus } = payload
     let likeReviewResponse
     if (!likeReviewId) {
       likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
@@ -184,6 +184,7 @@ function* toggleLikeSingleReviewSaga({ payload }) {
     }
 
     yield put(toggleLikeSingleReviewSuccess({
+      type,
       reviewId,
       likeReviewId: likeReviewResponse.data.id
     }))
@@ -262,25 +263,31 @@ function* getAllReviewsSaga({payload}) {
       )
     )
 
+    let allReplies = []
+    reviewsReply.forEach((reply, index) => {
+      let _reply = reply.data
+      _reply.forEach(item => {
+        allReplies.push(item)
+      })
+    })
+
+    //get replyLike
+    const replyLike = yield all(
+      allReplies.map(reply => 
+        call(restConnector.get, `/likeReplies?filter={"where":{"userId":"${userId}","replyId":"${reply.id}"}}`)
+      )
+    )
+
     //get replyUser
+    const replyUser = yield all(
+      allReplies.map(reply =>
+        call(restConnector.get, `/replies/${reply.id}/user`)
+      )
+    )
     
-    // get replyLike
-    // const replyLike = yield all(
-    //   reviewsReply.map((reply, index) =>
-    //     reply.data.map((single, index) => 
-    //       call(restConnector.get, `/likeReplies?filter={"where":{"userId":"${userId}","replyId":"${single.id}"}}`)
-    //     )
-    //   )
-    // )
-
-    // reviewsReply.forEach((reply, index) =>
-    //   // console.log(reply.data)
-    // )
-
     //assign replies, book, users, like
     curData.forEach((data, index) => {
       data.reply = reviewsReply[index].data
-
       data.review.bookName = bookOfReview[index].data.name
       data.review.image = bookOfReview[index].data.image
       data.review.name = userOfReview[index].data.name
@@ -295,12 +302,27 @@ function* getAllReviewsSaga({payload}) {
       }
     })
 
-    // curData.forEach((data, index) => {
+    // let allData = curData.map((data, index) => {
     //   data.reply.forEach(reply => {
-    //     console.log(reply)
+    //     replyLike.forEach(like => {
+    //       like.data.forEach((data, index) => {
+    //         if (data.replyId === reply.id) {
+    //           reply.avatar = replyUser[index].data.avatar
+    //           reply.name = replyUser[index].data.name
+    //           if (like.data[0]) {
+    //             reply.likeReplyId = like.data[0].id
+    //             reply.likeStatus = like.data[0].isLike
+    //           } else {
+    //             reply.likeReplyId = ''
+    //             reply.likeStatus = 0
+    //           }
+    //         } 
+    //       })
+    //     })
+    //     return reply
     //   })
+    //   return data
     // })
-
 
     yield put(getAllReviewsSuccess(curData))
   } catch (error) {

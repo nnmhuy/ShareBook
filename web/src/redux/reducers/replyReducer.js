@@ -88,7 +88,15 @@ const replyReducer = handleActions(
         error: error
       }
     },
-    [toggleLikeReply]: (state, { payload: { replyId, likeStatus } }) => {
+    [toggleLikeReply]: (state, { payload: { type, replyId, likeStatus } }) => {
+
+      switch (type) {
+        case 'single': break
+        case 'newsfeed':
+          break
+        default: break
+      }
+
       const replies = JSON.parse(JSON.stringify(state.replies));
       const index = replies.findIndex(reply => replyId === reply.id)
 
@@ -112,7 +120,7 @@ const replyReducer = handleActions(
       }
     },
     [toggleLikeReplySuccess]: (state, { payload }) => {
-      const { replyId, likeReplyId } = payload
+      const { type, replyId, likeReplyId } = payload
       const replies = JSON.parse(JSON.stringify(state.replies));
       const index = replies.findIndex(reply => replyId === reply.id)
       replies[index].likeReplyId = likeReplyId;

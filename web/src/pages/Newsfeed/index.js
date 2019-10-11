@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import { getAllReviews, toggleLikeSingleReview } from '../../redux/actions/reviewAction';
 // import InfiniteScroll from 'react-infinite-scroller';
 // import PulseLoader from 'react-spinners/PulseLoader';
@@ -10,6 +12,7 @@ import { getAllReviews, toggleLikeSingleReview } from '../../redux/actions/revie
 import Loading from '../../components/Loading';
 import LayoutWrapper from '../../components/LayoutWrapper';
 import Review from '../../components/Review';
+import { toggleLikeReply } from '../../redux/actions/replyAction';
 
 const styles = (theme => ({
   container: {
@@ -17,6 +20,19 @@ const styles = (theme => ({
     minWidth: 350,
     maxWidth: 551,
     margin: 'auto'
+  },
+  writeReview: {
+    fontFamily: 'Montserrat',
+    width: '100%',
+    borderRadius: 3,
+    background: 'linear-gradient(to top, #0076ff 0%, #04abe8 100%)',
+    textTransform: 'uppercase',
+    color: 'white',
+    fontWeight: 600,
+    margin: '10px auto'
+  },
+  link: {
+    textDecoration: 'none'
   }
 }))
 
@@ -26,10 +42,13 @@ const Newsfeed = (props) => {
 
   const handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
     const { toggleLikeReviewStatus } = props
-    console.log('liking')
-    toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
+    toggleLikeReviewStatus({ type: 'newsfeed', reviewId, likeReviewId, likeStatus })
   }
 
+  const handleToggleLikeReply = (replyId, likeReplyId, likeStatus) => {
+    const { toggleLikeReplyStatus } = this.props
+    toggleLikeReplyStatus({ type: 'newsfeed', replyId, likeReplyId, likeStatus })
+  }
 
   useEffect(() => {  
     const userId = account.userId
@@ -40,19 +59,27 @@ const Newsfeed = (props) => {
     <LayoutWrapper account={account} title={''}>
       <Loading isLoading={isLoading} />
       <div className={classes.container}>
-          {
-            allReviews && allReviews.map(curReview => {
-              return (
-                <Review
-                  key={curReview.review.id}
-                  review={curReview.review}
-                  replies={curReview.reply}
-                  reviewId={curReview.review.id}
-                  handleToggleLikeReview={handleToggleLikeReview}
-                />
-              )
-            })
-          }
+        {!isLoading && 
+          <Link to='/book-list' className={classes.link}>
+            <Button className={classes.writeReview} >
+              ghi review mới
+                </Button>
+          </Link>
+        }
+        {
+          allReviews && allReviews.map(curReview => {
+            return (
+              <Review
+                key={curReview.review.id}
+                review={curReview.review}
+                replies={curReview.reply}
+                reviewId={curReview.review.id}
+                handleToggleLikeReview={handleToggleLikeReview}
+                handleToggleLikeReply={handleToggleLikeReply}
+              />
+            )
+          })
+        }
       </div>
     </LayoutWrapper>
   );
@@ -75,7 +102,8 @@ const mapStateToProps = ({ review }) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getReviews: getAllReviews,
-  toggleLikeReviewStatus: toggleLikeSingleReview
+  toggleLikeReviewStatus: toggleLikeSingleReview,
+  toggleLikeReplyStatus: toggleLikeReply
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Newsfeed));
