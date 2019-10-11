@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 
 import TopNav from './components/TopNav';
 import MainTab from './components/MainTab';
-import { bindActionCreators } from 'redux';
 
 const styles = theme => ({
 	container: {
