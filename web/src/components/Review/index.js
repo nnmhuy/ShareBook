@@ -36,13 +36,13 @@ class Review extends Component {
     const {
       classes, isLoading, replies, isSubmitting, review, handleSubmit,
       values, handleChange, handleBlur, userId,
-      handleToggleLikeReview, handleToggleLikeReply
+      handleToggleLikeReview, handleToggleLikeReply, account
     } = this.props;
     return (
       <div className={classes.container}>
         <PersonalInfo review={review} userId={userId}/>
         <ReviewItem review={review} />
-        <RateSection review={review} handleToggleLikeReview={handleToggleLikeReview} isLoading={isLoading || isSubmitting} />
+        <RateSection review={review} username={account.username} handleToggleLikeReview={handleToggleLikeReview} isLoading={isLoading || isSubmitting} />
         <CommentList
           values={values}
           replies={replies}
@@ -86,9 +86,16 @@ const CreateReplyWithFormik = withFormik({
   }
 })(withStyles(styles)(Review))
 
-const mapStateToProps = () => {
+const mapStateToProps = ({ account }) => {
   return {
-    userId: localStorage.getItem('userId')
+    account: {
+      isAuth: !!(localStorage.getItem('isAuth')),
+      userId: localStorage.getItem('userId'),
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      avatar: localStorage.getItem('avatar'),
+      coin: Number.parseInt(localStorage.getItem('coin')),
+    }
   }
 }
 

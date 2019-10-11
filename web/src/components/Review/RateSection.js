@@ -79,7 +79,7 @@ class RateSection extends Component {
   }
 
   render() {
-    const { classes, review, handleToggleLikeReview, isLoading } = this.props;
+    const { classes, review, username, handleToggleLikeReview, isLoading } = this.props;
     const onToggleLike = (likeStatus) => () => {
       handleToggleLikeReview(review.id, review.likeReviewId, likeStatus);
     }
@@ -122,7 +122,7 @@ class RateSection extends Component {
                             ||
                             (review && review.likeStatus === -1 && review.numberOfDislike === 1 && review.numberOfLike === 0)
                           ) &&
-                          `Tên của bạn`
+                          <>{username}</>
                         }
                         {
                           (review && review.likeStatus !== 0 && (review.numberOfDislike + review.numberOfLike >= 2))
