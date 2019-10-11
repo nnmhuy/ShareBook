@@ -31,7 +31,9 @@ module.exports = function(User) {
           });
         });
       });
-    } else return next();
+    } else {
+      return next();
+    }
   });
 
   function recursiveUpdate(bookInstanceList, userId, district,

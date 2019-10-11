@@ -22,7 +22,7 @@ const styles = (theme => ({
 const DetailTabs = (props) => {
   const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances,
     handleToggleLikeReview, isLoadingReview, isLoadingInstances, touched, setTouched,
-    activeTab, setActiveTab
+    activeTab, setActiveTab, initTransaction
   } = props
 
   const handleChangeTab = (event, value) => {
@@ -65,6 +65,7 @@ const DetailTabs = (props) => {
             bookInstanceList={bookInstanceList}
             getInstances={getInstances}
             numberOfInstances={book.numberOfBookInstances}
+            initTransaction={initTransaction}
             />
         }
       </TabPanel>

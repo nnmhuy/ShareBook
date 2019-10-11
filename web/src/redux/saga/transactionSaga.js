@@ -1,6 +1,7 @@
 import { call, put, takeLatest, takeEvery, takeLeading } from 'redux-saga/effects'
 import _ from 'lodash'
 
+import { successAlert, errorAlert } from '../../components/alert'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
 
 import {
@@ -15,7 +16,13 @@ import {
   getMessagesFail,
   getTransactions,
   getTransactionsSuccess,
-  getTransactionsFail
+  getTransactionsFail,
+  requestStatus,
+  requestStatusSuccess,
+  requestStatusFail,
+  initTransaction,
+  initTransactionSuccess,
+  initTransactionFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -46,6 +53,7 @@ function* getTransactionSaga({ payload }) {
     }
 
     transaction.book = {
+      id: book.id,
       name: book.name,
       image: book.image
     }
@@ -177,6 +185,60 @@ function* getMessagesSaga({ payload }) {
   }
 }
 
+function* requestStatusSaga({ payload }) {
+  try {
+    const { transactionId, status, direction } = payload
+
+    const data = {
+      requestStatus: status
+    }
+
+    let newTransaction = {}
+
+    if (direction === 'holder') {
+      newTransaction = _.get(yield call(
+        restConnector.put, 
+        `/transactions/${transactionId}/holder-status`,
+        { data }
+      ), 'data', {})
+    } else {
+      newTransaction = _.get(yield call(
+        restConnector.put,
+        `/transactions/${transactionId}/borrower-status`,
+        { data }
+      ), 'data', {})
+    }
+
+    yield put(requestStatusSuccess({ newTransaction }))
+    successAlert('Thao tác thành công');
+  } catch (error) {
+    yield put(requestStatusFail({ error }))
+    console.log(error)
+    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+  }
+}
+
+function* initTransactionSaga({ payload }) {
+  try {
+    const { bookId, instanceId } = payload
+    console.log(payload)
+    const response = yield call(
+      restConnector.post,
+      `/transactions/init-transaction/book/${bookId}`,
+      {
+        instanceId: instanceId || null
+      }
+    )
+    const data = _.get(response, 'data', {})
+    yield put(initTransactionSuccess(data))
+    successAlert('Gửi yêu cầu mượn sách thành công')
+    window.location = `/transaction/${data.transaction.id}`
+  } catch (error) {
+    yield put(initTransactionFail({ error }))
+    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+  }
+}
+
 function* getTransactionWatcher() {
   yield takeLatest(getTransaction, getTransactionSaga)
 }
@@ -193,9 +255,19 @@ function* getTransactionsWatcher() {
   yield takeLatest(getTransactions, getTransactionsSaga)
 }
 
+function* requestStatusWatcher() {
+  yield takeLatest(requestStatus, requestStatusSaga)
+}
+
+function* initTransactionWatcher() {
+  yield takeLeading(initTransaction, initTransactionSaga)
+}
+
 export {
   getTransactionWatcher,
   sendMessageWatcher,
   getMessagesWatcher,
-  getTransactionsWatcher
+  getTransactionsWatcher,
+  requestStatusWatcher,
+  initTransactionWatcher
 }

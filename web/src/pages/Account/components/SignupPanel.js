@@ -95,7 +95,6 @@ const SignupWithFormik = withFormik({
       uploadImage(values.avatar, (err, linkImage) => {
           if (err) {
             errorAlert('Xảy ra lỗi lúc đăng hình rồi')
-            if (err.message) console.log(err.message)
           } else {
             props.signUpHandler({username: values.username, password: values.password, avatar: linkImage})
           }

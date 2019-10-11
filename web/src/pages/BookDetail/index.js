@@ -15,6 +15,7 @@ import BookSlider from '../../components/BookSlider'
 import { getBookInfo, toggleBookmark } from '../../redux/actions/bookAction'
 import { getBookInstances } from '../../redux/actions/bookInstanceAction'
 import { getReviewsOfBook, toggleLikeReview } from '../../redux/actions/reviewAction'
+import { initTransaction } from '../../redux/actions/transactionAction'
 
 const styles = (theme => ({
   container: {
@@ -63,6 +64,35 @@ class App extends React.Component {
    return null;
  }
 
+  handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+    const { toggleBookmarkStatus } = this.props
+    toggleBookmarkStatus({ bookId, bookmarkId, isBookmarked })
+  }
+
+  handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
+    const { toggleLikeReviewStatus } = this.props
+    toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
+  }
+
+  initTransaction = (instanceId) => {
+    const { match, borrowBook, bookInstances } = this.props
+    const bookId = match.params.bookId
+
+    if (instanceId) {
+      borrowBook({ bookId, instanceId })
+    } else {
+      const instance = bookInstances.find(element => {
+        return element.isAvailable
+      })
+
+      if (instance) {
+        borrowBook({ bookId, instanceId: instance.id })
+      } else {
+        borrowBook({ bookId })
+      }
+    }
+  }
+
   render() {
     const { classes, match, history, bookDetail, reviews, getReviews, userId,
       bookInstances, getInstances, category, bookOfCategory, isLoading, isLoadingCategory,
@@ -73,20 +103,12 @@ class App extends React.Component {
 
     const bookId = match.params.bookId
 
-    const handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
-      const { toggleBookmarkStatus } = this.props
-      toggleBookmarkStatus({bookId, bookmarkId, isBookmarked})
-    }
-
-    const handleToggleLikeReview = (reviewId, likeReviewId, likeStatus) => {
-      const { toggleLikeReviewStatus } = this.props
-      toggleLikeReviewStatus({ reviewId, likeReviewId, likeStatus })
-    }
-
     return (
-      <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={handleToggleBookmark}>
+      <TopNav id={bookDetail.id} bookmarkId={bookDetail.bookmarkId} 
+        isBookmarked={bookDetail.isBookmarked} handleToggleBookmark={this.handleToggleBookmark}
+      >
         <Loading isLoading={isLoading}/>
-        <BottomNav bookId={bookId}>
+        <BottomNav bookId={bookId} initTransaction={this.initTransaction}>
           <div className={classes.container}>
             <BookInfo {...bookDetail} role={role} category={category}/>
             <RateSection bookId={bookId} history={history} />
@@ -99,18 +121,19 @@ class App extends React.Component {
               getReviews={getReviews}
               isLoadingReview={isLoadingReview}
               userId={userId}
-              handleToggleLikeReview={handleToggleLikeReview}
+              handleToggleLikeReview={this.handleToggleLikeReview}
               touched={touched}
               setTouched={this.setTouched}
               activeTab={activeTab}
               setActiveTab={this.setActiveTab}
+              initTransaction={this.borrowBook}
             />
             <BookSlider
               isExtended
               title={'Thể loại tương tự'}
               url={category.url}
               bookList={bookOfCategory}
-              handleToggleBookmark={handleToggleBookmark}
+              handleToggleBookmark={this.handleToggleBookmark}
               isLoading={isLoadingCategory}
             />
           </div>
@@ -120,7 +143,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ book, review, bookInstances }) => {
+const mapStateToProps = ({ book, review, bookInstances, transaction }) => {
   return {
     userId: localStorage.getItem('userId'),
     role: localStorage.getItem('role'),
@@ -132,7 +155,8 @@ const mapStateToProps = ({ book, review, bookInstances }) => {
     isLoadingReview: review.isLoading,
     reviews: review.reviewsOfBook,
     isLoadingInstances: bookInstances.isLoading,
-    bookInstances: bookInstances.bookInstances
+    bookInstances: bookInstances.bookInstances,
+    isInitializingTransaction: transaction.isInitializingTransaction
   }
 }
 
@@ -141,7 +165,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getReviews: getReviewsOfBook,
   getInstances: getBookInstances,
   toggleBookmarkStatus: toggleBookmark,
-  toggleLikeReviewStatus: toggleLikeReview
+  toggleLikeReviewStatus: toggleLikeReview,
+  borrowBook: initTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

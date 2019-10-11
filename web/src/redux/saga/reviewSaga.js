@@ -165,7 +165,7 @@ function* toggleLikeReviewSaga({ payload }) {
 function* toggleLikeSingleReviewSaga({ payload }) {
   try {
     const { reviewId, likeReviewId, likeStatus } = payload
-    let likeReviewResponse
+    let likeReviewResponse = {}
     if (!likeReviewId) {
       likeReviewResponse = yield call(restConnector.post, `/likeReviews`, {
         reviewId,
@@ -211,7 +211,6 @@ function* getReviewByIdSaga({ payload }) {
       likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
       likeStatus: reviewLike.data[0] ? reviewLike.data[0].isLike : 0
     }
-
     yield put(getReviewByIdSuccess(allData))
   } catch (error) {
     yield put(getReviewByIdFail(error))

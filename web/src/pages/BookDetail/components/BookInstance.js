@@ -266,10 +266,10 @@ const keyArray = [
 ]
 
 const BookInstance = (props) => {
-  const { classes, isAvailable, index, 
+  const { classes, id, isAvailable, index, 
     ownerId, ownerName, ownerAvatar,
     holderId, holderName, holderAvatar,
-    id, userId
+    userId, initTransaction
   } = props
 
   const [isShowMore, setShowMore] = React.useState(false)
@@ -287,12 +287,22 @@ const BookInstance = (props) => {
     setExpanded(!isExpanded)
   }
 
+  const handleInitTransaction = () => {
+    initTransaction(id)
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.titleContainer}>
         <span className={isAvailable ? classes.availableDot : classes.unavailableDot}/>
         <span className={classes.titleText}>{`Cuốn ${index + 1}`}</span>
-        <Button disabled={!isAvailable} className={classes.borrowButton} variant='contained' size='small'>Mượn sách</Button>
+        <Button 
+          disabled={!isAvailable} 
+          className={classes.borrowButton} 
+          variant='contained' 
+          size='small'
+          onClick={handleInitTransaction}
+        >Mượn sách</Button>
         {
           (userId !== holderId) &&
           <div className={classes.moreZone}>

@@ -1,13 +1,51 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import {
+  AppBar,
+  Toolbar
+} from '@material-ui/core'
 import { Button } from '@material-ui/core'
 
 import colors from '../../../constants/colors'
 import Link from '../../../components/Link'
-import CustomBottomNav from '../../../components/CustomBottomNav'
-
 
 const styles = (theme => ({
+  wrapper: {
+    width: '100%'
+  },
+  contentWrapper: {
+    boxSizing: 'border-box',
+    width: '100%',
+    height: '100%',
+    paddingBottom: 45
+  },
+  appBar: {
+    height: 45,
+    bottom: 0,
+    top: 'auto',
+  },
+  toolBar: {
+    position: 'relative',
+    height: 45,
+    paddingLeft: 0,
+    paddingRight: 0,
+    minHeight: 'unset',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    color: colors.primary
+  },
+  leftSection: {
+    position: 'absolute',
+    width: '50%',
+    left: 0
+  },
+  rightSection: {
+    position: 'absolute',
+    width: '50%',
+    right: 0
+  },
   addBookButton: {
     width: '90%',
     borderRadius: '0px 6px 6px 0px',
@@ -29,22 +67,33 @@ const styles = (theme => ({
 }))
 
 const BottomNav = (props) => {
-  const { classes, children, bookId } = props
+  const { classes, children, bookId, initTransaction } = props
+
+  const handleBorrow = () => {
+    initTransaction()
+  }
+
   return (
-    <CustomBottomNav
-      left={
-        <Link to={`/create-instance/${bookId}`}>
-          <Button className={classes.addBookButton}>Cho mượn</Button>
-        </Link>
-      }
-      right={
-        <Link to={`/borrow/${bookId}`}>
-          <Button className={classes.borrowBookButton}>Mượn sách</Button>
-        </Link>
-      }
-    >
-      {children}
-    </CustomBottomNav>
+    <div className={classes.wrapper}>
+      <AppBar position='fixed' className={classes.appBar}>
+        <Toolbar className={classes.toolBar}>
+          <div className={classes.leftSection}>
+            <Link to={`/create-instance/${bookId}`}>
+              <Button className={classes.addBookButton}>Cho mượn</Button>
+            </Link>
+          </div>
+          <div className={classes.rightSection}>
+            <Button 
+              className={classes.borrowBookButton}
+              onClick={handleBorrow}
+            >Mượn sách</Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.contentWrapper}>
+        {children}
+      </div>
+    </div>
   )
 }
 

@@ -55,12 +55,13 @@ function* getUserInfoSaga() {
 
 function* logOutSaga() {
   try {
-    const data = yield call(restConnector.post, '/users/logout')
     restConnector.removeAccessToken()
     Cookies.remove('userId')
     Cookies.remove('access_token')
     localStorage.clear()
     successAlert('Đăng xuất thành công')
+    window.location = '/book-list'
+    const data = yield call(restConnector.post, '/users/logout')
     yield put(logOutSuccess(data))
   } catch (error) {
     yield put(logOutFail(error))
@@ -77,7 +78,6 @@ function* signUpSaga({ payload }) {
   } catch (error) {
     yield put(signUpFail(error))
     let errorMessage = _.get(error, 'response.data.error.message', 'Đăng ký lỗi')
-    console.log(errorMessage)
     if (errorMessage.indexOf('User already exists') > -1) {
       errorMessage = 'Tài khoản đã được sử dụng'
     }

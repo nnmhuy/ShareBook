@@ -13,7 +13,7 @@ const styles = (theme => ({
 }))
 
 const BookInstanceList = (props) => {
-  const { classes, bookId, userId, bookInstanceList, numberOfInstances, getInstances } = props
+  const { classes, bookId, userId, bookInstanceList, numberOfInstances, getInstances, initTransaction } = props
 
   const handlePageChange = (data) => {
     getInstances({ bookId, page: data.selected, limit: numberOfBookInstancesPerPage})
@@ -24,7 +24,13 @@ const BookInstanceList = (props) => {
       {
         bookInstanceList.map((instance, index) => {
           return (
-            <BookInstance {...instance} userId={userId} index={index} key={index}/>
+            <BookInstance
+              {...instance}  
+              userId={userId}
+              index={index}
+              key={index}
+              initTransaction={initTransaction}  
+            />
           )
         })
       }
