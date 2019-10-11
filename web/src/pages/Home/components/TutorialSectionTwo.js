@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import colors from '../../../constants/colors'
 import DemoChat from '../../../static/images/demo-chat.png'
-import Demo from '../../../static/images/bg-login-mobile.png'
+import Demo from '../../../static/images/demo-createbook.png'
 import SectionTitle from './SectionTitle'
 
 const styles = (theme => ({
@@ -45,10 +45,10 @@ const styles = (theme => ({
     color: colors.textSecondary
   },
   imageContainer: {
-    height: 550,
+    height: 565,
     width: '100%',
     position: 'relative',
-    overflowX: 'hidden'
+    // overflowX: 'hidden'
   },
   image: {
     height: 500,
@@ -59,7 +59,8 @@ const styles = (theme => ({
     bottom: 0,
     left: 0,
     right: 0,
-    transition: '1s'
+    transition: '1s',
+    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)'
   },
   imageActive: {
     zIndex: 2,
@@ -95,8 +96,8 @@ const TutorialSectionThree = (props) => {
         </span>
       </div>
       <div className={classes.imageContainer}>
-        <img src={DemoChat} alt='' className={`${classes.image} ${tab === 0 ? classes.imageActive : classes.imageNotActive}`}/>
-        <img src={Demo} alt='' className={`${classes.image} ${tab === 1 ? classes.imageActive : classes.imageNotActive}`}/>
+        <img src={Demo} alt='' className={`${classes.image} ${tab === 0 ? classes.imageActive : classes.imageNotActive}`}/>
+        <img src={DemoChat} alt='' className={`${classes.image} ${tab === 1 ? classes.imageActive : classes.imageNotActive}`}/>
       </div>
     </div>
   )
