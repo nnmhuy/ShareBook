@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Carousel from 'nuka-carousel'
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import CategoryItem from './CategoryItem'
@@ -32,40 +32,67 @@ const styles = (theme => ({
   }
 }))
 
-const CategoryList = (props) => {
-  const { classes, categoryList, isLoading } = props
-  return (
-    <div className={classes.container}>
-      <div className={classes.titleContainer}>
-        <span className={classes.title}>Thể loại</span>
-        {/* <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link> */}
-      </div>
-      {isLoading?
-        <div className={classes.loading}>
-          <ScaleLoader color={colors.primary}/>
+class CategoryList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      visibleBook: 5
+    }
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ visibleBook: Math.min(window.innerWidth / 150, 5) })
+  }
+
+  render() {
+    const { classes, categoryList, isLoading } = this.props
+    return (
+      <div className={classes.container}>
+        <div className={classes.titleContainer}>
+          <span className={classes.title}>Thể loại</span>
+          {/* <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link> */}
         </div>
-        :
-        <Carousel
-          slideWidth='142px'
-          cellSpacing={20}
-          withoutControls
-          slidesToScroll='auto'
-          className={classes.carousel}
-        >
-          {
-            categoryList.map(category => {
-              return (
-                <CategoryItem
-                  {...category}
-                  key={category.url}
-                />
-              )
-            })
-          }
-        </Carousel>
-      }
-    </div> 
-  )
+        {isLoading ?
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary} />
+          </div>
+          :
+          <CarouselProvider
+            className={classes.carousel}
+            naturalSlideWidth={130}
+            naturalSlideHeight={70}
+            totalSlides={categoryList.length}
+            visibleSlides={this.state.visibleBook}
+          >
+            <Slider>
+              {
+                categoryList.map(category => {
+                  return (
+                    <Slide key={`category-silder-${category.id}`}>
+                      <CategoryItem
+                        {...category}
+                        key={category.url} />
+                    </Slide>
+                  )
+                })
+              }
+            </Slider>
+          </CarouselProvider>
+        }
+      </div>
+    )
+  }
+
 }
 
 export default withStyles(styles)(CategoryList)
