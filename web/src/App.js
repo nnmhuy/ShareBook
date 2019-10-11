@@ -24,7 +24,7 @@ import Profile from './pages/Profile'
 import Report from './pages/Report'
 import TransactionDetail from './pages/TransactionDetail'
 import EditBook from './pages/EditBook/index'
-import Newsfeed from './pages/Newsfeed'
+// import Newsfeed from './pages/Newsfeed'
 
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'

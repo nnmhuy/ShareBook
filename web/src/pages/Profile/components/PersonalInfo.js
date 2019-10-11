@@ -108,10 +108,11 @@ class PersonalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Nguyễn Ngọc Minh Huy',
+            username: props.account.username,
+            name: props.account.name,
             phoneNumber: '09090909090',
             homeLocation: '22 Trần Đình Xu, phường Cư Trinh, Quận 4, Thành phố Hồ Chí Minh',
-            email: 'mhuy@e.mail'
+            email: 'sharebook@e.mail'
         }
     }
 
@@ -124,8 +125,8 @@ class PersonalInfo extends Component {
     changeAvatar = () => { }
 
     render() {
-        const { classes, isEdit, isHidden } = this.props;
-        const { name, homeLocation, phoneNumber, email } = this.state;
+        const { classes, isEdit, isHidden, account } = this.props;
+        const { username, name, homeLocation, phoneNumber, email } = this.state;
         return (
             <>
                 <div className={classes.flexContainer}>
@@ -133,9 +134,9 @@ class PersonalInfo extends Component {
                     <div>
                         <div className={classes.flexContainer} style={{ marginBottom: 5 }}>
                             <p className={classes.titleNoMargin}>Tên tài khoản</p>
-                            <FacebookIcon fill={colors.primary} height='12px' className={classes.pointer} />
+                            {/* <FacebookIcon fill={colors.primary} height='12px' className={classes.pointer} /> */}
                         </div>
-                        <p className={classes.content}>Nguyễn Ngọc Minh Huy</p>
+                        <p className={classes.content}>{username}</p>
                         <p className={`${classes.titleNoMargin} ${classes.pointer}`}>Change password</p>
                     </div>
                 </div>

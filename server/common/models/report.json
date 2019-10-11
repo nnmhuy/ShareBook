@@ -38,7 +38,8 @@
         "received",
         "resolved",
         "rejected"
-      ]
+      ],
+      "default": "pending"
     },
     "content": {
       "type": "string"

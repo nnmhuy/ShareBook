@@ -9,7 +9,16 @@ import { bookDemoData } from '../demoData';
 const styles = theme => ({
   bookContainer: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr'
+    gridTemplateColumns: '1fr 1fr 1fr',
+    '@media (min-width: 460px)': {
+      gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    },
+    '@media (min-width: 550px)': {
+      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+    },
+    '@media (min-width: 750px)': {
+      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
+    }
   }
 })
 

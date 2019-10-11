@@ -86,7 +86,7 @@ class PaperWrapper extends Component {
 	changeAvatar = () => { }
 
 	render() {
-		const { classes, layout } = this.props;
+		const { classes, layout, account } = this.props;
 		const { isEdit, isHidden, fixed } = this.state;
 		return (
 			<Paper className={classes.wrapper}>
@@ -96,7 +96,7 @@ class PaperWrapper extends Component {
 				}
 				{
 					layout === 'info' &&
-					<PersonalInfo isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
+					<PersonalInfo account={account} isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
 				}
 				<PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
 				<DownArrowIcon fill={colors.primary}

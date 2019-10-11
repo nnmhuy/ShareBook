@@ -34,7 +34,7 @@ const styles = theme => ({
 })
 
 const AccountTab = (props) => {
-    const { classes } = props;
+    const { classes, account } = props;
     return (
         <div>
             <Paper className={classes.wrapper}>
@@ -42,9 +42,9 @@ const AccountTab = (props) => {
                 <Link className={classes.title}>Đang theo dõi<span className={classes.content}>240</span></Link>
             </Paper>
             <br />
-            <PaperWrapper layout='info' />
+            <PaperWrapper layout='info' account={account}/>
             <br />
-            <PaperWrapper layout='bio' />
+            <PaperWrapper layout='bio' account={account}/>
             <br />
             <CoinInfo />
             <br />

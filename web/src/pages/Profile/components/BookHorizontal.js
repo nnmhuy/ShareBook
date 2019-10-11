@@ -7,6 +7,7 @@ import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-
 
 import { bookDemoData } from '../demoData';
 import colors from '../../../constants/colors';
+import BookSlider from '../../../components/BookSlider';
 
 const styles = theme => ({
   bookContainer: {
@@ -42,15 +43,9 @@ class BookVertical extends Component {
           bookPassed !== null &&
           <>
             <p className={classes.title}>Sách đang giữ</p>
-            <div className={classes.bookContainer}>
-              {
-                bookDemoData.map((book) => {
-                  return (
-                    <Book {...book} key={book.bookId} />
-                  )
-                })
-              }
-            </div>
+            <BookSlider
+              bookList={bookDemoData}
+            />
             <br />
           </>
         }
@@ -58,15 +53,9 @@ class BookVertical extends Component {
           bookOwned !== null &&
           <>
             <p className={classes.title}>Sách đã đăng</p>
-            <div className={classes.bookContainer}>
-              {
-                bookDemoData.map((book) => {
-                  return (
-                    <Book {...book} key={book.bookId} />
-                  )
-                })
-              }
-            </div>
+            <BookSlider
+              bookList={bookDemoData}
+            />
           </>
         }
       </div>

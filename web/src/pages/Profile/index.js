@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles';
 
 import TopNav from './components/TopNav';
 import MainTab from './components/MainTab';
+import { bindActionCreators } from 'redux';
 
 const styles = theme => ({
 	container: {
@@ -15,14 +16,30 @@ const styles = theme => ({
 })
 
 const Profile = props => {
-	const { classes } = props;
+	const { classes, account } = props;
 	return (
 		<TopNav title='Tài khoản'>
 			<div className={classes.container}>
-				<MainTab />
+				<MainTab account={account}/>
 			</div>
 		</TopNav>
 	);
 }
 
-export default connect()(withStyles(styles)(Profile));
+const mapStateToProps = ({ account }) => {
+	return {
+		account: {
+			isAuth: !!(localStorage.getItem('isAuth')),
+			userId: localStorage.getItem('userId'),
+			username: localStorage.getItem('username'),
+			name: localStorage.getItem('name'),
+			avatar: localStorage.getItem('avatar'),
+			coin: Number.parseInt(localStorage.getItem('coin')),
+		}
+	}
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Profile));

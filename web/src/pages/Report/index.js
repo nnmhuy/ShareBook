@@ -103,10 +103,8 @@ class Report extends Component {
         getReply({ replyId: id })
         break;
       case 'user':
-        console.log('thiếu isLoading user')
         break;
       case 'transaction':
-        console.log('transaction')
         break;
       default:
         break;

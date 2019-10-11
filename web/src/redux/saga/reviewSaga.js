@@ -269,20 +269,6 @@ function* getAllReviewsSaga({payload}) {
         allReplies.push(item)
       })
     })
-
-    //get replyLike
-    const replyLike = yield all(
-      allReplies.map(reply => 
-        call(restConnector.get, `/likeReplies?filter={"where":{"userId":"${userId}","replyId":"${reply.id}"}}`)
-      )
-    )
-
-    //get replyUser
-    const replyUser = yield all(
-      allReplies.map(reply =>
-        call(restConnector.get, `/replies/${reply.id}/user`)
-      )
-    )
     
     //assign replies, book, users, like
     curData.forEach((data, index) => {

@@ -6,6 +6,7 @@ import {
   createReportSuccess,
   createReportFail
 } from '../actions/reportAction'
+import { successAlert, warnAlert } from '../../components/alert';
 
 function* createReportSaga({ payload }) {
   try {
@@ -70,8 +71,10 @@ function* createReportSaga({ payload }) {
     }
     
     yield put(createReportSuccess())
+    successAlert('Gửi report thành công')
   } catch (error) {
     yield put(createReportFail(error))
+    warnAlert('Gửi report lỗi')
   }
 }
 

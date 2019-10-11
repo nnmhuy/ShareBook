@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import LinesEllipsis from 'react-lines-ellipsis';
 
 import Image from '../../../components/Image';
 import colors from '../../../constants/colors';
@@ -92,7 +93,13 @@ const TransactionList = (props) => {
             <div className={classes.infoWrapper}>
               <Image src='' alt='' className={classes.image} />
               <div>
-                <p className={classes.title}>Animal farmmmmmmmmmmmmmmmmmmmmm</p>
+                <LinesEllipsis
+                  text={'Animal Farm'}
+                  maxLine='1'
+                  ellipsis='..'
+                  trimRight
+                  className={classes.title}
+                />
                 <p className={classes.author}>George O'Weill</p>
                 <p className={classes.status}>Đang chờ</p>
               </div>
