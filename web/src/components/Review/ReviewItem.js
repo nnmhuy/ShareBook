@@ -30,6 +30,11 @@ const useStyles = makeStyles({
       height: props => `calc(550px/${props.count})`,
       maxWidth: props => `calc(550px/${props.count})`
     }
+  },
+  reviewImagesThree: {
+    '& :nth-child(3)': {
+      gridColumn: '1/span2'
+    }
   }
 });
 
@@ -43,11 +48,6 @@ const styles = (theme => ({
     padding: '0 10px',
     marginTop: 0,
     fontSize: 14
-  },
-  reviewImagesThree: {
-    '& :nth-child(3)': {
-      gridColumn: '1/span2'
-    }
   },
   modal: {
 
