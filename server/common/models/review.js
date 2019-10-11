@@ -35,34 +35,32 @@ module.exports = function(Review) {
   });
 
   async function triggerReviewCreate(ctx, next) {
-    let Book = Review.app.models.book;
+    try {
+      let Book = Review.app.models.book;
 
-    if (!ctx.currentInstance || !ctx.currentInstance.bookId)
-      return next(new Error('Yêu cầu bị lỗi'));
-    // find for current total
-    await Book.findById(ctx.currentInstance.bookId, {},
-      async (err, book) => {
-        if (err || !book) return next(new Error('Loại sách này đang bị lỗi'));
+      if (!ctx.currentInstance || !ctx.currentInstance.bookId)
+        return next(new Error('Yêu cầu bị lỗi'));
+      // find for current total
+      const book = await Book.findById(ctx.currentInstance.bookId);
+      if (!book) return next(new Error('Loại sách này đang bị lỗi'));
 
-        let newTotalRating = ctx.currentInstance.rating + book.totalOfRating;
-        let newRating = newTotalRating / (book.numberOfRating + 1);
+      let newTotalRating = ctx.currentInstance.rating + book.totalOfRating;
+      let newRating = newTotalRating / (book.numberOfRating + 1);
 
-        await book.updateAttributes(
-          {
-            totalOfRating: newTotalRating,
-            numberOfRating: book.numberOfRating + 1,
-            rating: newRating,
-          },
-          async (err, instance) => {
-            const User = Review.app.models.user;
-            const user = await User.findById(ctx.currentInstance.userId);
-            await User.updateAttributes(
-              'coin', user.coin + coinConstants.createReview
-            );
-            if (err) return next(new Error('Cập nhật review gặp lỗi'));
-            return next();
-          });
+      await book.updateAttributes({
+        totalOfRating: newTotalRating,
+        numberOfRating: book.numberOfRating + 1,
+        rating: newRating,
       });
+      const User = Review.app.models.user;
+      const user = await User.findById(ctx.currentInstance.userId);
+      await user.updateAttribute(
+        'coin', user.coin + coinConstants.createReview
+      );
+      return next();
+    } catch (error) {
+      return next(new Error('Cập nhật review gặp lỗi'));
+    }
   }
 
   function triggerReviewUpdate(ctx, next) {
