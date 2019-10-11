@@ -6,6 +6,7 @@ import PulseLoader from 'react-spinners/PulseLoader'
 import colors from '../../../constants/colors'
 import IncomeMessage from './IncomeMessage'
 import OutcomeMessage from './OutcomeMessage'
+import SystemMessage from './SystemMessage'
 
 const styles = (theme => ({
   container: {
@@ -61,6 +62,14 @@ class MessageSection  extends React.Component  {
         {
           messages.map((message, id) => {
             const { direction, content } = message
+            if (direction === 'system') {
+              return (
+                <SystemMessage 
+                  key={content + id}
+                  message={content}
+                />
+              )
+            }
             if (direction === position) {
               return (
                 <IncomeMessage

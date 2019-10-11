@@ -1,6 +1,7 @@
 'use strict';
 const checkExist = require('../../server/helper/checkExist');
 const setUserId = require('../../server/middleware/setUserId');
+const coinConstants = require('../../server/helper/coinConstants');
 
 module.exports = function(Review) {
   Review.validatesPresenceOf('userId', 'bookId');
@@ -33,25 +34,31 @@ module.exports = function(Review) {
     }
   });
 
-  function triggerReviewCreate(ctx, next) {
+  async function triggerReviewCreate(ctx, next) {
     let Book = Review.app.models.book;
+
     if (!ctx.currentInstance || !ctx.currentInstance.bookId)
       return next(new Error('Yêu cầu bị lỗi'));
     // find for current total
-    Book.findById(ctx.currentInstance.bookId, {},
-      (err, book) => {
+    await Book.findById(ctx.currentInstance.bookId, {},
+      async (err, book) => {
         if (err || !book) return next(new Error('Loại sách này đang bị lỗi'));
 
         let newTotalRating = ctx.currentInstance.rating + book.totalOfRating;
         let newRating = newTotalRating / (book.numberOfRating + 1);
 
-        book.updateAttributes(
+        await book.updateAttributes(
           {
             totalOfRating: newTotalRating,
             numberOfRating: book.numberOfRating + 1,
             rating: newRating,
           },
-          (err, instance) => {
+          async (err, instance) => {
+            const User = Review.app.models.user;
+            const user = await User.findById(ctx.currentInstance.userId);
+            await User.updateAttributes(
+              'coin', user.coin + coinConstants.createReview
+            );
             if (err) return next(new Error('Cập nhật review gặp lỗi'));
             return next();
           });

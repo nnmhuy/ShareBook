@@ -5,9 +5,6 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { getAllReviews, toggleLikeSingleReview } from '../../redux/actions/reviewAction';
-// import InfiniteScroll from 'react-infinite-scroller';
-// import PulseLoader from 'react-spinners/PulseLoader';
-// import colors from '../../constants/colors';
 
 import Loading from '../../components/Loading';
 import LayoutWrapper from '../../components/LayoutWrapper';

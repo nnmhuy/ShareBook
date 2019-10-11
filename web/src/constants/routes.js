@@ -23,7 +23,7 @@ const routes = [
   },
   {
     label: 'Giao dịch',
-    pathname: '/transaction',
+    pathname: '/transaction-list',
     Icon: TransactionIcon
   },
   {

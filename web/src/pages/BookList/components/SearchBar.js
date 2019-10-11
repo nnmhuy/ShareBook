@@ -92,7 +92,6 @@ class SearchBar extends React.Component {
           currentThis.props.history.push(`/book-detail/${bookId}`)
         })
         .catch(function (error) {
-          console.log(error);
           currentThis.setState({ultraWaiting: false})
           warnAlert('Xin lỗi bạn nha, sách này đang bị lỗi')
         });

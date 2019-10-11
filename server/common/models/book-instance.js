@@ -1,11 +1,17 @@
 'use strict';
 const _ = require('lodash');
 const setUserId = require('../../server/middleware/setUserId');
+const secretKey = process.env.SUPER_SECRET_KEY;
 
 module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
 
   BookInstance.observe('before save', (ctx, next) => {
+    if (_.get(ctx, 'data.secretKey') === secretKey) {
+      delete ctx.data.secretKey;
+      return next();
+    }
+
     setUserId(ctx, 'ownerId');
     if (ctx.isNewInstance) {
       let userId = _.get(ctx, 'options.accessToken.userId', null);

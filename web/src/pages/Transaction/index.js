@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 import TopNav from './components/TopNav'
 import Loading from '../../components/Loading'
+import TransactionInfoSection from './components/TransactionInfoSection'
 import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
@@ -14,7 +15,8 @@ import {
   sendMessage,
   getTransaction,
   appendMessage,
-  getMessages
+  getMessages,
+  requestStatus
 } from '../../redux/actions/transactionAction'
 import socket from '../../connectors/Socket'
 
@@ -23,6 +25,7 @@ const styles = (theme => ({
     width: '100%',
     minWidth: 350,
     maxWidth: 800,
+    height: '100%',
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
@@ -30,6 +33,7 @@ const styles = (theme => ({
   messagesContainer: {
     width: '100%',
     flex: 1,
+    paddingTop: 135,
     paddingBottom: 55
   }
 }))
@@ -102,18 +106,33 @@ class Transaction extends React.Component {
 
   render() {
     const { classes, isLoading, transaction, messages,
-      numberOfMessages, lastMessageCount
+      numberOfMessages, lastMessageCount, sendRequestStatus, match
     } = this.props
+    const { transactionId } = match.params
     const { value } = this.state
+    const userId = _.get(transaction, 'user.id', '')
+    const avatar = _.get(transaction, 'user.avatar', '')
+    const username = _.get(transaction, 'user.name', '')
+    const position = _.get(transaction, 'user.position', '')
+    const status = _.get(transaction, 'status', '')
     return (
       <TopNav
-        avatar={_.get(transaction, 'user.avatar', '')}
-        name={_.get(transaction, 'user.name', '')}
-        position={_.get(transaction, 'user.position', '')}
-        status={_.get(transaction, 'status', '')}
+        id={userId}
+        avatar={avatar}
+        name={username}
+        position={position}
+        status={status}
       >
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
+          <TransactionInfoSection
+            transactionId={transactionId}
+            book={_.get(transaction, 'book', {})}
+            name={username}
+            position={position}
+            status={status}
+            sendRequestStatus={sendRequestStatus}
+          />
           <div className={classes.messagesContainer}>
             <MessageSection
               finishRendered={this.finishRendered}
@@ -143,14 +162,13 @@ const mapStateToProps = ({ transaction }) => {
       username: localStorage.getItem('username'),
       name: localStorage.getItem('name'),
       avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
     },
     isLoading: transaction.isLoading,
     transaction: transaction.transaction,
     messages: transaction.messages,
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
-    numberOfAppendedMessages: transaction.numberOfAppendedMessages
+    numberOfAppendedMessages: transaction.numberOfAppendedMessages,
   }
 }
 
@@ -158,7 +176,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getTransactionInfo: getTransaction,
   send: sendMessage,
   receive: appendMessage,
-  loadMessage: getMessages
+  loadMessage: getMessages,
+  sendRequestStatus: requestStatus
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));

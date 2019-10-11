@@ -14,7 +14,7 @@ module.exports = function(app) {
     });
     socket.on('leave transaction', function(data) {
       console.log('Leave: ', data.transactionId);
-      socket.join(data.transactionId);
+      socket.leave(data.transactionId);
     });
   });
 };
