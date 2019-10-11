@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   _imageContainer: {
     boxSizing: 'border-box',
     textAlign: 'center',
-    cursor: 'pointer',
+    // cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -67,7 +67,8 @@ function ImageContainer(props) {
         review && review.images && review.images.map((image, index) => {
           return (
             <Fragment key={index}>
-              <div className={classes._imageContainer} onClick={() => openModal(image, true)}>
+              {/* <div className={classes._imageContainer} onClick={() => openModal(image, true)}> */}
+              <div className={classes._imageContainer}>
                 <Image src={image} className={classes._reviewImage} alt={review && review.bookName} />
               </div>
             </Fragment>
