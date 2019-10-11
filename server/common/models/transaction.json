@@ -120,6 +120,22 @@
       "principalId": "$everyone",
       "permission": "DENY",
       "property": "deleteById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": ["initTransaction", "holderUpdate", "borrowerUpdate"]
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": [
+        "initTransaction",
+        "holderUpdate",
+        "borrowerUpdate"
+      ]
     }
   ],
   "methods": {}
