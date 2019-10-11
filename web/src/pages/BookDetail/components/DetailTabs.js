@@ -8,7 +8,7 @@ import BookAbout from './BookAbout'
 import BookInstanceList from './BookInstanceList'
 import ReviewList from './ReviewList'
 
-import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../../constants/constants'
+// import { numberOfReviewsPerPage, numberOfBookInstancesPerPage } from '../../../constants/constants'
 import LocalLoading from '../../../components/LocalLoading'
 
 
@@ -21,7 +21,8 @@ const styles = (theme => ({
 
 const DetailTabs = (props) => {
   const { classes, book, bookInstanceList, reviewList, getReviews, userId, getInstances,
-    handleToggleLikeReview, isLoadingReview, isLoadingInstances, touched, setTouched,
+    handleToggleLikeReview, isLoadingReview, isLoadingInstances, 
+    // touched, setTouched,
     activeTab, setActiveTab, initTransaction
   } = props
 

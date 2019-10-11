@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
+import { bindActionCreators } from 'redux';
 
 import TopNav from './components/TopNav';
 import MainTab from './components/MainTab';
@@ -18,7 +19,7 @@ const styles = theme => ({
 const Profile = props => {
 	const { classes, account } = props;
 	return (
-		<TopNav title='Tài khoản'>
+		<TopNav title='Tài khoản' account={account}>
 			<div className={classes.container}>
 				<MainTab account={account}/>
 			</div>

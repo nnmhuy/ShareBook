@@ -89,7 +89,7 @@ const styles = (theme) => ({
 })
 
 const TopNav = (props) => {
-    const { classes, children, title } = props
+    const { classes, children, title, account } = props
     const { pathname } = props.location
     const [isSidebarExpanding, setSidebarExpanding] = React.useState(false)
 
@@ -123,7 +123,7 @@ const TopNav = (props) => {
                 onOpen={toggleSidebar(true)}
                 className={classes.sidebarWrapper}
             >
-                <Sidebar toggleSidebar={toggleSidebar} account={null} currentPathname={pathname} />
+                <Sidebar toggleSidebar={toggleSidebar} account={account} currentPathname={pathname} />
             </SwipeableDrawer>
             <div className={classes.contentWrapper}>
                 {children}
