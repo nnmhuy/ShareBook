@@ -1,13 +1,13 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Slider from 'react-slick'
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 
 import NewsItem from './NewsItem'
 
 const styles = (theme => ({
   slider: {
     margin: 20,
-    overflow:'hidden',
+    overflow: 'hidden',
     '& .slick-dots': {
       bottom: 0,
       listStyleType: 'none',
@@ -30,38 +30,61 @@ const styles = (theme => ({
 
 
 
-const NewsSlider = (props) => {
-  const { classes, newsData } = props
+class NewsSlider extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    arrow: false,
-    pauseOnHover: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    swipeToSlide: true
+    this.state = {
+      width: 400
+    }
   }
 
-  return (
-    <Slider {...settings} className={classes.slider}>
-      {
-        newsData.map(news => {
-          // temporary when don't have news
-          let oneNews = {}
-          oneNews.title = news.name 
-          oneNews.url = news.url
-          oneNews.image = require('../../../static/images/demo/news-placeholder.png')
-          return (
-            <NewsItem {...oneNews} key={news.url}/>
-          )
-        })
-      }
-    </Slider>
-  )
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: Math.min(window.innerWidth, 800) - 80 })
+  }
+
+  render() {
+    const { classes, newsData } = this.props
+    let silderHeight = 170
+
+    return (
+      <CarouselProvider
+        className={classes.carousel}
+        naturalSlideWidth={this.state.width}
+        naturalSlideHeight={silderHeight}
+        totalSlides={newsData.length}
+        isPlaying
+        interval={3000}
+      >
+
+        <Slider className={classes.slider}>
+          {
+            newsData.map(news => {
+              // temporary when don't have news
+              let oneNews = {}
+              oneNews.title = news.name
+              oneNews.url = news.url
+              oneNews.image = require('../../../static/images/demo/news-placeholder.png')
+              return (
+                <Slide key={`news-slider-${news.id}`}>
+                  <NewsItem {...oneNews} key={news.url} />
+                </Slide>
+              )
+            })
+          }
+        </Slider>
+      </CarouselProvider>
+    )
+  }
 }
 
 export default withStyles(styles)(NewsSlider)

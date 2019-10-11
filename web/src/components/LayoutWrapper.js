@@ -122,7 +122,6 @@ const LayoutWrapper = (props) => {
               :
               <Link to='/account' className={classes.link} >
                 <Button color='inherit' className={classes.loginButton}>
-                  Đăng nhập
                 <LoginIcon fill={colors.primary} className={classes.icon} />
                 </Button>
               </Link>

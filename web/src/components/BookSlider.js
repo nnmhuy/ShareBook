@@ -58,11 +58,6 @@ class BookSlider extends React.Component {
     this.setState({visibleBook: Math.min(window.innerWidth / 150, 6)})
   }
 
-  calculateNumber = () => {
-
-    this.setState({visibleBook: Math.min(window.innerWidth / 150, 6)})
-  }
-
   render() {
 
     const { isExtended, classes, title, url, bookList, handleToggleBookmark, isLoading, ...other } = this.props

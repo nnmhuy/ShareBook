@@ -256,10 +256,10 @@ const keyArray = [
       switch (value) {
         case 0:
           return 'Trả lại'
-        case 1:
-          return 'Lan truyền'
+        case 'returning':
+          return 'Trả lại'
         default:
-          return '?'
+          return 'Trao đi'
       }
     }
   }
