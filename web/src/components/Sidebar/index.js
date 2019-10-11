@@ -67,7 +67,7 @@ const styles = (theme => ({
 }))
 
 const Sidebar = (props) => {
-  const { classes, toggleSidebar, account, currentPathname, logOutHandler } = props
+  const { classes, toggleSidebar, account = {}, currentPathname, logOutHandler } = props
   return (
     <div
       className={classes.sidebar}
