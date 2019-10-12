@@ -5,6 +5,7 @@ import { IconButton } from '@material-ui/core'
 import colors from '../../../constants/colors'
 import CustomTopNav from '../../../components/CustomTopNav'
 import { ReactComponent as BackIcon } from '../../../static/images/back-arrow.svg'
+import Image from '../../../components/Image'
 
 const styles = (theme => ({
     backButton: {
@@ -37,7 +38,7 @@ const TopNav = (props) => {
                 </IconButton>
             }
             right={
-                <img src={review && review.image} alt={review && review.bookName} className={classes.bookImage} />
+                <Image src={review && review.image} alt={review && review.bookName} className={classes.bookImage} />
             }
         >
             {children}
