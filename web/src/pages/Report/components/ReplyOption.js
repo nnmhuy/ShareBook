@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '../../../components/Avatar';
 import getFormattedDate from '../../../helper/getFormattedDate'
 
 import colors from '../../../constants/colors';
