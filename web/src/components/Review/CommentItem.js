@@ -172,7 +172,7 @@ const CommentItem = props => {
       </div>
       <div className={classes.flexOnly}>
         <Link className={classes.username} to={`/profile/${reply && reply.userId}`}>
-          <Avatar src='{reply && reply.avatar}' />
+          <Avatar src={reply && reply.avatar} />
         </Link>
         <div className={classes.replyWrapper}>
           <div className={classes.reply}>
