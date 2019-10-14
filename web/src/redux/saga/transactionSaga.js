@@ -213,8 +213,7 @@ function* requestStatusSaga({ payload }) {
     successAlert('Thao tác thành công');
   } catch (error) {
     yield put(requestStatusFail({ error }))
-    console.log(error)
-    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+    errorAlert(error);
   }
 }
 
@@ -235,7 +234,7 @@ function* initTransactionSaga({ payload }) {
     window.location = `/transaction/${data.transaction.id}`
   } catch (error) {
     yield put(initTransactionFail({ error }))
-    errorAlert('Đã có lỗi xảy ra. Vui lòng thử lại.');
+    errorAlert(error);
   }
 }
 

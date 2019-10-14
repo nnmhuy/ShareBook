@@ -126,7 +126,7 @@ class App extends React.Component {
               setTouched={this.setTouched}
               activeTab={activeTab}
               setActiveTab={this.setActiveTab}
-              initTransaction={this.borrowBook}
+              initTransaction={this.initTransaction}
             />
             <BookSlider
               isExtended

@@ -7,8 +7,9 @@ module.exports = {
     if (options) {
       const room = options.room;
       const data = options.data;
-      socket.to(room).emit('new message', data);
-      console.log('new message', room);
+      const event = options.event;
+      socket.to(room).emit(event, data);
+      console.log(event, room);
     } else {
       throw 'Error: Option must be an object type';
     }

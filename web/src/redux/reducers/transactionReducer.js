@@ -20,7 +20,8 @@ import {
   requestStatusFail,
   initTransaction,
   initTransactionSuccess,
-  initTransactionFail
+  initTransactionFail,
+  socketNewStatus
 } from '../actions/transactionAction'
 
 let defaultState = {
@@ -121,6 +122,7 @@ const transactionReducer = handleActions(
     [getTransactions]: (state) => {
       return {
         ...state,
+        transactionList: [],
         isLoading: true,
       }
     },
@@ -179,6 +181,33 @@ const transactionReducer = handleActions(
       return {
         ...state,
         isInitializingTransaction: false
+      }
+    },
+    [socketNewStatus]: (state, { payload }) => {
+      const transactionList = JSON.parse(JSON.stringify(state.transactionList))
+      console.log(payload)
+      console.log(transactionList)
+      const newTransactionList = transactionList.map(transaction => {
+        if (transaction.id === payload.id) {
+          return {
+            ...transaction,
+            ...payload
+          }
+        }
+        return transaction
+      })
+      console.log(newTransactionList)
+      let newTransaction = JSON.parse(JSON.stringify(state.transaction))
+      if (newTransaction.id === payload.id) {
+        newTransaction = {
+          ...newTransaction,
+          ...payload
+        }
+      }
+      return {
+        ...state,
+        transactionList: newTransactionList,
+        transaction: newTransaction
       }
     }
   },

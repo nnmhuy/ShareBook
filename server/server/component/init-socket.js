@@ -8,13 +8,13 @@ module.exports = function(app) {
     socket.on('disconnect', function() {
       console.log('user disconnected');
     });
-    socket.on('join transaction', function(data) {
-      console.log('Join: ', data.transactionId);
-      socket.join(data.transactionId);
+    socket.on('join socket', function(data) {
+      console.log('Join: ', data.socketName);
+      socket.join(data.socketName);
     });
-    socket.on('leave transaction', function(data) {
-      console.log('Leave: ', data.transactionId);
-      socket.leave(data.transactionId);
+    socket.on('leave socket', function(data) {
+      console.log('Leave: ', data.socketName);
+      socket.leave(data.socketName);
     });
   });
 };
