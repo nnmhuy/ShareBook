@@ -45,8 +45,9 @@ module.exports = function(MessageInTransaction) {
     var socket = MessageInTransaction.app.io;
     if (ctx.isNewInstance) {
       pubsub.publish(socket, {
-        room: ctx.instance.transactionId,
+        room: `CHAT-${ctx.instance.transactionId}`,
         data: ctx.instance,
+        event: 'new message',
       });
     }
     // Calling the next middleware..

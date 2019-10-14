@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withStyles } from '@material-ui/core/styles'
 import _ from 'lodash'
+import socket from '../../connectors/Socket'
 
 import TopNav from './components/TopNav'
 import Loading from '../../components/Loading'
@@ -16,9 +17,9 @@ import {
   getTransaction,
   appendMessage,
   getMessages,
-  requestStatus
+  requestStatus,
+  socketNewStatus
 } from '../../redux/actions/transactionAction'
-import socket from '../../connectors/Socket'
 
 const styles = (theme => ({
   container: {
@@ -49,20 +50,28 @@ class Transaction extends React.Component {
   }
 
   componentDidMount() {
-    const { match, getTransactionInfo, account, receive } = this.props
+    const { match, getTransactionInfo, account, receive, receiveStatus } = this.props
     const { userId } = account
     const { transactionId } = match.params
     getTransactionInfo({ transactionId, userId })
-    socket.emit('join transaction', { transactionId })
+    socket.emit('join socket', { socketName: `CHAT-${transactionId}` })
+    socket.emit('join socket', { socketName: `TRANSACTION-${userId}` })
     socket.on('new message', (data) => {
       receive(data)
+    })
+    socket.on('new transaction status', (data) => {
+      console.log(data)
+      receiveStatus(data)
     })
   }
 
   componentWillUnmount() {
-    const { match } = this.props
+    const { match, account } = this.props
     const { transactionId } = match.params
-    socket.emit('leave transaction', { transactionId })
+    const { userId } = account
+    socket.off('new transaction status')
+    socket.emit('leave socket', { socketName: `CHAT-${transactionId}` })
+    socket.emit('leave socket', { socketName: `TRANSACTION-${userId}` })
   }
 
   handleSend = () => {
@@ -177,7 +186,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   send: sendMessage,
   receive: appendMessage,
   loadMessage: getMessages,
-  sendRequestStatus: requestStatus
+  sendRequestStatus: requestStatus,
+  receiveStatus: socketNewStatus
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));

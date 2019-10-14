@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
+import socket from '../../connectors/Socket'
+import _ from 'lodash'
 
 import Loading from '../../components/Loading'
 import LayoutWrapper from '../../components/LayoutWrapper'
@@ -38,12 +40,34 @@ class TransactionList extends React.Component {
   }
 
   componentDidMount() {
-    const { getTransactionsInfo, account: { userId } } = this.props
+    const { getTransactionsInfo, account: { userId }, receiveStatus } = this.props
     getTransactionsInfo({ userId })
+
+    socket.emit('join socket', { socketName: `TRANSACTION-${userId}` })
+    socket.on('new transaction status', (data) => {
+      receiveStatus(data)
+    })
+    socket.on('new transaction', (data) => {
+      getTransactionsInfo({ userId })    
+    })
   }
+
+  componentWillUnmount() {
+    const { account } = this.props
+    const { userId } = account
+    socket.off()
+    socket.off('new transaction')
+    socket.off('new transaction status')
+    socket.emit('leave socket', { socketName: `TRANSACTION-${userId}` })
+  }
+
 
   render() {
     const { classes, account, transactionList, isLoading } = this.props
+    transactionList.sort((a, b) => {
+      if (a.lastMessageTime < b.lastMessageTime) return -1;
+      return 1;
+    })
     return (
       <LayoutWrapper title='Giao dịch' account={account}>
         <Loading isLoading={isLoading}/>

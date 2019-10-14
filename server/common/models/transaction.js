@@ -1,5 +1,7 @@
 'use strict';
 const _ = require('lodash');
+var pubsub = require('../../server/component/pubsub.js');
+
 const secretKey = process.env.SUPER_SECRET_KEY;
 const coinConstants = require('../../server/helper/coinConstants');
 
@@ -26,6 +28,37 @@ module.exports = function(Transaction) {
   //   }
   //   next();
   // });
+
+  Transaction.observe('after save', function(ctx, next) {
+    var socket = Transaction.app.io;
+    const holderId = _.get(ctx, 'instance.holderId', null);
+    const borrowerId = _.get(ctx, 'instance.borrowerId', null);
+    if (!ctx.isNewInstance) {
+      pubsub.publish(socket, {
+        room: `TRANSACTION-${holderId}`,
+        data: ctx.instance,
+        event: 'new transaction status',
+      });
+      pubsub.publish(socket, {
+        room: `TRANSACTION-${borrowerId}`,
+        data: ctx.instance,
+        event: 'new transaction status',
+      });
+    } else {
+      pubsub.publish(socket, {
+        room: `TRANSACTION-${holderId}`,
+        data: ctx.instance,
+        event: 'new transaction',
+      });
+      pubsub.publish(socket, {
+        room: `TRANSACTION-${borrowerId}`,
+        data: ctx.instance,
+        event: 'new transaction',
+      });
+    }
+    // Calling the next middleware..
+    next();
+  });
 
   Transaction.holderUpdate = async function(transactionId, data, ctx) {
     const {requestStatus} = data;
@@ -248,6 +281,9 @@ module.exports = function(Transaction) {
       if (!instance || !instance.isAvailable) {
         throw new Error('Sách không có sẵn!');
       }
+    }
+    if (instance.holderId.equals(userId)) {
+      throw new Error('Bạn không thể mượn sách của chính mình!');
     }
     await instance.updateAttributes({
       'isAvailable': false,

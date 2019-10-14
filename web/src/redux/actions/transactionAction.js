@@ -21,6 +21,7 @@ const {
   initTransaction,
   initTransactionSuccess,
   initTransactionFail,
+  socketNewStatus
 } = createActions(
   'GET_TRANSACTION',
   'GET_TRANSACTION_SUCCESS',
@@ -41,6 +42,7 @@ const {
   'INIT_TRANSACTION',
   'INIT_TRANSACTION_SUCCESS',
   'INIT_TRANSACTION_FAIL',
+  'SOCKET_NEW_STATUS'
 )
 
 
@@ -64,5 +66,6 @@ export {
   requestStatusFail,
   initTransaction,
   initTransactionSuccess,
-  initTransactionFail
+  initTransactionFail,
+  socketNewStatus
 }
