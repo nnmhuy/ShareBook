@@ -54,6 +54,9 @@ module.exports = function(User) {
     try {
       let req = ctx.req;
       req.body.email = req.body.username + '@sharebook.org.vn';
+      if (!req.body.name) {
+        req.body.name = req.body.username;
+      }
     } catch (err) {
       console.log(err);
     }

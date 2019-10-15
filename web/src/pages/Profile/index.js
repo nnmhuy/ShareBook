@@ -7,36 +7,36 @@ import TopNav from './components/TopNav';
 import MainTab from './components/MainTab';
 
 const styles = theme => ({
-	container: {
-		width: '100%',
-		minWidth: 350,
-		maxWidth: 800,
-		margin: 'auto'
-	}
+  container: {
+    width: '100%',
+    minWidth: 350,
+    maxWidth: 800,
+    margin: 'auto'
+  }
 })
 
 const Profile = props => {
-	const { classes, account } = props;
-	return (
-		<TopNav title='Tài khoản' account={account}>
-			<div className={classes.container}>
-				<MainTab account={account}/>
-			</div>
-		</TopNav>
-	);
+  const { classes, account } = props;
+  return (
+    <TopNav title='Tài khoản' account={account}>
+      <div className={classes.container}>
+        <MainTab account={account} />
+      </div>
+    </TopNav>
+  );
 }
 
 const mapStateToProps = ({ account }) => {
-	return {
-		account: {
-			isAuth: !!(localStorage.getItem('isAuth')),
-			userId: localStorage.getItem('userId'),
-			username: localStorage.getItem('username'),
-			name: localStorage.getItem('name'),
-			avatar: localStorage.getItem('avatar'),
-			coin: Number.parseInt(localStorage.getItem('coin')),
-		}
-	}
+  return {
+    account: {
+      isAuth: !!(localStorage.getItem('isAuth')),
+      userId: localStorage.getItem('userId'),
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      avatar: localStorage.getItem('avatar'),
+      coin: Number.parseInt(localStorage.getItem('coin')),
+    }
+  }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

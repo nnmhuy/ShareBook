@@ -106,7 +106,7 @@ module.exports = function(Book) {
           name, publisher, price, publishYear, categoryId: '14'};
 
         if (image === '/containers/defaultContainer/download/defaultBook.png') {
-          let keyWord = 'sách ' + name + ' ' + author;
+          let keyWord = 'sách ' + name + ' tác giả ' + author;
           imageSearchApiClient.imagesOperations.search(keyWord,
           {safeSearch: 'Strict', count: 3, imageType: 'Photo'},
           (err, result, request, response) => {
