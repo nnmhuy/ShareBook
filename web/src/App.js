@@ -62,7 +62,7 @@ class App extends React.Component {
             <Route path="/review/:reviewId" exact component={BookReview} />
             <Route path="/create-book" exact component={CreateBook} />
             <Route path="/create-instance/:bookId" exact component={CreateInstance} />
-            <Route path="/profile" exact component={Profile} />
+            <Route path="/profile/:userId" exact component={Profile} />
             <Route path="/report" exact component={Report} />
             <Route path="/report/:type-:value" exact component={Report} />
             <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />

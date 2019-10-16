@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
+import get from 'lodash/get';
 
 import TopNav from './components/TopNav';
 import MainTab from './components/MainTab';
@@ -17,10 +18,11 @@ const styles = theme => ({
 
 const Profile = props => {
   const { classes, account } = props;
+  const viewCurrentUserId = get(props, 'match.params.userId', null)
   return (
     <TopNav title='Tài khoản' account={account}>
       <div className={classes.container}>
-        <MainTab account={account} />
+        <MainTab account={account} viewCurrentUserId={viewCurrentUserId}/>
       </div>
     </TopNav>
   );

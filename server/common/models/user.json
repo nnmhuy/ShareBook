@@ -31,6 +31,9 @@
     "avatar": {
       "type": "string"
     },
+    "bio": {
+      "type": "string"
+    },
     "phoneNumber": {
       "type": "string"
     },
@@ -58,7 +61,7 @@
         "normalUser",
         "inactive"
       ],
-      "default": "inactive"
+      "default": "normalUser"
     }
   },
   "validations": [],

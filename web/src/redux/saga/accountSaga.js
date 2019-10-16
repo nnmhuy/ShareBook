@@ -9,6 +9,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  getOtherUserInfo,
+  getOtherUserInfoSuccess,
+  getOtherUserInfoFail,
   logOut,
   logOutSuccess,
   logOutFail,
@@ -50,6 +53,18 @@ function* getUserInfoSaga() {
     yield put(getUserInfoSuccess(data))
   } catch (error) {
     yield put(getUserInfoFail(error))
+  }
+}
+
+function* getOtherUserInfoSaga({payload}) {
+  try {
+    let filter = { include: 'homeLocations'}
+    const response = yield call(restConnector.get, `/users/${payload.userId}?filter=${JSON.stringify(filter)}`)
+    let data = get(response, 'data', {})
+    yield put(getOtherUserInfoSuccess(data))
+  } catch (error) {
+    yield put(getOtherUserInfoFail(error))
+    warnAlert('Tài khoản này đang bị lỗi')
   }
 }
 
@@ -96,6 +111,10 @@ function* getUserInfoWatcher() {
   yield takeLatest(getUserInfo, getUserInfoSaga)
 }
 
+function* getOtherUserInfoWatcher() {
+  yield takeLatest(getOtherUserInfo, getOtherUserInfoSaga)
+}
+
 function* logOutWatcher() {
   yield takeLatest(logOut, logOutSaga)
 }
@@ -107,6 +126,7 @@ function* signUpWatcher() {
 export {
   logInLocalWatcher,
   getUserInfoWatcher,
+  getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher
 }

@@ -39,7 +39,7 @@ class MainTab extends Component {
   }
 
   render() {
-    const { classes, account, bookOfCategory, handleToggleBookmark } = this.props;
+    const { classes, account, bookOfCategory, handleToggleBookmark, viewCurrentUserId } = this.props;
     const { currentTab } = this.state;
     return (
       <>
@@ -65,10 +65,11 @@ class MainTab extends Component {
             } />
         </Tabs>
         <TabPanel index={0} value={currentTab} className={classes.wrapper}>
-          <AccountTab account={account} bookOfCategory={bookOfCategory} handleToggleBookmark={handleToggleBookmark} />
+          <AccountTab account={account} bookOfCategory={bookOfCategory}
+          handleToggleBookmark={handleToggleBookmark} viewCurrentUserId={viewCurrentUserId} />
         </TabPanel>
         <TabPanel index={1} value={currentTab} className={classes.wrapper}>
-          <ReviewTab />
+          <ReviewTab viewCurrentUserId={viewCurrentUserId}/>
         </TabPanel>
       </>
     );

@@ -9,102 +9,103 @@ import Bio from './Bio';
 import PersonalInfo from './PersonalInfo';
 
 const styles = theme => ({
-	wrapper: {
-		position: 'relative',
-		padding: '10px 20px 30px'
-	},
-	flexContainer: {
-		display: 'flex',
-		alignItems: 'center'
-	},
+  wrapper: {
+    position: 'relative',
+    padding: '10px 20px 30px'
+  },
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
 
-	downIcon: {
-		position: 'absolute',
-		cursor: 'pointer',
-		bottom: 10,
-		left: '50%',
-		transform: 'translateX(-50%)',
-		height: 12
-	},
-	editIcon: {
-		position: 'absolute',
-		cursor: 'pointer',
-		top: 10,
-		right: 15,
-		height: 13
-	},
-	fixButton: {
-		position: 'absolute',
-		cursor: 'pointer',
-		margin: 0,
-		top: 10,
-		right: 15,
-		fontFamily: 'Montserrat',
-		fontSize: 12,
-		fontWeight: 700,
-		color: colors.primary
-	},
-	rotateIcon: {
-		transform: 'translateX(-50%) scale(-1, -1)'
-	}
+  downIcon: {
+    position: 'absolute',
+    cursor: 'pointer',
+    bottom: 10,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    height: 12
+  },
+  editIcon: {
+    position: 'absolute',
+    cursor: 'pointer',
+    top: 10,
+    right: 15,
+    height: 13
+  },
+  fixButton: {
+    position: 'absolute',
+    cursor: 'pointer',
+    margin: 0,
+    top: 10,
+    right: 15,
+    fontFamily: 'Montserrat',
+    fontSize: 12,
+    fontWeight: 700,
+    color: colors.primary
+  },
+  rotateIcon: {
+    transform: 'translateX(-50%) scale(-1, -1)'
+  }
 })
 
 class PaperWrapper extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			isHidden: true,
-			isEdit: false,
-			fixed: false
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      isHidden: true,
+      isEdit: false,
+      fixed: false
+    }
+  }
 
-	editInfo = () => {
-		if (this.state.isHidden)
-			this.setState({
-				isEdit: true,
-				isHidden: false
-			})
-		else
-			this.setState({
-				isEdit: !this.state.isEdit
-			})
-	}
+  editInfo = () => {
+    if (this.state.isHidden)
+      this.setState({
+        isEdit: true,
+        isHidden: false
+      })
+    else
+      this.setState({
+        isEdit: !this.state.isEdit
+      })
+  }
 
-	fixInfo = () => {
-		this.editInfo();
-	}
+  fixInfo = () => {
+    this.editInfo();
+  }
 
-	spanInfo = () => {
-		this.setState({
-			isHidden: !this.state.isHidden,
-			isEdit: false
-		})
-	}
+  spanInfo = () => {
+    this.setState({
+      isHidden: !this.state.isHidden,
+      isEdit: false
+    })
+  }
 
-	changeAvatar = () => { }
+  changeAvatar = () => { }
 
-	render() {
-		const { classes, layout, account } = this.props;
-		const { isEdit, isHidden, fixed } = this.state;
-		return (
-			<Paper className={classes.wrapper}>
-				{
-					layout === 'bio' &&
-					<Bio isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
-				}
-				{
-					layout === 'info' &&
-					<PersonalInfo account={account} isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
-				}
-				<PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
-				<DownArrowIcon fill={colors.primary}
-					className={isHidden ? classes.downIcon : `${classes.rotateIcon} ${classes.downIcon}`}
-					onClick={this.spanInfo} />
-			</Paper>
-		);
-	}
+  render() {
+    const { classes, layout, account, viewCurrentUserId } = this.props;
+    let isOwner = viewCurrentUserId === 'me'
+    const { isEdit, isHidden, fixed } = this.state;
+    return (
+      <Paper className={classes.wrapper}>
+        {
+          layout === 'bio' &&
+          <Bio isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
+        }
+        {
+          layout === 'info' &&
+          <PersonalInfo account={account} isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
+        }
+        {isOwner && <PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />}
+        <DownArrowIcon fill={colors.primary}
+          className={isHidden ? classes.downIcon : `${classes.rotateIcon} ${classes.downIcon}`}
+          onClick={this.spanInfo} />
+      </Paper>
+    );
+  }
 }
 
 export default (withStyles(styles)(PaperWrapper));

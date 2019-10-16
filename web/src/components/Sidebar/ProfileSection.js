@@ -55,7 +55,7 @@ const styles = (theme => ({
 const ProfileSection = (props) => {
   const { classes, account } = props
   return (
-    <Link className={classes.container} to={account.isAuth ? '/profile' : '/account'}>
+    <Link className={classes.container} to={account.isAuth ? '/profile/me' : '/account'}>
       {account.avatar?
         <GetAvatar className={classes.avatar} src={account.avatar} />
         :
