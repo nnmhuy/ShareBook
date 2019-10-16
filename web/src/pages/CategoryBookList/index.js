@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
-import _ from 'lodash'
+import get from 'lodash/get'
 import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Pagination from '../../components/Pagination/index'
@@ -74,7 +74,7 @@ class CategoryBookList extends React.Component {
 
   componentDidMount() {
     var { categoryList, getCategoryListHandler, categoryIsLoading } = this.props
-    if (!categoryIsLoading && !_.get(categoryList, '[0]', null)) {
+    if (!categoryIsLoading && !get(categoryList, '[0]', null)) {
       this.setState({key: null})
       getCategoryListHandler()
     } else {
@@ -84,14 +84,14 @@ class CategoryBookList extends React.Component {
 
   componentDidUpdate() {
     let { categoryList, categoryIsLoading } = this.props
-    if (!categoryIsLoading && _.get(categoryList, '[0]', null)) {
+    if (!categoryIsLoading && get(categoryList, '[0]', null)) {
       this.runInit()
     }
   }
 
   runInit = () => {
     let { categoryList } = this.props
-    let categoryLabel = _.get(this.props, 'match.params.categoryId')
+    let categoryLabel = get(this.props, 'match.params.categoryId')
     categoryList.some(element => {
       if (element.url.endsWith(categoryLabel)) {
         let newKey = `category-${categoryLabel}`
@@ -108,7 +108,7 @@ class CategoryBookList extends React.Component {
   }
 
   queryBook = async (category) => {
-    let categoryLabel = _.get(this.props, 'match.params.categoryId')
+    let categoryLabel = get(this.props, 'match.params.categoryId')
     let minRating = 0 
     let districtFilter = {}
     minRating = Number.parseInt(localStorage.getItem('minRating') || '0')
@@ -141,7 +141,7 @@ class CategoryBookList extends React.Component {
     this.props.getBookListHandler(condition);
     this.setState({
       condition,
-      totalOfBook: _.get(totalOfBookResponse, 'data.count', 0)
+      totalOfBook: get(totalOfBookResponse, 'data.count', 0)
     })
   }
 
@@ -163,11 +163,11 @@ class CategoryBookList extends React.Component {
     const { classes, account, categoryIsLoading, bookListData, bookListIsLoading,
       updatedAtForSearch, history, bookSearchData, getBookSearchHandler } = this.props
     const { category, key, totalOfBook, condition } = this.state
-    let isLoading = categoryIsLoading || _.get(bookListIsLoading, key, null)
-    const bookList = _.get(bookListData, key, [])
+    let isLoading = categoryIsLoading || get(bookListIsLoading, key, null)
+    const bookList = get(bookListData, key, [])
 
     return (
-      <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
+      <LayoutWrapper account={account} title={get(category, 'name', null)}>
         <div className={classes.container}>
           <div className={classes.searchContainer}>
           <SearchBar 
@@ -175,7 +175,7 @@ class CategoryBookList extends React.Component {
               bookSearch={bookSearchData || []}
               updatedAtForSearch={updatedAtForSearch}
               history={history} 
-              where={_.get(condition, 'where', null)}
+              where={get(condition, 'where', null)}
             />
             <Link to='/filter'>
               <IconButton className={classes.filterButton}>

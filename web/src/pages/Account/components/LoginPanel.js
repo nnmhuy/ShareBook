@@ -114,7 +114,7 @@ class LoginPanel extends React.Component {
     const { showPassword } = this.state
     return (
       <form onSubmit={handleSubmit} className={classes.container}>
-        <Image src={Logo} isStatic className={classes.logo} isStatic alt='ShareBook'/>
+        <Image src={Logo} isStatic className={classes.logo} alt='ShareBook'/>
         <InputField
           id='login-username'
           label='Tên đăng nhập'

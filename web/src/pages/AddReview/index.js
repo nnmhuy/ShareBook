@@ -16,7 +16,7 @@ import ReviewContainer from './components/ReviewContainer'
 import { getBookLite } from '../../redux/actions/bookAction'
 import { getReviewByUser, postReview } from '../../redux/actions/reviewAction'
 import { uploadImagePromise } from '../../helper/uploadImage'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 import colors from '../../constants/colors'
 
@@ -117,7 +117,7 @@ class AddReview extends React.Component {
 const AddReviewWithFormik = withFormik({
   mapPropsToValues: (props) => {
     return { 
-      rating: _.get(props, 'history.location.state.rating', 0),
+      rating: get(props, 'history.location.state.rating', 0),
       images: [],
       content: '',
       isLoadingImage: false

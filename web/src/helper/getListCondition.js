@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import mapKeys from 'lodash/mapKeys'
 
 function getListCondition(name) {
   let object = localStorage.getItem(name)
@@ -13,7 +13,7 @@ function getListCondition(name) {
 
   if (object.all) return false
   let resultArray = []
-  _.mapKeys(object, function(value, key) {
+  mapKeys(object, function(value, key) {
     if (value)
       resultArray.push(key)
   });

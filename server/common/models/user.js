@@ -1,5 +1,4 @@
 'use strict';
-const _ = require('lodash');
 
 module.exports = function(User) {
   User.validatesLengthOf('password', {min: 6,

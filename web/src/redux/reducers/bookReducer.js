@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import _ from 'lodash'
+import forEach from 'lodash/forEach'
 
 import { 
   getBookList,
@@ -227,7 +227,7 @@ const bookReducer = handleActions(
         }
       })
 
-      _.forEach(bookListData, function (value, key) {
+      forEach(bookListData, function (value, key) {
         if (value && value[0]) {
           value.forEach(book => {
             if (book.id === bookId) {
@@ -256,7 +256,7 @@ const bookReducer = handleActions(
           book.bookmarkId = bookmarkId
         }
       })
-      _.forEach(bookListData, function (value, key) {
+      forEach(bookListData, function (value, key) {
         if (value && value[0]) {
           value.forEach(book => {
             if (book.id === bookId) {

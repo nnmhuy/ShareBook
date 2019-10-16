@@ -1,5 +1,5 @@
 'use strict';
-const _ = require('lodash');
+const get = require('lodash/get');
 const setUserId = require('../../server/middleware/setUserId');
 const secretKey = process.env.SUPER_SECRET_KEY;
 
@@ -7,19 +7,19 @@ module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
 
   BookInstance.observe('before save', (ctx, next) => {
-    if (_.get(ctx, 'data.secretKey') === secretKey) {
+    if (get(ctx, 'data.secretKey') === secretKey) {
       delete ctx.data.secretKey;
       return next();
     }
 
     setUserId(ctx, 'ownerId');
     if (ctx.isNewInstance) {
-      let userId = _.get(ctx, 'options.accessToken.userId', null);
+      let userId = get(ctx, 'options.accessToken.userId', null);
       ctx.instance.holderId = userId;
     }
     // for update block holder and borrower change data
     if (!ctx.isNewInstance && ctx.data && ctx.currentInstance) {
-      let userId = _.get(ctx, 'options.accessToken.userId', null);
+      let userId = get(ctx, 'options.accessToken.userId', null);
       if (ctx && ctx.data && ctx.data.secretUserId) {
         userId = ctx.data.secretUserId;
         delete ctx.data.secretUserId;
@@ -89,7 +89,7 @@ module.exports = function(BookInstance) {
         book.updateAttributes({
           locationStatistic: newlocationStatistic,
           totalOfBookInstance: book.totalOfBookInstance + 1,
-        }, (err, result) => {
+        }, (err) => {
           if (err) return next(err);
           return next();
         });

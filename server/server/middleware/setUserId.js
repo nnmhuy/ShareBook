@@ -1,9 +1,9 @@
 'use strict';
 
-const _ = require('lodash');
+const get = require('lodash/get');
 module.exports = function(ctx, field) {
   if (!ctx) return;
-  let userId = _.get(ctx, 'options.accessToken.userId', null);
+  let userId = get(ctx, 'options.accessToken.userId', null);
   // create
   if (ctx.instance) {
     if (ctx.instance.attachUser === true ||
