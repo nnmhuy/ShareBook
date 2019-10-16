@@ -33,7 +33,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp -r build/* ../server/client",
+    "build-sw": "node ./src/sw-build.js",
+    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
+    "build-deploy": "react-scripts build && npm run clean-cra-sw && cp -r build/* ../server/client",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s build"
@@ -54,6 +57,7 @@
     ]
   },
   "devDependencies": {
-    "redux-devtools": "^3.5.0"
+    "redux-devtools": "^3.5.0",
+    "workbox-build": "^4.3.1"
   }
 }
