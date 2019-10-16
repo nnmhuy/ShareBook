@@ -5,7 +5,7 @@ const imageContainer = process.env.REACT_APP_IMAGE_CONTAINER
 const maxMobileWidth = '800px'
 const numberOfReviewsPerPage = 5
 const numberOfBookInstancesPerPage = 5
-const numberOfMessagesPerLoad = 20
+const numberOfMessagesPerLoad = 200
 
 const mapTransactionStatusToText = {
   waitingForResponse: 'Chờ phản hồi', //waitingForResponse

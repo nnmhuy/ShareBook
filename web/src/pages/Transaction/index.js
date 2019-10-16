@@ -60,7 +60,6 @@ class Transaction extends React.Component {
       receive(data)
     })
     socket.on('new transaction status', (data) => {
-      console.log(data)
       receiveStatus(data)
     })
   }

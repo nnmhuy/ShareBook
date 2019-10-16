@@ -220,7 +220,6 @@ function* requestStatusSaga({ payload }) {
 function* initTransactionSaga({ payload }) {
   try {
     const { bookId, instanceId } = payload
-    console.log(payload)
     const response = yield call(
       restConnector.post,
       `/transactions/init-transaction/book/${bookId}`,

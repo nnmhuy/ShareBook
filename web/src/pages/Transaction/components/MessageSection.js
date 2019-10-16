@@ -35,10 +35,11 @@ class MessageSection  extends React.Component  {
   }
 
   componentDidUpdate() {
-    const { isFirstLoad } = this.props
-    if (isFirstLoad) {
-      this.scrollToBottom();
-    }
+    // const { isFirstLoad } = this.props
+    // if (isFirstLoad) {
+    //   this.scrollToBottom();
+    // }
+    this.scrollToBottom()
   }
 
   render() {

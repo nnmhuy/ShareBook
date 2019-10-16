@@ -185,8 +185,6 @@ const transactionReducer = handleActions(
     },
     [socketNewStatus]: (state, { payload }) => {
       const transactionList = JSON.parse(JSON.stringify(state.transactionList))
-      console.log(payload)
-      console.log(transactionList)
       const newTransactionList = transactionList.map(transaction => {
         if (transaction.id === payload.id) {
           return {
@@ -196,7 +194,6 @@ const transactionReducer = handleActions(
         }
         return transaction
       })
-      console.log(newTransactionList)
       let newTransaction = JSON.parse(JSON.stringify(state.transaction))
       if (newTransaction.id === payload.id) {
         newTransaction = {
