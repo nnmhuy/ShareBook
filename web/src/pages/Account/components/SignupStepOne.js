@@ -5,7 +5,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 import Avatar from '../../../components/Avatar'
 import Logo from '../../../static/images/logo.png'
@@ -164,7 +164,7 @@ class SignupStepOne extends React.Component {
 
   rotateImageHandler = () => {
     this.props.setFieldValue('isLoadingImage', true)
-    let imageName = _.get(this.props, 'values.avatar.imageName', null)
+    let imageName = get(this.props, 'values.avatar.imageName', null)
     if (!imageName) {
       this.props.setFieldValue('isLoadingImage', false)
       return

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import Cookies from 'js-cookie'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 import {
   logInLocal,
@@ -28,7 +28,7 @@ function* logInLocalSaga({ payload }) {
     //window.history.push('/profile')
   } catch (error) {
     yield put(logInLocalFail(error))
-    let errorMessage = _.get(error, 'response.data.error.message', 'Đăng nhập lỗi')
+    let errorMessage = get(error, 'response.data.error.message', 'Đăng nhập lỗi')
     if (errorMessage === 'login failed' && errorMessage.length > 40) {
       errorMessage = 'Đăng nhập lỗi'
     }
@@ -39,7 +39,7 @@ function* logInLocalSaga({ payload }) {
 function* getUserInfoSaga() {
   try {
     const response = yield call(restConnector.get, '/users/me')
-    let data = _.get(response, 'data', {})
+    let data = get(response, 'data', {})
     localStorage.setItem('isAuth', true)
     localStorage.setItem('userId', data.id)
     localStorage.setItem('role', data.role)
@@ -77,7 +77,7 @@ function* signUpSaga({ payload }) {
     //window.history.push('/profile')
   } catch (error) {
     yield put(signUpFail(error))
-    let errorMessage = _.get(error, 'response.data.error.message', 'Đăng ký lỗi')
+    let errorMessage = get(error, 'response.data.error.message', 'Đăng ký lỗi')
     if (errorMessage.indexOf('User already exists') > -1) {
       errorMessage = 'Tài khoản đã được sử dụng'
     }

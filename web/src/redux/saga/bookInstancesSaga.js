@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import _ from 'lodash'
+import findIndex from 'lodash/findIndex'
 
 import {
   getBookInstances,
@@ -43,10 +43,10 @@ function* getBookInstancesSaga({ payload }) {
     const { data: userList } = yield call(restConnector.get, `/users?filter=${JSON.stringify(filterUserBookInstance)}`)
 
     const allData = bookInstances.map((instance, index) => {
-      let ownerIndex = _.findIndex(userList, (oneUser) => {
+      let ownerIndex = findIndex(userList, (oneUser) => {
         return instance.ownerId === oneUser.id
       })
-      let holderIndex = _.findIndex(userList, (oneUser) => {
+      let holderIndex = findIndex(userList, (oneUser) => {
         return instance.ownerId === oneUser.id
       })
       let ownerAvatar = '', ownerName = '', holderAvatar = '', holderName = ''

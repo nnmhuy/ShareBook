@@ -1,6 +1,8 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import _ from 'lodash'
+import get from 'lodash/get'
+import debounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
 import axios from 'axios'
 
 import filterText from '../../../helper/filterText'
@@ -31,12 +33,12 @@ class SearchBar extends React.Component {
       loadOptions: null,
       updatedAtForSearch: null
     }
-    this._debouncedQueryList = _.debounce(this.handleChange, 500)
+    this._debouncedQueryList = debounce(this.handleChange, 500)
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.bookSearch) {
-      if (state.loadOptions && !_.isEqual(props.updatedAtForSearch, state.updatedAtForSearch) && props.updatedAtForSearch) {
+      if (state.loadOptions && !isEqual(props.updatedAtForSearch, state.updatedAtForSearch) && props.updatedAtForSearch) {
         let newBookList = props.bookSearch.map(book => {
           let label = book.name + ` (${book.author})`
           let value = `/book-detail/${book.id}`
@@ -88,7 +90,7 @@ class SearchBar extends React.Component {
         })
         .then(function (response) {
           currentThis.setState({ultraWaiting: false})
-          let bookId = _.get(response, 'data.newBook.id')
+          let bookId = get(response, 'data.newBook.id')
           currentThis.props.history.push(`/book-detail/${bookId}`)
         })
         .catch(function (error) {

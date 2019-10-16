@@ -1,5 +1,5 @@
 'use strict';
-const _ = require('lodash');
+const get = require('lodash/get');
 var pubsub = require('../../server/component/pubsub.js');
 
 const secretKey = process.env.SUPER_SECRET_KEY;
@@ -31,8 +31,8 @@ module.exports = function(Transaction) {
 
   Transaction.observe('after save', function(ctx, next) {
     var socket = Transaction.app.io;
-    const holderId = _.get(ctx, 'instance.holderId', null);
-    const borrowerId = _.get(ctx, 'instance.borrowerId', null);
+    const holderId = get(ctx, 'instance.holderId', null);
+    const borrowerId = get(ctx, 'instance.borrowerId', null);
     if (!ctx.isNewInstance) {
       pubsub.publish(socket, {
         room: `TRANSACTION-${holderId}`,
@@ -62,7 +62,7 @@ module.exports = function(Transaction) {
 
   Transaction.holderUpdate = async function(transactionId, data, ctx) {
     const {requestStatus} = data;
-    const userId = _.get(ctx, 'req.accessToken.userId', null);
+    const userId = get(ctx, 'req.accessToken.userId', null);
     const transaction = await Transaction.findById(transactionId);
     if (!transaction) {
       throw new Error('Không tìm thấy giao dịch');
@@ -178,7 +178,7 @@ module.exports = function(Transaction) {
 
   Transaction.borrowerUpdate = async function(transactionId, data, ctx) {
     const {requestStatus} = data;
-    const userId = _.get(ctx, 'req.accessToken.userId', null);
+    const userId = get(ctx, 'req.accessToken.userId', null);
     const transaction = await Transaction.findById(transactionId);
     if (!transaction) {
       throw new Error('Không tìm thấy giao dịch');
@@ -252,7 +252,7 @@ module.exports = function(Transaction) {
 
   Transaction.initTransaction = async function(bookId, ctx, data = {}) {
     const {instanceId} = data;
-    const userId = _.get(ctx, 'req.accessToken.userId', null);
+    const userId = get(ctx, 'req.accessToken.userId', null);
     const UserModel = Transaction.app.models.user;
     const user = await UserModel.findById(userId);
     if (!user || user.coin < coinConstants.transactionBorrow) {

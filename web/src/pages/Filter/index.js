@@ -4,7 +4,7 @@ import { Divider } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withFormik } from 'formik'
-import _  from 'lodash'
+import size  from 'lodash/size'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import colors from '../../constants/colors'
@@ -110,12 +110,12 @@ const FilterWithFormik = withFormik({
     if (props.isLoading) return
     setSubmitting(true)
     // save to local storage => other query will take
-    if (_.size(values.category) > 0) {
+    if (size(values.category) > 0) {
       localStorage.setItem('categoryFilter', JSON.stringify(values.category))
     } else {
       localStorage.setItem('categoryFilter', false)
     }
-    if (_.size(values.district) > 0) {
+    if (size(values.district) > 0) {
       localStorage.setItem('districtFilter', JSON.stringify(values.district))
     } else {
       localStorage.setItem('districtFilter', false)

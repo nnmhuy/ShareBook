@@ -1,5 +1,7 @@
 import { call, put, takeLatest, takeEvery, takeLeading } from 'redux-saga/effects'
-import _ from 'lodash'
+import get from 'lodash/get'
+import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
 
 import { successAlert, errorAlert } from '../../components/alert'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
@@ -33,10 +35,10 @@ function* getTransactionSaga({ payload }) {
     const { data: transaction } = yield call(restConnector.get, `/transactions/${transactionId}`)
     let user = {}
     if (transaction.holderId === userId) {
-      user = _.get(yield call(restConnector.get, `/users/${transaction.borrowerId}`), 'data', {})
+      user = get(yield call(restConnector.get, `/users/${transaction.borrowerId}`), 'data', {})
       user.position = 'borrower'
     } else {
-      user = _.get(yield call(restConnector.get, `/users/${transaction.holderId}`), 'data', {})
+      user = get(yield call(restConnector.get, `/users/${transaction.holderId}`), 'data', {})
       user.position = 'holder'
     }
 
@@ -104,18 +106,18 @@ function* getTransactionsSaga({ payload }) {
     const { data: bookList } = yield call(restConnector.get, `/books?filter=${JSON.stringify(filterBook)}`)
 
     const bookIndexList = bookInstanceIdList.map(instanceId => {
-      const matchInstance = _.find(bookInstanceList, (oneInstance) => {
+      const matchInstance = find(bookInstanceList, (oneInstance) => {
         return instanceId === oneInstance.id
       })
 
-      return _.findIndex(bookList, (oneBook) => {
+      return findIndex(bookList, (oneBook) => {
         return matchInstance.bookId === oneBook.id
       })
     })
 
     let transactionList = []
     borrowingTransaction.forEach((transaction, index) => {
-      let userIndex = _.findIndex(userList, (oneUser) => {
+      let userIndex = findIndex(userList, (oneUser) => {
         return transaction.holderId === oneUser.id
       })
       const { id, name, avatar } = userList[userIndex]
@@ -133,7 +135,7 @@ function* getTransactionsSaga({ payload }) {
 
 
     holdingTransaction.forEach((transaction, index) => {
-      let userIndex = _.findIndex(userList, (oneUser) => {
+      let userIndex = findIndex(userList, (oneUser) => {
         return transaction.borrowerId === oneUser.id
       })
       const { id, name, avatar } = userList[userIndex]
@@ -196,13 +198,13 @@ function* requestStatusSaga({ payload }) {
     let newTransaction = {}
 
     if (direction === 'holder') {
-      newTransaction = _.get(yield call(
+      newTransaction = get(yield call(
         restConnector.put, 
         `/transactions/${transactionId}/holder-status`,
         { data }
       ), 'data', {})
     } else {
-      newTransaction = _.get(yield call(
+      newTransaction = get(yield call(
         restConnector.put,
         `/transactions/${transactionId}/borrower-status`,
         { data }
@@ -227,7 +229,7 @@ function* initTransactionSaga({ payload }) {
         instanceId: instanceId || null
       }
     )
-    const data = _.get(response, 'data', {})
+    const data = get(response, 'data', {})
     yield put(initTransactionSuccess(data))
     successAlert('Gửi yêu cầu mượn sách thành công')
     window.location = `/transaction/${data.transaction.id}`

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { baseURL, imageContainer } from '../constants/constants'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 async function uploadImage(image, callback) {
   var bodyFormData = new FormData();
@@ -20,7 +20,7 @@ async function uploadImage(image, callback) {
     }
   })
     .then(function (response) {
-      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', null);
+      let imageUrl = `/containers/${imageContainer}/download/` + get(response, 'data.result.files.file.0.name', null);
       if (imageUrl === `/containers/${imageContainer}/download/`) {
         imageUrl = '/containers/defaultContainer/download/defaultBook.png'
       }
@@ -50,7 +50,7 @@ function uploadImagePromise(image) {
     }
   })
     .then(function (response) {
-      let imageUrl = `/containers/${imageContainer}/download/` + _.get(response, 'data.result.files.file.0.name', null);
+      let imageUrl = `/containers/${imageContainer}/download/` + get(response, 'data.result.files.file.0.name', null);
       if (imageUrl === `/containers/${imageContainer}/download/`) {
         imageUrl = '/containers/defaultContainer/download/defaultBook.png'
       }

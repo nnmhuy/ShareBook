@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withStyles } from '@material-ui/core/styles'
-import _ from 'lodash'
+import get from 'lodash/get'
 import socket from '../../connectors/Socket'
 
 import TopNav from './components/TopNav'
@@ -118,11 +118,11 @@ class Transaction extends React.Component {
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
-    const userId = _.get(transaction, 'user.id', '')
-    const avatar = _.get(transaction, 'user.avatar', '')
-    const username = _.get(transaction, 'user.name', '')
-    const position = _.get(transaction, 'user.position', '')
-    const status = _.get(transaction, 'status', '')
+    const userId = get(transaction, 'user.id', '')
+    const avatar = get(transaction, 'user.avatar', '')
+    const username = get(transaction, 'user.name', '')
+    const position = get(transaction, 'user.position', '')
+    const status = get(transaction, 'status', '')
     return (
       <TopNav
         id={userId}
@@ -135,7 +135,7 @@ class Transaction extends React.Component {
         <div className={classes.container}>
           <TransactionInfoSection
             transactionId={transactionId}
-            book={_.get(transaction, 'book', {})}
+            book={get(transaction, 'book', {})}
             name={username}
             position={position}
             status={status}
@@ -148,8 +148,8 @@ class Transaction extends React.Component {
               fetchMoreMessages={this.handleFetchMoreMessages}
               hasMore={lastMessageCount < numberOfMessages}
               isFirstLoad={lastMessageCount === numberOfMessagesPerLoad}
-              avatar={_.get(transaction, 'user.avatar', '')}              
-              position={_.get(transaction, 'user.position', '')}
+              avatar={get(transaction, 'user.avatar', '')}              
+              position={get(transaction, 'user.position', '')}
             />
           </div>
           <InputSection

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Link from '../../components/Link'
@@ -138,7 +138,7 @@ class BookList extends React.Component {
           <BookSlider
             title={'Sách mới'} // createAt 
             url={`/category/new`}
-            bookList={_.get(bookListData, 'new', [])} 
+            bookList={get(bookListData, 'new', [])} 
             style={{ marginTop: 20 }}
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['new']}
@@ -146,19 +146,19 @@ class BookList extends React.Component {
           <BookSlider
             title={'Sách đọc nhiều'} // review (number of rate)
             url={`/category/popular`}
-            bookList={_.get(bookListData, 'popular', [])} 
+            bookList={get(bookListData, 'popular', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['popular']}
           />
           <BookSlider
             title={'Sách được đánh giá cao'} // rating 
             url={`/category/high-rating`}
-            bookList={_.get(bookListData, 'high-rating', [])} 
+            bookList={get(bookListData, 'high-rating', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['high-rating']}            
           />
           <TopBook  // top number of use
-            topBookList={_.get(bookListData, 'top', [])}
+            topBookList={get(bookListData, 'top', [])}
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['top']}
           />

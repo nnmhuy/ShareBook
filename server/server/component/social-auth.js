@@ -1,5 +1,5 @@
 'use strict';
-var _ = require('lodash');
+var get = require('lodash/get');
 var utils = require('../../node_modules/loopback-component-passport/lib/models/utils.js');
 const filterText = require('../helper/filterText');
 
@@ -27,12 +27,12 @@ module.exports = function profileToUser(provider, profile, options) {
     var username = provider + '.' + (profile.username || profile.id);
     password = utils.generateKey('password');
 
-    var name = _.get(profile, 'name.familyName', 'New') +
-    ' ' + _.get(profile, 'name.givenName', 'User');
+    var name = get(profile, 'name.familyName', 'New') +
+    ' ' + get(profile, 'name.givenName', 'User');
     var avatar = null;
     var fbLink = null;
     if (provider === 'google') {
-      avatar = _.get(profile, 'photos[0].value', null);
+      avatar = get(profile, 'photos[0].value', null);
     }
     if (provider === 'facebook' && profile && profile.id) {
       avatar = `https://graph.facebook.com/${profile.id}/picture?height=500&width=500`;

@@ -1,5 +1,5 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects'
-import _ from 'lodash'
+import findIndex from 'lodash/findIndex'
 
 import {
   getReviewsOfBook,
@@ -100,7 +100,7 @@ function* getReviewsOfBookSaga({ payload }) {
     const { data: userList } = yield call(restConnector.get, `/users?filter=${JSON.stringify(filterUserReview)}`)
 
     const allData = reviewsData.map((review, index) => {
-      let userIndex = _.findIndex(userList, (oneUser) => {
+      let userIndex = findIndex(userList, (oneUser) => {
         return review.userId === oneUser.id
       })
 
@@ -110,7 +110,7 @@ function* getReviewsOfBookSaga({ payload }) {
         avatar = userList[userIndex].avatar
       }
 
-      let likeIndex = _.findIndex(likeList, (oneLike) => {
+      let likeIndex = findIndex(likeList, (oneLike) => {
         return review.id === oneLike.reviewId
       })
 

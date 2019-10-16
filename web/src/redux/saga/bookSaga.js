@@ -1,5 +1,6 @@
 import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
-import _ from 'lodash'
+import get from 'lodash/get'
+import findIndex from 'lodash/findIndex'
 import axios from 'axios'
 import { warnAlert} from '../../components/alert'
 import filterText from '../../helper/filterText'
@@ -60,7 +61,7 @@ function* getBookListSaga({ payload }) {
     }
     let filter = { where, skip, limit, order, include, fields: newFields }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
-    let bookList = _.get(response, 'data', [])
+    let bookList = get(response, 'data', [])
     // lite is get bookmark or not
     if (!lite) {
       let bookIdList = [] 
@@ -76,7 +77,7 @@ function* getBookListSaga({ payload }) {
       const isUserBookmarked = bookmarkResponse.data
     
       const bookFullData = bookList.map((book, index) => {
-        let bookIndex = _.findIndex(isUserBookmarked, (instance) => {
+        let bookIndex = findIndex(isUserBookmarked, (instance) => {
           return instance.bookId === book.id
         })
         if (bookIndex > -1) {
@@ -112,26 +113,26 @@ function* getBookSearchSaga({ payload }) {
     let { where, skip, limit, order, include, fields, fullText } = payload
     let filter = { where, skip, limit, order, include, fields }
     const response = yield call(restConnector.get, `/books?filter=${JSON.stringify(filter)}`)
-    let bookList = _.get(response, 'data', [])
+    let bookList = get(response, 'data', [])
     let ggBookList = yield call(getGGBookSearch, `https://www.googleapis.com/books/v1/volumes?q=${fullText}&maxResults=4`);
     let newBookSearchList = ggBookList.data.items.map(oneElement => {
-      let description = (_.get(oneElement, 'volumeInfo.subtitle') || '') + ' ' +  _.get(oneElement, 'volumeInfo.description' ,'')
-      _.get(oneElement, 'volumeInfo.categories', []).forEach(element => {
+      let description = (get(oneElement, 'volumeInfo.subtitle') || '') + ' ' +  get(oneElement, 'volumeInfo.description' ,'')
+      get(oneElement, 'volumeInfo.categories', []).forEach(element => {
         description += ' #' + element
       })
       let author = ''
-      _.get(oneElement, 'volumeInfo.authors', ['']).forEach(element => {
+      get(oneElement, 'volumeInfo.authors', ['']).forEach(element => {
         author += element + ' '
       })
-      let image = _.get(oneElement, 'volumeInfo.imageLinks.thumbnail', '/containers/defaultContainer/download/defaultBook.png')
-      let numberOfPages = _.get(oneElement, 'volumeInfo.pageCount', 0)
-      let name = _.get(oneElement, 'volumeInfo.title', 'Tên bị lỗi')
+      let image = get(oneElement, 'volumeInfo.imageLinks.thumbnail', '/containers/defaultContainer/download/defaultBook.png')
+      let numberOfPages = get(oneElement, 'volumeInfo.pageCount', 0)
+      let name = get(oneElement, 'volumeInfo.title', 'Tên bị lỗi')
       if (name.length > 70) {
         name = name.substr(0, 69) + '...'
       }
-      let publisher = _.get(oneElement, 'volumeInfo.publisher', null) 
-      let price = _.get(oneElement, 'saleInfo.listPrice.amount', null) || _.get(oneElement, 'saleInfo.retailPrice.amount', null)
-      let publishYear = _.get(oneElement, 'volumeInfo.publishedDate', null)
+      let publisher = get(oneElement, 'volumeInfo.publisher', null) 
+      let price = get(oneElement, 'saleInfo.listPrice.amount', null) || get(oneElement, 'saleInfo.retailPrice.amount', null)
+      let publishYear = get(oneElement, 'volumeInfo.publishedDate', null)
 
       return {
         description,
@@ -165,9 +166,9 @@ function* getBookSearchSaga({ payload }) {
 
 function* getCategoryListSaga({ payload }) {
   try {
-    const skipAllBook = _.get(payload, 'skipAllBook', false)
+    const skipAllBook = get(payload, 'skipAllBook', false)
     const response = yield call(restConnector.get, '/categories')
-    let categoryList = _.get(response, 'data', [])
+    let categoryList = get(response, 'data', [])
     categoryList.sort((pre, suf) => {
       if (pre.name === 'Chưa xác định') return 1
       if (suf.name === 'Chưa xác định') return -1 
@@ -243,7 +244,7 @@ function* getBookOfCategorySaga({ payload }) {
     const isUserBookmarked = bookmarkResponse.data
     
     const allData = bookOfCategoryData.map((book, index) => {
-        let bookIndex = _.findIndex(isUserBookmarked, (instance) => {
+        let bookIndex = findIndex(isUserBookmarked, (instance) => {
           return instance.bookId === book.id
         })
         if (bookIndex > -1) {

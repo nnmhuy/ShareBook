@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
-import _ from 'lodash'
+import get from 'lodash/get'
 
 
 import LayoutWrapper from '../../components/LayoutWrapper'
@@ -60,7 +60,7 @@ class App extends React.Component {
           <BookSlider
             title={'Sách Hot của ShareBook'} 
             url={`/category/hot`}
-            bookList={_.get(bookListData, 'hot', [])} 
+            bookList={get(bookListData, 'hot', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['hot']}            
             style={{ marginTop: 20, margin: 'auto', maxWidth: 1000 }}

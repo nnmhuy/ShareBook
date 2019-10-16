@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
 import socket from '../../connectors/Socket'
-import _ from 'lodash'
 
 import Loading from '../../components/Loading'
 import LayoutWrapper from '../../components/LayoutWrapper'
