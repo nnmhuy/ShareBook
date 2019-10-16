@@ -210,6 +210,7 @@ function* getReviewByIdSaga({ payload }) {
       name,
       avatar,
       bookName: bookOfReview.data.name,
+      bookId: bookOfReview.data.id,
       image,
       ...reviewData,
       likeReviewId: reviewLike.data[0] ? reviewLike.data[0].id : '',
@@ -261,22 +262,16 @@ function* getAllReviewsSaga({payload}) {
         call(restConnector.get, `/replies?filter={"where":{"reviewId":${JSON.stringify(data.review.id)}}}`)
       )
     )
-
-    let allReplies = []
-    reviewsReply.forEach((reply, index) => {
-      let _reply = reply.data
-      _reply.forEach(item => {
-        allReplies.push(item)
-      })
-    })
     
     //assign replies, book, users, like
     curData.forEach((data, index) => {
       data.reply = reviewsReply[index].data
       data.review.bookName = bookOfReview[index].data.name
+      data.review.bookId = bookOfReview[index].data.id
       data.review.image = bookOfReview[index].data.image
       data.review.name = userOfReview[index].data.name
       data.review.avatar = userOfReview[index].data.avatar
+      data.review.replyLength = reviewsReply[index].data.length
 
       if (reviewLike[index].data[0]) {
         data.review.likeReviewId = reviewLike[index].data[0].id
@@ -286,28 +281,6 @@ function* getAllReviewsSaga({payload}) {
         data.review.likeStatus = 0
       }
     })
-
-    // let allData = curData.map((data, index) => {
-    //   data.reply.forEach(reply => {
-    //     replyLike.forEach(like => {
-    //       like.data.forEach((data, index) => {
-    //         if (data.replyId === reply.id) {
-    //           reply.avatar = replyUser[index].data.avatar
-    //           reply.name = replyUser[index].data.name
-    //           if (like.data[0]) {
-    //             reply.likeReplyId = like.data[0].id
-    //             reply.likeStatus = like.data[0].isLike
-    //           } else {
-    //             reply.likeReplyId = ''
-    //             reply.likeStatus = 0
-    //           }
-    //         } 
-    //       })
-    //     })
-    //     return reply
-    //   })
-    //   return data
-    // })
 
     yield put(getAllReviewsSuccess(curData))
   } catch (error) {

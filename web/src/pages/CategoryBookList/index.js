@@ -168,7 +168,7 @@ class CategoryBookList extends React.Component {
 
     return (
       <LayoutWrapper account={account} title={_.get(category, 'name', null)}>
-        <div className={classes.container}>
+        <div className={classes.container} style={{marginBottom: 10}}>
           <div className={classes.searchContainer}>
           <SearchBar 
               getBookSearchHandler={getBookSearchHandler}

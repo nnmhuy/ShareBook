@@ -48,7 +48,7 @@ const styles = (theme => ({
     marginRight: 10,
     width: 20,
     height: 20,
-    fontSize: 20,
+    fontSize: 12,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -67,8 +67,8 @@ const Pagination = (props) => {
       pageCount={pageCount}
       pageRangeDisplayed={pageRangeDisplayed}
       marginPagesDisplayed={marginPagesDisplayed}
-      previousLabel='<'
-      nextLabel='>'
+      previousLabel='◄'
+      nextLabel='►'
       containerClassName={classes.container}
       pageClassName={classes.number}
       pageLinkClassName={classes.link}
