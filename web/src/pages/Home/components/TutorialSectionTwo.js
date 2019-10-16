@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
 import colors from '../../../constants/colors'
+import Image from '../../../components/Image'
 import DemoChat from '../../../static/images/demo-chat.png'
 import Demo from '../../../static/images/demo-createbook.png'
 import SectionTitle from './SectionTitle'
@@ -96,8 +97,8 @@ const TutorialSectionThree = (props) => {
         </span>
       </div>
       <div className={classes.imageContainer}>
-        <img src={Demo} alt='' className={`${classes.image} ${tab === 0 ? classes.imageActive : classes.imageNotActive}`}/>
-        <img src={DemoChat} alt='' className={`${classes.image} ${tab === 1 ? classes.imageActive : classes.imageNotActive}`}/>
+        <Image src={Demo} alt='' className={`${classes.image} ${tab === 0 ? classes.imageActive : classes.imageNotActive}`} isStatic/>
+        <Image src={DemoChat} alt='' className={`${classes.image} ${tab === 1 ? classes.imageActive : classes.imageNotActive}`} isStatic/>
       </div>
     </div>
   )

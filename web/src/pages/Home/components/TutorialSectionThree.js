@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
+import Image from '../../../components/Image'
 import colors from '../../../constants/colors'
 import ExchangeBook1 from '../../../static/images/exchange-book-1.png'
 import ExchangeBook2 from '../../../static/images/exchange-book-2.png'
@@ -58,14 +59,14 @@ const TutorialSectionThree = (props) => {
       />
       <div className={classes.methodContainer}>
         <span className={classes.methodLabel}>NHẬN LẠI</span>
-        <img src={ExchangeBook1} alt='Exchange book 1' className={classes.methodImage}/>
+        <Image src={ExchangeBook1} alt='Exchange book 1' className={classes.methodImage} isStatic/>
         <span className={classes.methodDescription}>Người mượn sẽ trả sách lại cho Người <br/>
               cho mượn sau khi đọc xong.
         </span>
       </div>
       <div className={classes.methodContainer}>
         <span className={classes.methodLabel}>TRAO ĐI</span>
-        <img src={ExchangeBook2} alt='Exchange book 2' className={classes.methodImage} />
+        <Image src={ExchangeBook2} alt='Exchange book 2' className={classes.methodImage} isStatic/>
         <span className={classes.methodDescription}>
           Người mượn sẽ tiếp tục giữ sách và <br/>
           lan truyền đến Người mượn kế tiếp, nhằm <br/>

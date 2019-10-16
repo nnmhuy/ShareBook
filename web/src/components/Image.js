@@ -1,22 +1,36 @@
 import React from 'react'
 
 import { baseURL } from '../constants/constants'
-
-const getImageUrl = (imageUrl) => {
-  if (imageUrl[0] !== '/' || imageUrl.includes('http')) return imageUrl
-  return `${baseURL}${imageUrl}`
-}
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Image = (props) => {
-  const { src, alt, ...others } = props
+  const { src, alt, isStatic, ...others } = props
+
+  const getImageUrl = (imageUrl) => {
+    if (imageUrl[0] !== '/' || imageUrl.includes('http') || isStatic) return imageUrl
+    return `${baseURL}${imageUrl}`
+  }
+
   if (!src) {
-    return <img alt={'loading'} {...others} />
+    return (
+      <LazyLoadImage
+        alt={alt}
+        src={src} // use normal <img> attributes as props
+        {...others}
+      />
+    )
     // return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}} {...others}>
     //   <HashLoader color={colors.primary}/>
     // </div>
   }
   return (
-    <img src={getImageUrl(src.url || src)} alt={alt} {...others} style={{ objectFit: 'cover'}}/>
+    <LazyLoadImage
+      alt={alt}
+      // src={src.url || src}
+      src={getImageUrl(src.url || src)} // use normal <img> attributes as props
+      {...others}
+      style={{ objectFit: 'cover' }}
+    />
   )
 }
 

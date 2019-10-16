@@ -11,6 +11,7 @@ import Avatar from '../../../components/Avatar'
 import Logo from '../../../static/images/logo.png'
 import FacebookLogo from '../../../static/images/facebook-logo.png'
 import AvatarPlaceholder from '../../../static/images/avatar-placeholder.png'
+import Image from '../../../components/Image'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
 import { ReactComponent as BookClosed } from '../../../static/images/book-closed.svg'
 import { ReactComponent as Camera } from '../../../static/images/camera.svg'
@@ -249,7 +250,7 @@ class SignupStepOne extends React.Component {
             className={classes.loginFbButton}
             href={`${baseURL}/auth/facebook`}
           >
-            <img src={FacebookLogo} alt='Login with FB' />
+            <Image src={FacebookLogo} alt='Login with FB' isStatic/>
           </Fab>
           <span className={classes.dividerText}>Hoặc</span>
           <Fab
@@ -261,7 +262,7 @@ class SignupStepOne extends React.Component {
             Tạo tài khoản
         </Fab>
         </div>
-        <img src={Logo} className={classes.logo} alt='ShareBook' />
+        <Image src={Logo} className={classes.logo} alt='ShareBook' isStatic/>
       </div>
     )
   }

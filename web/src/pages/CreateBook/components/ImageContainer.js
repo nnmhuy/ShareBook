@@ -144,7 +144,7 @@ const ImageContainer = (props) => {
           </div>
           :
           <label htmlFor='imageInput' className={`${error && classes.imageError}`}>
-            <Image src={ImagePlaceholder} alt='placeholder' className={classes.image} />
+            <Image src={ImagePlaceholder} alt='placeholder' className={classes.image} isStatic/>
             <FormHelperText className={classes.hidden}>
               {error}
             </FormHelperText>

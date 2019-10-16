@@ -10,6 +10,7 @@ import colors from '../../../constants/colors'
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BackArrow } from '../../../static/images/back-arrow.svg'
 
+import Image from '../../../components/Image'
 import InputField from '../../../components/InputField'
 import SelectField from '../../../components/SelectField'
 import CheckboxField from '../../../components/CheckboxField'
@@ -168,7 +169,7 @@ class SignupStepTwo extends React.Component {
         >
           Tạo tài khoản
         </Fab>
-        <img src={Logo} className={classes.logo} alt='ShareBook' />
+        <Image src={Logo} className={classes.logo} alt='ShareBook' isStatic/>
       </div>
     )
   }

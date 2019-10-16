@@ -7,6 +7,7 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Image from '../../../components/Image'
 
 import Logo from '../../../static/images/logo.png'
 import { ReactComponent as BookOpen } from '../../../static/images/book-open.svg'
@@ -113,8 +114,8 @@ class LoginPanel extends React.Component {
     const { showPassword } = this.state
     return (
       <form onSubmit={handleSubmit} className={classes.container}>
-        <img src={Logo} className={classes.logo} alt='ShareBook'/>
-        <InputField 
+        <Image src={Logo} isStatic className={classes.logo} isStatic alt='ShareBook'/>
+        <InputField
           id='login-username'
           label='Tên đăng nhập'
           name='username'

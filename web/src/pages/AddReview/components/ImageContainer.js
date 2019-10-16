@@ -120,7 +120,7 @@ const ImageContainer = (props) => {
             }
             {(value.length < 4) &&
               <div className={classes.wrapper}>
-                <img src={ImagePlaceholder} alt='placeholder' className={classes.image}/>
+              <Image src={ImagePlaceholder} alt='placeholder' className={classes.image} isStatic/>
                 <label
                   htmlFor='imageInput'
                   className={`${classes.iconButton} ${classes.addIcon}`}

@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import Image from '../../../components/Image'
 import colors from '../../../constants/colors'
 import { maxMobileWidth } from '../../../constants/constants'
 
@@ -74,7 +75,7 @@ const AboutUs = (props) => {
   return (
     <div className={classes.container}>
       <div className={classes.introContainer}>
-        <img src={mobile ? BackgroundLandingMobile : BackgroundLanding} alt='' className={classes.introImage}/>
+        <Image src={mobile ? BackgroundLandingMobile : BackgroundLanding} alt='' className={classes.introImage} isStatic/>
         <div className={classes.titleContainer}>
           <div className={classes.title}>ShareBook</div>
           <br/>
@@ -87,7 +88,7 @@ const AboutUs = (props) => {
       </div>
       <div className={classes.aboutContainer}>
         <div className={classes.aboutTitle}>VỀ CHÚNG MÌNH</div>
-        <img src={Logo} alt='ShareBook' className={classes.logo}/>
+        <Image src={Logo} alt='ShareBook' className={classes.logo} isStatic/>
         <p className={classes.text}>
           <span className={classes.name}>SHAREBOOK</span> là dự án cộng đồng phi lợi nhuận, hướng tới đối tượng chính là học sinh sinh viên nhằm tạo ra một trang web thông minh để trao đổi sách.
           <br/>
