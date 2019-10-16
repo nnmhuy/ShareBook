@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
+import Image from '../../components/Image'
 import colors from '../../constants/colors';
 
 import NotFoundImage from '../../static/images/404image.png';
@@ -67,7 +68,7 @@ const NotFound = props => {
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
-        <img src={NotFoundImage} alt='bubble cloud' className={classes.bubble} />
+        <Image src={NotFoundImage} alt='bubble cloud' className={classes.bubble} isStatic/>
         <div className={classes.textWrapper}>
           <p className={classes.text}>Bạn lạc khỏi thế giới sách rồi!</p>
           <Link to='/' style={{ textDecoration: 'none' }}>
