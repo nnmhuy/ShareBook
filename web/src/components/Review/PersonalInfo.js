@@ -34,7 +34,11 @@ const styles = (theme => ({
     fontWeight: 600,
     fontSize: 14,
     color: '#1c73c6',
-    marginRight: 10
+    marginRight: 10,
+    transition: '0.2s',
+    '&:hover': {
+      color: colors.primary
+    }
   },
   date: {
     fontSize: 10,
@@ -48,7 +52,8 @@ const styles = (theme => ({
   bookName: {
     fontWeight: 'normal',
     fontSize: 12,
-    color: '#1c73c6'
+    color: '#1c73c6',
+    textDecoration: 'none'
   },
   moreZoneContainer: {
     display: 'flex',
@@ -111,7 +116,7 @@ const PersonalInfo = props => {
               size='small'
             />
           </div>
-          <div className={classes.bookName}>{review && review.bookName}</div>
+          <Link to={`/book-detail/${review && review.bookId}`} className={classes.bookName}>{review && review.bookName}</Link>
           <div className={classes.date}>{review && review.createdAt && getFormattedDate(review.createdAt)}</div>
         </div>
       </div>

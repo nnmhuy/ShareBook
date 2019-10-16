@@ -10,6 +10,7 @@ import Loading from '../../components/Loading';
 import LayoutWrapper from '../../components/LayoutWrapper';
 import Review from '../../components/Review';
 import { toggleLikeReply } from '../../redux/actions/replyAction';
+import colors from '../../constants/colors';
 
 const styles = (theme => ({
   container: {
@@ -30,6 +31,55 @@ const styles = (theme => ({
   },
   link: {
     textDecoration: 'none'
+  },
+  reviewContainer: {
+    position: 'relative'
+  },
+  expand: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    paddingLeft: 20,
+    cursor: 'pointer',
+    transition: '0.3s'
+  },
+  expandText: {
+    textDecoration: 'none',
+    fontSize: 13,
+    fontWeight: 600,
+    paddingLeft: 5,
+    paddingRight: 15,
+    color: colors.primary,
+    position: 'relative',
+    transition: '0.2s',
+    '&:hover': {
+      paddingLeft: 5,
+      paddingRight: 0,
+      '&:after': {
+        opacity: 1,
+        left: '-10px'
+      },
+      '&:before': {
+        opacity: 0,
+        right: '-10px'
+      },
+    },
+    '&:after': {
+      content: '"➔"',
+      opacity: 0,
+      position: 'absolute',
+      top: 0,
+      left: '-15px',
+      transition: '0.1s'
+    },
+    '&:before': {
+      content: '"➔"',
+      opacity: 1,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      transition: '0.1s'
+    }
   }
 }))
 
@@ -55,29 +105,38 @@ const Newsfeed = (props) => {
   return (
     <LayoutWrapper account={account} title={''}>
       <Loading isLoading={isLoading} />
-      <div className={classes.container}>
-        {!isLoading && 
+      {
+        !isLoading && 
+        <div className={classes.container}>
           <Link to='/book-list' className={classes.link}>
             <Button className={classes.writeReview} >
               ghi review mới
-                </Button>
+            </Button>
           </Link>
-        }
-        {
-          allReviews && allReviews.map(curReview => {
-            return (
-              <Review
-                key={curReview.review.id}
-                review={curReview.review}
-                replies={curReview.reply}
-                reviewId={curReview.review.id}
-                handleToggleLikeReview={handleToggleLikeReview}
-                handleToggleLikeReply={handleToggleLikeReply}
-              />
-            )
-          })
-        }
-      </div>
+          {
+            allReviews && allReviews.map(curReview => {
+              return (
+                <div className={classes.reviewContainer}>
+                  <Review
+                    key={curReview.review.id}
+                    review={curReview.review}
+                    newsfeed={true}
+                    replies={[]}
+                    reviewId={curReview.review.id}
+                    handleToggleLikeReview={handleToggleLikeReview}
+                    handleToggleLikeReply={handleToggleLikeReply}
+                  />
+                  <div className={classes.expand}>
+                    <Link aria-label="review" to={`/review/${curReview.review.id}`} className={classes.expandText}>
+                      MỞ RỘNG
+                    </Link>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+      }
     </LayoutWrapper>
   );
 };

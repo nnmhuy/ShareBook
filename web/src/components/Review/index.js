@@ -24,6 +24,9 @@ const styles = (theme => ({
       border: '1px solid #D8E0E8',
     }
   },
+  containerNewsfeed: {
+    paddingBottom: 25
+  },
   flexContainer: {
     display: 'flex',
     justifyContent: 'space-between'
@@ -36,10 +39,10 @@ class Review extends Component {
     const {
       classes, isLoading, replies, isSubmitting, review, handleSubmit,
       values, handleChange, handleBlur, userId,
-      handleToggleLikeReview, handleToggleLikeReply, account
+      handleToggleLikeReview, handleToggleLikeReply, account, newsfeed
     } = this.props;
     return (
-      <div className={classes.container}>
+      <div className={newsfeed ? `${classes.containerNewsfeed} ${classes.container}` : `${classes.container}`}>
         <PersonalInfo review={review} userId={userId}/>
         <ReviewItem review={review} />
         <RateSection review={review} username={account.username} handleToggleLikeReview={handleToggleLikeReview} isLoading={isLoading || isSubmitting} />
