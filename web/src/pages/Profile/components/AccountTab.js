@@ -37,10 +37,10 @@ const AccountTab = (props) => {
     const { classes, account } = props;
     return (
         <div>
-            <Paper className={classes.wrapper}>
+            {/* <Paper className={classes.wrapper}>
                 <Link className={classes.title}>Người theo dõi<span className={classes.content}>200</span></Link>
                 <Link className={classes.title}>Đang theo dõi<span className={classes.content}>240</span></Link>
-            </Paper>
+            </Paper> */}
             <br />
             <PaperWrapper layout='info' account={account}/>
             <br />

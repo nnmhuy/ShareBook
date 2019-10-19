@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import Book from '../../../components/Book';
-import ActivityNull from './ActivityNull';
+import ActivityNull from '../../../components/ActivityNull';
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 
 import { bookDemoData } from '../demoData';
@@ -26,37 +26,33 @@ class BookVertical extends Component {
     return (
       <div>
         {
-          bookPassed === null &&
-          <>
-            <p className={classes.title}>Sách đang giữ</p>
-            <ActivityNull Icon={NotebookIcon} content={textNull.passed} />
-          </>
+          bookPassed.length === 0 ?
+            <>
+              <p className={classes.title}>Sách đang giữ</p>
+              <ActivityNull Icon={NotebookIcon} content={textNull.passed} />
+            </>
+            :
+            <>
+              <p className={classes.title}>Sách đang giữ</p>
+              <BookSlider
+                bookList={bookDemoData}
+              />
+              <br />
+            </>
         }
         {
-          bookOwned === null &&
-          <>
-            <p className={classes.title}>Sách đã đăng</p>
-            <ActivityNull Icon={NotebookIcon} content={textNull.owned} />
-          </>
-        }
-        {
-          bookPassed !== null &&
-          <>
-            <p className={classes.title}>Sách đang giữ</p>
-            <BookSlider
-              bookList={bookDemoData}
-            />
-            <br />
-          </>
-        }
-        {
-          bookOwned !== null &&
-          <>
-            <p className={classes.title}>Sách đã đăng</p>
-            <BookSlider
-              bookList={bookDemoData}
-            />
-          </>
+          bookOwned.length === 0 ?
+            <>
+              <p className={classes.title}>Sách đã đăng</p>
+              <ActivityNull Icon={NotebookIcon} content={textNull.owned} />
+            </>
+            :
+            <>
+              <p className={classes.title}>Sách đã đăng</p>
+              <BookSlider
+                bookList={bookDemoData}
+              />
+            </>
         }
       </div>
     );
