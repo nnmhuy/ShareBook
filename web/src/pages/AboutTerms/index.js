@@ -16,7 +16,7 @@ const styles = theme => ({
 })
 
 const usage = 'Mục đích và phạm vi thu thập'
-const usagePara = 'Việc thu thập dữ liệu chủ yếu trên ShareBook.com.vn bao gồm: email, số điện thoại, tên đăng nhập, mật khẩu đăng nhập. Đây là các thông tin mà ShareBook cần người dung cung cấp bắt buộc khi đăng kí sử dụng website và ShareBook sử dụng nhằm liên hệ trong giao dịch với người dùng đăng kí sử dụng website trên ShareBook.com.vn, đảm bảo quyền lợi cho người dùng. \n \n Các người dùng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng website dưới tên đăng ký, mật khẩu và hộp thư điện tử của mình. Ngoài ra, người dùng có trách nhiệm thông báo kịp thời cho ShareBook.com.vn về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.'
+const usagePara = 'Việc thu thập dữ liệu chủ yếu trên ShareBook.com.vn bao gồm: email, số điện thoại, tên đăng nhập, mật khẩu đăng nhập. Đây là các thông tin mà ShareBook cần người dùng cung cấp bắt buộc khi đăng kí sử dụng website và ShareBook sử dụng nhằm liên hệ trong giao dịch với người dùng đăng kí sử dụng website trên ShareBook.com.vn, đảm bảo quyền lợi cho người dùng. \n \n Người dùng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng website dưới tên đăng ký, mật khẩu và hộp thư điện tử của mình. Ngoài ra, người dùng có trách nhiệm thông báo kịp thời cho ShareBook.com.vn về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.'
 const range = 'Phạm vi sử dụng thông tin'
 const rangeHead = 'Website ShareBook.com.vn sử dụng thông tin người dùng cung cấp để'
 const ranges = [
@@ -28,10 +28,10 @@ const ranges = [
 	'Website ShareBook.com.vn có trách nhiệm hợp tác cung cấp thông tin cá nhân người dùng khi có yêu cầu từ cơ quan nhà nước có thẩm quyền.'
 ]
 const storing = 'Thời gian lưu trữ thông tin'
-const storingPara = 'Dữ liệu cá nhân của người dùng sẽ được lưu trẽ cho đến khi có yêu cầu hủy bỏ hoặc tự người dùng đăng nhập và thực hiện hủy bỏ. Còn laij trong mọi trường hợp, thông tin cá nhân khách hàng sẽ được bảo mật trên máy chủ của ShareBook.com.vn.'
-const address = 'Địa chỉ của đơn vị thu thâp, quản lý thông tin và hỗ trợ người dùng'
+const storingPara = 'Dữ liệu cá nhân của người dùng sẽ được lưu trữ cho đến khi có yêu cầu hủy bỏ hoặc tự người dùng đăng nhập và thực hiện hủy bỏ. Còn lại trong mọi trường hợp, thông tin cá nhân khách hàng sẽ được bảo mật trên máy chủ của ShareBook.com.vn.'
+const address = 'Địa chỉ của đơn vị thu thập, quản lý thông tin và hỗ trợ người dùng'
 const addresses = [
-	'Văn phòng VietSeeds Foudation: 101/24 Đường Đinh Bộ Lĩnh, Phường 26, Quận Bình Thạnh, Thành Phố Hồ Chí Minh.',
+	'Văn phòng VietSeeds Foudation: 101/24 Đường Đinh Bộ Lĩnh, Phường 26, Quận Bình Thạnh, Thành Phố Hồ Chí Minh',
 	'Hotline: 0385899348',
 	'Email: sharebook.com.vn@gmail.com'
 ]
@@ -64,7 +64,6 @@ class AboutTerms extends Component {
 					</div>
 					<div>
 						<h4 className={classes.headline}>4. {address}</h4>
-						<p>{storingPara}</p>
 						<ul>
 							{
 								addresses.map(item => <li>{item}</li>)
