@@ -92,7 +92,7 @@ class ActivityWrapper extends Component {
     render() {
         const { classes } = this.props;
         const { currentTab } = this.state;
-        const bookTest = '';
+        const bookTest = [];
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={classes.container}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import Book from '../../../components/BookmarkBook';
-import ActivityNull from './ActivityNull';
+import ActivityNull from '../../../components/ActivityNull';
 import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
 import { bookDemoData } from '../demoData';
 
@@ -28,11 +28,11 @@ class BookVertical extends Component {
     return (
       <div>
         {
-          bookmarked === null &&
+          bookmarked.length === 0 &&
           <ActivityNull Icon={BookmarkedIcon} content={textNull} />
         }
         {
-          bookmarked !== null &&
+          bookmarked.length !== 0 &&
           <div className={classes.bookContainer}>
             {
               bookDemoData.map((book) => {

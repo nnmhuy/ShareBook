@@ -17,7 +17,6 @@ const styles = theme => ({
     height: '100%'
   },
   bubble: {
-    width: '100%',
     height: '100%'
   },
   textWrapper: {

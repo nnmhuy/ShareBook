@@ -7,7 +7,7 @@ import LinesEllipsis from 'react-lines-ellipsis';
 
 import Image from '../../../components/Image';
 import colors from '../../../constants/colors';
-import ActivityNull from './ActivityNull';
+import ActivityNull from '../../../components/ActivityNull';
 
 import { ReactComponent as TransactionIcon } from '../../../static/images/transaction-btn.svg';
 
@@ -82,41 +82,38 @@ const TransactionList = (props) => {
   return (
     <>
       {
-        transactions !== '' &&
-        <ActivityNull Icon={TransactionIcon} content={textNull} />
-      }
-      {
-        // transactions !== null
-        transactions === '' &&
-        <>
-          <Paper className={classes.container}>
-            <div className={classes.infoWrapper}>
-              <Image src='' alt='' className={classes.image} />
-              <div>
-                <LinesEllipsis
-                  text={'Animal Farm'}
-                  maxLine='1'
-                  ellipsis='..'
-                  trimRight
-                  className={classes.title}
-                />
-                <p className={classes.author}>George O'Weill</p>
-                <p className={classes.status}>Đang chờ</p>
+        transactions.length === 0 ?
+          <ActivityNull Icon={TransactionIcon} content={textNull} />
+          :
+          <>
+            <Paper className={classes.container}>
+              <div className={classes.infoWrapper}>
+                <Image src='{bookImage}' alt='{bookName}' className={classes.image} />
+                <div>
+                  <LinesEllipsis
+                    text={'Animal Farm'}
+                    maxLine='1'
+                    ellipsis='..'
+                    trimRight
+                    className={classes.title}
+                  />
+                  <p className={classes.author}>George O'Weill</p>
+                  <p className={classes.status}>Đang chờ</p>
+                </div>
               </div>
-            </div>
-            <div className={classes.reviewWrapper}>
-              <div style={{ display: 'flex' }}>
-                <Link to={`/detail-transaction/${transId}`} className={classes.link}>
-                  Theo dõi
+              <div className={classes.reviewWrapper}>
+                <div style={{ display: 'flex' }}>
+                  <Link to={`/detail-transaction/${transId}`} className={classes.link}>
+                    Theo dõi
                 </Link>
-                <Link to={`/add-review/${instanceId}`} className={classes.review}>
-                  Đánh giá
+                  <Link to={`/add-review/${instanceId}`} className={classes.review}>
+                    Đánh giá
               </Link>
+                </div>
+                <Avatar src='' className={classes.avatar} />
               </div>
-              <Avatar src='' className={classes.avatar} />
-            </div>
-          </Paper>
-        </>
+            </Paper>
+          </>
       }
     </>
   );
