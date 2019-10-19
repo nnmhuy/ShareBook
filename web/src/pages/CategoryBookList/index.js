@@ -174,14 +174,14 @@ class CategoryBookList extends React.Component {
       <LayoutWrapper account={account} title={get(category, 'name', null)}>
         <div className={classes.container} style={{marginBottom: 10}}>
           <div className={classes.searchContainer}>
-          <SearchBar 
+            <SearchBar
               getBookSearchHandler={getBookSearchHandler}
               bookSearch={bookSearchData || []}
               updatedAtForSearch={updatedAtForSearch}
-              history={history} 
+              history={history}
               where={get(condition, 'where', null)}
-            />
-            <Link to='/filter'>
+            />    
+            <Link to='/filter' style={{marginLeft: 15}}>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.icon}/>
               </IconButton>
