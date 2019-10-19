@@ -45,7 +45,9 @@ class BookVertical extends Component {
               {
                 bookmarked.map((book) => {
                   return (
-                    <Book key={book.id} name={book.name} image={book.image} isBookmarked='true' />
+                    <div style={{marginBottom: 25}}>
+                      <Book key={book.id} name={book.name} image={book.image} isBookmarked='true' />
+                    </div>
                   )
                 })
               }

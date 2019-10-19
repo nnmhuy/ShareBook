@@ -15,9 +15,10 @@ import { baseURL } from '../../../constants/constants'
 const styles = (theme => ({
   container: {
     width: '100%',
-    margin: 5,
-    marginRight: 10,
-    zIndex: 100
+    // margin: 5,
+    // marginRight: 10,
+    zIndex: 100,
+    boxSizing: 'border-box'
   }
 }))
 
