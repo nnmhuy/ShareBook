@@ -37,8 +37,8 @@ const storing = 'Thời gian lưu trữ thông tin'
 const storingPara = 'Dữ liệu cá nhân của người dùng sẽ được lưu trữ cho đến khi có yêu cầu hủy bỏ hoặc tự người dùng đăng nhập và thực hiện hủy bỏ. Còn lại trong mọi trường hợp, thông tin cá nhân khách hàng sẽ được bảo mật trên máy chủ của ShareBook.com.vn.'
 const address = 'Địa chỉ của đơn vị thu thập, quản lý thông tin và hỗ trợ người dùng'
 const addresses = [
-	'Văn phòng VietSeeds Foudation: 101/24 Đường Đinh Bộ Lĩnh, Phường 26, Quận Bình Thạnh, Thành Phố Hồ Chí Minh',
-	'Hotline: 0385899348',
+	'Văn phòng VietSeeds Foundation: 101/24 Đường Đinh Bộ Lĩnh, Phường 26, Quận Bình Thạnh, Thành Phố Hồ Chí Minh',
+	'Hotline: 0385 899 348',
 	'Email: sharebook.com.vn@gmail.com'
 ]
 
