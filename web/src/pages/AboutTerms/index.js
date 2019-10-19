@@ -8,15 +8,21 @@ const styles = theme => ({
 		width: '100%',
 		minWidth: 350,
 		maxWidth: 800,
-		margin: 'auto'
+		margin: 'auto',
+		boxSizing: 'border-box',
+		padding: '0 15px'
 	},
 	headline: {
 		fontWeight: 600
 	},
+	para: {
+		lineHeight: 1.5
+	}
 })
 
 const usage = 'Mục đích và phạm vi thu thập'
-const usagePara = 'Việc thu thập dữ liệu chủ yếu trên ShareBook.com.vn bao gồm: email, số điện thoại, tên đăng nhập, mật khẩu đăng nhập. Đây là các thông tin mà ShareBook cần người dùng cung cấp bắt buộc khi đăng kí sử dụng website và ShareBook sử dụng nhằm liên hệ trong giao dịch với người dùng đăng kí sử dụng website trên ShareBook.com.vn, đảm bảo quyền lợi cho người dùng. \n \n Người dùng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng website dưới tên đăng ký, mật khẩu và hộp thư điện tử của mình. Ngoài ra, người dùng có trách nhiệm thông báo kịp thời cho ShareBook.com.vn về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.'
+const usagePara_1 = 'Việc thu thập dữ liệu chủ yếu trên ShareBook.com.vn bao gồm: email, số điện thoại, tên đăng nhập, mật khẩu đăng nhập. Đây là các thông tin mà ShareBook cần người dùng cung cấp bắt buộc khi đăng kí sử dụng website và ShareBook sử dụng nhằm liên hệ trong giao dịch với người dùng đăng kí sử dụng website trên ShareBook.com.vn, đảm bảo quyền lợi cho người dùng.'
+const usagePara_2 = ' Người dùng sẽ tự chịu trách nhiệm về bảo mật và lưu giữ mọi hoạt động sử dụng website dưới tên đăng ký, mật khẩu và hộp thư điện tử của mình. Ngoài ra, người dùng có trách nhiệm thông báo kịp thời cho ShareBook.com.vn về những hành vi sử dụng trái phép, lạm dụng, vi phạm bảo mật, lưu giữ tên đăng ký và mật khẩu của bên thứ ba để có biện pháp giải quyết phù hợp.'
 const range = 'Phạm vi sử dụng thông tin'
 const rangeHead = 'Website ShareBook.com.vn sử dụng thông tin người dùng cung cấp để'
 const ranges = [
@@ -45,8 +51,11 @@ class AboutTerms extends Component {
 				<div className={classes.container}>
 					<div>
 						<h4 className={classes.headline}>1. {usage}</h4>
-						<p>
-							{usagePara}
+						<p className={classes.para}>
+							{usagePara_1}
+						</p>
+						<p className={classes.para}>
+							{usagePara_2}
 						</p>
 					</div>
 					<div>
@@ -54,19 +63,19 @@ class AboutTerms extends Component {
 						<p>{rangeHead}</p>
 						<ul>
 							{
-								ranges.map(item => <li>{item}</li>)
+								ranges.map(item => <li className={classes.para}>{item}</li>)
 							}
 						</ul>
 					</div>
 					<div>
 						<h4 className={classes.headline}>3. {storing}</h4>
-						<p>{storingPara}</p>
+						<p className={classes.para}>{storingPara}</p>
 					</div>
 					<div>
 						<h4 className={classes.headline}>4. {address}</h4>
-						<ul>
+						<ul style={{paddingLeft: 20}}>
 							{
-								addresses.map(item => <li>{item}</li>)
+								addresses.map(item => <li className={classes.para}>{item}</li>)
 							}
 						</ul>
 					</div>
