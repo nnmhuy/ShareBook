@@ -29,6 +29,9 @@ import {
   editBook,
   editBookSuccess,
   editBookFail,
+  getBookmarkedLite,
+  getBookmarkedLiteSuccess,
+  getBookmarkedLiteFail
 } from '../actions/bookAction'
 
 let defaultState = {
@@ -59,7 +62,9 @@ let defaultState = {
   bookSearchData: [],
   isCreating: false,
   isEdited: false,
-  updatedAtForSearch: null
+  updatedAtForSearch: null,
+  bookmarked: [],
+  isLoadingBookmarked: false
 }
 
 const bookReducer = handleActions(
@@ -316,6 +321,27 @@ const bookReducer = handleActions(
         ...state,
         error,
         isEdited: false
+      }
+    },
+    [getBookmarkedLite]: (state) => {
+      return {
+        ...state,
+        isLoadingBookmarked: true,
+      }
+    },
+    [getBookmarkedLiteSuccess]: (state, { payload }) => {
+      return {
+        ...state,
+        isLoadingBookmarked: false,
+        bookmarked: payload,
+        error: null
+      }
+    },
+    [getBookmarkedLiteFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoadingBookmarked: false,
+        error: error
       }
     },
   },

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-import Book from '../../../components/Book';
 import ActivityNull from '../../../components/ActivityNull';
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 

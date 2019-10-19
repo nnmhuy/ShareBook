@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery, all } from 'redux-saga/effects'
 import get from 'lodash/get'
 import findIndex from 'lodash/findIndex'
 import axios from 'axios'
@@ -33,6 +33,9 @@ import {
   editBook,
   editBookSuccess,
   editBookFail,
+  getBookmarkedLite,
+  getBookmarkedLiteSuccess,
+  getBookmarkedLiteFail
 } from '../actions/bookAction'
 import { getBookInstances } from '../actions/bookInstanceAction'
 import { getReviewsOfBook } from '../actions/reviewAction'
@@ -322,6 +325,38 @@ function* editBookSaga({ payload }) {
   }
 }
 
+function* getBookmarkedLiteSaga({ payload }) {
+  try {
+    const { userId } = payload
+    let bookmarkedData = []
+
+    const whereBookmarked = {
+      where: {
+        isActive: 'true'
+      },
+      order: 'updatedAt DESC'
+    }
+
+    const { data: bookmarked } = yield call(restConnector.get, `/users/${userId}/bookmarks?filter=${JSON.stringify(whereBookmarked)}`)
+    const bookData = yield all(
+      bookmarked.map(book => call(restConnector.get, `/books/${book.bookId}`))
+    )
+    bookData.forEach((book, index) => {
+      const bookObj = {
+        id: book.data.id,
+        name: book.data.name,
+        image: book.data.image,
+        bookmarked: bookmarked[index].isActive
+      }
+      bookmarkedData.push(bookObj)
+    })
+    
+    yield put(getBookmarkedLiteSuccess(bookmarkedData))
+  } catch (error) {
+    yield put(getBookmarkedLiteFail())
+  }
+}
+
 function* getBookListWatcher() {
   yield takeEvery(getBookList, getBookListSaga)
 }
@@ -357,6 +392,11 @@ function* createBookWatcher() {
 function* editBookWatcher() {
   yield takeLatest(editBook, editBookSaga)
 }
+
+function* getBookmarkedLiteWatcher() {
+  yield takeLatest(getBookmarkedLite, getBookmarkedLiteSaga)
+}
+
 export {
   getBookListWatcher,
   getBookSearchWatcher,
@@ -366,5 +406,6 @@ export {
   getBookOfCategoryWatcher,
   toggleBookmarkWatcher,
   createBookWatcher,
-  editBookWatcher
+  editBookWatcher,
+  getBookmarkedLiteWatcher
 }

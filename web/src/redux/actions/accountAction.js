@@ -13,7 +13,10 @@ const {
   logOutFail,
   signUp,
   signUpSuccess,
-  signUpFail
+  signUpFail,
+  getProfileInfo,
+  getProfileInfoSuccess,
+  getProfileInfoFail
 } = createActions(
   'LOG_IN_LOCAL',
   'LOG_IN_LOCAL_SUCCESS',
@@ -26,7 +29,10 @@ const {
   'LOG_OUT_FAIL',
   'SIGN_UP',
   'SIGN_UP_SUCCESS',
-  'SIGN_UP_FAIL'
+  'SIGN_UP_FAIL',
+  'GET_PROFILE_INFO',
+  'GET_PROFILE_INFO_SUCCESS',
+  'GET_PROFILE_INFO_FAIL'
 )
 
 
@@ -43,5 +49,8 @@ export {
   logOutFail,
   signUp,
   signUpSuccess,
-  signUpFail
+  signUpFail,
+  getProfileInfo,
+  getProfileInfoSuccess,
+  getProfileInfoFail
 }

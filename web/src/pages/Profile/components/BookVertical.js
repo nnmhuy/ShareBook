@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Book from '../../../components/BookmarkBook';
 import ActivityNull from '../../../components/ActivityNull';
-import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
+
 import { bookDemoData } from '../demoData';
+import colors from '../../../constants/colors';
+import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
 
 const styles = theme => ({
   bookContainer: {
@@ -24,24 +27,29 @@ const styles = theme => ({
 
 class BookVertical extends Component {
   render() {
-    const { classes, bookmarked, textNull } = this.props;
+    const { classes, bookmarked, textNull, isLoadingBookmarkedLite } = this.props;
+    console.log(isLoadingBookmarkedLite)
     return (
       <div>
         {
-          bookmarked.length === 0 &&
-          <ActivityNull Icon={BookmarkedIcon} content={textNull} />
+          isLoadingBookmarkedLite && 
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary} />
+          </div>
         }
         {
-          bookmarked.length !== 0 &&
-          <div className={classes.bookContainer}>
-            {
-              bookDemoData.map((book) => {
-                return (
-                  <Book {...book} key={book.bookId} />
-                )
-              })
-            }
-          </div>
+          !isLoadingBookmarkedLite && bookmarked.length === 0 ?
+            <ActivityNull Icon={BookmarkedIcon} content={textNull} />
+            :
+            <div className={classes.bookContainer}>
+              {
+                bookmarked.map((book) => {
+                  return (
+                    <Book key={book.id} name={book.name} image={book.image} isBookmarked='true' />
+                  )
+                })
+              }
+            </div>
         }
       </div>
     );

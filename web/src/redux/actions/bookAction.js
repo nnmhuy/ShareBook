@@ -29,6 +29,9 @@ const {
   editBook,
   editBookSuccess,
   editBookFail,
+  getBookmarkedLite,
+  getBookmarkedLiteSuccess,
+  getBookmarkedLiteFail
 } = createActions(
   'GET_BOOK_LITE',
   'GET_BOOK_LITE_SUCCESS',
@@ -57,6 +60,9 @@ const {
   'EDIT_BOOK',
   'EDIT_BOOK_SUCCESS',
   'EDIT_BOOK_FAIL',
+  'GET_BOOKMARKED_LITE',
+  'GET_BOOKMARKED_LITE_SUCCESS',
+  'GET_BOOKMARKED_LITE_FAIL'
 )
 
 
@@ -89,4 +95,7 @@ export {
   editBook,
   editBookSuccess,
   editBookFail,
+  getBookmarkedLite,
+  getBookmarkedLiteSuccess,
+  getBookmarkedLiteFail
 }
