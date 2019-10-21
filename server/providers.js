@@ -25,7 +25,7 @@ module.exports = {
     'failureRedirect': `${FRONTEND_URL}/account`,
     'scope': [
       'email',
-      'user_link',
+      // 'user_link',
     ],
     'failureFlash': true,
   },
@@ -41,7 +41,7 @@ module.exports = {
     'failureRedirect': `${FRONTEND_URL}/profile/me`,
     'scope': [
       'email',
-      'user_link',
+      // 'user_link',
     ],
     'link': true,
     'failureFlash': true,
