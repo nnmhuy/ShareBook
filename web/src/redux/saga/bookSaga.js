@@ -346,7 +346,7 @@ function* getBookmarkedLiteSaga({ payload }) {
         id: book.data.id,
         name: book.data.name,
         image: book.data.image,
-        bookmarked: bookmarked[index].isActive
+        isActive: bookmarked[index].isActive
       }
       bookmarkedData.push(bookObj)
     })
