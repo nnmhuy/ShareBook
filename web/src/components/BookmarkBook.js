@@ -103,7 +103,7 @@ const Book = (props) => {
   return (
     <div className={classes.container}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
-        <Image src={image} alt={name} isStatic className={classes.image} />
+        <Image src={image} alt={name} className={classes.image} />
       </Link>
       <div className={classes.rateContainer}>
         {isBookmarked ?
