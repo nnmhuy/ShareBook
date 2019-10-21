@@ -1,6 +1,7 @@
 'use strict';
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL;
 const FbClientId = process.env.clientId;
 const FbClientSecret = process.env.clientSecret;
 const GGClientId = process.env.GGClientId;
@@ -17,7 +18,7 @@ module.exports = {
     ],
     'clientID': FbClientId,
     'clientSecret': FbClientSecret,
-    'callbackURL': '/api/auth/facebook/callback',
+    'callbackURL': `${BACKEND_URL}/api/auth/facebook/callback`,
     'authPath': '/api/auth/facebook',
     'callbackPath': '/api/auth/facebook/callback',
     'successRedirect': `${FRONTEND_URL}/book-list`,
@@ -33,7 +34,7 @@ module.exports = {
     'module': 'passport-facebook',
     'clientID': FbClientId,
     'clientSecret': FbClientSecret,
-    'callbackURL': '/api/link/facebook/callback',
+    'callbackURL': `${BACKEND_URL}/api/link/facebook/callback`,
     'authPath': '/api/link/facebook',
     'callbackPath': '/api/link/facebook/callback',
     'successRedirect': `${FRONTEND_URL}/profile/me`,
