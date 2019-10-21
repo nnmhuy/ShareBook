@@ -215,6 +215,7 @@ class CategoryBookList extends React.Component {
                         isBookmarked={book.isBookmarked}
                         rating={book.rating}
                         handleToggleBookmark={this.handleToggleBookmark}
+                        totalOfBookInstance={book.totalOfBookInstance}
                         key={`${key}-${book.id}`}/>
                       )
                     })
