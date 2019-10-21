@@ -49,7 +49,7 @@ const ReviewSlider = (props) => {
         reviewData.map(review => (
           <TopReviewItem 
             {...review}
-            key={review.reviewId}
+            key={review.id}
           />
         ))
       }

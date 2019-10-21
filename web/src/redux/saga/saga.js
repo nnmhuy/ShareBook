@@ -31,7 +31,8 @@ import {
   toggleLikeSingleReviewWatcher,
   postReviewWatcher,
   getReviewByIdWatcher,
-  getAllReviewsWatcher
+  getAllReviewsWatcher,
+  getReviewLiteWatcher
 } from './reviewSaga'
 import {
   getTransactionWatcher,
@@ -81,6 +82,7 @@ export default function* rootSaga() {
     getReviewByIdWatcher(),
     toggleLikeSingleReviewWatcher(),
     getAllReviewsWatcher(),
+    getReviewLiteWatcher(),
 
     getTransactionWatcher(),
     sendMessageWatcher(),

@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as RightArrow } from '../../../static/images/right-arrow.svg'
@@ -66,11 +67,14 @@ const styles = (theme => ({
     letterSpacing: '0.01em',
     color: colors.textSecondary,
     textDecoration: 'none'
+  },
+  loading: {
+    padding: 20
   }
 }))
 
 const NewsfeedIntro = (props) => {
-  const { classes } = props
+  const { classes, reviewLite, isLoading } = props
   return (
     <div className={classes.container}>
       <div className={classes.titleContainer}>
@@ -80,7 +84,14 @@ const NewsfeedIntro = (props) => {
           <span> Tới newsfeed</span>
         </Link>
       </div>
-      <ReviewSlider reviewData={reviewData}/>
+      {
+        isLoading ?
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary} />
+          </div>
+          :
+          <ReviewSlider reviewData={reviewLite} />
+      }
     </div>
   )
 }
