@@ -11,13 +11,22 @@ import Tutorial from './components/Tutorial'
 import NewsfeedIntro from './components/NewsfeedIntro'
 import BookSlider from '../../components/BookSlider'
 import Footer from './components/Footer'
-import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
 import VideoFrame from './components/VideoFrame'
+import SearchBar from '../BookList/components/SearchBar'
 
 const styles = (theme => ({
   container: {
     width: '100%',
     minWidth: 350,
+    boxSizing: 'border-box'
+  },
+  searchBar: {
+    maxWidth: 650,
+    minWidth: 350,
+    margin: '40px auto',
+    boxSizing: 'border-box',
+    padding: '0 15px'
   }
 }))
 
@@ -47,13 +56,21 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, account } = this.props
+    const { classes, account, getBookSearchHandler, bookSearchData, updatedAtForSearch, history } = this.props
     const { bookListData, bookListIsLoading } = this.props
     
     return (
       <LayoutWrapper title='Home' account={account}>
         <div className={classes.container}>
-          <AboutUs/>
+          <AboutUs />
+          <div className={classes.searchBar}>
+            <SearchBar
+              getBookSearchHandler={getBookSearchHandler}
+              bookSearch={bookSearchData || []}
+              updatedAtForSearch={updatedAtForSearch}
+              history={history}
+            />
+          </div>
           <Tutorial />
           <VideoFrame />
           <NewsfeedIntro/>
@@ -83,13 +100,17 @@ const mapStateToProps = ({ state, account, book }) => {
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
     bookListData: book.bookListData,
-    bookListIsLoading: book.bookListIsLoading
+    bookListIsLoading: book.bookListIsLoading,
+    bookSearchData: book.bookSearchData,
+    updatedAtForSearch: book.updatedAtForSearch,
+    bookSearchIsLoading: book.bookSearchIsLoading,
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
   getBookListHandler: getBookList,
+  getBookSearchHandler: getBookSearch,
   toggleBookmarkHandler: toggleBookmark 
 }, dispatch)
 

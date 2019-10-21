@@ -28,6 +28,7 @@ import Newsfeed from './pages/Newsfeed'
 
 import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
+import AboutTerms from './pages/AboutTerms';
 
 
 class App extends React.Component {
@@ -62,11 +63,12 @@ class App extends React.Component {
             <Route path="/review/:reviewId" exact component={BookReview} />
             <Route path="/create-book" exact component={CreateBook} />
             <Route path="/create-instance/:bookId" exact component={CreateInstance} />
-            <Route path="/profile" exact component={Profile} />
+            <Route path="/profile/:profileId" exact component={Profile} />
             <Route path="/report" exact component={Report} />
             <Route path="/report/:type-:value" exact component={Report} />
             <Route path="/detail-transaction/:transId" exact component={TransactionDetail} />
             <Route path="/newsfeed" exact component={Newsfeed} />
+            <Route path="/policy" exact component={AboutTerms} />
             <Route component={NotFound} />
           </Switch>
         </ScrollToTop>

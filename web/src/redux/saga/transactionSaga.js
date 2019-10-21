@@ -215,7 +215,7 @@ function* requestStatusSaga({ payload }) {
     successAlert('Thao tác thành công');
   } catch (error) {
     yield put(requestStatusFail({ error }))
-    errorAlert(error);
+    errorAlert(error.message);
   }
 }
 
@@ -235,7 +235,7 @@ function* initTransactionSaga({ payload }) {
     window.location = `/transaction/${data.transaction.id}`
   } catch (error) {
     yield put(initTransactionFail({ error }))
-    errorAlert(error);
+    errorAlert(error.message);
   }
 }
 

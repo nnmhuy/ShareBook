@@ -11,12 +11,16 @@ import Link from '../../components/Link'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import Book from '../../components/Book'
 import SearchBar from '../BookList/components/SearchBar'
+import ActivityNull from '../../components/ActivityNull'
 import { ReactComponent as FilterIcon} from '../../static/images/controls.svg'
 import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
 import getListCondition from '../../helper/getListCondition'
 
 import colors from '../../constants/colors'
 import restConnector from '../../connectors/RestConnector'
+
+import { ReactComponent as NotebookIcon } from '../../static/images/notebook-btn.svg'
+
 
 const styles = (theme => ({
   container: {
@@ -165,53 +169,67 @@ class CategoryBookList extends React.Component {
     const { category, key, totalOfBook, condition } = this.state
     let isLoading = categoryIsLoading || get(bookListIsLoading, key, null)
     const bookList = get(bookListData, key, [])
-
+    
     return (
       <LayoutWrapper account={account} title={get(category, 'name', null)}>
         <div className={classes.container} style={{marginBottom: 10}}>
           <div className={classes.searchContainer}>
-          <SearchBar 
+            <SearchBar
               getBookSearchHandler={getBookSearchHandler}
               bookSearch={bookSearchData || []}
               updatedAtForSearch={updatedAtForSearch}
-              history={history} 
+              history={history}
               where={get(condition, 'where', null)}
-            />
-            <Link to='/filter'>
+            />    
+            <Link to='/filter' style={{marginLeft: 15}}>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.icon}/>
               </IconButton>
             </Link>
           </div>
-          <div className={classes.bookContainer}>
-            {isLoading ?
-              <div className={classes.loading}>
-                <ScaleLoader color={colors.primary}/>
+          {
+            isLoading &&
+              <div className={classes.bookContainer}>
+                <div className={classes.loading}>
+                  <ScaleLoader color={colors.primary} />
+                </div>
+              </div>
+          }
+          {
+            !isLoading && bookList.length === 0 ?
+              <div style={{ padding: '0 20px' }}>
+                <ActivityNull Icon={NotebookIcon} content='Hãy bắt đầu cho mượn sách cùng ShareBook nhé!' />
               </div>
               :
-              bookList.map((book) => {
-                return (
-                  <Book 
-                  id={book.id}
-                  bookmarkId={book.bookmarkId}
-                  name={book.name}
-                  author={book.author}
-                  image={book.image}
-                  isBookmarked={book.isBookmarked}
-                  rating={book.rating}
-                  handleToggleBookmark={this.handleToggleBookmark}
-                  key={`${key}-${book.id}`}/>
-                )
-              })
-            }
-          </div>
-          <Pagination
-            pageCount={Math.ceil(totalOfBook / defaultValue.numberOfBookPerPage)}
-            breakLabel={'. . .'}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={2}
-            handlePageChange={this.handlePageChange}
-          />
+              <>
+                <div className={classes.bookContainer}>
+                  {
+                    bookList.map((book) => {
+                      return (
+                        <Book 
+                        id={book.id}
+                        bookmarkId={book.bookmarkId}
+                        name={book.name}
+                        author={book.author}
+                        image={book.image}
+                        isBookmarked={book.isBookmarked}
+                        rating={book.rating}
+                        handleToggleBookmark={this.handleToggleBookmark}
+                        totalOfBookInstance={book.totalOfBookInstance}
+                        key={`${key}-${book.id}`}/>
+                      )
+                    })
+                  }
+                </div>
+                <Pagination
+                  pageCount={Math.ceil(totalOfBook / defaultValue.numberOfBookPerPage)}
+                  breakLabel={'. . .'}
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  handlePageChange={this.handlePageChange}
+                />
+              </>
+          }
         </div>
       </LayoutWrapper>
     )

@@ -7,6 +7,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  getOtherUserInfo,
+  getOtherUserInfoSuccess,
+  getOtherUserInfoFail,
   logOut,
   logOutSuccess,
   logOutFail,
@@ -33,6 +36,7 @@ const unAuthorizedUser = {
 let defaultState = {
   isLoading: false,
   isAuth: false,
+  otherAccount: {},
   ...unAuthorizedUser,
   error: null
 }
@@ -93,6 +97,27 @@ const accountReducer = handleActions(
         isLoading: false,
         isAuth: false,
         ...unAuthorizedUser,
+        error
+      }
+    },
+    [getOtherUserInfo]: (state) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    },
+    [getOtherUserInfoSuccess]: (state, { payload: otherAccount }) => {
+      return {
+        ...state,
+        isLoading: false,
+        otherAccount: otherAccount,
+        error: null
+      }
+    },
+    [getOtherUserInfoFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoading: false,
         error
       }
     },

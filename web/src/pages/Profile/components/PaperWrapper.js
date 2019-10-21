@@ -11,7 +11,10 @@ import PersonalInfo from './PersonalInfo';
 const styles = theme => ({
 	wrapper: {
 		position: 'relative',
-		padding: '10px 20px 30px'
+		padding: '10px 20px 30px',
+		'&.MuiPaper-elevation1': {
+			boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)'
+		}
 	},
 	flexContainer: {
 		display: 'flex',
@@ -86,22 +89,27 @@ class PaperWrapper extends Component {
 	changeAvatar = () => { }
 
 	render() {
-		const { classes, layout, account } = this.props;
+		const { classes, layout, account, profileId } = this.props;
 		const { isEdit, isHidden, fixed } = this.state;
 		return (
 			<Paper className={classes.wrapper}>
 				{
 					layout === 'bio' &&
-					<Bio isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
+					<Bio isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
 				}
 				{
 					layout === 'info' &&
-					<PersonalInfo account={account} isHidden={isHidden} isEdit={isEdit} fixed={fixed} />
+					<PersonalInfo profileId={profileId} account={account} isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
 				}
-				<PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
-				<DownArrowIcon fill={colors.primary}
-					className={isHidden ? classes.downIcon : `${classes.rotateIcon} ${classes.downIcon}`}
-					onClick={this.spanInfo} />
+				{
+					profileId === 'me' &&
+					<>
+						<PencilIcon fill={colors.primary} className={classes.editIcon} onClick={this.editInfo} />
+						<DownArrowIcon fill={colors.primary}
+							className={isHidden ? classes.downIcon : `${classes.rotateIcon} ${classes.downIcon}`}
+							onClick={this.spanInfo} />
+					</>
+				}
 			</Paper>
 		);
 	}

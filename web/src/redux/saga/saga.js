@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects';
 import {
   logInLocalWatcher,
   getUserInfoWatcher,
+  getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher
 } from './accountSaga'
@@ -15,7 +16,8 @@ import {
   toggleBookmarkWatcher,
   createBookWatcher,
   getBookSearchWatcher,
-  editBookWatcher
+  editBookWatcher,
+  getBookmarkedLiteWatcher
 } from './bookSaga'
 import {
   getBookInstancesWatcher,
@@ -53,6 +55,7 @@ export default function* rootSaga() {
   yield all([
     logInLocalWatcher(),
     getUserInfoWatcher(),
+    getOtherUserInfoWatcher(),
     logOutWatcher(),
     signUpWatcher(),
 
@@ -65,6 +68,7 @@ export default function* rootSaga() {
     toggleBookmarkWatcher(),
     createBookWatcher(),
     editBookWatcher(),
+    getBookmarkedLiteWatcher(),
 
     getBookInstancesWatcher(),
     createBookInstanceWatcher(),

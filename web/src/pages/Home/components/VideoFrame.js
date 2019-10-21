@@ -23,7 +23,7 @@ const VideoFrame = () => {
       <iframe className={classes.media}
         title='ShareBook'
         src="https://www.youtube.com/embed/nUgFi9daqH8"
-        frameborder="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
       >
       </iframe>

@@ -59,7 +59,7 @@ const TopNav = (props) => {
   return (
     <CustomTopNav
       left={
-        <Link to='/profile' className={classes.link}>
+        <Link to='/profile/me' className={classes.link}>
           <IconButton className={classes.backButton} >
             <BackIcon fill={colors.primary} className={classes.backIcon} />
           </IconButton>

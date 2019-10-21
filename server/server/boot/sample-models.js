@@ -95,13 +95,13 @@ module.exports = function(app) {
       createDefaultImageStorage(defaultContainner);
     }
   });
-  Category.find({
-    where: {
-      name: categoryList[0].name,
-    },
-  }, (err, firstCategory) => {
-    if (!firstCategory || !firstCategory[0]) {
-      createDefaultCategory();
-    }
-  });
+  // Category.find({
+  //   where: {
+  //     name: categoryList[0].name,
+  //   },
+  // }, (err, firstCategory) => {
+  //   if (!firstCategory || !firstCategory[0]) {
+  //     createDefaultCategory();
+  //   }
+  // });
 };

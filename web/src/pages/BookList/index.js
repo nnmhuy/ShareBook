@@ -29,7 +29,8 @@ const styles = (theme => ({
   searchContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: 20
+    padding: 20,
+    alignItems: 'center'
   },
   search: {
     marginRight: 20
@@ -127,7 +128,7 @@ class BookList extends React.Component {
               updatedAtForSearch={updatedAtForSearch}
               history={history} 
             />
-            <Link to='/filter'>
+            <Link to='/filter' style={{ marginLeft: 15 }}>
               <IconButton className={classes.filterButton}>
                 <FilterIcon fill={colors.primary} className={classes.filterIcon}/>
               </IconButton>

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Book from '../../../components/BookmarkBook';
-import ActivityNull from './ActivityNull';
-import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
+import ActivityNull from '../../../components/ActivityNull';
+
 import { bookDemoData } from '../demoData';
+import colors from '../../../constants/colors';
+import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
 
 const styles = theme => ({
   bookContainer: {
@@ -24,24 +27,31 @@ const styles = theme => ({
 
 class BookVertical extends Component {
   render() {
-    const { classes, bookmarked, textNull } = this.props;
+    const { classes, handleToggleBookmark, bookmarked, textNull } = this.props;
     return (
       <div>
-        {
-          bookmarked === null &&
-          <ActivityNull Icon={BookmarkedIcon} content={textNull} />
-        }
-        {
-          bookmarked !== null &&
-          <div className={classes.bookContainer}>
-            {
-              bookDemoData.map((book) => {
-                return (
-                  <Book {...book} key={book.bookId} />
-                )
-              })
-            }
+        {/* {
+          isLoadingBookmarkedLite && 
+          <div className={classes.loading}>
+            <ScaleLoader color={colors.primary} />
           </div>
+        } */}
+        {
+          // !isLoadingBookmarkedLite &&
+          bookmarked.length === 0 ?
+            <ActivityNull Icon={BookmarkedIcon} content={textNull} />
+            :
+            <div className={classes.bookContainer}>
+              {
+                bookmarked.map((book) => {
+                  return (
+                    <div style={{ marginBottom: 25 }} key={book.id}>
+                      <Book handleToggleBookmark={handleToggleBookmark} id={book.id} name={book.name} image={book.image} isBookmarked={book.isActive.toString()} />
+                    </div>
+                  )
+                })
+              }
+            </div>
         }
       </div>
     );
