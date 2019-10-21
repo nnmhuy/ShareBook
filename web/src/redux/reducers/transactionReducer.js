@@ -147,15 +147,8 @@ const transactionReducer = handleActions(
       }
     },
     [requestStatusSuccess]: (state, { payload: { newTransaction } }) => {
-      const transaction = JSON.parse(JSON.stringify(state.transaction))
-
       return {
-        ...state,
-        transaction: {
-          ...transaction,
-          status: newTransaction.status
-        },
-        isRequestingStatus: false
+        ...state
       }
     },
     [requestStatusFail]: (state, { payload: error }) => {
