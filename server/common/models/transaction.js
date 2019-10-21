@@ -275,6 +275,7 @@ module.exports = function(Transaction) {
       // TODO: filter/order by user location
       instance = await BookInstanceModel.findOne({
         where: {
+          bookId,
           isAvailable: true,
         },
       });
