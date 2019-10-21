@@ -242,6 +242,7 @@ const bookReducer = handleActions(
         }
       })
 
+      
       return {
         ...state,
         bookDetail,

@@ -27,26 +27,26 @@ const styles = theme => ({
 
 class BookVertical extends Component {
   render() {
-    const { classes, bookmarked, textNull, isLoadingBookmarkedLite } = this.props;
-    console.log(isLoadingBookmarkedLite)
+    const { classes, handleToggleBookmark, bookmarked, textNull } = this.props;
     return (
       <div>
-        {
+        {/* {
           isLoadingBookmarkedLite && 
           <div className={classes.loading}>
             <ScaleLoader color={colors.primary} />
           </div>
-        }
+        } */}
         {
-          !isLoadingBookmarkedLite && bookmarked.length === 0 ?
+          // !isLoadingBookmarkedLite &&
+          bookmarked.length === 0 ?
             <ActivityNull Icon={BookmarkedIcon} content={textNull} />
             :
             <div className={classes.bookContainer}>
               {
                 bookmarked.map((book) => {
                   return (
-                    <div style={{marginBottom: 25}}>
-                      <Book key={book.id} name={book.name} image={book.image} isBookmarked='true' />
+                    <div style={{ marginBottom: 25 }} key={book.id}>
+                      <Book handleToggleBookmark={handleToggleBookmark} id={book.id} name={book.name} image={book.image} isBookmarked={book.isActive.toString()} />
                     </div>
                   )
                 })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { bindActionCreators } from 'redux';
@@ -10,10 +10,11 @@ import AccountTab from './components/AccountTab';
 import ReviewTab from './components/ReviewTab';
 import TopNav from './components/TopNav';
 
-import { getBookmarkedLite } from '../../redux/actions/bookAction';
+import { getBookmarkedLite, toggleBookmark } from '../../redux/actions/bookAction';
 import { ReactComponent as UserIcon } from '../../static/images/user.svg';
 import { ReactComponent as NewsfeedIcon } from '../../static/images/newsfeed.svg';
 import { ReactComponent as NewsfeedActiveIcon } from '../../static/images/newsfeed-active.svg';
+import Loading from '../../components/Loading';
 
 const styles = theme => ({
   container: {
@@ -35,13 +36,29 @@ const styles = theme => ({
 })
 
 const Profile = props => {
-  const { classes, account, match, getBookmarked, bookmarked, isLoadingBookmarkedLite } = props;
+  const { classes, account, match, getBookmarked, history, bookmarked, isLoadingBookmarkedLite } = props;
   const profileId = match.params.profileId;
-
+  if (profileId === 'me' && !account.isAuth)
+    history.replace('/')
+  const isLoading = isLoadingBookmarkedLite
   const [currentTab, handleChangeTab] = useState(0)
-  console.log(currentTab)
+
+  useEffect(() => {
+    console.log(match.params)
+    const userId = match.params.profileId
+    userId === 'me' && getBookmarked({userId})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
+    const { toggleBookmarkStatus } = props
+    toggleBookmarkStatus({ bookId, bookmarkId, isBookmarked })
+  }
+
+
   return (
     <TopNav title='Tài khoản' account={account}>
+      <Loading isLoading={isLoading}/>
       <div className={classes.container}>
         <Tabs
           value={currentTab}
@@ -64,7 +81,7 @@ const Profile = props => {
             } />
         </Tabs>
         <TabPanel index={0} value={currentTab} className={classes.wrapper}>
-          <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} getBookmarked={getBookmarked} bookmarked={bookmarked} account={account} profileId={profileId} />
+          <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} account={account} profileId={profileId} handleToggleBookmark={handleToggleBookmark} />
         </TabPanel>
         <TabPanel index={1} value={currentTab} className={classes.wrapper}>
           <ReviewTab profileId={profileId} />
@@ -90,7 +107,8 @@ const mapStateToProps = ({ account, book }) => {
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getBookmarked: getBookmarkedLite
+  getBookmarked: getBookmarkedLite,
+  toggleBookmarkStatus: toggleBookmark
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Profile));

@@ -101,7 +101,7 @@ const Book = (props) => {
   }
 
   return (
-    <div className={classes.container} {...other}>
+    <div className={classes.container}>
       <Link to={`/book-detail/${id}`} className={classes.imageContainer}>
         <Image src={image} alt={name} isStatic className={classes.image} />
       </Link>

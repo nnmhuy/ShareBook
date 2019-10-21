@@ -99,18 +99,19 @@ class ActivityWrapper extends Component {
 	}
 
 	render() {
-		const { classes, bookmarked, isLoadingBookmarkedLite, getBookmarked, userId } = this.props;
-		const { currentTab, clicked } = this.state;
+		const { classes, handleToggleBookmark, bookmarked, isLoadingBookmarkedLite, userId } = this.props;
+		const { currentTab } = this.state;
+		// const { clicked } = this.state;
 		const bookTest = [];
 		
-		const getBookmarkedBooks = (curTab) => {
-			if (clicked[curTab] === false) {
-				this.handleClickedTab(curTab)
-				getBookmarked({userId})
-			} else {
-				return
-			}
-		}
+		// const getBookmarkedBooks = (curTab) => {
+		// 	if (clicked[curTab] === false) {
+		// 		this.handleClickedTab(curTab)
+		// 		getBookmarked({userId})
+		// 	} else {
+		// 		return
+		// 	}
+		// }
 
 		return (
 			<MuiThemeProvider theme={theme}>
@@ -128,8 +129,7 @@ class ActivityWrapper extends Component {
 						<Tab label={<ActivityButton 
 							Icon={BookmarkIcon} title='bookmark'
 							bg='#007EFC'
-							txtColor={currentTab === 1 ? true : false} />}
-							onClick={() => getBookmarkedBooks(1)} />
+							txtColor={currentTab === 1 ? true : false} />} />
 						<Tab label={<ActivityButton
 							Icon={TransactionIcon} title='giao dịch'
 							bg='#544EFF'
@@ -143,7 +143,9 @@ class ActivityWrapper extends Component {
 						<BookHorizontal bookPassed={bookTest} bookOwned={bookTest} textNull={text.book} />
 					</TabPanel>
 					<TabPanel index={1} value={currentTab} className={classes.wrapper}>
-						<BookVertical bookmarked={bookmarked} textNull={text.bookmark} isLoadingBookmarkedLite={isLoadingBookmarkedLite}/>
+						<BookVertical handleToggleBookmark={handleToggleBookmark} bookmarked={bookmarked} textNull={text.bookmark}
+							// isLoadingBookmarkedLite={isLoadingBookmarkedLite}
+						/>
 					</TabPanel>
 					<TabPanel index={2} value={currentTab} className={classes.wrapper}>
 						<TransactionList transactions={bookTest} textNull={text.transaction} />
