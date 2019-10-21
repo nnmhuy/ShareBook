@@ -108,11 +108,11 @@ class PersonalInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: props.account.username,
-			name: props.account.name,
-			phoneNumber: '09090909090',
+			username: props.currentUserInfo.username,
+			name: props.currentUserInfo.name,
+			phoneNumber: props.currentUserInfo.phoneNumber,
 			homeLocation: '22 Trần Đình Xu, phường Cư Trinh, Quận 4, Thành phố Hồ Chí Minh',
-			email: 'sharebook@e.mail'
+			email: props.currentUserInfo.email
 		}
 	}
 
@@ -126,11 +126,15 @@ class PersonalInfo extends Component {
 
 	render() {
 		const { classes, isEdit, isHidden, account, profileId } = this.props;
-		const { username, name, homeLocation, phoneNumber, email } = this.state;
+		const { username, name, homeLocations, phoneNumber, email, avatar, fbLink } = this.props.currentUserInfo;
+		let homeLocation = null
+		if (homeLocations) {
+			homeLocation = homeLocations.address + " " + homeLocations.ward + " " + homeLocations.district + " " + homeLocations.city
+		}
 		return (
 			<>
 				<div className={classes.flexContainer}>
-					<Avatar src='' className={classes.avatar} onClick={this.changeAvatar} />
+					<Avatar src={avatar} className={classes.avatar} onClick={this.changeAvatar} />
 					<div>
 						<div className={classes.flexContainer} style={{ marginBottom: 5 }}>
 							<p className={classes.titleNoMargin}>Tên tài khoản</p>
@@ -152,11 +156,13 @@ class PersonalInfo extends Component {
 						<p className={classes.title}>Địa chỉ
                             <span className={classes.map}>Bản đồ</span>
 						</p>
-						<p className={classes.content}>{homeLocation}</p>
+						<p className={classes.content}>{homeLocation || 'chưa có'}</p>
 						<p className={classes.title}>Số điện thoại</p>
-						<p className={classes.content}>{phoneNumber}</p>
+						<p className={classes.content}>{phoneNumber || 'chưa có'}</p>
 						<p className={classes.title}>Email</p>
-						<p className={classes.content}>{email}</p>
+						<p className={classes.content}>{email || 'chưa có'}</p>
+						<p className={classes.title}><FacebookIcon fill={colors.primary} height='12px' className={classes.pointer} /> Facebook link</p>
+						<p className={classes.content}>{fbLink || 'chưa có'}</p>
 					</div>
 				}
 				{

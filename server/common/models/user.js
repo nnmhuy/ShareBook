@@ -52,7 +52,7 @@ module.exports = function(User) {
   User.beforeRemote('create', function(ctx, userInstance, next) {
     try {
       let req = ctx.req;
-      req.body.email = req.body.username + '@sharebook.org.vn';
+      req.body.email = req.body.username + '@sharebook.com.vn';
       if (!req.body.name) {
         req.body.name = req.body.username;
       }

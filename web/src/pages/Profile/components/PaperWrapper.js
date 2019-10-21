@@ -89,7 +89,7 @@ class PaperWrapper extends Component {
 	changeAvatar = () => { }
 
 	render() {
-		const { classes, layout, account, profileId } = this.props;
+		const { classes, layout, account, profileId, currentUserInfo } = this.props;
 		const { isEdit, isHidden, fixed } = this.state;
 		return (
 			<Paper className={classes.wrapper}>
@@ -99,7 +99,7 @@ class PaperWrapper extends Component {
 				}
 				{
 					layout === 'info' &&
-					<PersonalInfo profileId={profileId} account={account} isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
+					<PersonalInfo profileId={profileId} currentUserInfo={currentUserInfo} isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
 				}
 				{
 					profileId === 'me' &&
