@@ -1,6 +1,7 @@
 'use strict';
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL;
 const FbClientId = process.env.clientId;
 const FbClientSecret = process.env.clientSecret;
 const GGClientId = process.env.GGClientId;
@@ -11,25 +12,20 @@ module.exports = {
     'provider': 'facebook',
     'module': 'passport-facebook',
     'profileFields': [
-      'gender',
       'link',
-      'locale',
       'name',
-      'timezone',
-      'verified',
       'email',
-      'updated_time',
     ],
     'clientID': FbClientId,
     'clientSecret': FbClientSecret,
-    'callbackURL': '/api/auth/facebook/callback',
+    'callbackURL': `${BACKEND_URL}/auth/facebook/callback`,
     'authPath': '/api/auth/facebook',
     'callbackPath': '/api/auth/facebook/callback',
     'successRedirect': `${FRONTEND_URL}/book-list`,
     'failureRedirect': `${FRONTEND_URL}/account`,
     'scope': [
       'email',
-      'user_link',
+      // 'user_link',
     ],
     'failureFlash': true,
   },
@@ -38,14 +34,14 @@ module.exports = {
     'module': 'passport-facebook',
     'clientID': FbClientId,
     'clientSecret': FbClientSecret,
-    'callbackURL': '/api/link/facebook/callback',
+    'callbackURL': `${BACKEND_URL}/link/facebook/callback`,
     'authPath': '/api/link/facebook',
     'callbackPath': '/api/link/facebook/callback',
-    'successRedirect': `${FRONTEND_URL}/profile`,
-    'failureRedirect': `${FRONTEND_URL}/profile`,
+    'successRedirect': `${FRONTEND_URL}/profile/me`,
+    'failureRedirect': `${FRONTEND_URL}/profile/me`,
     'scope': [
       'email',
-      'user_link',
+      // 'user_link',
     ],
     'link': true,
     'failureFlash': true,

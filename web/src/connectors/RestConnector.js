@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '../constants/constants'
+import get from 'lodash/get'
 // import { warnAlert } from '../components/alert'
 
 const RestConnector = () => {
@@ -10,9 +11,9 @@ const RestConnector = () => {
       return response
     },
     function (err) {
-      err.code = err.response.status
-      err.message = err.response.data.message
-      if (err.code === 401 && err.config.url !== `${baseURL}/users/me`) {
+      err.code = get(err, 'response.status', 404)
+      err.message = get(err, 'response.data.error.message', 'Có lỗi xảy ra!')
+      if (err.code === 401 && err.config.url !== `${baseURL}/users/me` && !err.config.url.include(`${baseURL}/account`)) {
         // warnAlert('Bạn cần phải đăng nhập trước')
         window.location = '/account'
       }
