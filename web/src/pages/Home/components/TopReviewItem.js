@@ -82,7 +82,7 @@ const styles = (theme => ({
 }))
 
 const TopReviewItem = (props) => {
-  const { classes, bookId, userId, username, avatar, id, bookName, reviewContent } = props
+  const { classes, bookId, userId, name, avatar, id, bookName, content } = props
   return (
     <div className={classes.container}>
       <Quotation className={classes.quotation} />
@@ -92,13 +92,13 @@ const TopReviewItem = (props) => {
             <Avatar src={avatar} className={classes.avatar}/>
           </Link>
           <Link to={`/profile/${userId}`} className={classes.link}>
-            <span className={classes.username}>{username}</span>
+            <span className={classes.username}>{name}</span>
           </Link>
         </div>
         <Link to={`/book-detail/${bookId}`} className={classes.link}>
           <div className={classes.bookName}>{bookName}</div>
         </Link>
-        <div className={classes.review}>{reviewContent}</div>
+        <div className={classes.review}>{content}</div>
         <Link to={`/review/${id}`} className={classes.link}>
           <RightArrow height={12} stroke={colors.textSecondary} />
           <span className={classes.goReview}> Đi tới review</span>
