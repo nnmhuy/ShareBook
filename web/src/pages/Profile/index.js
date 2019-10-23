@@ -47,7 +47,6 @@ const Profile = props => {
   const [currentTab, handleChangeTab] = useState(0)
 
   useEffect(() => {
-    console.log(match.params)
     const userId = match.params.profileId
     userId === 'me' && getBookmarked({userId})
     if (userId !== 'me') {

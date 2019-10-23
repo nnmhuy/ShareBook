@@ -129,7 +129,13 @@ class PersonalInfo extends Component {
 		const { username, name, homeLocations, phoneNumber, email, avatar, fbLink } = this.props.currentUserInfo;
 		let homeLocation = null
 		if (homeLocations) {
-			homeLocation = homeLocations.address + " " + homeLocations.ward + " " + homeLocations.district + " " + homeLocations.city
+			homeLocation = homeLocations.address 
+			if (homeLocations.ward)
+				homeLocation += ", phường " + homeLocations.ward
+			if (homeLocations.district)
+				homeLocation += ", quận " + homeLocations.district
+			if (homeLocations.city)
+				homeLocation += ", thành phố " + homeLocations.city
 		}
 		return (
 			<>
@@ -142,8 +148,8 @@ class PersonalInfo extends Component {
 						</div>
 						<p className={classes.content}>{username}</p>
 						{
-							profileId === 'me' &&
-							<p className={`${classes.titleNoMargin} ${classes.pointer}`}>Change password</p>
+							// profileId === 'me' &&
+							// <p className={`${classes.titleNoMargin} ${classes.pointer}`}>Change password</p>
 						}
 					</div>
 				</div>
@@ -151,10 +157,10 @@ class PersonalInfo extends Component {
 				{
 					!isEdit &&
 					<div className={`${isHidden ? `${classes.personalContentHidden}` : `${classes.personalContent}`}`}>
-						<p className={classes.title}>Họ và tên</p>
+						<p className={classes.title}>Tên hiển thị</p>
 						<p className={classes.content}>{name}</p>
 						<p className={classes.title}>Địa chỉ
-                            <span className={classes.map}>Bản đồ</span>
+                            {/* <span className={classes.map}>Bản đồ</span> */}
 						</p>
 						<p className={classes.content}>{homeLocation || 'chưa có'}</p>
 						<p className={classes.title}>Số điện thoại</p>
