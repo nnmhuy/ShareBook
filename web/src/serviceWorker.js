@@ -10,6 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+import setupNotificationModule from './connectors/NotificationModule'
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -93,6 +95,9 @@ function registerValidSW(swUrl, config) {
           }
         };
       };
+
+      // Call module handling permission and subscription
+      setupNotificationModule(registration);
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);
