@@ -70,7 +70,7 @@ const styles = (theme => ({
     fontSize: 12,
     cursor: 'pointer',
     fontWeight: 500,
-    transition: '0.2s',
+    transition: '0.3s',
     '&:hover': {
       fontWeight: 600
     }
@@ -78,7 +78,7 @@ const styles = (theme => ({
   cancelOrder: {
     textAlign: 'right',
     cursor: 'pointer',
-    transition: '0.2s',
+    transition: '0.3s',
     '&:hover': {
       fontWeight: 600
     }

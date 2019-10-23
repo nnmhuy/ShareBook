@@ -90,7 +90,7 @@ const NewsfeedIntro = (props) => {
             <ScaleLoader color={colors.primary} />
           </div>
           :
-          <ReviewSlider reviewData={reviewData} />
+          <ReviewSlider reviewData={reviewLite} />
       }
     </div>
   )

@@ -63,13 +63,13 @@ const styles = theme => ({
   },
   id: {
     fontSize: 12,
+    fontFamily: 'Montserrat',
     color: colors.primary,
-    margin: 0,
-    marginBottom: 1,
+    width: 170,
     position: 'relative',
+    margin: '0 0 1px 0',
     cursor: 'pointer',
     border: 'none',
-    width: 167,
     transition: '0.4s',
     '&:focus': {
       color: '#5fc0ea'
