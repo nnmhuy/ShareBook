@@ -13,6 +13,7 @@ import BookSlider from '../../components/BookSlider'
 import TopBook from './components/TopBook'
 import SearchBar from './components/SearchBar'
 import getListCondition from '../../helper/getListCondition'
+import restConnector from '../../connectors/RestConnector'
 
 import colors from '../../constants/colors'
 import { ReactComponent as FilterIcon } from '../../static/images/filter-filled.svg'
@@ -46,6 +47,16 @@ const styles = (theme => ({
   },
 }))
 
+const randomOption = [
+  ['name DESC'],
+  ['image DESC'],
+  ['author DESC'],
+  ['numberOfPages DESC', 'name DESC'],
+  ['price DESC', 'name DESC'],
+  ['description DESC',  'name DESC'],
+  ['createdAt DESC'],
+  ['totalOfRating DESC']
+]
 class BookList extends React.Component {
   constructor(props) {
     super(props);
@@ -77,21 +88,17 @@ class BookList extends React.Component {
       });
     }
 
+    where.totalOfBookInstance = {gte: 1}
 
     this.props.getBookListHandler({key:'new', 
-      where: {
-        ...where,
-        totalOfBookInstance: {gte: 1}
-      },
+      where,
       limit: 12,
       userId: this.props.account.userId,
       order: 'createdAt DESC'
     });
-    this.props.getBookListHandler({key:'popular', where,
-      limit: 12,
-      userId: this.props.account.userId,
-      order: 'numberOfRating DESC'
-    });
+
+    this.queryRandom(where)
+    
     this.props.getBookListHandler({key:'high-rating', where,
       limit: 12,
       userId: this.props.account.userId,
@@ -107,6 +114,27 @@ class BookList extends React.Component {
   handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
     const { toggleBookmarkHandler } = this.props
     toggleBookmarkHandler({bookId, bookmarkId, isBookmarked})
+  }
+
+  queryRandom = async (where) => {
+    let totalOfBookResponse = 0
+    try {
+      totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
+      totalOfBookResponse = get(totalOfBookResponse, 'data.count')
+      console.log(totalOfBookResponse)
+    } catch (error) {
+      console.log(error);
+    }
+
+    let randomNumber = Math.floor(Math.random() * Math.max(totalOfBookResponse-12, 1))   
+    let randomType = Math.floor(Math.random() * randomOption.length)
+
+    this.props.getBookListHandler({key:'random', where,
+      limit: 12,
+      skip: randomNumber,
+      userId: this.props.account.userId,
+      order: randomOption[randomType]
+    });
   }
 
   render() {
@@ -137,19 +165,19 @@ class BookList extends React.Component {
           <NewsSlider newsData={currentCategoryList}/>
           <CategoryList categoryList={currentCategoryList} isLoading={categoryIsLoading}/>
           <BookSlider
+            title={'Sách ngẫu nhiên'} // random
+            url={`/category/random`}
+            style={{ marginTop: 20 }}
+            bookList={get(bookListData, 'random', [])} 
+            handleToggleBookmark={this.handleToggleBookmark}
+            isLoading={bookListIsLoading['random']}
+          />
+          <BookSlider
             title={'Sách mới'} // createAt 
             url={`/category/new`}
             bookList={get(bookListData, 'new', [])} 
-            style={{ marginTop: 20 }}
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['new']}
-          />
-          <BookSlider
-            title={'Sách đọc nhiều'} // review (number of rate)
-            url={`/category/popular`}
-            bookList={get(bookListData, 'popular', [])} 
-            handleToggleBookmark={this.handleToggleBookmark}
-            isLoading={bookListIsLoading['popular']}
           />
           <BookSlider
             title={'Sách được đánh giá cao'} // rating 
