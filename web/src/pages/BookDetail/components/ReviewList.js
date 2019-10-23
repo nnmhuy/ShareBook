@@ -4,6 +4,9 @@ import { withStyles } from '@material-ui/core/styles'
 import { numberOfReviewsPerPage } from '../../../constants/constants'
 import ReviewItem from '../../../components/ReviewItem'
 import Pagination from '../../../components/Pagination/index'
+import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg'
+
+import ActivityNull from '../../../components/ActivityNull'
 
 const styles = (theme => ({
   container: {
@@ -23,24 +26,33 @@ const ReviewList = (props) => {
   return (
     <div className={classes.container}>
       {
-        reviewList.map((review, id) => {
-          return (
-            <ReviewItem
-              key={id}
-              {...review}
-              bookImage={bookImage}
-              handleToggleLikeReview={handleToggleLikeReview}
-            />
-          )
-        })
+        reviewList.length === 0 ?
+        <div style={{ padding: '0 20px' }}>
+          <ActivityNull Icon={NotebookIcon} content='Hãy bắt đầu chia sẻ, review về sách cùng ShareBook nhé!' />
+        </div>
+        :
+        <>
+            {
+              reviewList.map((review, id) => {
+                return (
+                  <ReviewItem
+                    key={id}
+                    {...review}
+                    bookImage={bookImage}
+                    handleToggleLikeReview={handleToggleLikeReview}
+                  />
+                )
+              })
+            }
+          <Pagination
+            pageCount={Math.ceil(numberOfReviews / numberOfReviewsPerPage)}
+            breakLabel={'. . .'}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            handlePageChange={handlePageChange}
+          />
+        </>
       }
-      <Pagination
-        pageCount={Math.ceil(numberOfReviews / numberOfReviewsPerPage)}
-        breakLabel={'. . .'}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        handlePageChange={handlePageChange}
-      />
     </div>
   )
 }

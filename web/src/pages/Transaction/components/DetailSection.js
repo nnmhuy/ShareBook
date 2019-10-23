@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import colors from '../../../constants/colors'
+import getFormattedDate from '../../../helper/getFormattedDate'
 
 const styles = (theme => ({
   container: {
@@ -13,27 +14,38 @@ const styles = (theme => ({
     fontSize: 14,
     fontWeight: 600,
     marginRight: 15,
-    padding: '2px 24px',
-    textTransform: 'none'
+    padding: '3px 19.5px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
   },
   declineButton: {
     color: colors.red,
     borderColor: colors.red,
     fontSize: 14,
     fontWeight: 600,
-    padding: '2px 24px',
-    textTransform: 'none'
+    padding: '3px 19.5px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
   },
   label: {
     fontWeight: 500,
     fontSize: 13,
-    color: colors.primary
+    color: colors.primary,
+    display: 'inline-block',
+    marginRight: 5
   },
   content: {
     fontWeight: 500,
-    fontSize: 12
+    fontSize: 12,
+    display: 'inline-block'
   },
   labelError: {
+    display: 'inline-block',
+    float: 'right',
     fontWeight: 500,
     fontSize: 13,
     color: colors.red
@@ -50,15 +62,36 @@ const styles = (theme => ({
   },
   fieldWrapper: {
     marginTop: 5
+  },
+  editContent: {
+    margin: '0 5px',
+    color: colors.red,
+    display: 'inline-block',
+    fontSize: 12,
+    cursor: 'pointer',
+    fontWeight: 500,
+    transition: '0.2s',
+    '&:hover': {
+      fontWeight: 600
+    }
+  },
+  cancelOrder: {
+    textAlign: 'right',
+    cursor: 'pointer',
+    transition: '0.2s',
+    '&:hover': {
+      fontWeight: 600
+    }
   }
 }))
 
 const DetailSection = (props) => {
   const { classes, transactionId, status, 
-    position, passingDate, returnDate, address, 
-    extendedDeadline, sendRequestStatus
+    position, returnDate, address, 
+    extendedDeadline, sendRequestStatus, updatedAt
   } = props
-
+  const dateUpdate = new Date(updatedAt)
+  const passingDate = getFormattedDate(dateUpdate.setDate(dateUpdate.getDate() + 7))
   const handleRequest = (newStatus, direction) => () => {
     sendRequestStatus({
       transactionId,
@@ -90,10 +123,18 @@ const DetailSection = (props) => {
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Ngày giao sách:</div>
                 <div className={classes.content}>{passingDate}</div>
+                <div className={classes.editContent}>Sửa</div>
               </div>
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
+              </div>
+              <div className={classes.fieldWrapper}>
+                <div className={`${classes.labelError} ` + `${classes.cancelOrder}`}
+                  onClick={handleRequest('isCancel', 'holder')}
+                >
+                  Huỷ đơn
+                </div>
               </div>
             </div>
           )

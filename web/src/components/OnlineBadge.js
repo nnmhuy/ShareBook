@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core/styles'
 
 const OnlineBadge = withStyles(theme => ({
   badge: {
-    width: 14,
-    height: 14,
+    width: 13,
+    height: 13,
     background: '#09f212',
     border: '1px solid #fff',
     '&::after': {

@@ -51,13 +51,12 @@ const styles = theme => ({
 })
 
 const TransactionOption = (props) => {
-  const { classes } = props;
-  // const { transId } = props;
+  const { classes, transId } = props;
   return (
     <div className={classes.flexColumn}>
-      <div className={classes.idWrapper}>
-        <p className={classes.titleId}>Id giao dịch</p>
-        <p className={classes.name}>123157adsjg</p>
+      <div>
+        <p className={classes.title}>Id giao dịch</p>
+        <p className={classes.name} style={{ marginBottom: 10 }}>{transId}</p>
       </div>
       <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
@@ -65,7 +64,14 @@ const TransactionOption = (props) => {
         <p className={classes.name}>Animal farm</p>
       </div>
       <div>
-        <p className={classes.title}>Người dùng</p>
+        <p className={classes.title}>Người cho mượn</p>
+        <div className={classes.flexContainer}>
+          <Avatar src='user' className={classes.avatar} />
+          <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>
+        </div>
+      </div>
+      <div>
+        <p className={classes.title}>Người mượn</p>
         <div className={classes.flexContainer}>
           <Avatar src='user' className={classes.avatar} />
           <p className={classes.name}>Nguyễn Ngọc Minh Huy</p>

@@ -5,6 +5,7 @@ import Image from '../../../components/Image'
 import Link from '../../../components/Link'
 import DetailSection from './DetailSection'
 import ButtonSection from './ButtonSection'
+import getFormattedDate from '../../../helper/getFormattedDate'
 
 const styles = (theme => ({
   container: {
@@ -44,7 +45,7 @@ const styles = (theme => ({
 }))
 
 const TransactionInfoSection = (props) => {
-  const { classes, transactionId, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
+  const { classes, transactionId, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
   return (
     <div className={classes.container}>
       <div className={classes.infoContainer}>
@@ -73,6 +74,7 @@ const TransactionInfoSection = (props) => {
             position={position}
             status={status}
             sendRequestStatus={sendRequestStatus}
+            updatedAt={updatedAt}
           />
         </div>
       </div>
