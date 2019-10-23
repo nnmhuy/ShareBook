@@ -14,11 +14,15 @@ import { mapTransactionStatusToText, mapPositionToText } from '../../../constant
 const styles = (theme => ({
   container: {
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
     paddingTop: 10,
     paddingBottom: 10
+  },
+  centerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   avatar: {
     width: 50,
@@ -62,13 +66,11 @@ const styles = (theme => ({
     fontWeight: 500,
     fontStyle: 'italic',
     fontSize: 10,
-    lineHeight: 1.5,
     color: '#0c4f8e'
   },
   status: {
     fontWeight: 500,
     fontSize: 10,
-    lineHeight: 1.5,
     color: '#0c4f8e'
   },
   numberContainer: {
@@ -89,6 +91,9 @@ const styles = (theme => ({
     fontWeight: 600,
     fontSize: 12,
     color: colors.gray
+  },
+  statusContainer: {
+    lineHeight: 1
   }
 }))
 
@@ -98,30 +103,32 @@ const TransactionItem = (props) => {
   return (
     <Link to={`/transaction/${id}`}>
       <div className={classes.container}>
-        <OnlineBadge
-          overlap='circle'
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          variant='dot'
-          invisible={!isOnline}
-        >
-          <Avatar src={avatar} className={classes.avatar}/>
-        </OnlineBadge>
-        <div className={classes.imageContainer}>
-          {status === 8 &&
-            <div className={classes.completedWrapper}>
-              <CompletedIcon fill='#29FF83' className={classes.completedIcon}/>
+        <div className={classes.centerContainer}>
+          <OnlineBadge
+            overlap='circle'
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            variant='dot'
+            invisible={!isOnline}
+          >
+            <Avatar src={avatar} className={classes.avatar}/>
+          </OnlineBadge>
+          <div className={classes.imageContainer}>
+            {status === 8 &&
+              <div className={classes.completedWrapper}>
+                <CompletedIcon fill='#29FF83' className={classes.completedIcon}/>
+              </div>
+            }
+            <Image src={image} alt='book' className={classes.image}/>
+          </div>
+          <div className={classes.infoContainer}>
+            <div className={classes.username}>{name}</div>
+            <div className={classes.statusContainer}>
+              <span className={classes.position}>{mapPositionToText[position]}</span>
+              <span className={classes.status}>{` - ${mapTransactionStatusToText[status]}`}</span>
             </div>
-          }
-          <Image src={image} alt='book' className={classes.image}/>
-        </div>
-        <div className={classes.infoContainer}>
-          <div className={classes.username}>{name}</div>
-          <div>
-            <span className={classes.position}>{mapPositionToText[position]}</span>
-            <span className={classes.status}>{` - ${mapTransactionStatusToText[status]}`}</span>
           </div>
         </div>
         <div className={classes.numberContainer}>

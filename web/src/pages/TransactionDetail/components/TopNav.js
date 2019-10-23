@@ -54,8 +54,7 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-  const { classes, children, title } = props
-  const transId = '1238asjqiq23';
+  const { classes, children, title, transId } = props
   return (
     <CustomTopNav
       left={

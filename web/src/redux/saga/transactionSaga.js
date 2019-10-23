@@ -27,6 +27,7 @@ import {
   initTransactionFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
+import getFormattedDate from '../../helper/getFormattedDate'
 
 function* getTransactionSaga({ payload }) {
   try {
@@ -37,14 +38,22 @@ function* getTransactionSaga({ payload }) {
     if (transaction.holderId === userId) {
       user = get(yield call(restConnector.get, `/users/${transaction.borrowerId}`), 'data', {})
       user.position = 'borrower'
-    } else {
+    } else if (transaction.borrowerId === userId) {
       user = get(yield call(restConnector.get, `/users/${transaction.holderId}`), 'data', {})
       user.position = 'holder'
+    } else {
+      window.replace('/')
     }
 
+    // estimatedReadingTime
+    const { data: instance } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}`)
     const { data: book } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}/book`)
     const { data: messages } = yield call(restConnector.get, `transactions/${transactionId}/messages/count`)
 
+    const curDate = new Date()
+    const initialDeadline = getFormattedDate(curDate.setDate(curDate.getDay() + instance.estimatedReadingTime))
+
+    transaction.initialDeadline = initialDeadline
     yield put(getMessages({transactionId, skip: 0}))
 
     transaction.user = {
@@ -57,7 +66,8 @@ function* getTransactionSaga({ payload }) {
     transaction.book = {
       id: book.id,
       name: book.name,
-      image: book.image
+      image: book.image,
+      author: book.author
     }
 
 

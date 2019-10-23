@@ -29,7 +29,7 @@ const Image = (props) => {
       // src={src.url || src}
       src={getImageUrl(src.url || src)} // use normal <img> attributes as props
       {...others}
-      style={{ objectFit: 'cover' }}
+      style={{ objectFit: 'cover', fontSize: 10 }}
     />
   )
 }

@@ -107,9 +107,13 @@ const Book = (props) => {
       </Link>
       <div className={classes.rateContainer}>
         {isBookmarked ?
-          <BookmarkedIcon className={classes.bookmarkIcon} onClick={onBookmark} />
+          <BookmarkedIcon className={classes.bookmarkIcon}
+            // onClick={onBookmark}
+          />
           :
-          <BookmarkIcon className={classes.bookmarkIcon} onClick={onBookmark} />
+          <BookmarkIcon className={classes.bookmarkIcon}
+            // onClick={onBookmark}
+          />
         }
       </div>
     </div>

@@ -5,6 +5,9 @@ import BookInstance from './BookInstance'
 import Pagination from '../../../components/Pagination/index'
 
 import { numberOfBookInstancesPerPage } from '../../../constants/constants'
+import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg'
+
+import ActivityNull from '../../../components/ActivityNull'
 
 const styles = (theme => ({
   container: {
@@ -22,25 +25,34 @@ const BookInstanceList = (props) => {
   return (
     <div className={classes.container}>
       {
-        bookInstanceList.map((instance, index) => {
-          return (
-            <BookInstance
-              {...instance}  
-              userId={userId}
-              index={index}
-              key={index}
-              initTransaction={initTransaction}  
-            />
-          )
-        })
+        bookInstanceList.length === 0 ?
+        <div style={{ padding: '0 20px' }}>
+          <ActivityNull Icon={NotebookIcon} content='Hãy bắt đầu cho mượn sách cùng ShareBook nhé!' />
+        </div>
+        :
+        <>
+          {
+            bookInstanceList.map((instance, index) => {
+              return (
+                <BookInstance
+                {...instance}
+                userId={userId}
+                index={index}
+                key={index}
+                initTransaction={initTransaction}
+              />
+              )
+            })
+          }
+          <Pagination
+            pageCount={Math.ceil(numberOfInstances / numberOfBookInstancesPerPage)}
+            breakLabel={'. . .'}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            handlePageChange={handlePageChange}
+          />
+        </>
       }
-      <Pagination
-        pageCount={Math.ceil(numberOfInstances / numberOfBookInstancesPerPage)}
-        breakLabel={'. . .'}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        handlePageChange={handlePageChange}
-      />
     </div>
   )
 }

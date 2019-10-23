@@ -63,7 +63,7 @@ const styles = (theme => ({
     }
   },
   review: {
-    maxHeight: 270,
+    maxHeight: 180,
     marginTop: 20,
     marginBottom: 20,
     fontSize: 15,
@@ -82,7 +82,7 @@ const styles = (theme => ({
 }))
 
 const TopReviewItem = (props) => {
-  const { classes, bookId, userId, username, avatar, id, bookName, content } = props
+  const { classes, bookId, userId, username, avatar, id, bookName, reviewContent } = props
   return (
     <div className={classes.container}>
       <Quotation className={classes.quotation} />
@@ -98,7 +98,7 @@ const TopReviewItem = (props) => {
         <Link to={`/book-detail/${bookId}`} className={classes.link}>
           <div className={classes.bookName}>{bookName}</div>
         </Link>
-        <div className={classes.review}>"{content}"</div>
+        <div className={classes.review}>{reviewContent}</div>
         <Link to={`/review/${id}`} className={classes.link}>
           <RightArrow height={12} stroke={colors.textSecondary} />
           <span className={classes.goReview}> Đi tới review</span>
