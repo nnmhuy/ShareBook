@@ -16,14 +16,12 @@ const options = {
 
 module.exports = {
   sendNotification: function(pushSubscription, payload) {
-    try {
-      webPush.sendNotification(
-        pushSubscription,
-        payload,
-        options
-      );
-    } catch (error) {
+    webPush.sendNotification(
+      pushSubscription,
+      JSON.stringify(payload),
+      options
+    ).catch(error => {
       console.log(error);
-    }
+    });
   },
 };

@@ -2,6 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import Cookies from 'js-cookie'
 import get from 'lodash/get'
 
+import NotificationModule from '../../connectors/NotificationModule'
+
 import {
   logInLocal,
   logInLocalSuccess,
@@ -31,6 +33,7 @@ function* logInLocalSaga({ payload }) {
     yield put(getUserInfo())
     yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')
+    NotificationModule.subscribeUser();
     //window.history.push('/profile')
   } catch (error) {
     yield put(logInLocalFail(error))
@@ -107,6 +110,7 @@ function* logOutSaga() {
     window.location = '/book-list'
     const data = yield call(restConnector.post, '/users/logout')
     yield put(logOutSuccess(data))
+    NotificationModule.unsubscribeUser();
   } catch (error) {
     yield put(logOutFail(error))
   }

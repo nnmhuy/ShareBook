@@ -51,59 +51,65 @@ if ('function' === typeof importScripts) {
 /* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('notificationclose', event => {
   const notification = event.notification;
-  const primaryKey = notification.data.primaryKey;
+  const id = notification.data.id;
 
-  console.log('Closed notification: ' + primaryKey);
+  console.log('Closed notification: ' + id);
 });
 
 /* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('notificationclick', event => {
   const notification = event.notification;
-  const primaryKey = notification.data.primaryKey;
+  const { url } = notification.data;
   const action = event.action;
 
   if (action === 'close') {
     notification.close();
   } else {
-    clients.openWindow('samples/page' + primaryKey + '.html'); /* eslint-disable-line */
-    notification.close();
+    event.waitUntil(
+    /* eslint-disable-next-line */
+      clients.matchAll().then(clis => {
+        const client = clis.find(c => {
+          return c.visibilityState === 'visible';
+        });
+        if (client !== undefined) {
+          client.navigate(url);
+          client.focus();
+        } else {
+          // there are no visible windows. Open one.
+          /* eslint-disable-next-line */
+          clients.openWindow(url);
+          notification.close();
+        }
+      })
+    );
   }
-
-  // TODO 5.3 - close all notifications when one is clicked
-
 });
 
 /* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('push', event => {
-  let body;
-
-  if (event.data) {
-    body = event.data.text();
-  } else {
-    body = 'Default body';
-  }
+  console.log(event.data);
+  console.log(event.data.text());
+  const notificationData = JSON.parse(event.data.text());
+  const { title, body, tag, data, actions = [], icon, customOptions } = notificationData
 
   const options = {
-    body: body,
-    icon: 'images/notification-flat.png',
+    body,
+    // tag, does not push multiple message in desktop
+    data,
+    icon: icon || './static/images/logo.png',
+    badge: './static/images/booklist.svg',
     vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
     actions: [
       {
-        action: 'explore', title: 'Go to the site',
-        icon: 'images/checkmark.png'
+        action: 'explore', title: 'Đi đến ShareBook',
+        icon: './static/images/notebook-btn.svg'
       },
-      {
-        action: 'close', title: 'Close the notification',
-        icon: 'images/xmark.png'
-      },
-    ]
+      ...actions
+    ],
+    ...customOptions
   };
 
   event.waitUntil(
-    self.registration.showNotification('Push Notification', options) /* eslint-disable-line no-restricted-globals */
+    self.registration.showNotification(title, options) /* eslint-disable-line no-restricted-globals */
   );
 });
