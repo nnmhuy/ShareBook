@@ -4,9 +4,8 @@ import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
 import districtList from '../../../constants/district'
 
-import FormGroupInput from '../../CreateBook/components/FormGroupInput';
-import InputField from '../../../components/InputField'
-import SelectField from '../../../components/SelectField';
+import FormGroupInput from '../../CreateBook/components/FormGroupInput'
+import SelectField from '../../../components/SelectField'
 
 const styles = theme => ({
 	title: {
@@ -60,8 +59,7 @@ const cityOptions = [
 const districtOptions = districtList.slice(1, districtList.length - 1)
 
 const InputUserPanel = (props) => {
-	const { classes, errors, handleChange, handleBlur, values, setFieldValue, touched, isEdit } = props;
-	console.log(values)
+	const { classes, errors, handleChange, handleBlur, values, touched, isEdit } = props;
 	return (
 		<form>
 			<FormGroupInput
@@ -116,7 +114,8 @@ const InputUserPanel = (props) => {
 				touched={touched.fbLink}
 				label='Facebook Link'
 			/>
-			<InputField
+			<FormGroupInput
+				type='text'
 				id='address'
 				label='Địa chỉ'
 				name='address'

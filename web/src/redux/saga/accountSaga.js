@@ -74,17 +74,25 @@ function* editUserInfoSaga({ payload }) {
       const { data: newAddressInfo } = yield call(restConnector.post, `/locations`, newAddress)
       userData.homeLocationId = newAddressInfo.id
     }
-    const { data: newAccountInfo } = yield call(restConnector.patch, `/users/${userId}`, userData)
+    let { data: newAccountInfo } = yield call(restConnector.patch, `/users/${userId}`, userData)
     localStorage.setItem('role', newAccountInfo.role)
     localStorage.setItem('username', newAccountInfo.username)
     localStorage.setItem('name', newAccountInfo.name)
     localStorage.setItem('avatar', newAccountInfo.avatar)
     localStorage.setItem('coin', newAccountInfo.coin)
+    if (newAccountInfo.homeLocationId) {
+      const {data: newLocation} = yield call(restConnector.get, `/locations/${newAccountInfo.homeLocationId}`)
+      newAccountInfo.homeLocations = newLocation
+    }
     yield put(editUserInfoSuccess(newAccountInfo))
     successAlert('Thay đổi thành công')
   } catch (error) {
+    let errorMessage = get(error, 'response.data.error.message', 'HuHu thay đổi bị lỗi rồi')
+    if (errorMessage.indexOf('Email already exists') > -1) {
+      errorMessage = 'Email đã được sử dụng'
+    }
+    warnAlert(errorMessage)
     yield put(editUserInfoFail(error))
-    warnAlert('HuHu, có lỗi rồi')
   }
 }
 

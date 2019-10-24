@@ -47,7 +47,7 @@ const styles = theme => ({
 })
 
 const FormGroupInput = (props) => {
-  const { classes, id, name, type, error, value, label, disabled, handleChange, handleBlur, required, touched } = props
+  const { placeholder, classes, id, name, type, error, value, label, disabled, handleChange, handleBlur, required, touched } = props
   return (
     <FormGroup className={classes.formGroup}>
       <FormControl className={!disabled ? classes.inputAble : classes.input}>
@@ -60,6 +60,7 @@ const FormGroupInput = (props) => {
           disabled={disabled}
           onChange={handleChange}
           onBlur={handleBlur}
+          placeholder={placeholder}
         />
         <FormHelperText
           id={`${id}-error`}

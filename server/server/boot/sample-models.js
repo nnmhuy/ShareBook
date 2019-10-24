@@ -73,28 +73,28 @@ module.exports = function(app) {
     });
   }
 
-  User.find({
-    where: {
-      username: superAdminUsername,
-    },
-  }, (err, users) => {
-    // console.log('current user', users);
-    if (!users || !users[0]) {
-      createDefaultSuperAdmin();
-    }
-  });
+  // User.find({
+  //   where: {
+  //     username: superAdminUsername,
+  //   },
+  // }, (err, users) => {
+  //   // console.log('current user', users);
+  //   if (!users || !users[0]) {
+  //     createDefaultSuperAdmin();
+  //   }
+  // });
 
-  Container.getContainer(imageContainer, (err, storage) => {
-    if (!storage) {
-      createDefaultImageStorage(imageContainer);
-    }
-  });
+  // Container.getContainer(imageContainer, (err, storage) => {
+  //   if (!storage) {
+  //     createDefaultImageStorage(imageContainer);
+  //   }
+  // });
 
-  Container.getContainer(defaultContainner, (err, storage) => {
-    if (!storage) {
-      createDefaultImageStorage(defaultContainner);
-    }
-  });
+  // Container.getContainer(defaultContainner, (err, storage) => {
+  //   if (!storage) {
+  //     createDefaultImageStorage(defaultContainner);
+  //   }
+  // });
   // Category.find({
   //   where: {
   //     name: categoryList[0].name,
