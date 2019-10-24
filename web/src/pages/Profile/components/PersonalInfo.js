@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import colors from '../../../constants/colors';
-import Input from '@material-ui/core/Input';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import { withFormik } from 'formik'
+import { bindActionCreators } from 'redux'
 
 import Avatar from '../../../components/Avatar'
+import InputUserPanel from './InputUserPanel'
+import { editUserInfo } from '../../../redux/actions/accountAction'
+import { uploadImagePromise } from '../../../helper/uploadImage'
 import { ReactComponent as FacebookIcon } from '../../../static/images/facebook.svg';
 
 
@@ -108,32 +113,22 @@ class PersonalInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: props.currentUserInfo.username,
-			name: props.currentUserInfo.name,
-			phoneNumber: props.currentUserInfo.phoneNumber,
-			homeLocation: '22 Trần Đình Xu, phường Cư Trinh, Quận 4, Thành phố Hồ Chí Minh',
-			email: props.currentUserInfo.email
 		}
-	}
-
-	handleChange = e => {
-		this.setState({
-			[e.target.name]: e.target.value
-		})
 	}
 
 	changeAvatar = () => { }
 
 	render() {
-		const { classes, isEdit, isHidden, account, profileId } = this.props;
-		const { username, name, homeLocations, phoneNumber, email, avatar, fbLink } = this.props.currentUserInfo;
+		const { classes, isEdit, isHidden, currentUserInfo } = this.props;
+		const { handleSubmit, handleBlur, values, errors, handleChange, setFieldValue, isSubmitting,  touched } = this.props;
+		const { username, name, homeLocations, phoneNumber, email, avatar, fbLink } = currentUserInfo;
 		let homeLocation = null
 		if (homeLocations) {
 			homeLocation = homeLocations.address 
 			if (homeLocations.ward)
-				homeLocation += ", phường " + homeLocations.ward
+				homeLocation += ", phường/xã " + homeLocations.ward
 			if (homeLocations.district)
-				homeLocation += ", quận " + homeLocations.district
+				homeLocation += ", quận/huyện " + homeLocations.district
 			if (homeLocations.city)
 				homeLocation += ", thành phố " + homeLocations.city
 		}
@@ -174,22 +169,15 @@ class PersonalInfo extends Component {
 				{
 					isEdit &&
 					<div className={`${isHidden ? `${classes.personalContentHidden}` : `${classes.personalContent}`}`}>
-						<p className={classes.title}>Họ và tên</p>
-						<Input name='name' value={name} className={classes.input} onChange={this.handleChange} />
-
-						<p className={classes.title}>Địa chỉ
-                            <span className={classes.map}>Bản đồ</span>
-						</p>
-						<Input name='homeLocation' value={homeLocation} className={classes.input} onChange={this.handleChange} />
-
-						{/* error SDT */}
-						<p className={classes.title}>Số điện thoại</p>
-						<Input name='phoneNumber' value={phoneNumber} className={classes.input} onChange={this.handleChange} />
-
-						{/* error Email */}
-						<p className={classes.title}>Email</p>
-						<Input name='email' value={email} className={classes.input} onChange={this.handleChange} />
-						<Button className={classes.button}>Sửa</Button>
+						{/* <InputUserPanel
+            	values={values}
+            	errors={errors}
+            	handleChange={handleChange}
+            	handleBlur={handleBlur}
+            	setFieldValue={setFieldValue}
+            	touched={touched}
+          	/> */}
+						<Button className={classes.button} onClick={handleSubmit} disabled={isSubmitting}>Sửa</Button>
 					</div>
 				}
 			</>
@@ -197,4 +185,89 @@ class PersonalInfo extends Component {
 	}
 }
 
-export default (withStyles(styles)(PersonalInfo));
+const editUserWithFormik = withFormik({
+  mapPropsToValues: (props) => {
+    
+    return {
+      
+    }
+  },
+
+  validate: (values) => {
+    let errors = {}
+    if (!values.name) {
+      errors.name = 'Cần nhập tên sách'
+    }
+    if (!values.author) {
+      errors.author = 'Cần nhập tên tác giả'
+    }
+    if (!values.image) {
+      errors.image = 'Cần đăng hình cho quyển sách'
+    }
+    if (!values.categoryId) {
+      errors.categoryId = 'Cần chọn thể loại cho quyển sách'
+    }
+    return errors
+  },
+
+  handleSubmit: async (values, { setSubmitting, props }) => {
+    const {
+      isSubmitting,
+      editNewBook,
+      bookDetail
+    } = props
+
+    if (isSubmitting || values.isLoadingImage) return
+
+    setSubmitting(true)
+
+    const { name, author, image, bookType, volume, numberOfPages,
+      publisher, publishYear, price, description, categoryId
+    } = values
+
+    let imagesUrl = bookDetail.image
+    // change image
+    if (!image.cannotRotate) {
+      imagesUrl = await uploadImagePromise(image)
+    }
+
+    let data = {
+      name,
+      author,
+      image: imagesUrl,
+      categoryId,
+      volume,
+      numberOfPages,
+      publisher,
+      publishYear,
+      price,
+      description,
+      id: bookDetail.id
+    }
+
+    if (!bookType || bookType === 'single') {
+      data.volume = -1
+    }
+    if (!numberOfPages || bookDetail.numberOfPages === numberOfPages) delete data.numberOfPages
+    if (!publishYear || bookDetail.publishYear === publishYear) delete data.publishYear
+    if (!price || bookDetail.price === price) delete data.price
+    if (bookDetail.categoryId === categoryId) delete data.categoryId
+    if (bookDetail.image === data.image) delete data.image
+    if (bookDetail.description === description) delete data.description
+    // not remove name, author => for search value
+
+    editNewBook(data)
+    setSubmitting(false)
+  }
+})(withStyles(styles)(PersonalInfo))
+
+const mapStateToProps = ({ account }) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+	editUserInfoHandler: editUserInfo
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(editUserWithFormik);

@@ -27,7 +27,7 @@ import { successAlert, warnAlert } from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
   try {
-    yield call(restConnector.post, '/users/login', payload)
+    yield call(restConnector.post, '/users/login', { ...payload})
     yield put(getUserInfo())
     yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')

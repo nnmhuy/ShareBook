@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 import { baseURL } from '../constants/constants'
 import get from 'lodash/get'
 // import { warnAlert } from '../components/alert'
@@ -15,6 +16,10 @@ const RestConnector = () => {
       err.message = get(err, 'response.data.error.message', 'Có lỗi xảy ra!')
       if (err.code === 401 && err.config.url !== `${baseURL}/users/me` && !err.config.url.include(`${baseURL}/account`)) {
         // warnAlert('Bạn cần phải đăng nhập trước')
+        delete instance.defaults.headers.access_token
+        Cookies.remove('userId')
+        Cookies.remove('access_token')
+        localStorage.clear()
         window.location = '/account'
       }
       return Promise.reject(err)
