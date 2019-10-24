@@ -121,7 +121,6 @@ class BookList extends React.Component {
     try {
       totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
       totalOfBookResponse = get(totalOfBookResponse, 'data.count')
-      console.log(totalOfBookResponse)
     } catch (error) {
       console.log(error);
     }
