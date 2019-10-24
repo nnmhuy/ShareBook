@@ -1,9 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
+
 import colors from '../../../constants/colors';
+import districtList from '../../../constants/district'
 
 import FormGroupInput from '../../CreateBook/components/FormGroupInput';
-import RadioButtons from '../../../components/RadioButtons';
+import InputField from '../../../components/InputField'
 import SelectField from '../../../components/SelectField';
 
 const styles = theme => ({
@@ -41,123 +43,115 @@ const styles = theme => ({
 	},
 	select: {
 		width: '100%'
-	}
+	},
+	selectContainer: {
+		width: '100%',
+		maxWidth: 300,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
 })
 
-const typeOfBook = [
-	{ value: 'single', label: 'Sách lẻ' },
-	{ value: 'multiple', label: 'Sách bộ' }
+const cityOptions = [
+	{ value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' }
 ]
 
-const InputUserPanel = (props) => {
-	const { classes, errors, handleChange, handleBlur, values, setFieldValue, categoryList, touched } = props;
-	const categoryOptions = categoryList.map(category => ({
-		label: category.name,
-		value: category.id
-	}))
+const districtOptions = districtList.slice(1, districtList.length - 1)
 
+const InputUserPanel = (props) => {
+	const { classes, errors, handleChange, handleBlur, values, setFieldValue, touched, isEdit } = props;
+	console.log(values)
 	return (
 		<form>
 			<FormGroupInput
 				id='name'
 				name='name'
 				type='text'
+				disabled={!isEdit}
 				required
 				error={errors.name}
 				value={values.name}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
 				touched={touched.name}
-				label='Tên sách'
+				label='Tên hiển thị'
 			/>
 			<FormGroupInput
-				id='author'
-				name='author'
+				id='phoneNumber'
+				name='phoneNumber'
 				type='text'
-				required
-				error={errors.author}
-				value={values.author}
+				disabled={!isEdit}
+				// required
+				error={errors.phoneNumber}
+				value={values.phoneNumber}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
-				touched={touched.author}
-				label='Tác giả'
+				touched={touched.phoneNumber}
+				label='Số điện thoại'
 			/>
-			<SelectField
-				id='category'
-				label='Thể loại'
-				name='categoryId'
-				value={values.categoryId}
-				optionValues={categoryOptions}
-				handleChange={handleChange}
-				handleBlur={handleBlur}
-				error={errors.categoryId}
-				touched={touched.categoryId}
-				className={classes.select}
-			/>
-			<RadioButtons mb='15px' name="type" currentValue={values.bookType} label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue} />
-			<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-				<FormGroupInput
-					id='volume'
-					label='Volume'
-					name='volume'
-					type='number'
-					value={values.volume}
-					handleChange={handleChange}
-					handleBlur={handleBlur}
-					disabled={values.bookType !== 'multiple'}
-				/>
-				<div style={{ margin: '0 10px' }} />
-				<FormGroupInput
-					id='numberOfPages'
-					label='Số trang'
-					name='numberOfPages'
-					type='number'
-					value={values.numberOfPages}
-					handleChange={handleChange}
-					handleBlur={handleBlur}
-				/>
-			</div>
-			<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-				<FormGroupInput
-					id='publisher'
-					label='Nhà xuất bản'
-					name='publisher'
-					type='text'
-					value={values.publisher}
-					handleChange={handleChange}
-					handleBlur={handleBlur}
-				/>
-				<div style={{ margin: '0 10px' }} />
-				<FormGroupInput
-					id='publishYear'
-					label='Năm xuất bản'
-					name='publishYear'
-					type='number'
-					value={values.publishYear}
-					handleChange={handleChange}
-					handleBlur={handleBlur}
-				/>
-			</div>
 			<FormGroupInput
-				id='price'
-				label='Giá thị trường'
-				name='price'
-				type='number'
-				value={values.price}
+				id='email'
+				name='email'
+				type='text'
+				disabled={!isEdit}
+				// required
+				error={errors.email}
+				value={values.email}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				touched={touched.email}
+				label='Email'
+			/>
+			<FormGroupInput
+				id='fbLink'
+				name='fbLink'
+				type='text'
+				disabled={!isEdit}
+				// required
+				error={errors.fbLink}
+				value={values.fbLink}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				touched={touched.fbLink}
+				label='Facebook Link'
+			/>
+			<InputField
+				id='address'
+				label='Địa chỉ'
+				name='address'
+				disabled={!isEdit}
+				value={values.address}
+				touched={touched.address}
+				placeholder='Số nhà, tên đường, tên phường'
+				error={errors.address}
 				handleChange={handleChange}
 				handleBlur={handleBlur}
 			/>
-			<label className={classes.title}>
-				Giới thiệu sách
-						<textarea
-					className={classes.inputTextArea}
-					placeholder='Sách kể về . . .'
-					name='description'
-					value={values.description}
-					onChange={handleChange}
-					onBlur={handleBlur}
+			<div className={classes.selectContainer}>
+				<SelectField
+					id='district'
+					label='Quận'
+					name='district'
+					disabled={!isEdit}
+					value={values.district}
+					touched={touched.district}
+					error={errors.district}
+					optionValues={districtOptions}
+					handleChange={handleChange}
 				/>
-			</label>
+				<SelectField
+					id='city'
+					label='Thành phố'
+					name='city'
+					disabled={!isEdit}
+					value={values.city}
+					touched={touched.city}
+					error={errors.city}
+					optionValues={cityOptions}
+					handleChange={handleChange}
+				/>
+			</div>
 		</form>
 	);
 }

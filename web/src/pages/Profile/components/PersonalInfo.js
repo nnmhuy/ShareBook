@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withFormik } from 'formik'
 import { bindActionCreators } from 'redux'
+import get from 'lodash/get'
 
 import Avatar from '../../../components/Avatar'
 import InputUserPanel from './InputUserPanel'
@@ -120,11 +121,12 @@ class PersonalInfo extends Component {
 
 	render() {
 		const { classes, isEdit, isHidden, currentUserInfo } = this.props;
-		const { handleSubmit, handleBlur, values, errors, handleChange, setFieldValue, isSubmitting,  touched } = this.props;
+		const { handleSubmit, handleBlur, values, errors, handleChange, setFieldValue, isSubmitting, touched } = this.props;
+		console.log(values)
 		const { username, name, homeLocations, phoneNumber, email, avatar, fbLink } = currentUserInfo;
 		let homeLocation = null
 		if (homeLocations) {
-			homeLocation = homeLocations.address 
+			homeLocation = homeLocations.address
 			if (homeLocations.ward)
 				homeLocation += ", phường/xã " + homeLocations.ward
 			if (homeLocations.district)
@@ -149,121 +151,111 @@ class PersonalInfo extends Component {
 					</div>
 				</div>
 
-				{
-					!isEdit &&
-					<div className={`${isHidden ? `${classes.personalContentHidden}` : `${classes.personalContent}`}`}>
-						<p className={classes.title}>Tên hiển thị</p>
-						<p className={classes.content}>{name}</p>
-						<p className={classes.title}>Địa chỉ
-                            {/* <span className={classes.map}>Bản đồ</span> */}
-						</p>
-						<p className={classes.content}>{homeLocation || 'chưa có'}</p>
-						<p className={classes.title}>Số điện thoại</p>
-						<p className={classes.content}>{phoneNumber || 'chưa có'}</p>
-						<p className={classes.title}>Email</p>
-						<p className={classes.content}>{email || 'chưa có'}</p>
-						<p className={classes.title}><FacebookIcon fill={colors.primary} height='12px' className={classes.pointer} /> Facebook link</p>
-						<p className={classes.content}>{fbLink || 'chưa có'}</p>
-					</div>
-				}
-				{
-					isEdit &&
-					<div className={`${isHidden ? `${classes.personalContentHidden}` : `${classes.personalContent}`}`}>
-						{/* <InputUserPanel
-            	values={values}
-            	errors={errors}
-            	handleChange={handleChange}
-            	handleBlur={handleBlur}
-            	setFieldValue={setFieldValue}
-            	touched={touched}
-          	/> */}
-						<Button className={classes.button} onClick={handleSubmit} disabled={isSubmitting}>Sửa</Button>
-					</div>
-				}
+				<div className={`${isHidden ? `${classes.personalContentHidden}` : `${classes.personalContent}`}`}>
+					<InputUserPanel
+						isEdit={isEdit}
+						values={values}
+						errors={errors}
+						handleChange={handleChange}
+						handleBlur={handleBlur}
+						setFieldValue={setFieldValue}
+						touched={touched}
+					/>
+					<Button className={classes.button} onClick={handleSubmit} disabled={isSubmitting}>Sửa</Button>
+				</div>
 			</>
 		);
 	}
 }
 
 const editUserWithFormik = withFormik({
-  mapPropsToValues: (props) => {
-    
-    return {
-      
-    }
-  },
+	enableReinitialize: true,
+	mapPropsToValues: (props) => {
+		const { name, homeLocations, phoneNumber, email, avatar, fbLink } = props.currentUserInfo;
+		console.log(props.currentUserInfo)
+		return {
+			name: name,
+			phoneNumber: phoneNumber,
+			email: email,
+			fbLink: fbLink,
+			address: get(homeLocations, 'address', ''),
+			district: get(homeLocations, 'district', 0),
+			city: get(homeLocations, 'city', ''),
+			avatar: avatar
+		}
+	},
 
-  validate: (values) => {
-    let errors = {}
-    if (!values.name) {
-      errors.name = 'Cần nhập tên sách'
-    }
-    if (!values.author) {
-      errors.author = 'Cần nhập tên tác giả'
-    }
-    if (!values.image) {
-      errors.image = 'Cần đăng hình cho quyển sách'
-    }
-    if (!values.categoryId) {
-      errors.categoryId = 'Cần chọn thể loại cho quyển sách'
-    }
-    return errors
-  },
+	validate: (values) => {
+		let errors = {}
+		if (!values.name) {
+			errors.name = 'Cần nhập tên sách'
+		}
+		if (!values.author) {
+			errors.author = 'Cần nhập tên tác giả'
+		}
+		if (!values.image) {
+			errors.image = 'Cần đăng hình cho quyển sách'
+		}
+		if (!values.categoryId) {
+			errors.categoryId = 'Cần chọn thể loại cho quyển sách'
+		}
+		return errors
+	},
 
-  handleSubmit: async (values, { setSubmitting, props }) => {
-    const {
-      isSubmitting,
-      editNewBook,
-      bookDetail
-    } = props
+	handleSubmit: async (values, { setSubmitting, props }) => {
+		const {
+			isSubmitting,
+			editNewBook,
+			bookDetail
+		} = props
 
-    if (isSubmitting || values.isLoadingImage) return
+		if (isSubmitting || values.isLoadingImage) return
 
-    setSubmitting(true)
+		setSubmitting(true)
 
-    const { name, author, image, bookType, volume, numberOfPages,
-      publisher, publishYear, price, description, categoryId
-    } = values
+		const { name, author, image, bookType, volume, numberOfPages,
+			publisher, publishYear, price, description, categoryId
+		} = values
 
-    let imagesUrl = bookDetail.image
-    // change image
-    if (!image.cannotRotate) {
-      imagesUrl = await uploadImagePromise(image)
-    }
+		let imagesUrl = bookDetail.image
+		// change image
+		if (!image.cannotRotate) {
+			imagesUrl = await uploadImagePromise(image)
+		}
 
-    let data = {
-      name,
-      author,
-      image: imagesUrl,
-      categoryId,
-      volume,
-      numberOfPages,
-      publisher,
-      publishYear,
-      price,
-      description,
-      id: bookDetail.id
-    }
+		let data = {
+			name,
+			author,
+			image: imagesUrl,
+			categoryId,
+			volume,
+			numberOfPages,
+			publisher,
+			publishYear,
+			price,
+			description,
+			id: bookDetail.id
+		}
 
-    if (!bookType || bookType === 'single') {
-      data.volume = -1
-    }
-    if (!numberOfPages || bookDetail.numberOfPages === numberOfPages) delete data.numberOfPages
-    if (!publishYear || bookDetail.publishYear === publishYear) delete data.publishYear
-    if (!price || bookDetail.price === price) delete data.price
-    if (bookDetail.categoryId === categoryId) delete data.categoryId
-    if (bookDetail.image === data.image) delete data.image
-    if (bookDetail.description === description) delete data.description
-    // not remove name, author => for search value
+		if (!bookType || bookType === 'single') {
+			data.volume = -1
+		}
+		if (!numberOfPages || bookDetail.numberOfPages === numberOfPages) delete data.numberOfPages
+		if (!publishYear || bookDetail.publishYear === publishYear) delete data.publishYear
+		if (!price || bookDetail.price === price) delete data.price
+		if (bookDetail.categoryId === categoryId) delete data.categoryId
+		if (bookDetail.image === data.image) delete data.image
+		if (bookDetail.description === description) delete data.description
+		// not remove name, author => for search value
 
-    editNewBook(data)
-    setSubmitting(false)
-  }
+		editNewBook(data)
+		setSubmitting(false)
+	}
 })(withStyles(styles)(PersonalInfo))
 
 const mapStateToProps = ({ account }) => {
-  return {
-  }
+	return {
+	}
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

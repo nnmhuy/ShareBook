@@ -30,7 +30,7 @@ const styles = (theme => ({
 const InputField = (props) => {
   const {
     classes, id, label, name, value, touched, error,
-    optionValues, handleChange, className, handleBlur
+    optionValues, handleChange, className, handleBlur, disabled
   } = props
 
   const inputLabel = React.useRef(null);
@@ -46,6 +46,7 @@ const InputField = (props) => {
       </InputLabel>
       <Select
         native
+        disabled={disabled}
         value={value}
         name={name}
         onChange={handleChange}

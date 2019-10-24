@@ -35,14 +35,14 @@ const styles = theme => ({
 class CreateBook extends Component {
 	componentDidMount() {
 		const { getCategories } = this.props
-		getCategories({ skipAllBook: true})
+		getCategories({ skipAllBook: true })
 	}
 	render() {
-		const { classes, handleSubmit, handleBlur, 
+		const { classes, handleSubmit, handleBlur,
 			values, errors, handleChange, setFieldValue, isSubmitting,
 			categoryIsLoading, categoryList, touched
 		} = this.props;
-		
+
 		return (
 			<TopNavSend title='Tạo sách mới' textSend='Đăng' handleSubmit={handleSubmit}>
 				<Loading isLoading={values.isImageLoading || isSubmitting || categoryIsLoading} />
@@ -53,8 +53,8 @@ class CreateBook extends Component {
 						error={errors.image}
 					/>
 					<InputPanel
-						values={values} 
-						errors={errors} 
+						values={values}
+						errors={errors}
 						handleChange={handleChange}
 						handleBlur={handleBlur}
 						setFieldValue={setFieldValue}
@@ -75,77 +75,77 @@ class CreateBook extends Component {
 }
 
 const CreateBookWithFormik = withFormik({
-    mapPropsToValues: (props) => {
-			return {
-				name: '',
-				author: '',
-				categoryId: '',
-				bookType: '',
-				volume: '',
-				numberOfPages: '',
-				publisher: '',
-				publishYear: '',
-				price: '',
-				description: ''						
-			}
-		},
-		
-		validate: (values) => {
-			let errors = {}
-			if (!values.name) {
-				errors.name = 'Cần nhập tên sách'
-			}
-			if (!values.author) {
-				errors.author = 'Cần nhập tên tác giả'
-			}
-			if (!values.image) {
-				errors.image = 'Cần đăng hình cho quyển sách'
-			}
-			if (!values.categoryId) {
-				errors.categoryId = 'Cần chọn thể loại cho quyển sách'
-			}
-			return errors
-		},
+	mapPropsToValues: (props) => {
+		return {
+			name: '',
+			author: '',
+			categoryId: '',
+			bookType: '',
+			volume: '',
+			numberOfPages: '',
+			publisher: '',
+			publishYear: '',
+			price: '',
+			description: ''
+		}
+	},
 
-    handleSubmit: async (values, { setSubmitting, props }) => {
-			const {
-					isSubmitting,
-					createNewBook
-			} = props
+	validate: (values) => {
+		let errors = {}
+		if (!values.name) {
+			errors.name = 'Cần nhập tên sách'
+		}
+		if (!values.author) {
+			errors.author = 'Cần nhập tên tác giả'
+		}
+		if (!values.image) {
+			errors.image = 'Cần đăng hình cho quyển sách'
+		}
+		if (!values.categoryId) {
+			errors.categoryId = 'Cần chọn thể loại cho quyển sách'
+		}
+		return errors
+	},
 
-			if (isSubmitting || values.isLoadingImage) return
+	handleSubmit: async (values, { setSubmitting, props }) => {
+		const {
+			isSubmitting,
+			createNewBook
+		} = props
 
-			setSubmitting(true)
-			
-			const { name, author, image, bookType, volume, numberOfPages, 
-				publisher, publishYear, price, description, categoryId
-			} = values
+		if (isSubmitting || values.isLoadingImage) return
 
-			const imagesUrl = await uploadImagePromise(image)
+		setSubmitting(true)
 
-			let data = {
-				name,
-				author,
-				image: imagesUrl,
-				categoryId,
-				volume,
-				numberOfPages,
-				publisher,
-				publishYear,
-				price,
-				description
-			}
+		const { name, author, image, bookType, volume, numberOfPages,
+			publisher, publishYear, price, description, categoryId
+		} = values
 
-			if (!bookType || bookType === 'single') {
-				data.volume = -1
-			}
-			if (!numberOfPages) delete data.numberOfPages
-			if (!publishYear) delete data.publishYear
-			if (!price) delete data.price
+		const imagesUrl = await uploadImagePromise(image)
 
-			createNewBook(data)
-			setSubmitting(false)
-    }
+		let data = {
+			name,
+			author,
+			image: imagesUrl,
+			categoryId,
+			volume,
+			numberOfPages,
+			publisher,
+			publishYear,
+			price,
+			description
+		}
+
+		if (!bookType || bookType === 'single') {
+			data.volume = -1
+		}
+		if (!numberOfPages) delete data.numberOfPages
+		if (!publishYear) delete data.publishYear
+		if (!price) delete data.price
+
+		createNewBook(data)
+		setSubmitting(false)
+	}
 })(withStyles(styles)(CreateBook))
 
 const mapStateToProps = ({ book }) => {
