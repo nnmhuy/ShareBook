@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import colors from '../../../constants/colors'
 import getFormattedDate from '../../../helper/getFormattedDate'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
 
 const styles = (theme => ({
   container: {
@@ -92,12 +94,26 @@ const DetailSection = (props) => {
   } = props
   const dateUpdate = new Date(updatedAt)
   const passingDate = getFormattedDate(dateUpdate.setDate(dateUpdate.getDate() + 7))
+  const [isViewing, setViewing] = useState(false)
+  const [curAddress, setAddress] = React.useState('')
+  const [curDate, setDate] = React.useState(passingDate)
+
   const handleRequest = (newStatus, direction) => () => {
     sendRequestStatus({
       transactionId,
       status: newStatus,
       direction
     })
+  }
+
+  const toggleViewing = (value) => {
+    setViewing(value)
+  }
+
+  const openModal = (date, address, isViewing) => {
+    toggleViewing(isViewing);
+    setAddress(address);
+    setDate(date)
   }
 
   if (position === 'borrower') {
@@ -123,11 +139,13 @@ const DetailSection = (props) => {
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Ngày giao sách:</div>
                 <div className={classes.content}>{passingDate}</div>
-                <div className={classes.editContent}>Sửa</div>
               </div>
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.content}>{address}</div>
+                <div className={classes.editContent}
+                  // onClick={() => openModal(passingDate, address, true)}
+                >Sửa</div>
               </div>
               <div className={classes.fieldWrapper}>
                 <div className={`${classes.labelError} ` + `${classes.cancelOrder}`}
@@ -136,6 +154,14 @@ const DetailSection = (props) => {
                   Huỷ đơn
                 </div>
               </div>
+              <Dialog
+                aria-labelledby="customized-dialog-title" open={isViewing} onClose={() => openModal(passingDate, address, false)} className={classes.modal}>
+                <DialogContent style={{ padding: 0 }}>
+                  {/* <Image src={curImg} alt='placeholder' className={classes.imageModal} /> */}
+                  hello there
+                  <Button onClick={() => openModal(passingDate, address, false)}>xong</Button>
+                </DialogContent>
+              </Dialog>
             </div>
           )
         case 'isReading':
@@ -159,7 +185,7 @@ const DetailSection = (props) => {
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ</div>
+                <div className={classes.label}>Địa chỉ: </div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>
@@ -172,7 +198,7 @@ const DetailSection = (props) => {
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ</div>
+                <div className={classes.label}>Địa chỉ: </div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>
@@ -187,7 +213,7 @@ const DetailSection = (props) => {
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ</div>
+                <div className={classes.label}>Địa chỉ: </div>
                 <div className={classes.content}>{address}</div>
               </div>
             </div>

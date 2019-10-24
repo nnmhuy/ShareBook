@@ -9,29 +9,45 @@ const styles = (theme => ({
     padding: '10px 20px'
   },
   acceptButton: {
+    fontFamily: 'Montserrat',
     color: colors.green,
     borderColor: colors.green,
     fontSize: 14,
     fontWeight: 600,
     marginRight: 15,
     padding: '2px 24px',
-    textTransform: 'none'
+    textTransform: 'none',
+    '&:hover': {
+      color: 'white',
+      backgroundColor: colors.green
+    }
   },
   declineButton: {
+    fontFamily: 'Montserrat',
     color: colors.red,
     borderColor: colors.red,
     fontSize: 14,
     fontWeight: 600,
     padding: '2px 24px',
-    textTransform: 'none'
+    textTransform: 'none',
+    '&:hover': {
+      color: 'white',
+      backgroundColor: colors.red
+    }
   },
   normalButton: {
+    fontFamily: 'Montserrat',
     color: colors.primary,
     borderColor: colors.primary,
     fontSize: 14,
     fontWeight: 600,
     padding: '2px 24px',
-    textTransform: 'none'
+    textTransform: 'none',
+    transition: '0.3s',
+    '&:hover': {
+      color: 'white',
+      backgroundColor: colors.primary
+    }
   }
 }))
 

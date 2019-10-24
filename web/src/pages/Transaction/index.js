@@ -20,6 +20,7 @@ import {
   requestStatus,
   socketNewStatus
 } from '../../redux/actions/transactionAction'
+import { withFormik } from 'formik'
 
 const styles = (theme => ({
   container: {
@@ -164,6 +165,45 @@ class Transaction extends React.Component {
   }
 }
 
+const EditDateWithFormik = withFormik({
+  mapPropsToValues: (props) => {
+    return {
+      content: ''
+    }
+  },
+
+  handleSubmit: async (values, { setSubmitting, props }) => {
+    const {
+      isSubmitting,
+      createReport,
+      match,
+    } = props
+
+    if (isSubmitting) return
+    setSubmitting(true)
+
+    let { content, type } = values
+    if (match.params.type) type = match.params.type
+    if (!type) type = 'other'
+
+    const data = {
+      content,
+      typeOfTarget: type, //book, bookInstance, review, reply, user
+      valueId: match.params.value //bookId, bookInstanceId, reviewId, replyId, userId
+    }
+
+    if (!match.params.type) {
+      delete data.valueId
+    }
+
+    createReport(data)
+    values.content = ''
+    setSubmitting(false)
+  }
+})(withStyles(styles)(Transaction))
+
+
+
 const mapStateToProps = ({ transaction }) => {
   return {
     account: {
@@ -191,4 +231,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   receiveStatus: socketNewStatus
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));
+export default connect(mapStateToProps, mapDispatchToProps)(EditDateWithFormik);
