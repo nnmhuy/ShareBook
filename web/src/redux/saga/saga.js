@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects';
 import {
   logInLocalWatcher,
   getUserInfoWatcher,
+  editUserInfoWatcher,
   getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher
@@ -56,6 +57,7 @@ export default function* rootSaga() {
   yield all([
     logInLocalWatcher(),
     getUserInfoWatcher(),
+    editUserInfoWatcher(),
     getOtherUserInfoWatcher(),
     logOutWatcher(),
     signUpWatcher(),

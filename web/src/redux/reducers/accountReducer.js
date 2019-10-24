@@ -7,6 +7,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -97,6 +100,37 @@ const accountReducer = handleActions(
         isLoading: false,
         isAuth: false,
         ...unAuthorizedUser,
+        error
+      }
+    },
+    [editUserInfo]: (state) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    },
+    [editUserInfoSuccess]: (state, { payload: newAccountInfo }) => {
+      return {
+        ...state,
+        isLoading: false,
+        otherAccount: newAccountInfo,
+        email: newAccountInfo.email,
+        fbLink: newAccountInfo.fbLink,
+        phoneNumber: newAccountInfo.phoneNumber,
+        avatar: newAccountInfo.avatar,
+        name: newAccountInfo.avatar,
+        role: newAccountInfo.role,
+        coin: newAccountInfo.coin,
+        contribution: newAccountInfo.contribution,
+        homeLocationId: newAccountInfo.homeLocationId,
+        clubId: newAccountInfo.clubId,
+        error: null
+      }
+    },
+    [editUserInfoFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoading: false,
         error
       }
     },

@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import colors from '../../../constants/colors';
 
-import FormGroupInput from './FormGroupInput';
+import FormGroupInput from '../../CreateBook/components/FormGroupInput';
 import RadioButtons from '../../../components/RadioButtons';
 import SelectField from '../../../components/SelectField';
 
@@ -49,7 +49,7 @@ const typeOfBook = [
 	{ value: 'multiple', label: 'Sách bộ' }
 ]
 
-const InputPanel = (props) => {
+const InputUserPanel = (props) => {
 	const { classes, errors, handleChange, handleBlur, values, setFieldValue, categoryList, touched } = props;
 	const categoryOptions = categoryList.map(category => ({
 		label: category.name,
@@ -162,4 +162,4 @@ const InputPanel = (props) => {
 	);
 }
 
-export default (withStyles(styles)(InputPanel));
+export default (withStyles(styles)(InputUserPanel));

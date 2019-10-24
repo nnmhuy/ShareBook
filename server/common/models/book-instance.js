@@ -7,7 +7,7 @@ module.exports = function(BookInstance) {
   BookInstance.validatesPresenceOf('bookId', 'ownerId', 'holderId');
 
   BookInstance.observe('before save', (ctx, next) => {
-    if (get(ctx, 'data.secretKey') === secretKey) {
+    if (get(ctx, 'data.secretKey') === secretKey && ctx.data) {
       delete ctx.data.secretKey;
       return next();
     }

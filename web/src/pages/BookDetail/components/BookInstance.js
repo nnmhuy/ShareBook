@@ -251,9 +251,11 @@ const keyArray = [
   },
   {
     label: 'Phương thức trả',
-    key: 'type',
+    key: 'method',
     mapValue: (value) => {
       switch (value) {
+        case undefined:
+          return 'Trả lại'
         case 0:
           return 'Trả lại'
         case 'returning':
