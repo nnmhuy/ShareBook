@@ -22,7 +22,7 @@ module.exports = function profileToUser(provider, profile, options) {
       profile.emails && profile.emails[0] && profile.emails[0].value;
     var generatedEmail =
       (profile.username || profile.id) +
-      '@sharebook.org.vn';
+      '@sharebook.com.vn';
     var email = profileEmail || generatedEmail;
     var username = provider + '.' + (profile.username || profile.id);
     password = utils.generateKey('password');

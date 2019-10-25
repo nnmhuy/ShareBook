@@ -135,7 +135,7 @@ class CategoryBookList extends React.Component {
     try {
       totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
     let condition = {key: `category-${categoryLabel}`, where,
       limit: defaultValue.numberOfBookPerPage,

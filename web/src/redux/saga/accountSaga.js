@@ -9,6 +9,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -24,7 +27,7 @@ import { successAlert, warnAlert } from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
   try {
-    yield call(restConnector.post, '/users/login', payload)
+    yield call(restConnector.post, '/users/login', { ...payload})
     yield put(getUserInfo())
     yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')
@@ -53,6 +56,32 @@ function* getUserInfoSaga() {
     yield put(getUserInfoSuccess(data))
   } catch (error) {
     yield put(getUserInfoFail(error))
+  }
+}
+
+function* editUserInfoSaga({ payload }) {
+  try {
+    const {name, fbLink, avatar, phoneNumber, bio, address, email, userId} = payload
+    let userData = {name, fbLink, avatar, phoneNumber, bio, email}
+    if (address) {
+      const newAddress = {
+        ...address,
+        attachUser: "true"
+      }
+      const { data: newAddressInfo } = yield call(restConnector.post, `/locations`, newAddress)
+      userData.homeLocationId = newAddressInfo.id
+    }
+    const { data: newAccountInfo } = yield call(restConnector.patch, `/users/${userId}`, userData)
+    localStorage.setItem('role', newAccountInfo.role)
+    localStorage.setItem('username', newAccountInfo.username)
+    localStorage.setItem('name', newAccountInfo.name)
+    localStorage.setItem('avatar', newAccountInfo.avatar)
+    localStorage.setItem('coin', newAccountInfo.coin)
+    yield put(editUserInfoSuccess(newAccountInfo))
+    successAlert('Thay đổi thành công')
+  } catch (error) {
+    yield put(editUserInfoFail(error))
+    warnAlert('HuHu, có lỗi rồi')
   }
 }
 
@@ -111,6 +140,10 @@ function* getUserInfoWatcher() {
   yield takeLatest(getUserInfo, getUserInfoSaga)
 }
 
+function* editUserInfoWatcher() {
+  yield takeLatest(editUserInfo, editUserInfoSaga)
+}
+
 function* getOtherUserInfoWatcher() {
   yield takeLatest(getOtherUserInfo, getOtherUserInfoSaga)
 }
@@ -126,6 +159,7 @@ function* signUpWatcher() {
 export {
   logInLocalWatcher,
   getUserInfoWatcher,
+  editUserInfoWatcher,
   getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher

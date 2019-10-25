@@ -11,6 +11,7 @@ import ReviewTab from './components/ReviewTab';
 import TopNav from './components/TopNav';
 
 import { getBookmarkedLite, toggleBookmark } from '../../redux/actions/bookAction';
+import { getOtherUserInfo } from '../../redux/actions/accountAction'
 import { ReactComponent as UserIcon } from '../../static/images/user.svg';
 import { ReactComponent as NewsfeedIcon } from '../../static/images/newsfeed.svg';
 import { ReactComponent as NewsfeedActiveIcon } from '../../static/images/newsfeed-active.svg';
@@ -36,17 +37,23 @@ const styles = theme => ({
 })
 
 const Profile = props => {
-  const { classes, account, match, getBookmarked, history, bookmarked, isLoadingBookmarkedLite } = props;
+  const { classes, account, match, getBookmarked, history, bookmarked, isLoadingBookmarkedLite, currentUserInfo, isLoadingAccount } = props;
   const profileId = match.params.profileId;
   if (profileId === 'me' && !account.isAuth)
     history.replace('/')
-  const isLoading = isLoadingBookmarkedLite
+  if (profileId === account.userId && account.isAuth)
+    history.replace('/profile/me')
+  const isLoading = isLoadingBookmarkedLite || isLoadingAccount
   const [currentTab, handleChangeTab] = useState(0)
 
   useEffect(() => {
-    console.log(match.params)
     const userId = match.params.profileId
     userId === 'me' && getBookmarked({userId})
+    if (userId !== 'me') {
+      props.getOtherUserInfoHandler({userId: userId})
+    } else {
+      props.getOtherUserInfoHandler({userId: props.account.userId})
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -81,7 +88,8 @@ const Profile = props => {
             } />
         </Tabs>
         <TabPanel index={0} value={currentTab} className={classes.wrapper}>
-          <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} account={account} profileId={profileId} handleToggleBookmark={handleToggleBookmark} />
+          <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} account={account} profileId={profileId}
+          handleToggleBookmark={handleToggleBookmark} currentUserInfo={currentUserInfo} />
         </TabPanel>
         <TabPanel index={1} value={currentTab} className={classes.wrapper}>
           <ReviewTab profileId={profileId} />
@@ -101,14 +109,17 @@ const mapStateToProps = ({ account, book }) => {
       avatar: localStorage.getItem('avatar'),
       coin: Number.parseInt(localStorage.getItem('coin')),
     },
+    currentUserInfo: account.otherAccount,
     bookmarked: book.bookmarked,
+    isLoadingAccount: account.isLoading,
     isLoadingBookmarkedLite: book.isLoadingBookmarked
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getBookmarked: getBookmarkedLite,
-  toggleBookmarkStatus: toggleBookmark
+  toggleBookmarkStatus: toggleBookmark,
+  getOtherUserInfoHandler: getOtherUserInfo
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Profile));
