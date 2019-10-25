@@ -21,7 +21,10 @@ import {
   initTransaction,
   initTransactionSuccess,
   initTransactionFail,
-  socketNewStatus
+  socketNewStatus,
+  changeDateTransaction,
+  changeDateTransactionSuccess,
+  changeDateTransactionFail
 } from '../actions/transactionAction'
 
 let defaultState = {
@@ -199,7 +202,38 @@ const transactionReducer = handleActions(
         transactionList: newTransactionList,
         transaction: newTransaction
       }
-    }
+    },
+    [changeDateTransaction]: (state) => {
+      return {
+        ...state
+      }
+    },
+    [changeDateTransactionSuccess]: (state, { payload: { type, value } }) => {
+      if (type === 'passingDate')
+        return {
+          ...state,
+          ...state.transaction.passingDate,
+          value
+        }
+      else if (type === 'returnDate')
+        return {
+          ...state,
+          ...state.transaction.returnDate,
+          value
+        }
+      else if (type === 'address')
+        return {
+        ...state,
+        ...state.transaction.address,
+        value
+      }
+    },
+    [changeDateTransactionFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        error: error
+      }
+    },
   },
   defaultState
 )
