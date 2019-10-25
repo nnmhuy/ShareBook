@@ -56,6 +56,7 @@ function* getUserInfoSaga() {
     localStorage.setItem('name', data.name)
     localStorage.setItem('avatar', data.avatar)
     localStorage.setItem('coin', data.coin)
+    localStorage.setItem('homeLocationId', data.homeLocationId)
     yield put(getUserInfoSuccess(data))
   } catch (error) {
     yield put(getUserInfoFail(error))
@@ -80,6 +81,7 @@ function* editUserInfoSaga({ payload }) {
     localStorage.setItem('name', newAccountInfo.name)
     localStorage.setItem('avatar', newAccountInfo.avatar)
     localStorage.setItem('coin', newAccountInfo.coin)
+    localStorage.setItem('homeLocationId', newAccountInfo.homeLocationId)
     if (newAccountInfo.homeLocationId) {
       const {data: newLocation} = yield call(restConnector.get, `/locations/${newAccountInfo.homeLocationId}`)
       newAccountInfo.homeLocations = newLocation

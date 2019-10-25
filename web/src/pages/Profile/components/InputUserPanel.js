@@ -119,6 +119,7 @@ const InputUserPanel = (props) => {
 				id='address'
 				label='Địa chỉ'
 				name='address'
+				required
 				disabled={!isEdit}
 				value={values.address}
 				touched={touched.address}
@@ -132,6 +133,7 @@ const InputUserPanel = (props) => {
 					id='district'
 					label='Quận'
 					name='district'
+					required
 					disabled={!isEdit}
 					value={values.district}
 					touched={touched.district}
@@ -143,6 +145,7 @@ const InputUserPanel = (props) => {
 					id='city'
 					label='Thành phố'
 					name='city'
+					required
 					disabled={!isEdit}
 					value={values.city}
 					touched={touched.city}

@@ -29,7 +29,7 @@ const styles = (theme => ({
 
 const InputField = (props) => {
   const {
-    classes, id, label, name, value, touched, error,
+    classes, id, label, name, value, touched, error, required,
     optionValues, handleChange, className, handleBlur, disabled
   } = props
 
@@ -41,7 +41,7 @@ const InputField = (props) => {
 
   return (
     <FormControl variant='outlined' className={`${classes.select} ${className}`}>
-      <InputLabel ref={inputLabel} htmlFor={id}>
+      <InputLabel ref={inputLabel} htmlFor={id} required={required}>
         {label}
       </InputLabel>
       <Select
