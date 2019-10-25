@@ -10,7 +10,7 @@ import colors from '../../constants/colors';
 import Avatar from '../../components/Avatar';
 import Button from '@material-ui/core/Button';
 import Image from '../../components/Image';
-import { getTransaction } from '../../redux/actions/transactionAction';
+import { getTransaction, requestStatus } from '../../redux/actions/transactionAction';
 import { bindActionCreators } from 'redux';
 import Loading from '../../components/Loading';
 import getFormattedDate from '../../helper/getFormattedDate';
@@ -65,7 +65,7 @@ const styles = theme => ({
     fontSize: 12,
     fontFamily: 'Montserrat',
     color: colors.primary,
-    width: 170,
+    width: 180,
     position: 'relative',
     margin: '0 0 1px 0',
     cursor: 'pointer',
@@ -130,6 +130,7 @@ const styles = theme => ({
     }
   },
   buttonActive: {
+    color: colors.white,
     background: colors.primary,
     pointerEvents: 'auto',
     '&:hover': {
@@ -139,20 +140,45 @@ const styles = theme => ({
   buttonRed: {
     background: colors.red,
     pointerEvents: 'none',
+    transition: '0.3s',
     '&:hover': {
+      color: 'white',
       background: colors.red
     }
   },
   buttonOrange: {
     background: '#f67c22',
     pointerEvents: 'auto',
+    transition: '0.3s',
     '&:hover': {
+      color: 'white',
       background: '#f67c22'
+    }
+  },
+  buttonAgree: {
+    color: colors.green,
+    border: `1px solid ${colors.green}`,
+    transition: '0.3s',
+    '&:hover': {
+      color: 'white',
+      background: colors.green
+    }
+  },
+  buttonReject: {
+    color: colors.red,
+    background: 'transparent',
+    border: `1px solid ${colors.red}`,
+    pointerEvents: 'auto',
+    transition: '0.3s',
+    '&:hover': {
+      color: 'white',
+      background: colors.red
     }
   },
   image: {
     width: 60,
-    height: 80
+    height: 80,
+    marginRight: 5
   },
   bookTitle: {
     fontSize: 13,
@@ -187,18 +213,26 @@ const styles = theme => ({
     '&:hover': {
       textDecoration: 'none'
     }
+  },
+  labelError: {
+    display: 'inline-block',
+    float: 'right',
+    fontWeight: 500,
+    fontSize: 14,
+    color: colors.red,
+    marginTop: 10
   }
 })
 
 const TransactionDetail = props => {
-  const { classes, match, transaction, account, getTransaction, isLoadingTransaction } = props;
+  const { classes, match, transaction, sendRequestStatus, account, getTransaction, isLoadingTransaction } = props;
   const { userId } = account;
   const { transId } = match.params;
   const createdAt = get(transaction, 'createdAt', '')
   const passingDate = get(transaction, 'passingDate', '')
   const returnDate = get(transaction, 'returnDate', '')
   const avatar = get(transaction, 'user.avatar', '')
-  const username = get(transaction, 'user.name', '')
+  const name = get(transaction, 'user.name', '')
   const position = get(transaction, 'user.position', '')
   const address = get(transaction, 'address', '')
   const status = get(transaction, 'status', '')
@@ -222,30 +256,84 @@ const TransactionDetail = props => {
     setCopy(true)
   }
 
+  const handleRequest = (newStatus, direction) => () => {
+    console.log('h')
+    sendRequestStatus({
+      transactionId: transId,
+      status: newStatus,
+      direction
+    })
+  }
+
   const confirmButton = () => {
     if (position === 'holder') {
       if (!isReviewed) {
         switch (status) {
           case 'waitingForResponse':
-            return <Button className={classes.button}>Đã nhận sách</Button>
+            return (
+              <>
+                <Button className={classes.button}>Đã nhận sách</Button>
+                <Button onClick={handleRequest('isCancel', 'borrower')} className={`${classes.button} ${classes.buttonReject}`} style={{marginRight: 10}}>Huỷ đơn</Button>
+              </>
+            )
           case 'waitingForTake':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={handleRequest('isReading', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isReading':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isOvertime':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={handleRequest('waitingForTake', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'waitingForDeadlineExtended':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'deadlineExtended':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isReport':
-            return <Button className={`${classes.button} ${classes.buttonRed}`}>Bị report</Button>
+            return <div className={classes.labelError}> Giao dịch đã bị báo cáo </div>
+          case 'isCancel':
+            return <div className={classes.labelError}> Giao dịch đã bị huỷ </div>
           case 'isDone':
             return <Button className={`${classes.button} ${classes.buttonActive}`}>Ghi Review</Button>
         }
       } else {
         return <>
-          <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>         
+          <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>
+          {/* <Button className={`${classes.button} ${classes.buttonOrange}`} style={{marginRight: 10}}>Xem Đánh Giá</Button>          */}
+        </>
+      }
+    } else {
+      if (!isReviewed) {
+        switch (status) {
+          case 'waitingForResponse':
+            return (
+              <>
+                <Button onClick={handleRequest('waitingForTake', 'holder')} className={`${classes.button} ${classes.buttonAgree}`}>Đồng ý</Button>
+                <Button onClick={handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`} style={{marginRight: 10}}>Từ chối</Button>         
+              </>
+            )
+          case 'waitingForTake':
+            return <Button onClick={handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Huỷ hđơn</Button>
+          case 'isReading':
+            return <Button className={classes.button}>Chờ hoàn thành</Button>
+          case 'isOvertime':
+            return (
+              <>
+                {/* <Button onClick={() => handleRequest('isReported', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Báo cáo</Button> */}
+                <Button onClick={handleRequest('deadlineExtended', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Gia hạn</Button>
+              </>
+            )
+          case 'waitingForDeadlineExtended':
+            return <Button className={`${classes.button} ${classes.buttonAgree}`}>Gia hạn</Button>
+          case 'deadlineExtended':
+            return <Button onClick={handleRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã hoàn thành</Button>
+          case 'isReport':
+            return <div className={classes.labelError}> Giao dịch đã bị báo cáo </div>
+          case 'isCancel':
+            return <div className={classes.labelError}> Giao dịch đã bị huỷ </div>
+          case 'isDone':
+            return <div className={classes.labelError}> Giao dịch đã hoàn thành </div>
+        }
+      } else {
+        return <>
+          <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>
           {/* <Button className={`${classes.button} ${classes.buttonOrange}`} style={{marginRight: 10}}>Xem Đánh Giá</Button>          */}
         </>
       }
@@ -259,7 +347,12 @@ const TransactionDetail = props => {
 
         <TitleWrapper title='Địa chỉ giao dịch'>
           <div>
-            <p className={classes.textLight}>{username}</p>
+            {
+              position === 'holder' ?
+              <p className={classes.textLight}>{name}</p>
+              :
+              <p className={classes.textLight}>{account.name}</p>
+            }
             {/* <p className={classes.textLight} style={{ margin: '5px 0' }}>0909090099</p> */}
             <p className={classes.textLight}>{address}</p>
           </div>
@@ -308,7 +401,12 @@ const TransactionDetail = props => {
                 </div>
               </div>
               <Link to={`/profile/${holderId}`} className={classes.link}>
-                <Avatar className={classes.avatar} src={avatar} />
+                {
+                  position === 'holder' ?
+                  <Avatar className={classes.avatar} src={avatar} />
+                  :
+                  <Avatar className={classes.avatar} src={account.avatar} />
+                }
               </Link>
             </div>
           </div>
@@ -337,7 +435,8 @@ const mapStateToProps = ({ account, transaction }) => {
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getTransaction: getTransaction
+  getTransaction: getTransaction,
+  sendRequestStatus: requestStatus
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TransactionDetail));
