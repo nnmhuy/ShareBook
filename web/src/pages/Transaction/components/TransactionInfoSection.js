@@ -45,7 +45,7 @@ const styles = (theme => ({
 }))
 
 const TransactionInfoSection = (props) => {
-  const { classes, transactionId, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
+  const { classes, transactionId, passingDate, changeDateTransaction, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
   return (
     <div className={classes.container}>
       <div className={classes.infoContainer}>
@@ -72,7 +72,9 @@ const TransactionInfoSection = (props) => {
           <DetailSection 
             transactionId={transactionId}
             position={position}
+            changeDateTransaction={changeDateTransaction}
             status={status}
+            passingDate={passingDate}
             sendRequestStatus={sendRequestStatus}
             updatedAt={updatedAt}
           />

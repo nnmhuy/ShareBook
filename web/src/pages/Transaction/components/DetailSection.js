@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import colors from '../../../constants/colors'
 import getFormattedDate from '../../../helper/getFormattedDate'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import { changeDateTransactionWatcher } from '../../../redux/saga/transactionSaga'
+import { errorAlert } from '../../../components/alert'
 
 const styles = (theme => ({
   container: {
@@ -89,14 +96,28 @@ const styles = (theme => ({
 
 const DetailSection = (props) => {
   const { classes, transactionId, status, 
-    position, returnDate, address, 
-    extendedDeadline, sendRequestStatus, updatedAt
+    position, returnDate, address, passingDate,
+    extendedDeadline, sendRequestStatus, updatedAt, changeDateTransaction
   } = props
-  const dateUpdate = new Date(updatedAt)
-  const passingDate = getFormattedDate(dateUpdate.setDate(dateUpdate.getDate() + 7))
+  const currentDate = new Date()
+  // const passingDate = getFormattedDate(currentDate.setDate(currentDate.getDate() + 7))
   const [isViewing, setViewing] = useState(false)
   const [curAddress, setAddress] = React.useState('')
   const [curDate, setDate] = React.useState(passingDate)
+  const [selectedDate, setSelectedDate] = useState(passingDate);
+
+  useEffect(() => {
+    // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
+  }, [])
+
+  const handleDateChange = date => {
+    if (date < currentDate) {
+      errorAlert('Chỉnh ngày không thành công')
+      return
+    }
+    setSelectedDate(date);
+    changeDateTransaction({value: date, transactionId, type: 'passingDate', status: 'waitingToTake'})
+  };
 
   const handleRequest = (newStatus, direction) => () => {
     sendRequestStatus({
@@ -112,8 +133,6 @@ const DetailSection = (props) => {
 
   const openModal = (date, address, isViewing) => {
     toggleViewing(isViewing);
-    setAddress(address);
-    setDate(date)
   }
 
   if (position === 'borrower') {
@@ -138,7 +157,30 @@ const DetailSection = (props) => {
             <div>
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Ngày giao sách:</div>
-                <div className={classes.content}>{passingDate}</div>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    format="dd-MM-yyyy"
+                    value={passingDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+
+                {/* <div className={classes.content}>
+                  <Input
+                    className={classes.contentAddress}
+                    name='passingDate'
+                    type='text'
+                    value={passingDate}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div> */}
+                {/* <div className={classes.content}>{passingDate}</div> */}
               </div>
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>Địa chỉ:</div>
@@ -254,7 +296,16 @@ const DetailSection = (props) => {
         <div>
           <div className={classes.fieldWrapper}>
             <div className={classes.label}>Ngày nhận sách:</div>
-            <div className={classes.content}>{passingDate}</div>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                margin="normal"
+                label="Date picker dialog"
+                format="dd-MM-yyyy"
+                value={passingDate}
+                onChange={handleDateChange}
+                className={classes.keyboard}
+              />
+            </MuiPickersUtilsProvider>
           </div>
           <div className={classes.fieldWrapper}>
             <div className={classes.label}>Địa chỉ</div>

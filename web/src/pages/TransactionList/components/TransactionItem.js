@@ -99,7 +99,7 @@ const styles = (theme => ({
 
 const TransactionItem = (props) => {
   const { classes, id, user: { avatar, name, position }, isOnline, image,
-    status, numberOfUnreadMessage, lastMessageTime } = props
+    status, numberOfUnreadMessage, updatedAt } = props
   return (
     <Link to={`/transaction/${id}`}>
       <div className={classes.container}>
@@ -132,7 +132,7 @@ const TransactionItem = (props) => {
           </div>
         </div>
         <div className={classes.numberContainer}>
-          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime)}</div>
+          <div className={classes.lastMessageTime}>{getFormattedDate(updatedAt)}</div>
           <div className={classes.numberOfUnreadMessage} style={{ opacity: numberOfUnreadMessage ? 1 : 0 }}>
             {numberOfUnreadMessage >= 10 ? '9+' : numberOfUnreadMessage}
           </div>

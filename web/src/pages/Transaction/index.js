@@ -18,7 +18,8 @@ import {
   appendMessage,
   getMessages,
   requestStatus,
-  socketNewStatus
+  socketNewStatus,
+  changeDateTransaction
 } from '../../redux/actions/transactionAction'
 import { withFormik } from 'formik'
 
@@ -115,10 +116,11 @@ class Transaction extends React.Component {
 
   render() {
     const { classes, isLoading, transaction, messages,
-      numberOfMessages, lastMessageCount, sendRequestStatus, match
+      numberOfMessages, changeDateTransaction, lastMessageCount, sendRequestStatus, match
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
+    const passingDate = get(transaction, 'passingDate', '')
     const updatedAt = get(transaction, 'updatedAt', '')
     const userId = get(transaction, 'user.id', '')
     const avatar = get(transaction, 'user.avatar', '')
@@ -141,7 +143,9 @@ class Transaction extends React.Component {
             name={username}
             position={position}
             status={status}
+            passingDate={passingDate}
             sendRequestStatus={sendRequestStatus}
+            changeDateTransaction={changeDateTransaction}
             updatedAt={updatedAt}
           />
           <div className={classes.messagesContainer}>
@@ -228,7 +232,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   receive: appendMessage,
   loadMessage: getMessages,
   sendRequestStatus: requestStatus,
-  receiveStatus: socketNewStatus
+  receiveStatus: socketNewStatus,
+  changeDateTransaction: changeDateTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditDateWithFormik);

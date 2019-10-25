@@ -1,7 +1,8 @@
-import { call, put, takeLatest, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery, takeLeading, all } from 'redux-saga/effects'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import findIndex from 'lodash/findIndex'
+import orderBy from 'lodash/orderBy'
 
 import { successAlert, errorAlert } from '../../components/alert'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
@@ -24,7 +25,10 @@ import {
   requestStatusFail,
   initTransaction,
   initTransactionSuccess,
-  initTransactionFail
+  initTransactionFail,
+  changeDateTransaction,
+  changeDateTransactionSuccess,
+  changeDateTransactionFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
 import getFormattedDate from '../../helper/getFormattedDate'
@@ -51,8 +55,7 @@ function* getTransactionSaga({ payload }) {
     const { data: messages } = yield call(restConnector.get, `transactions/${transactionId}/messages/count`)
 
     const curDate = new Date()
-    const initialDeadline = getFormattedDate(curDate.setDate(curDate.getDay() + instance.estimatedReadingTime))
-
+    const initialDeadline = new Date(curDate.setDate(curDate.getDay() + instance.estimatedReadingTime)).toISOString()
     transaction.initialDeadline = initialDeadline
     yield put(getMessages({transactionId, skip: 0}))
 
@@ -161,7 +164,27 @@ function* getTransactionsSaga({ payload }) {
       })
     })
 
-    yield put(getTransactionsSuccess({transactionList}))
+    const getTransactionTime = transactionList.map(trans => {
+      let time = ''
+      if (!trans.lastMessageTime) 
+        time = trans.updatedAt
+      else time = trans.lastMessageTime
+      return {...trans, time}
+    })
+
+    const sortTime = orderBy(getTransactionTime, ['time'], ['desc'])
+    const sortLast = yield all(
+      sortTime.map(trans => {
+        return call(restConnector.get, `transactions/${trans.id}/messages?filter={"order":"updatedAt DESC", "limit":"1"}`)
+      })
+    )
+    sortTime.forEach((trans, index) => {
+      delete trans.time
+      trans.lastMessage = sortLast[index].data[0].content
+      trans.lastMessageDirection = sortLast[index].data[0].direction
+    })
+    
+    yield put(getTransactionsSuccess({transactionList: sortTime}))
   } catch (error) {
     yield put(getTransactionsFail(error))
   }
@@ -249,6 +272,44 @@ function* initTransactionSaga({ payload }) {
   }
 }
 
+function* changeDateTransactionSaga({ payload }) {
+  try {
+    const { value, transactionId, type, status, extendedDeadline } = payload
+    switch (type) {
+      case 'passingDate':
+        const passingDate = new Date(value).toISOString()
+        yield call(restConnector.patch, `/transactions/${transactionId}`, {
+          passingDate,
+          attachUser: true
+        })
+        yield put(changeDateTransactionSuccess({ type, value: passingDate }))
+        successAlert('Chỉnh ngày thành công')
+        break;
+      case 'returnDate':
+        const returnDate = new Date(value).toISOString()
+        yield call(restConnector.patch, `/transactions/${transactionId}`, {
+          returnDate,
+          attachUser: true
+        })
+        yield put(changeDateTransactionSuccess({ type, value: returnDate }))
+        successAlert('Chỉnh ngày thành công')
+        break;
+      case 'address':
+        yield call(restConnector.patch, `/transactions/${transactionId}`, {
+          address: value,
+          attachUser: true
+        })
+        yield put(changeDateTransactionSuccess({ type, value }))
+        successAlert('Chỉnh địa chỉ thành công')
+        break;
+      default: break;
+    }
+    
+  } catch (error) {
+    yield put(changeDateTransactionFail(error))
+  }
+}
+
 function* getTransactionWatcher() {
   yield takeLatest(getTransaction, getTransactionSaga)
 }
@@ -273,11 +334,16 @@ function* initTransactionWatcher() {
   yield takeLeading(initTransaction, initTransactionSaga)
 }
 
+function* changeDateTransactionWatcher() {
+  yield takeLeading(changeDateTransaction, changeDateTransactionSaga)
+}
+
 export {
   getTransactionWatcher,
   sendMessageWatcher,
   getMessagesWatcher,
   getTransactionsWatcher,
   requestStatusWatcher,
-  initTransactionWatcher
+  initTransactionWatcher,
+  changeDateTransactionWatcher
 }
