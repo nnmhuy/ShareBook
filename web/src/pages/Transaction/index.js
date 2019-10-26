@@ -120,6 +120,7 @@ class Transaction extends React.Component {
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
+    const extendedDeadline = get(transaction, 'extendedDeadline', '')
     const estimatedReadingTime = get(transaction, 'estimatedReadingTime', '')
     const passingDate = get(transaction, 'passingDate', '')
     const returnDate = get(transaction, 'returnDate', '')
@@ -153,6 +154,7 @@ class Transaction extends React.Component {
             address={address}
             returnDate={returnDate}
             estimatedReadingTime={estimatedReadingTime}
+            extendedDeadline={extendedDeadline}
           />
           <div className={classes.messagesContainer}>
             <MessageSection

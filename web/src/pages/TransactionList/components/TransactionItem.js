@@ -150,7 +150,7 @@ const TransactionItem = (props) => {
           </div>
         </div>
         <div className={classes.numberContainer}>
-          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime)}</div>
+          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime, true, false, true)}</div>
           <div className={classes.numberOfUnreadMessage} style={{ opacity: numberOfUnreadMessage ? 1 : 0 }}>
             {numberOfUnreadMessage >= 10 ? '9+' : numberOfUnreadMessage}
           </div>

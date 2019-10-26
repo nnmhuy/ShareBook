@@ -74,7 +74,9 @@ const styles = (theme => ({
   infoWrapper: {
     marginTop: 5,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: 'auto',
+    overflow: 'hidden'
   },
   userWrapper: {
     marginTop: 10
@@ -344,7 +346,7 @@ const BookInstance = (props) => {
           </div>
         </div>
       </div>
-      <div className={classes.userWrapper}>
+      {/* <div className={classes.userWrapper}>
         <div className={classes.labelWrapper}>
           <div className={classes.label}>
             <span className={classes.marker}></span>
@@ -355,15 +357,10 @@ const BookInstance = (props) => {
           <Link to={`/profile/${holderId}`}>
             <Avatar src={holderAvatar} className={classes.avatar} />
           </Link>
-          <div>
-            {/* <div className={classes.nameLabel}>
-              <span className={classes.dot} />
-              Họ tên
-            </div> */}
-            <Link className={classes.username} to={`/profile/${holderId}`}>{holderName}</Link>
+          <Link className={classes.username} to={`/profile/${holderId}`}>{holderName}</Link>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className={`${classes.detailWrapper} ${!isExpanded && classes.hideDetail}` }>
         {
           keyArray.map((key, index) => {
@@ -390,11 +387,18 @@ const BookInstance = (props) => {
             <span className={classes.marker} />
             <span className={classes.detailLabel}>Ghi chú</span>
           </div>
-          <div className={classes.note}>
-            {
-              props.note
-            }
-          </div>
+          {
+            props.note ?
+              <div className={classes.note}>
+              {
+                props.note
+              }
+              </div>
+              :
+              <div style={{fontSize: 13, marginTop: '5px 0 0 8px'}}>
+                Không có ghi chú
+              </div>
+          }
         </div>
       </div>
       <Button className={classes.expandButton} variant='contained' size='small' onClick={handleToggleExpand}>

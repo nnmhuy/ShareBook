@@ -45,7 +45,7 @@ const styles = (theme => ({
 }))
 
 const TransactionInfoSection = (props) => {
-  const { classes, transactionId, estimatedReadingTime, address, returnDate, passingDate, changeDateTransaction, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
+  const { classes, extendedDeadline, transactionId, estimatedReadingTime, address, returnDate, passingDate, changeDateTransaction, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
   return (
     <div className={classes.container}>
       <div className={classes.infoContainer}>
@@ -83,6 +83,7 @@ const TransactionInfoSection = (props) => {
             sendRequestStatus={sendRequestStatus}
             updatedAt={updatedAt}
             returnDate={returnDate}
+            extendedDeadline={extendedDeadline}
             estimatedReadingTime={estimatedReadingTime}
           />
         </div>
@@ -91,7 +92,10 @@ const TransactionInfoSection = (props) => {
         transactionId={transactionId}
         position={position} 
         status={status}
+        returnDate={returnDate}
+        extendedDeadline={extendedDeadline}
         sendRequestStatus={sendRequestStatus}
+        changeDateTransaction={changeDateTransaction}
       />
     </div>
   )

@@ -287,10 +287,19 @@ function* changeDateTransactionSaga({ payload }) {
         break;
       case 'returnDate':
         const returnDate = new Date(value).toISOString()
-        yield call(restConnector.patch, `/transactions/${transactionId}`, {
-          returnDate,
-          attachUser: true
-        })
+        if (status === 'deadlineExtended') {
+          yield call(restConnector.patch, `/transactions/${transactionId}`, {
+            returnDate,
+            extendedDeadline: 0,
+            attachUser: true
+          })
+        }
+        else {
+          yield call(restConnector.patch, `/transactions/${transactionId}`, {
+            returnDate,
+            attachUser: true
+          })
+        }
         yield put(changeDateTransactionSuccess({ type, value: returnDate }))
         if (!initial)
           successAlert('Chỉnh ngày thành công')
@@ -302,6 +311,20 @@ function* changeDateTransactionSaga({ payload }) {
         })
         yield put(changeDateTransactionSuccess({ type, value }))
         successAlert('Chỉnh địa chỉ thành công')
+        break;
+      case 'extendedDeadline':
+        let deadlineDate = get(yield call(restConnector.get, `/transactions/${transactionId}`), 'data', {})
+        let reDate = new Date(deadlineDate.returnDate)
+        reDate = reDate.setDate(reDate.getDate() + value)
+        console.log(reDate)
+        yield call(restConnector.patch, `/transactions/${transactionId}`, {
+          extendedDeadline: value,
+          returnDate: reDate,
+          attachUser: true
+        })
+        yield put(changeDateTransactionSuccess({ type, value }))
+        yield put(changeDateTransactionSuccess({ type: 'returnDate', value: reDate }))
+        successAlert('Chỉnh thành công')
         break;
       default: break;
     }
