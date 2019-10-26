@@ -63,10 +63,6 @@ class TransactionList extends React.Component {
 
   render() {
     const { classes, account, transactionList, isLoading } = this.props
-    transactionList.sort((a, b) => {
-      if (a.lastMessageTime < b.lastMessageTime) return -1;
-      return 1;
-    })
     return (
       <LayoutWrapper title='Giao dịch' account={account}>
         <Loading isLoading={isLoading}/>

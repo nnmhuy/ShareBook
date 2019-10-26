@@ -1,24 +1,78 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import LayoutWrapper from '../../components/LayoutWrapper';
+import Loading from '../../components/Loading';
+import { bindActionCreators } from 'redux';
+import { getCategoryList } from '../../redux/actions/bookAction';
+import CategoryItem from '../../components/CategoryItem'
 
 const styles = theme => ({
   container: {
     width: '100%',
     minWidth: 350,
-    maxWidth: 500,
-    margin: 'auto'
+    margin: 'auto',
+    padding: '0 15px',
+    boxSizing: 'border-box'
+  },
+  flexContainer: {
+    padding: 20,
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap'
   }
 })
 
-class CategoryList extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
+const CategoryList = props => {
+  const { classes, account, categoryIsLoading, categoryList } = props;
+  const isLoading = categoryIsLoading;
+  let currentCategoryList = []
+  if (!categoryIsLoading && categoryList)
+    currentCategoryList = categoryList
+  console.log(currentCategoryList)
+  useEffect(() => {
+    const {getCategoryListHandler} = props
+    getCategoryListHandler()
+  }, [])
+  return (
+    <LayoutWrapper account={account} title='Danh mục'>
+      <Loading isLoading={isLoading}/>
       <div className={classes.container}>
-        CategoryList
+        <div className={classes.flexContainer}>
+        {
+          currentCategoryList.map(category => {
+            return (
+              <CategoryItem
+                {...category}
+                key={category.url}
+                autoWidth={true} />
+            )
+          })
+          }
+        </div>
       </div>
-    );
+    </LayoutWrapper>
+  );
+}
+
+
+const mapStateToProps = ({ state, book }) => {
+  return {
+    account: {
+      isAuth: !!(localStorage.getItem('isAuth')),
+      userId: localStorage.getItem('userId'),
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      avatar: localStorage.getItem('avatar'),
+      coin: Number.parseInt(localStorage.getItem('coin')),
+    },
+    categoryIsLoading: book.categoryIsLoading,
+    categoryList: book.categoryList,
   }
 }
 
-export default (withStyles(styles)(CategoryList));
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getCategoryListHandler: getCategoryList
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CategoryList));

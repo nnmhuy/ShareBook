@@ -73,6 +73,7 @@ const styles = (theme => ({
     width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
     fontWeight: 500,
     fontSize: 14,
     lineHeight: 1.5

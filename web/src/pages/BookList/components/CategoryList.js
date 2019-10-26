@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import ScaleLoader from 'react-spinners/ScaleLoader'
 
-import CategoryItem from './CategoryItem'
+import CategoryItem from '../../../components/CategoryItem'
 import colors from '../../../constants/colors'
 
 const styles = (theme => ({
