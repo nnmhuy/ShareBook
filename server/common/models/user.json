@@ -142,6 +142,11 @@
       "type": "hasMany",
       "model": "transaction",
       "foreignKey": "borrowerId"
+    },
+    "pushSubscriptions": {
+      "type": "hasMany",
+      "model": "pushSubscription",
+      "foreignKey": "userId"
     }
   },
   "acls": [
