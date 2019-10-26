@@ -41,7 +41,8 @@
     "serve-favicon": "^2.0.1",
     "socket.io": "^2.3.0",
     "strong-error-handler": "^3.0.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "web-push": "^3.4.1"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
