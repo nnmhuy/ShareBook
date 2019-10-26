@@ -56,6 +56,14 @@ const styles = (theme => ({
     left: 'unset',
     cursor: 'pointer',
     zIndex: 100
+  },
+  gridTwo: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr'
+  },
+  gridThree: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr'
   }
 }))
 
@@ -81,7 +89,7 @@ const Arrow = (props) => {
 }
 
 const CheckBoxFilter = (props) => {
-  const { classes, title, name, optionList, value, setFieldValue } = props
+  const { classes, title, gridNum, name, optionList, value, setFieldValue } = props
 
   const handleChooseOption = (option) => () => {
     if (option.value === 'all') {
@@ -107,7 +115,7 @@ const CheckBoxFilter = (props) => {
         nextArrow={<Arrow classes={classes} isNext/>}
         prevArrow={<Arrow classes={classes}/>}
     > */}
-      {/* <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}> */}
+      <div className={gridNum === 2 ? classes.gridTwo : classes.gridThree}>
         {
           optionList.map((option, index) => {
             return (
@@ -122,7 +130,7 @@ const CheckBoxFilter = (props) => {
             )
           })
         }
-      {/* </div> */}
+      </div>
       {/* </Slider> */}
     </div>
   )

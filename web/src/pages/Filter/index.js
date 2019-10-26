@@ -22,6 +22,7 @@ const styles = (theme => ({
     minWidth: 350,
     maxWidth: 800,
     margin: 'auto',
+    paddingBottom: 20
   },
   divider: {
     color: colors.gray,
@@ -78,27 +79,20 @@ class Filter extends React.Component {
             setFieldValue={setFieldValue}
           />
           <Divider className={classes.divider} />
-          <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <CheckBoxFilter
               title='Thể loại'
               name='category'
               value={values.category}
+              gridNum={2}
               optionList={currentCategoryList}
               setFieldValue={setFieldValue}
             />
-            <CheckBoxFilter
-              title='Địa điểm'
-              name='district'
-              value={values.district}
-              optionList={districtList}
-              setFieldValue={setFieldValue}
-            />
-          </div>
           <Divider  className={classes.divider}/>
           <CheckBoxFilter
             title='Địa điểm'
             name='district'
             value={values.district}
+            gridNum={3}
             optionList={districtList}
             setFieldValue={setFieldValue}
           />
