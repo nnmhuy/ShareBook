@@ -153,7 +153,7 @@ class ActivityWrapper extends Component {
 						<TransactionList transactions={bookTest} textNull={text.transaction} />
 					</TabPanel>
 					<TabPanel index={3} value={currentTab} className={classes.wrapper}>
-						<ReportList report={reportData} />
+						<ReportList report={bookTest} textNull={text.report} />
 					</TabPanel>
 				</div>
 			</MuiThemeProvider>
