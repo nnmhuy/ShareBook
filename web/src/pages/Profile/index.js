@@ -79,21 +79,21 @@ const Profile = props => {
                 :
                 <UserIcon height={25} className={classes.icon} fill="#9F9F9F" />
             } />
-          <Tab onClick={() => handleChangeTab(1)}
+          {/* <Tab onClick={() => handleChangeTab(1)}
             label={
               currentTab === 0 ?
                 <NewsfeedIcon height={25} className={classes.icon} />
                 :
                 <NewsfeedActiveIcon height={25} className={classes.icon} />
-            } />
+            } /> */}
         </Tabs>
         <TabPanel index={0} value={currentTab} className={classes.wrapper}>
           <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} account={account} profileId={profileId}
           handleToggleBookmark={handleToggleBookmark} currentUserInfo={currentUserInfo} />
         </TabPanel>
-        <TabPanel index={1} value={currentTab} className={classes.wrapper}>
+        {/* <TabPanel index={1} value={currentTab} className={classes.wrapper}>
           <ReviewTab profileId={profileId} />
-        </TabPanel>
+        </TabPanel> */}
       </div>
     </TopNav>
   );
