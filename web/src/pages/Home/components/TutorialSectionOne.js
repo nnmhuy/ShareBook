@@ -66,10 +66,10 @@ const styles = (theme => ({
     boxSizing: 'border-box',
     margin: 'auto',
     width: 400,
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 16,
+    // fontWeight: 500,
     marginTop: 15,
-    lineHeight: 1.5
+    lineHeight: 1.8
   }
 }))
 
@@ -108,7 +108,6 @@ const TutorialSectionOne = (props) => {
         </div>
       </div>
       <div>
-        <img src={SearchDemo} alt='sharebook-search' className={classes.image} />
         {
           methodText ?
             <div className={classes.methodText}>
@@ -126,6 +125,7 @@ const TutorialSectionOne = (props) => {
               </ul>
             </div>
         }
+        <img src={SearchDemo} alt='sharebook-search' className={classes.image} />
       </div>
     </div>
   )

@@ -47,7 +47,7 @@ class BookVertical extends Component {
                         id={book.id}
                         name={book.name}
                         image={book.image}
-                        isBookmarked={book.isBookmarked} />
+                        isBookmarked={book.isActive} />
                     </div>
                   )
                 })
