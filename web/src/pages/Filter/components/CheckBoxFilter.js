@@ -67,13 +67,23 @@ const styles = (theme => ({
   }
 }))
 
-const settings = {
+const settingsFour = {
   dots: false,
   infinite: false,
   arrow: true,
   speed: 500,
-  rows: 3,
+  rows: 4,
   slidesPerRow: 3,
+  swipeToSlide: true
+}
+
+const settingsTwo = {
+  dots: false,
+  infinite: false,
+  arrow: true,
+  speed: 500,
+  rows: 4,
+  slidesPerRow: 2,
   swipeToSlide: true
 }
 
@@ -90,7 +100,8 @@ const Arrow = (props) => {
 
 const CheckBoxFilter = (props) => {
   const { classes, title, gridNum, name, optionList, value, setFieldValue } = props
-
+  let settings = settingsFour
+  if (gridNum === 2) settings = settingsTwo
   const handleChooseOption = (option) => () => {
     if (option.value === 'all') {
       setFieldValue(`${name}`, {all: true})
@@ -109,13 +120,13 @@ const CheckBoxFilter = (props) => {
   return (
     <div className={classes.container}>
       <span className={classes.title}>{title}</span>
-      {/* <Slider
+      <Slider
         className={classes.slider}
         {...settings}
         nextArrow={<Arrow classes={classes} isNext/>}
         prevArrow={<Arrow classes={classes}/>}
-    > */}
-      <div className={gridNum === 2 ? classes.gridTwo : classes.gridThree}>
+    >
+      {/* <div className={gridNum === 2 ? classes.gridTwo : classes.gridThree}> */}
         {
           optionList.map((option, index) => {
             return (
@@ -130,8 +141,8 @@ const CheckBoxFilter = (props) => {
             )
           })
         }
-      </div>
-      {/* </Slider> */}
+      {/* </div> */}
+      </Slider>
     </div>
   )
 }

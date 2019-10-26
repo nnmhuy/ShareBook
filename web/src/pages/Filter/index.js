@@ -92,7 +92,7 @@ class Filter extends React.Component {
             title='Địa điểm'
             name='district'
             value={values.district}
-            gridNum={3}
+            gridNum={4}
             optionList={districtList}
             setFieldValue={setFieldValue}
           />
