@@ -273,7 +273,7 @@ function* initTransactionSaga({ payload }) {
 function* changeDateTransactionSaga({ payload }) {
   try {
     const { value, transactionId, type, initial,
-      // status, zextendedDeadline
+      status, extendedDeadline
     } = payload
     switch (type) {
       case 'passingDate':
