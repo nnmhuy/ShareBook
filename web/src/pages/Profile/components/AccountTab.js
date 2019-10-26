@@ -32,7 +32,7 @@ const styles = theme => ({
 })
 
 const AccountTab = (props) => {
-	const { classes, handleToggleBookmark, currentUserInfo, account, isLoadingBookmarkedLite, bookmarked, profileId } = props;
+	const { handleToggleBookmark, currentUserInfo, account, isLoadingBookmarkedLite, bookmarked, profileId } = props;
 	return (
 		<div>
 			<PaperWrapper layout='info' currentUserInfo={currentUserInfo} profileId={profileId} />

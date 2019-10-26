@@ -2,7 +2,6 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
 import Link from './Link'
-import BookImg from '../static/images/demo/escape_velocity.png';
 
 import { ReactComponent as BookmarkIcon } from '../static/images/bookmark.svg'
 import { ReactComponent as BookmarkedIcon } from '../static/images/bookmarked-btn.svg'
@@ -87,7 +86,14 @@ const styles = (theme => ({
 }))
 
 const Book = (props) => {
-  const { classes, id, bookmarkId, name, author, image, isBookmarked, handleToggleBookmark, ...other } = props
+  const { classes, id,
+    // bookmarkId,
+    name,
+    // author,
+    image,
+    isBookmarked,
+    // handleToggleBookmark
+  } = props
   let { rating } = props
   try {
     if (typeof rating === 'string')
@@ -96,9 +102,9 @@ const Book = (props) => {
     rating = 0
   }
 
-  const onBookmark = () => {
-    handleToggleBookmark(id, bookmarkId, !isBookmarked)
-  }
+  // const onBookmark = () => {
+  //   handleToggleBookmark(id, bookmarkId, !isBookmarked)
+  // }
 
   return (
     <div className={classes.container}>

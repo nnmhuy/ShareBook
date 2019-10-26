@@ -1,7 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Rating } from '@material-ui/lab'
-import LinesEllipsis from 'react-lines-ellipsis'
 import Badge from '@material-ui/core/Badge'
 
 import Link from './Link'
