@@ -248,7 +248,7 @@ class PersonalInfo extends Component {
 			<>
 				<div className={classes.flexContainer}>
 					<div className={classes.avatarContainer}>
-						<Avatar src={values.image} className={avatarClass}/>
+						<Avatar src={get(values, 'image.url', '')} className={avatarClass}/>
 						{isEdit && <label htmlFor='uploadAvatar'>
 							<div className={classes.cameraContainer}>
 								{!isLoadingImage

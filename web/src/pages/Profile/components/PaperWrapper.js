@@ -95,7 +95,8 @@ class PaperWrapper extends Component {
 			<Paper className={classes.wrapper}>
 				{
 					layout === 'bio' &&
-					<Bio isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
+					<Bio profileId={profileId} currentUserInfo={currentUserInfo}
+					isHidden={profileId === 'me' ? isHidden : false} isEdit={profileId === 'me' ? isEdit : false} fixed={profileId === 'me' ? fixed : false} />
 				}
 				{
 					layout === 'info' &&
