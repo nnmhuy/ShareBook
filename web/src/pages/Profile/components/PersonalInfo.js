@@ -338,21 +338,28 @@ const editUserWithFormik = withFormik({
 	},
 
 	validate: (values) => {
+		console.log('adfsa')
 		let errors = {}
-		let newPhone = values.phoneNumber.replace(/[\s-.+()]/g, '')
+		console.log('address1', values.address)
+		let newPhone = ""
+		if (values.phoneNumber)
+			newPhone = values.phoneNumber.replace(/[\s-.+()]/g, '')
 		let patternPhone = new RegExp(/^\d{9,13}$/g)
 		if (values.phoneNumber && !patternPhone.test(newPhone)) {
 			errors.phoneNumber = 'Số điện thoại không hợp lệ'
 		}
+		console.log('address2', values.address)
 		if (!values.name) {
 			errors.name = 'Cần nhập tên hiển thị'
 		}
 		if (!values.image) {
 			errors.image = 'Cần đăng hình avatar'
 		}
+		console.log('address3', values.address)
 		if (values.email && !validateEmail(values.email)) {
 			errors.email = 'Email không hợp lệ'
 		}
+		console.log('address', values.address)
 		if (!values.address) {
 			errors.address = 'Chưa nhập địa chỉ'
 		}
