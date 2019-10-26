@@ -96,7 +96,7 @@ self.addEventListener('push', event => {
     body,
     // tag, does not push multiple message in desktop
     data,
-    icon: icon || './static/images/logo.png',
+    icon: './static/images/logo.png' || icon,
     badge: './static/images/booklist.svg',
     vibrate: [100, 50, 100],
     actions: [

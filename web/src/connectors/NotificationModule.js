@@ -61,8 +61,8 @@ const setupNotificationModule = () => {
 
   async function updateSubscriptionOnServer(subscription) {
     // Here's where you would send the subscription to the application server
-    // const url = `${baseURL}/pushSubscriptions`;
-    const url = `http://localhost:3001/api/pushSubscriptions`;
+    // const url = `http://localhost:3001/api/pushSubscriptions`;
+    const url = `${baseURL}/pushSubscriptions`;
 
     const { endpoint, expirationTime, keys } = JSON.parse(JSON.stringify(subscription));
 
@@ -78,9 +78,9 @@ const setupNotificationModule = () => {
 
   async function deleteSubscriptionOnServer(subscription) {
     // Here's where you would send the subscription to the application server
-    // const url = `${baseURL}/pushSubscriptions`;
     const pushSubscriptionId = localStorage.getItem('pushSubscriptionId');
-    const url = `http://localhost:3001/api/pushSubscriptions/${pushSubscriptionId}`;
+    // const url = `http://localhost:3001/api/pushSubscriptions/${pushSubscriptionId}`;
+    const url = `${baseURL}/${pushSubscriptionId}`;
     
     localStorage.removeItem('pushSubscriptionId');
 

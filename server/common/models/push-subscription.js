@@ -10,17 +10,15 @@ module.exports = function(PushSubscription) {
 
   PushSubscription.sendNotification = async function(userId, payload) {
     const pushSubscriptions = await PushSubscription.find({userId});
-    try {
-      await Promise.all(pushSubscriptions.map(subscription => {
-        return notification.push(
-          subscription,
-          payload
-        ).catch(error => {
-          console.log(error);
-        });
-      }));
-    } catch (error) {
-      console.log(error);
-    }
+    await Promise.all(pushSubscriptions.map(subscription => {
+      return notification.push(
+        subscription,
+        payload
+      ).catch(async (err) => {
+        if (err.statusCode === 410) {
+          await PushSubscription.destroyById(subscription.id);
+        }
+      });
+    }));
   };
 };
