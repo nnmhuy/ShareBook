@@ -74,11 +74,6 @@ class Filter extends React.Component {
       <LayoutWrapper account={account} title={currentPage}>
         <div className={classes.container}>
           <ButtonContainer handleSubmit={handleSubmit}/>
-          <RatingFilter 
-            value={values.minRating}
-            setFieldValue={setFieldValue}
-          />
-          <Divider className={classes.divider} />
             <CheckBoxFilter
               title='Thể loại'
               name='category'
@@ -88,6 +83,11 @@ class Filter extends React.Component {
               setFieldValue={setFieldValue}
             />
           <Divider  className={classes.divider}/>
+          <RatingFilter 
+            value={values.minRating}
+            setFieldValue={setFieldValue}
+          />
+          <Divider className={classes.divider} />
           <CheckBoxFilter
             title='Địa điểm'
             name='district'
