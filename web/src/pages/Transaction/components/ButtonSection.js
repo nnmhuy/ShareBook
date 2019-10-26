@@ -121,7 +121,7 @@ const ButtonSection = (props) => {
     switch (status) {
       case 'waitingForTake':
         return (
-          <div className={classes.container}>
+          <div className={classes.container} style={{padding: '0 20px 10px 20px'}}>
             <Button variant='outlined' size='small' className={classes.normalButton}
               onClick={handleRequest('isReading', 'borrower')}
             >

@@ -166,6 +166,7 @@ class BookList extends React.Component {
           <BookSlider
             title={'Sách ngẫu nhiên'} // random
             url={`/category/random`}
+            isExtended={true}
             style={{ marginTop: 20 }}
             bookList={get(bookListData, 'random', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
@@ -174,6 +175,7 @@ class BookList extends React.Component {
           <BookSlider
             title={'Sách mới'} // createAt 
             url={`/category/new`}
+            isExtended={true}
             bookList={get(bookListData, 'new', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['new']}
@@ -181,6 +183,7 @@ class BookList extends React.Component {
           <BookSlider
             title={'Sách được đánh giá cao'} // rating 
             url={`/category/high-rating`}
+            isExtended={true}
             bookList={get(bookListData, 'high-rating', [])} 
             handleToggleBookmark={this.handleToggleBookmark}
             isLoading={bookListIsLoading['high-rating']}            

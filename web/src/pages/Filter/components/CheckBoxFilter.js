@@ -101,12 +101,13 @@ const CheckBoxFilter = (props) => {
   return (
     <div className={classes.container}>
       <span className={classes.title}>{title}</span>
-      <Slider
+      {/* <Slider
         className={classes.slider}
         {...settings}
         nextArrow={<Arrow classes={classes} isNext/>}
         prevArrow={<Arrow classes={classes}/>}
-    >
+    > */}
+      {/* <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}> */}
         {
           optionList.map((option, index) => {
             return (
@@ -121,7 +122,8 @@ const CheckBoxFilter = (props) => {
             )
           })
         }
-      </Slider>
+      {/* </div> */}
+      {/* </Slider> */}
     </div>
   )
 }

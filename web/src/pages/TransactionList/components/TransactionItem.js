@@ -60,18 +60,30 @@ const styles = (theme => ({
   },
   username: {
     fontWeight: 600,
-    fontSize: 14
+    fontSize: 15
   },
   position: {
     fontWeight: 500,
     fontStyle: 'italic',
-    fontSize: 10,
+    fontSize: 11,
     color: '#0c4f8e'
   },
   status: {
     fontWeight: 500,
-    fontSize: 10,
+    fontSize: 11,
     color: '#0c4f8e'
+  },
+  statusMess: {
+    marginTop: 5,
+    fontSize: 14,
+    color: 'black',
+    fontWeight: 500
+  },
+  statusSystem: {
+    marginTop: 5,
+    fontSize: 12,
+    color: 'gray',
+    fontWeight: 500
   },
   numberContainer: {
     textAlign: 'right',
@@ -93,13 +105,13 @@ const styles = (theme => ({
     color: colors.gray
   },
   statusContainer: {
-    lineHeight: 1
+    lineHeight: '7px'
   }
 }))
 
 const TransactionItem = (props) => {
   const { classes, id, user: { avatar, name, position }, isOnline, image,
-    status, numberOfUnreadMessage, updatedAt } = props
+    status, numberOfUnreadMessage, updatedAt, lastMessage, lastMessageTime, lastMessageDirection } = props
   return (
     <Link to={`/transaction/${id}`}>
       <div className={classes.container}>
@@ -129,10 +141,16 @@ const TransactionItem = (props) => {
               <span className={classes.position}>{mapPositionToText[position]}</span>
               <span className={classes.status}>{` - ${mapTransactionStatusToText[status]}`}</span>
             </div>
+            {
+              lastMessageDirection === 'system' ?
+                <div className={classes.statusSystem} style={{ marginTop: 5 }}>{lastMessage}</div>
+                :
+                <div className={classes.statusMess} style={{ marginTop: 5 }}>{lastMessage}</div>
+            }
           </div>
         </div>
         <div className={classes.numberContainer}>
-          <div className={classes.lastMessageTime}>{getFormattedDate(updatedAt)}</div>
+          <div className={classes.lastMessageTime}>{getFormattedDate(lastMessageTime)}</div>
           <div className={classes.numberOfUnreadMessage} style={{ opacity: numberOfUnreadMessage ? 1 : 0 }}>
             {numberOfUnreadMessage >= 10 ? '9+' : numberOfUnreadMessage}
           </div>

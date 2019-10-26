@@ -63,7 +63,16 @@ const styles = (theme => ({
 }))
 
 const defaultValue = {numberOfBookPerPage: 12}
-
+const randomOption = [
+  ['name DESC'],
+  ['image DESC'],
+  ['author DESC'],
+  ['numberOfPages DESC', 'name DESC'],
+  ['price DESC', 'name DESC'],
+  ['description DESC', 'name DESC'],
+  ['createdAt DESC'],
+  ['totalOfRating DESC']
+]
 class CategoryBookList extends React.Component {
   constructor(props) {
     super(props);
@@ -137,10 +146,55 @@ class CategoryBookList extends React.Component {
     } catch (error) {
       console.log(error);
     }
-    let condition = {key: `category-${categoryLabel}`, where,
-      limit: defaultValue.numberOfBookPerPage,
-      userId: this.props.account.userId,
-      order: ['totalOfBookInstance DESC', 'numberOfRating DESC']
+    let condition = {
+    }
+    switch (categoryLabel) {
+      case 'new': 
+        condition = {
+          key: 'new',
+          where,
+          limit: 12,
+          userId: this.props.account.userId,
+          order: 'createdAt DESC'
+        }
+        break;
+      case 'random':
+        let totalOfBookResponse = 0
+
+        try {
+          totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
+          totalOfBookResponse = get(totalOfBookResponse, 'data.count')
+        } catch (error) {
+          console.log(error);
+        }
+
+        let randomNumber = Math.floor(Math.random() * Math.max(totalOfBookResponse - 12, 1))
+        let randomType = Math.floor(Math.random() * randomOption.length)
+
+        condition = {
+          key: 'random', where,
+          limit: 12,
+          skip: randomNumber,
+          userId: this.props.account.userId,
+          order: randomOption[randomType]
+        }
+        break;
+      case 'high-rating':
+        condition = {
+          key: 'high-rating', where,
+          limit: 12,
+          userId: this.props.account.userId,
+          order: 'rating DESC'
+        }
+        break;
+      default: 
+        condition = {
+          key: `category-${categoryLabel}`, where,
+          limit: defaultValue.numberOfBookPerPage,
+          userId: this.props.account.userId,
+          order: ['totalOfBookInstance DESC', 'numberOfRating DESC']
+        }
+        break;
     }
     this.props.getBookListHandler(condition);
     this.setState({

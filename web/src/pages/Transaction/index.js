@@ -120,7 +120,10 @@ class Transaction extends React.Component {
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
+    const estimatedReadingTime = get(transaction, 'estimatedReadingTime', '')
     const passingDate = get(transaction, 'passingDate', '')
+    const returnDate = get(transaction, 'returnDate', '')
+    const address = get(transaction, 'address', '')
     const updatedAt = get(transaction, 'updatedAt', '')
     const userId = get(transaction, 'user.id', '')
     const avatar = get(transaction, 'user.avatar', '')
@@ -147,6 +150,9 @@ class Transaction extends React.Component {
             sendRequestStatus={sendRequestStatus}
             changeDateTransaction={changeDateTransaction}
             updatedAt={updatedAt}
+            address={address}
+            returnDate={returnDate}
+            estimatedReadingTime={estimatedReadingTime}
           />
           <div className={classes.messagesContainer}>
             <MessageSection

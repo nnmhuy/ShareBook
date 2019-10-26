@@ -71,6 +71,7 @@ const styles = (theme => ({
     lineHeight: 2,
     textAlign: 'left',
     textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
     overflow: 'hidden'
   },
   goReview: {

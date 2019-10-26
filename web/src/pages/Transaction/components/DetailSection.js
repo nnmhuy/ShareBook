@@ -5,12 +5,12 @@ import colors from '../../../constants/colors'
 import getFormattedDate from '../../../helper/getFormattedDate'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
+import Input from '@material-ui/core/Input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { changeDateTransactionWatcher } from '../../../redux/saga/transactionSaga'
 import { errorAlert } from '../../../components/alert'
 
 const styles = (theme => ({
@@ -72,14 +72,22 @@ const styles = (theme => ({
   fieldWrapper: {
     marginTop: 5
   },
+  editWrapper: {
+    display: 'flex',
+    width: '90%',
+    alignItems: 'center',
+    position: 'relative'
+  },
   editContent: {
     margin: '0 5px',
-    color: colors.red,
+    color: colors.primary,
     display: 'inline-block',
     fontSize: 12,
     cursor: 'pointer',
     fontWeight: 500,
     transition: '0.3s',
+    position: 'absolute',
+    right: '-40px',
     '&:hover': {
       fontWeight: 600
     }
@@ -91,32 +99,116 @@ const styles = (theme => ({
     '&:hover': {
       fontWeight: 600
     }
+  },
+  keyboard: {
+    '& .MuiInputBase-root': {
+      fontFamily: 'montserrat',
+      fontSize: 12,
+      fontWeight: 500,
+      width: 115
+    },
+    '&.MuiFormControl-marginNormal': {
+      marginTop: 0,
+      marginBottom: 0
+    },
+    '& .MuiInput-underline:before': {
+      borderBottom: 0
+    },
+    '& .MuiInput-underline:after': {
+      borderBottom: 0
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottom: 0
+    },
+    '& .MuiIconButton-root': {
+      color: colors.primary,
+      padding: 6
+    }
+  },
+  contentAddress: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    width: '100%',
+    display: 'inline-block',
+    fontSize: 12,
+    fontWeight: 500,
+  },
+  contentAddressInput: {
+    '&.MuiInputBase-root': {
+      fontFamily: 'montserrat',
+      fontSize: 12,
+      fontWeight: 500,
+      width: '100%'
+    },
+  },
+  fieldWrapperAddress: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  },
+  fieldWrapperDate: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }))
 
 const DetailSection = (props) => {
   const { classes, transactionId, status, 
     position, returnDate, address, passingDate,
-    extendedDeadline, sendRequestStatus, updatedAt, changeDateTransaction
+    estimatedReadingTime, extendedDeadline, sendRequestStatus, updatedAt, changeDateTransaction
   } = props
   const currentDate = new Date()
-  // const passingDate = getFormattedDate(currentDate.setDate(currentDate.getDate() + 7))
   const [isViewing, setViewing] = useState(false)
-  const [curAddress, setAddress] = React.useState('')
-  const [curDate, setDate] = React.useState(passingDate)
+  const [curAddress, setAddress] = useState('')
+  const [addressBool, changeAddress] = useState(false)
+
   const [selectedDate, setSelectedDate] = useState(passingDate);
 
   useEffect(() => {
+    setAddress(address)
     // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
-  }, [])
+  }, [address])
 
-  const handleDateChange = date => {
+  useEffect(() => {
+    changeAddress(false)
+    if (status === 'waitingForTake') {
+      let passDay = new Date()
+      passDay = passDay.setDate(passDay.getDate() + 5)
+      setSelectedDate(passDay)
+      if (!passingDate)
+        changeDateTransaction({ value: passDay, transactionId, type: 'passingDate', status, iniial: true })
+      else
+        setSelectedDate(passingDate)
+    }
+    else if (status === 'isReading') {
+      let reDay = new Date(passingDate)
+      reDay = reDay.setDate(reDay.getDate() + estimatedReadingTime)
+      setSelectedDate(reDay)
+      if (!returnDate)
+        changeDateTransaction({ value: reDay , transactionId, type: 'returnDate', status, initial: true })
+      else
+        setSelectedDate(returnDate)
+    }
+    // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
+  }, [status, passingDate, returnDate])
+
+  const handlePassingDate = date => {
     if (date < currentDate) {
       errorAlert('Chỉnh ngày không thành công')
       return
     }
     setSelectedDate(date);
-    changeDateTransaction({value: date, transactionId, type: 'passingDate', status: 'waitingToTake'})
+    changeDateTransaction({value: date, transactionId, type: 'passingDate', status })
+  };
+
+  const handleReturnDate = date => {
+    if (date < currentDate) {
+      errorAlert('Chỉnh ngày không thành công')
+      return
+    }
+    setSelectedDate(date);
+    changeDateTransaction({ value: date, transactionId, type: 'returnDate', status })
   };
 
   const handleRequest = (newStatus, direction) => () => {
@@ -127,12 +219,26 @@ const DetailSection = (props) => {
     })
   }
 
+  const handleChange = (e) => {
+    setAddress(e.target.value)
+  }
+
+  const handleBlur = (e) => {
+    handleChangeAddress()
+  }
+
   const toggleViewing = (value) => {
     setViewing(value)
   }
 
   const openModal = (date, address, isViewing) => {
     toggleViewing(isViewing);
+  }
+
+  const handleChangeAddress = () => {
+    changeAddress(!addressBool)
+    if (addressBool)
+      changeDateTransaction({ value: curAddress, transactionId, type: 'address', status })
   }
 
   if (position === 'borrower') {
@@ -155,39 +261,50 @@ const DetailSection = (props) => {
         case 'waitingForTake':
           return (
             <div>
-              <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Ngày giao sách:</div>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
+                <div className={classes.label}>Ngày giao:</div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
+                    id="datePicker"
                     margin="normal"
-                    id="date-picker-dialog"
                     format="dd-MM-yyyy"
                     value={passingDate}
-                    onChange={handleDateChange}
+                    onChange={handlePassingDate}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
+                    className={classes.keyboard}
                   />
                 </MuiPickersUtilsProvider>
-
-                {/* <div className={classes.content}>
-                  <Input
-                    className={classes.contentAddress}
-                    name='passingDate'
-                    type='text'
-                    value={passingDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div> */}
-                {/* <div className={classes.content}>{passingDate}</div> */}
               </div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
-                <div className={classes.content}>{address}</div>
-                <div className={classes.editContent}
-                  // onClick={() => openModal(passingDate, address, true)}
-                >Sửa</div>
+                <div className={classes.editWrapper}>
+                  {
+                    !addressBool ?
+                      <div className={classes.contentAddress} style={{
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        width: '100%'
+                      }}>{address}</div>
+                      :
+                      <div className={classes.contentAddress} style={{width: '100%'}}>
+                        <Input
+                          className={classes.contentAddressInput}
+                          name='address'
+                          type='text'
+                          value={curAddress}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div> 
+                  }
+                  <div className={classes.editContent}
+                    onClick={handleChangeAddress}
+                    // onClick={() => openModal(passingDate, address, true)}
+                  >Sửa</div>
+                </div>
               </div>
               <div className={classes.fieldWrapper}>
                 <div className={`${classes.labelError} ` + `${classes.cancelOrder}`}
@@ -199,7 +316,6 @@ const DetailSection = (props) => {
               <Dialog
                 aria-labelledby="customized-dialog-title" open={isViewing} onClose={() => openModal(passingDate, address, false)} className={classes.modal}>
                 <DialogContent style={{ padding: 0 }}>
-                  {/* <Image src={curImg} alt='placeholder' className={classes.imageModal} /> */}
                   hello there
                   <Button onClick={() => openModal(passingDate, address, false)}>xong</Button>
                 </DialogContent>
@@ -209,26 +325,66 @@ const DetailSection = (props) => {
         case 'isReading':
           return (
             <div>
-              <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Ngày trả sách:</div>
-                <div className={classes.content}>{returnDate}</div>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
+                <div className={classes.label}>Ngày trả:</div>
+                <div className={classes.content}>{getFormattedDate(returnDate)}</div>
               </div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
-                <div className={classes.content}>{address}</div>
+                <div className={classes.editWrapper}>
+                  {
+                    !addressBool ?
+                      <div className={classes.contentAddress}>{address}</div>
+                      :
+                      <div className={classes.contentAddress}>
+                        <Input
+                          className={classes.contentAddressInput}
+                          name='address'
+                          type='text'
+                          value={curAddress}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                  }
+                  <div className={classes.editContent}
+                    onClick={handleChangeAddress}
+                  // onClick={() => openModal(passingDate, address, true)}
+                  >Sửa</div>
+                </div>
               </div>
             </div>
           )
         case 'isOvertime':
           return (
             <div>
-              <div className={classes.fieldWrapper}>
-                <div className={classes.labelError}>Ngày trả sách</div>
-                <div className={classes.contentError}>{returnDate}</div>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
+                <div className={classes.labelError}>Ngày trả:</div>
+                <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
               </div>
-              <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ: </div>
-                <div className={classes.content}>{address}</div>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
+                <div className={classes.label}>Địa chỉ:</div>
+                <div className={classes.editWrapper}>
+                  {
+                    !addressBool ?
+                      <div className={classes.contentAddress}>{address}</div>
+                      :
+                      <div className={classes.contentAddress}>
+                        <Input
+                          className={classes.contentAddressInput}
+                          name='address'
+                          type='text'
+                          value={curAddress}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                  }
+                  <div className={classes.editContent}
+                    onClick={handleChangeAddress}
+                  // onClick={() => openModal(passingDate, address, true)}
+                  >Sửa</div>
+                </div>
               </div>
             </div>
           )
@@ -236,12 +392,12 @@ const DetailSection = (props) => {
           return (
             <div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.labelError}>Ngày trả sách</div>
-                <div className={classes.contentError}>{returnDate}</div>
+                <div className={classes.labelError}>Ngày trả:</div>
+                <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ: </div>
-                <div className={classes.content}>{address}</div>
+                <div className={classes.label}>Địa chỉ:</div>
+                <div className={classes.contentAddress}>{address}</div>
               </div>
             </div>
           )
@@ -250,13 +406,13 @@ const DetailSection = (props) => {
             <div>
               <div className={classes.fieldWrapper}>
                 <div className={classes.label}>
-                  Ngày trả sách <span className={classes.labelError}>(đã gia hạn)</span>
+                  Ngày trả <span className={classes.labelError}>(đã gia hạn)</span>
                 </div>
                 <div className={classes.contentError}>{returnDate}</div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={classes.label}>Địa chỉ: </div>
-                <div className={classes.content}>{address}</div>
+                <div className={classes.label}>Địa chỉ:</div>
+                <div className={classes.contentAddress}>{address}</div>
               </div>
             </div>
           )
@@ -294,35 +450,78 @@ const DetailSection = (props) => {
     case 'waitingForTake':
       return (
         <div>
-          <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Ngày nhận sách:</div>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
+            <div className={classes.label}>Ngày nhận:</div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
+                id="datePicker"
                 margin="normal"
-                label="Date picker dialog"
                 format="dd-MM-yyyy"
                 value={passingDate}
-                onChange={handleDateChange}
+                onChange={handlePassingDate}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
                 className={classes.keyboard}
               />
             </MuiPickersUtilsProvider>
           </div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
             <div className={classes.label}>Địa chỉ</div>
-            <div className={classes.content}>{address}</div>
+            <div className={classes.editWrapper}>
+              {
+                !addressBool ?
+                  <div className={classes.contentAddress}>{curAddress}</div>
+                  :
+                  <div className={classes.contentAddress}>
+                    <Input
+                      className={classes.contentAddressInput}
+                      name='passingDate'
+                      type='text'
+                      value={curAddress}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+              }
+              <div className={classes.editContent}
+                onClick={handleChangeAddress}
+              // onClick={() => openModal(passingDate, address, true)}
+              >Sửa</div>
+            </div>
           </div>
         </div>
       )
     case 'isReading':
       return (
         <div>
-          <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Ngày trả sách</div>
-            <div className={classes.content}>{returnDate}</div>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
+            <div className={classes.label}>Ngày trả:</div>
+            <div className={classes.content}>{getFormattedDate(returnDate)}</div>
           </div>
-          <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Địa chỉ</div>
-            <div className={classes.content}>{address}</div>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
+            <div className={classes.label}>Địa chỉ:</div>
+            <div className={classes.editWrapper}>
+              {
+                !addressBool ?
+                  <div className={classes.contentAddress}>{curAddress}</div>
+                  :
+                  <div className={classes.contentAddress}>
+                    <Input
+                      className={classes.contentAddressInput}
+                      name='passingDate'
+                      type='text'
+                      value={curAddress}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+              }
+              <div className={classes.editContent}
+                onClick={handleChangeAddress}
+              // onClick={() => openModal(passingDate, address, true)}
+              >Sửa</div>
+            </div>
           </div>
           <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer' }}
             onClick={handleRequest('waitingForDeadlineExtended', 'borrower')}
@@ -335,12 +534,12 @@ const DetailSection = (props) => {
       return (
         <div>
           <div className={classes.fieldWrapper}>
-            <div className={classes.labelError}>Ngày trả sách</div>
-            <div className={classes.contentError}>{returnDate}</div>
+            <div className={classes.labelError}>Ngày trả:</div>
+            <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
           </div>
-          <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Địa chỉ</div>
-            <div className={classes.content}>{address}</div>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
+            <div className={classes.label}>Địa chỉ:</div>
+            <div className={classes.contentAddress}>{address}</div>
           </div>
           <div className={classes.labelError} style={{ textAlign: 'right', cursor: 'pointer' }}
             onClick={handleRequest('waitingForDeadlineExtended', 'borrower')}
@@ -353,12 +552,12 @@ const DetailSection = (props) => {
       return (
         <div>
           <div className={classes.fieldWrapper}>
-            <div className={classes.labelError}>Ngày trả sách</div>
+            <div className={classes.labelError}>Ngày trả:</div>
             <div className={classes.contentError}>{returnDate}</div>
           </div>
           <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Địa chỉ</div>
-            <div className={classes.content}>{address}</div>
+            <div className={classes.label}>Địa chỉ:</div>
+            <div className={classes.contentAddress}>{address}</div>
           </div>
         </div>
       )
@@ -367,13 +566,13 @@ const DetailSection = (props) => {
         <div>
           <div className={classes.fieldWrapper}>
             <div className={classes.label}>
-              Ngày trả sách <span className={classes.labelError}>(đã gia hạn)</span>
+              Ngày trả <span className={classes.labelError}>(đã gia hạn)</span>
             </div>
             <div className={classes.contentError}>{extendedDeadline}</div>
           </div>
           <div className={classes.fieldWrapper}>
-            <div className={classes.label}>Địa chỉ</div>
-            <div className={classes.content}>{address}</div>
+            <div className={classes.label}>Địa chỉ:</div>
+            <div className={classes.contentAddress}>{address}</div>
           </div>
         </div>
       )

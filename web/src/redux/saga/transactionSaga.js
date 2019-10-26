@@ -54,9 +54,7 @@ function* getTransactionSaga({ payload }) {
     const { data: book } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}/book`)
     const { data: messages } = yield call(restConnector.get, `transactions/${transactionId}/messages/count`)
 
-    const curDate = new Date()
-    const initialDeadline = new Date(curDate.setDate(curDate.getDay() + instance.estimatedReadingTime)).toISOString()
-    transaction.initialDeadline = initialDeadline
+    transaction.estimatedReadingTime = instance.estimatedReadingTime
     yield put(getMessages({transactionId, skip: 0}))
 
     transaction.user = {
@@ -179,9 +177,10 @@ function* getTransactionsSaga({ payload }) {
       })
     )
     sortTime.forEach((trans, index) => {
-      delete trans.time
       trans.lastMessage = sortLast[index].data[0].content
+      trans.lastMessageTime = trans.time
       trans.lastMessageDirection = sortLast[index].data[0].direction
+      delete trans.time
     })
     
     yield put(getTransactionsSuccess({transactionList: sortTime}))
@@ -274,7 +273,7 @@ function* initTransactionSaga({ payload }) {
 
 function* changeDateTransactionSaga({ payload }) {
   try {
-    const { value, transactionId, type, status, extendedDeadline } = payload
+    const { value, transactionId, type, status, initial, extendedDeadline } = payload
     switch (type) {
       case 'passingDate':
         const passingDate = new Date(value).toISOString()
@@ -283,7 +282,8 @@ function* changeDateTransactionSaga({ payload }) {
           attachUser: true
         })
         yield put(changeDateTransactionSuccess({ type, value: passingDate }))
-        successAlert('Chỉnh ngày thành công')
+        if (!initial)
+          successAlert('Chỉnh ngày thành công')
         break;
       case 'returnDate':
         const returnDate = new Date(value).toISOString()
@@ -292,7 +292,8 @@ function* changeDateTransactionSaga({ payload }) {
           attachUser: true
         })
         yield put(changeDateTransactionSuccess({ type, value: returnDate }))
-        successAlert('Chỉnh ngày thành công')
+        if (!initial)
+          successAlert('Chỉnh ngày thành công')
         break;
       case 'address':
         yield call(restConnector.patch, `/transactions/${transactionId}`, {

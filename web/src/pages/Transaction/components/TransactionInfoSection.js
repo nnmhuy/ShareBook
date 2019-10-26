@@ -45,7 +45,7 @@ const styles = (theme => ({
 }))
 
 const TransactionInfoSection = (props) => {
-  const { classes, transactionId, passingDate, changeDateTransaction, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
+  const { classes, transactionId, estimatedReadingTime, address, returnDate, passingDate, changeDateTransaction, updatedAt, book: { id, image, name }, name: username, position, status, sendRequestStatus } = props
   return (
     <div className={classes.container}>
       <div className={classes.infoContainer}>
@@ -56,7 +56,9 @@ const TransactionInfoSection = (props) => {
           {position==='holder'?
             <div className={classes.text}>
               Mượn sách
+              <Link to={`/book-detail/${id}`}>
                 <span className={classes.bold}>{` ${name} `}</span>
+              </Link>
               từ
                 <span className={classes.bold}>{` ${username} `}</span>
             </div>
@@ -65,7 +67,9 @@ const TransactionInfoSection = (props) => {
               Bạn đọc
               <span className={classes.bold}>{` ${username} `}</span>
               mượn sách
-              <span className={classes.bold}>{` ${name} `}</span>
+              <Link to={`/book-detail/${id}`}>
+                <span className={classes.bold}>{` ${name} `}</span>
+              </Link>
             </div>
           }
           
@@ -74,9 +78,12 @@ const TransactionInfoSection = (props) => {
             position={position}
             changeDateTransaction={changeDateTransaction}
             status={status}
+            address={address}
             passingDate={passingDate}
             sendRequestStatus={sendRequestStatus}
             updatedAt={updatedAt}
+            returnDate={returnDate}
+            estimatedReadingTime={estimatedReadingTime}
           />
         </div>
       </div>
