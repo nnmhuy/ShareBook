@@ -127,7 +127,9 @@ class Report extends Component {
   }
 
   render() {
-    const { classes, match, bookDetail, instance, review, reply, transaction, values, handleChange, handleBlur, handleSubmit } = this.props;
+    const { classes, match, bookDetail, instance, review, reply,
+      // transaction,
+      values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
     const { params } = match;
 

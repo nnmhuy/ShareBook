@@ -281,6 +281,12 @@ const reviewReducer = handleActions(
         error: null
       }
     },
+    [getReviewLiteFail]: (state, { payload: error }) => {
+      return {
+        isLoadingReviewLite: false,
+        error: error
+      }
+    },
     [getReviewsOfBookFail]: (state, { payload: error }) => {
       return {
         isLoadingReviewLite: false,

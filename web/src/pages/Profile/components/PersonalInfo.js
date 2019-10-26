@@ -339,7 +339,9 @@ const editUserWithFormik = withFormik({
 
 	validate: (values) => {
 		let errors = {}
-		let newPhone = values.phoneNumber.replace(/[\s-.+()]/g, '')
+		let newPhone = ""
+		if (values.phoneNumber)
+			newPhone = values.phoneNumber.replace(/[\s-.+()]/g, '')
 		let patternPhone = new RegExp(/^\d{9,13}$/g)
 		if (values.phoneNumber && !patternPhone.test(newPhone)) {
 			errors.phoneNumber = 'Số điện thoại không hợp lệ'
@@ -420,7 +422,7 @@ const editUserWithFormik = withFormik({
 })(withStyles(styles)(PersonalInfo))
 
 function validateEmail(email) {
-	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return re.test(String(email).toLowerCase());
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import colors from '../../../constants/colors';
+import get from 'lodash/get'
 
 import { ReactComponent as CoinIcon } from '../../../static/images/coin.svg';
 import Background1 from '../../../static/images/coin-btn-1.png';
@@ -42,14 +43,14 @@ const styles = theme => ({
 
 class CoinInfo extends Component {
 	render() {
-		const { classes } = this.props;
+		const { classes, currentUserInfo } = this.props;
 		return (
 			<Paper className={classes.wrapper}>
 				<p className={classes.title}>
 					Book XU
-                    <span className={classes.content}>
-						2000
-                        <CoinIcon className={classes.icon} />
+          <span className={classes.content}>
+						{get(currentUserInfo, 'coin', 0)}
+						<CoinIcon className={classes.icon} />
 					</span>
 				</p>
 				<p className={`${classes.title} ${classes.titleCoin}`}>

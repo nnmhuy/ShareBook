@@ -31,7 +31,6 @@ import {
   changeDateTransactionFail
 } from '../actions/transactionAction'
 import restConnector from '../../connectors/RestConnector'
-import getFormattedDate from '../../helper/getFormattedDate'
 
 function* getTransactionSaga({ payload }) {
   try {
@@ -273,7 +272,9 @@ function* initTransactionSaga({ payload }) {
 
 function* changeDateTransactionSaga({ payload }) {
   try {
-    const { value, transactionId, type, status, initial, extendedDeadline } = payload
+    const { value, transactionId, type, initial,
+      // status, zextendedDeadline
+    } = payload
     switch (type) {
       case 'passingDate':
         const passingDate = new Date(value).toISOString()

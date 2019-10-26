@@ -29,10 +29,10 @@ const CategoryList = props => {
   let currentCategoryList = []
   if (!categoryIsLoading && categoryList)
     currentCategoryList = categoryList
-  console.log(currentCategoryList)
   useEffect(() => {
     const {getCategoryListHandler} = props
     getCategoryListHandler()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <LayoutWrapper account={account} title='Danh mục'>
