@@ -55,14 +55,15 @@ const styles = (theme => ({
 
 const TopNav = (props) => {
   const { classes, children, title, transId } = props
+  const handleBack = () => {
+    window.history.back()
+  }
   return (
     <CustomTopNav
       left={
-        <Link to='/profile/me' className={classes.link}>
-          <IconButton className={classes.backButton} >
-            <BackIcon fill={colors.primary} className={classes.backIcon} />
-          </IconButton>
-        </Link>
+        <IconButton className={classes.backButton} onClick={handleBack}>
+          <BackIcon fill={colors.primary} className={classes.backIcon} />
+        </IconButton>
       }
       center={
         <span className={classes.title}>

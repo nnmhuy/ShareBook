@@ -58,14 +58,14 @@ const ReviewTab = props => {
 				</Link>
 			}
 			<div className={classes.reviewList}>
-				<ReviewItem
+				{/* <ReviewItem
 					content={content}
 					username={username}
 					avatar={avatar}
 					images={images}
 					createdAt={createdAt}
 					title={title}
-				/>
+				/> */}
 				{
 					/* 
 					{
@@ -83,7 +83,7 @@ const ReviewTab = props => {
 				*/
 				}
 			</div>
-			<p className={classes.endText}>End of results</p>
+			{/* <p className={classes.endText}>End of results</p> */}
 		</div>
 	);
 }

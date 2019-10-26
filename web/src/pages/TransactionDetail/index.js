@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import Link from '../../components/Link';
 import get from 'lodash/get';
 
 import TopNav from './components/TopNav';
@@ -201,7 +201,7 @@ const styles = theme => ({
   status: {
     margin: 0,
     fontSize: 12,
-    color: '#23c47a'
+    color: colors.primary
   },
   notActive: {
     pointerEvents: 'none',
@@ -210,6 +210,7 @@ const styles = theme => ({
   link: {
     textDecoration: 'none',
     cursor: 'pointer',
+    height: 'fit-content',
     '&:hover': {
       textDecoration: 'none'
     }
@@ -257,12 +258,39 @@ const TransactionDetail = props => {
   }
 
   const handleRequest = (newStatus, direction) => () => {
-    console.log('h')
     sendRequestStatus({
       transactionId: transId,
       status: newStatus,
       direction
     })
+  }
+
+  const viewReview = () => {
+
+  }
+
+  const currentStatus = () => {
+    switch (status) {
+      case 'waitingForResponse':
+        return <p className={classes.status}>Đang chờ</p>
+      case 'waitingForTake':
+        return <p className={classes.status}>Chờ nhận sách</p>
+      case 'isReading':
+        return <p className={classes.status}>Đang đọc</p>
+      case 'isOvertime':
+        return <p className={classes.status}>Quá hạn</p>
+      case 'waitingForDeadlineExtended':
+        return <p className={classes.status}>Chờ được gia hạn</p>
+      case 'deadlineExtended':
+        return <p className={classes.status}>Đã gia hạn</p>
+      case 'isReport':
+        return <p className={classes.status} style={{color: colors.red}}>Đã bị report</p>
+      case 'isCancel':
+        return <p className={classes.status} style={{color: 'gray'}}>Đã bị huỷ</p>
+      case 'isDone':
+        return <p className={classes.status} style={{color: '#23c47a'}}>Đã hoàn thành</p>
+        default: return
+    }
   }
 
   const confirmButton = () => {
@@ -287,15 +315,17 @@ const TransactionDetail = props => {
           case 'deadlineExtended':
             return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isReport':
-            return <div className={classes.labelError}> Giao dịch đã bị báo cáo </div>
+            return 
           case 'isCancel':
-            return <div className={classes.labelError}> Giao dịch đã bị huỷ </div>
+            return 
           case 'isDone':
-            return <Button className={`${classes.button} ${classes.buttonActive}`}>Ghi Review</Button>
+            return <Button className={`${classes.button} ${classes.buttonOrange}`}>Ghi Review</Button>
+          default:
+            return
         }
       } else {
         return <>
-          <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>
+          <Button className={`${classes.button} ${classes.buttonActive}`} onClick={viewReview}>Xem Review</Button>
           {/* <Button className={`${classes.button} ${classes.buttonOrange}`} style={{marginRight: 10}}>Xem Đánh Giá</Button>          */}
         </>
       }
@@ -325,11 +355,12 @@ const TransactionDetail = props => {
           case 'deadlineExtended':
             return <Button onClick={handleRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã hoàn thành</Button>
           case 'isReport':
-            return <div className={classes.labelError}> Giao dịch đã bị báo cáo </div>
+            return 
           case 'isCancel':
-            return <div className={classes.labelError}> Giao dịch đã bị huỷ </div>
+            return 
           case 'isDone':
-            return <div className={classes.labelError}> Giao dịch đã hoàn thành </div>
+            return <Button className={`${classes.button}`}>Chưa có Review</Button>
+          default: return
         }
       } else {
         return <>
@@ -397,7 +428,9 @@ const TransactionDetail = props => {
                     <p className={classes.bookTitle}>{bookName}</p>
                     <p className={classes.text}>{bookAuthor}</p>
                   </div>
-                  <p className={classes.status}>Đang chờ</p>
+                  {
+                    currentStatus()
+                  }
                 </div>
               </div>
               <Link to={`/profile/${holderId}`} className={classes.link}>

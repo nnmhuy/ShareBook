@@ -209,23 +209,39 @@ const transactionReducer = handleActions(
       }
     },
     [changeDateTransactionSuccess]: (state, { payload: { type, value } }) => {
-      if (type === 'passingDate')
-        return {
-          ...state,
-          ...state.transaction.passingDate,
-          value
-        }
-      else if (type === 'returnDate')
-        return {
-          ...state,
-          ...state.transaction.returnDate,
-          value
-        }
-      else if (type === 'address')
-        return {
-        ...state,
-        ...state.transaction.address,
-        value
+      switch (type) {
+        case 'passingDate':
+          return {
+            ...state,
+            transaction: {
+              ...state.transaction,
+              passingDate: value
+            }
+          }
+        case 'returnDate': 
+          return {
+            ...state,
+            transaction: {
+              ...state.transaction,
+              returnDate: value
+            }
+          }
+        case 'address':
+          return {
+            ...state,
+            transaction: {
+              ...state.transaction,
+              address: value
+            }
+          }
+        case 'extendedDeadline':
+          return {
+            ...state,
+            transaction: {
+              ...state.transaction,
+              extendedDeadline: value
+            }
+          }
       }
     },
     [changeDateTransactionFail]: (state, { payload: error }) => {

@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import colors from '../../../constants/colors'
 import getFormattedDate from '../../../helper/getFormattedDate'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
+// import Dialog from '@material-ui/core/Dialog'
+// import DialogContent from '@material-ui/core/DialogContent'
 import Input from '@material-ui/core/Input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -57,6 +57,7 @@ const styles = (theme => ({
     float: 'right',
     fontWeight: 500,
     fontSize: 13,
+    paddingRight: 5,
     color: colors.red
   },
   labelSuccess: {
@@ -99,6 +100,11 @@ const styles = (theme => ({
     '&:hover': {
       fontWeight: 600
     }
+  },
+  keyboardError: {
+    '& .MuiInputBase-root': {
+      color: colors.red
+    },
   },
   keyboard: {
     '& .MuiInputBase-root': {
@@ -173,11 +179,10 @@ const DetailSection = (props) => {
   useEffect(() => {
     changeAddress(false)
     if (status === 'waitingForTake') {
-      let passDay = new Date()
-      passDay = passDay.setDate(passDay.getDate() + 5)
+      let passDay = currentDate.setDate(currentDate.getDate() + 5)
       setSelectedDate(passDay)
       if (!passingDate)
-        changeDateTransaction({ value: passDay, transactionId, type: 'passingDate', status, iniial: true })
+        changeDateTransaction({ value: passDay, transactionId, type: 'passingDate', status, initial: true })
       else
         setSelectedDate(passingDate)
     }
@@ -189,9 +194,14 @@ const DetailSection = (props) => {
         changeDateTransaction({ value: reDay , transactionId, type: 'returnDate', status, initial: true })
       else
         setSelectedDate(returnDate)
-    }
+    } else if (status === 'deadlineExtended') {
+      let deadlineDate = new Date(returnDate)
+        deadlineDate = deadlineDate.setDate(deadlineDate.getDate() + extendedDeadline)
+      if (extendedDeadline != 0)
+        changeDateTransaction({ value: deadlineDate, transactionId, type: 'returnDate', status, initial: true })
+    } 
     // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
-  }, [status, passingDate, returnDate])
+  }, [status, passingDate, returnDate, extendedDeadline])
 
   const handlePassingDate = date => {
     if (date < currentDate) {
@@ -313,13 +323,6 @@ const DetailSection = (props) => {
                   Huỷ đơn
                 </div>
               </div>
-              <Dialog
-                aria-labelledby="customized-dialog-title" open={isViewing} onClose={() => openModal(passingDate, address, false)} className={classes.modal}>
-                <DialogContent style={{ padding: 0 }}>
-                  hello there
-                  <Button onClick={() => openModal(passingDate, address, false)}>xong</Button>
-                </DialogContent>
-              </Dialog>
             </div>
           )
         case 'isReading':
@@ -327,7 +330,7 @@ const DetailSection = (props) => {
             <div>
               <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
                 <div className={classes.label}>Ngày trả:</div>
-                <div className={classes.content}>{getFormattedDate(returnDate)}</div>
+                <div className={classes.content}>{getFormattedDate(returnDate, false, true, false)}</div>
               </div>
               <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
@@ -360,7 +363,7 @@ const DetailSection = (props) => {
             <div>
               <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
                 <div className={classes.labelError}>Ngày trả:</div>
-                <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
+                <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
               </div>
               <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
@@ -391,11 +394,11 @@ const DetailSection = (props) => {
         case 'waitingForDeadlineExtended':
           return (
             <div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
                 <div className={classes.labelError}>Ngày trả:</div>
-                <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
+                <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
               </div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.contentAddress}>{address}</div>
               </div>
@@ -404,13 +407,13 @@ const DetailSection = (props) => {
         case 'deadlineExtended':
           return (
             <div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
                 <div className={classes.label}>
-                  Ngày trả <span className={classes.labelError}>(đã gia hạn)</span>
+                  Ngày trả <span className={classes.labelError}> (đã gia hạn):</span>
                 </div>
-                <div className={classes.contentError}>{returnDate}</div>
+                <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
               </div>
-              <div className={classes.fieldWrapper}>
+              <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
                 <div className={classes.label}>Địa chỉ:</div>
                 <div className={classes.contentAddress}>{address}</div>
               </div>
@@ -497,7 +500,7 @@ const DetailSection = (props) => {
         <div>
           <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
             <div className={classes.label}>Ngày trả:</div>
-            <div className={classes.content}>{getFormattedDate(returnDate)}</div>
+            <div className={classes.content}>{getFormattedDate(returnDate, false, true, false)}</div>
           </div>
           <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
             <div className={classes.label}>Địa chỉ:</div>
@@ -533,9 +536,9 @@ const DetailSection = (props) => {
     case 'isOvertime':
       return (
         <div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
             <div className={classes.labelError}>Ngày trả:</div>
-            <div className={classes.contentError}>{getFormattedDate(returnDate)}</div>
+            <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
           </div>
           <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
             <div className={classes.label}>Địa chỉ:</div>
@@ -551,11 +554,11 @@ const DetailSection = (props) => {
     case 'waitingForDeadlineExtended':
       return (
         <div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
             <div className={classes.labelError}>Ngày trả:</div>
-            <div className={classes.contentError}>{returnDate}</div>
+            <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
           </div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
             <div className={classes.label}>Địa chỉ:</div>
             <div className={classes.contentAddress}>{address}</div>
           </div>
@@ -564,13 +567,13 @@ const DetailSection = (props) => {
     case 'deadlineExtended':
       return (
         <div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperDate}`}>
             <div className={classes.label}>
-              Ngày trả <span className={classes.labelError}>(đã gia hạn)</span>
+              Ngày trả <span className={classes.labelError}> (đã gia hạn):</span>
             </div>
-            <div className={classes.contentError}>{extendedDeadline}</div>
+            <div className={classes.contentError}>{getFormattedDate(returnDate, false, true, false)}</div>
           </div>
-          <div className={classes.fieldWrapper}>
+          <div className={`${classes.fieldWrapper} ${classes.fieldWrapperAddress}`}>
             <div className={classes.label}>Địa chỉ:</div>
             <div className={classes.contentAddress}>{address}</div>
           </div>
