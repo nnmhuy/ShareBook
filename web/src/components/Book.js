@@ -77,23 +77,23 @@ const Book = (props) => {
       </Link>
       <div className={classes.name}>
         <Link to={`/book-detail/${id}`}>
-        <LinesEllipsis
-          text={name}
-          maxLine='1'
-          ellipsis='..'
-          trimRight
-          basedOn='words'
-        />
-        </Link>
+          <div style={{
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}>
+          {name}
+          </div>
+        </Link> 
       </div>
       <div className={classes.author}>
-        <LinesEllipsis
-          text={author}
-          maxLine='1'
-          ellipsis='..'
-          trimRight
-          basedOn='words'
-        />
+        <div style={{
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap'
+        }}>
+          {author}
+        </div>
       </div>
       <div className={classes.rateContainer}>
         <Rating value={rating} precision={0.5} readOnly className={classes.rating} />

@@ -48,6 +48,7 @@ const styles = (theme => ({
     display: 'inline-block',
     flex: 1,
     height: '100%',
+    width: 198,
     marginLeft: 12,
     position: 'relative'
   },
@@ -126,13 +127,9 @@ const Book = (props) => {
           </Link>
         </div>
         <div className={classes.author}>
-          <LinesEllipsis
-            text={author}
-            maxLine='1'
-            ellipsis='..'
-            trimRight
-            basedOn='words'
-          />
+          <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+            {author}
+          </div>
         </div>
         <Rating value={rating} precision={0.5} readOnly className={classes.rating} />
         {isBookmarked ?
