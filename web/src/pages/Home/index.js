@@ -11,7 +11,7 @@ import Tutorial from './components/Tutorial'
 import NewsfeedIntro from './components/NewsfeedIntro'
 import BookSlider from '../../components/BookSlider'
 import Footer from './components/Footer'
-import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 import VideoFrame from './components/VideoFrame'
 import { getReviewLite } from '../../redux/actions/reviewAction'
 
