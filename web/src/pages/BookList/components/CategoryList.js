@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import ScaleLoader from 'react-spinners/ScaleLoader'
 
+import Link from '../../../components/Link'
 import CategoryItem from '../../../components/CategoryItem'
 import colors from '../../../constants/colors'
 
@@ -60,7 +61,7 @@ class CategoryList extends React.Component {
       <div className={classes.container}>
         <div className={classes.titleContainer}>
           <span className={classes.title}>Thể loại</span>
-          {/* <Link to='/category-list' className={classes.viewMore}>Xem thêm</Link> */}
+          <Link to='/category-list' className={classes.viewMore}>Mở rộng</Link>
         </div>
         {isLoading ?
           <div className={classes.loading}>
@@ -81,7 +82,9 @@ class CategoryList extends React.Component {
                     <Slide key={`category-silder-${category.id}`}>
                       <CategoryItem
                         {...category}
-                        key={category.url} />
+                        key={category.url}
+                        autoWidth={false}
+                      />
                     </Slide>
                   )
                 })
