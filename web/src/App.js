@@ -55,7 +55,7 @@ class App extends React.Component {
             <Route path="/edit-book/:bookId" exact component={EditBook} />
             <Route path="/book-list" exact component={BookList} />
             <Route path="/category/:categoryId" exact component={CategoryBookList} />
-            <Route path="/categories" exact component={CategoryList} />
+            <Route path="/category-list" exact component={CategoryList} />
             <Route path="/add-review/:bookId" exact component={AddReview} />
             <Route path="/filter" exact component={Filter} />
             <Route path="/transaction-list" exact component={TransactionList} />
