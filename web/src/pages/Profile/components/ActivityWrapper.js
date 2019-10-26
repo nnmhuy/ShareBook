@@ -99,7 +99,9 @@ class ActivityWrapper extends Component {
 	}
 
 	render() {
-		const { classes, handleToggleBookmark, bookmarked, isLoadingBookmarkedLite, userId } = this.props;
+		const { classes, handleToggleBookmark, bookmarked,
+			// isLoadingBookmarkedLite, userId
+		} = this.props;
 		const { currentTab } = this.state;
 		// const { clicked } = this.state;
 		const bookTest = [];
