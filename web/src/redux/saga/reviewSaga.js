@@ -230,6 +230,13 @@ function* getAllReviewsSaga({payload}) {
   if (!order) {
     order = "createdAt DESC"
   }
+  if (!where) {
+    where = {
+      content: {
+        regexp: ".{5,1000}"
+      }
+    }
+  }
   try {
     // let allReviews = []
     let reviewFilter = { where, skip, limit, order, include, fields }
