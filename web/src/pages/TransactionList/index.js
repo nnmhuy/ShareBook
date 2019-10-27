@@ -6,7 +6,7 @@ import socket from '../../connectors/Socket'
 
 import Loading from '../../components/Loading'
 import LayoutWrapper from '../../components/LayoutWrapper'
-import Search from '../../components/Search'
+// import Search from '../../components/Search'
 import TransactionItem from './components/TransactionItem'
 
 import { getTransactions } from '../../redux/actions/transactionAction'
@@ -67,7 +67,7 @@ class TransactionList extends React.Component {
       <LayoutWrapper title='Giao dịch' account={account}>
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
-          <Search className={classes.search}/>
+          {/* <Search className={classes.search}/> */}
           <div>
             {
               transactionList.map((transaction) => {
