@@ -99,7 +99,7 @@ const Newsfeed = (props) => {
 
   useEffect(() => {  
     const userId = account.userId
-    getReviews({ userId });
+    getReviews({ userId, limit: 5 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
