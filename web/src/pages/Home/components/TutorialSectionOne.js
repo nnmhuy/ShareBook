@@ -7,8 +7,6 @@ import { ReactComponent as Handbook } from '../../../static/images/hand-book.svg
 import SearchDemo from '../../../static/images/search-demo.png';
 
 import SectionTitle from './SectionTitle'
-import Image from '../../../components/Image'
-import { Z_BLOCK } from 'zlib'
 import Link from '../../../components/Link'
 
 const styles = (theme => ({
