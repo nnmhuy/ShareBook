@@ -14,7 +14,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(
+const store = createStore(
   combineReducers({
     account: accountReducer,
     book: bookReducer,
@@ -32,3 +32,5 @@ export const store = createStore(
 )
 
 sagaMiddleware.run(rootSaga)
+
+export default store

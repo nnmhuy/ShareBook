@@ -5,7 +5,6 @@ import Image from '../../../components/Image'
 import Link from '../../../components/Link'
 import DetailSection from './DetailSection'
 import ButtonSection from './ButtonSection'
-import getFormattedDate from '../../../helper/getFormattedDate'
 
 const styles = (theme => ({
   container: {

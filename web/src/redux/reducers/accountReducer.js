@@ -18,19 +18,21 @@ import {
   logOutFail,
   signUp,
   signUpFail,
-  signUpSuccess
+  signUpSuccess,
+  socketCoin
 } from '../actions/accountAction'
 
 const unAuthorizedUser = {
-  userId: '',
-  username: '',
+  isAuth: !!(localStorage.getItem('isAuth')),
+  userId: localStorage.getItem('userId'),
+  username: localStorage.getItem('username'),
+  name: localStorage.getItem('name'),
+  avatar: localStorage.getItem('avatar'),
+  coin: Number.parseInt(localStorage.getItem('coin')),
   email: '',
   fbLink: '',
   phoneNumber: '',
-  avatar: '',
-  name: '',
   role: '',
-  coin: 0,
   contribution: 0,
   homeLocationId: '',
   clubId: '',
@@ -197,7 +199,23 @@ const accountReducer = handleActions(
         error,
         isLoading: false
       }
-    }
+    },
+    [socketCoin]: (state, { payload }) => {
+      const { amount, isIncome } = payload
+      let coin = state.coin
+      if (isIncome) {
+        coin += amount
+      } else {
+        coin -= amount
+      }
+
+      localStorage.setItem('coin', coin)
+
+      return {
+        ...state,
+        coin
+      }
+    },
   },
   defaultState
 )

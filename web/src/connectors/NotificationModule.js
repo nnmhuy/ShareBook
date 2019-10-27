@@ -24,6 +24,10 @@ const setupNotificationModule = () => {
   }
 
     instance.subscribeUser = function () {
+      // if (!instance.swRegistration) {
+      //   console.log('SW is NOT available');
+      //   return;
+      // }
       const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
       instance.swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
@@ -43,6 +47,10 @@ const setupNotificationModule = () => {
   }
 
   instance.unsubscribeUser = function () {
+    if (!instance.swRegistration) {
+      console.log('SW is NOT available');
+      return;
+    }
     instance.swRegistration.pushManager.getSubscription()
       .then(async subscription => {
         if (subscription) {
