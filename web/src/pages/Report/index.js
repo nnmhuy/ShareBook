@@ -12,8 +12,8 @@ import ReplyOption from './components/ReplyOption';
 import BookOption from './components/BookOption';
 import InstanceOption from './components/InstanceOption';
 import ReviewOption from './components/ReviewOption';
-import UserOption from './components/UserOption';
-import TransactionOption from './components/TransactionOption';
+// import UserOption from './components/UserOption';
+// import TransactionOption from './components/TransactionOption';
 import { getReviewById } from '../../redux/actions/reviewAction';
 import { getBookLite } from '../../redux/actions/bookAction';
 import { getReplyById } from '../../redux/actions/replyAction';
@@ -128,7 +128,7 @@ class Report extends Component {
 
   render() {
     const { classes, match, bookDetail, instance, review, reply,
-      // transaction,
+      // transaction, user
       values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
     const { params } = match;
@@ -152,14 +152,14 @@ class Report extends Component {
           case 'reply':
             types = [{ typeOfTarget: 'reply', name: 'Bình luận' }];
             break;
-          case 'user':
-            types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
-            break;
-          case 'transaction':
-            types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
-            break;
+          // case 'user':
+          //   types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
+          //   break;
+          // case 'transaction':
+          //   types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
+          //   break;
           default:
-            break;
+            return;
       }
 
 
@@ -202,15 +202,15 @@ class Report extends Component {
           {
             params.type === 'user' &&
             <>
-              <UserOption userId={params.value} />
-              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
+              {/* <UserOption userId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
             </>
           }
           {
             params.type === 'transaction' &&
             <>
-              <TransactionOption transId={params.value} />
-              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
+              {/* <TransactionOption transId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
             </>
           }
         </div>
