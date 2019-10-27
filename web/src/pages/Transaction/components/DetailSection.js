@@ -3,8 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import colors from '../../../constants/colors'
 import getFormattedDate from '../../../helper/getFormattedDate'
-// import Dialog from '@material-ui/core/Dialog'
-// import DialogContent from '@material-ui/core/DialogContent'
 import Input from '@material-ui/core/Input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -162,10 +160,9 @@ const styles = (theme => ({
 const DetailSection = (props) => {
   const { classes, transactionId, status, 
     position, returnDate, address, passingDate,
-    estimatedReadingTime, extendedDeadline, sendRequestStatus, updatedAt, changeDateTransaction
+    estimatedReadingTime, extendedDeadline, sendRequestStatus, changeDateTransaction
   } = props
   const currentDate = new Date()
-  const [isViewing, setViewing] = useState(false)
   const [curAddress, setAddress] = useState('')
   const [addressBool, changeAddress] = useState(false)
 
@@ -197,10 +194,11 @@ const DetailSection = (props) => {
     } else if (status === 'deadlineExtended') {
       let deadlineDate = new Date(returnDate)
         deadlineDate = deadlineDate.setDate(deadlineDate.getDate() + extendedDeadline)
-      if (extendedDeadline != 0)
+      if (extendedDeadline !== 0)
         changeDateTransaction({ value: deadlineDate, transactionId, type: 'returnDate', status, initial: true })
     } 
     // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, passingDate, returnDate, extendedDeadline])
 
   const handlePassingDate = date => {
@@ -210,15 +208,6 @@ const DetailSection = (props) => {
     }
     setSelectedDate(date);
     changeDateTransaction({value: date, transactionId, type: 'passingDate', status })
-  };
-
-  const handleReturnDate = date => {
-    if (date < currentDate) {
-      errorAlert('Chỉnh ngày không thành công')
-      return
-    }
-    setSelectedDate(date);
-    changeDateTransaction({ value: date, transactionId, type: 'returnDate', status })
   };
 
   const handleRequest = (newStatus, direction) => () => {
@@ -235,14 +224,6 @@ const DetailSection = (props) => {
 
   const handleBlur = (e) => {
     handleChangeAddress()
-  }
-
-  const toggleViewing = (value) => {
-    setViewing(value)
-  }
-
-  const openModal = (date, address, isViewing) => {
-    toggleViewing(isViewing);
   }
 
   const handleChangeAddress = () => {
@@ -317,7 +298,7 @@ const DetailSection = (props) => {
                 </div>
               </div>
               <div className={classes.fieldWrapper}>
-                <div className={`${classes.labelError} ` + `${classes.cancelOrder}`}
+                <div className={`${classes.labelError} ${classes.cancelOrder}`}
                   onClick={handleRequest('isCancel', 'holder')}
                 >
                   Huỷ đơn

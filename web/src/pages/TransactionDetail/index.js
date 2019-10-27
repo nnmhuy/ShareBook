@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Link from '../../components/Link';
@@ -245,11 +245,11 @@ const TransactionDetail = props => {
   const bookName = get(transaction, 'book.name', '')
   const bookImage = get(transaction, 'book.image', '')
   const bookAuthor = get(transaction, 'book.author', '')
-  const holderId = get(transaction, 'holderId', '')
+  // const holderId = get(transaction, 'holderId', '')
   const isLoading = isLoadingTransaction;
   const curDate = new Date()
 
-  const [isCopy, setCopy] = useState(false)
+  // const [isCopy, setCopy] = useState(false)
 
   useEffect(() => {
     getTransaction({transactionId: transId, userId})
@@ -259,7 +259,7 @@ const TransactionDetail = props => {
   const copyTransId = (e) => {
     e.target.select()
     document.execCommand('copy');
-    setCopy(true)
+    // setCopy(true) 
   }
 
   const handleRequest = (newStatus, direction) => () => {
@@ -286,10 +286,6 @@ const TransactionDetail = props => {
       status: newStatus,
       direction
     })
-  }
-
-  const viewReview = () => {
-
   }
 
   const currentStatus = () => {
@@ -452,9 +448,9 @@ const TransactionDetail = props => {
         <TitleWrapper title='Thông tin đơn hàng'>
           <div>
             <div className={classes.idWrapper}>
-              <div className={`${classes.idCopy}` + " idCopyWrapper"}></div>
+              <div className={`${classes.idCopy} idCopyWrapper`}></div>
               <p className={classes.idTitle}>ID đơn hàng</p>
-              <input unselectable="on" readOnly tabIndex="-1" className={`${classes.id}` + " transId"} onClick={(e) => copyTransId(e)} value={transId}/>
+              <input unselectable="on" readOnly tabIndex="-1" className={`${classes.id} transId`} onClick={(e) => copyTransId(e)} value={transId}/>
             </div>
             <hr className={classes.line} />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

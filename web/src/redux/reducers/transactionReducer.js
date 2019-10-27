@@ -242,6 +242,10 @@ const transactionReducer = handleActions(
               extendedDeadline: value
             }
           }
+        default: 
+          return {
+            ...state
+          }
       }
     },
     [changeDateTransactionFail]: (state, { payload: error }) => {

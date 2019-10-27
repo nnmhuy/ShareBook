@@ -111,7 +111,7 @@ const styles = (theme => ({
 
 const TransactionItem = (props) => {
   const { classes, id, user: { avatar, name, position }, isOnline, image,
-    status, numberOfUnreadMessage, updatedAt, lastMessage, lastMessageTime, lastMessageDirection } = props
+    status, numberOfUnreadMessage, lastMessage, lastMessageTime, lastMessageDirection } = props
   return (
     <Link to={`/transaction/${id}`}>
       <div className={classes.container}>
