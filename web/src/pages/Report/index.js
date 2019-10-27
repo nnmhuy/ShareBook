@@ -12,8 +12,8 @@ import ReplyOption from './components/ReplyOption';
 import BookOption from './components/BookOption';
 import InstanceOption from './components/InstanceOption';
 import ReviewOption from './components/ReviewOption';
-import UserOption from './components/UserOption';
-import TransactionOption from './components/TransactionOption';
+// import UserOption from './components/UserOption';
+// import TransactionOption from './components/TransactionOption';
 import { getReviewById } from '../../redux/actions/reviewAction';
 import { getBookLite } from '../../redux/actions/bookAction';
 import { getReplyById } from '../../redux/actions/replyAction';
@@ -127,8 +127,8 @@ class Report extends Component {
   }
 
   render() {
-    const { classes, match, history, bookDetail, instance, review, reply,
-      // transaction,
+    const { classes, match, bookDetail, instance, review, reply,
+      // transaction, user
       values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
     const { params } = match;
