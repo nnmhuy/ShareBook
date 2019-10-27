@@ -239,12 +239,12 @@ class CategoryBookList extends React.Component {
 const mapStateToProps = ({ state, account, book }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     categoryIsLoading: book.categoryIsLoading,
     categoryList: book.categoryList,

@@ -28,16 +28,14 @@
       "enum": [
         "achievement",
         "topUp",
-        "refundDepositForReturnBook",
-        "refundDepositForWritingReview",
         "reviewBonus",
-        "lendingBonus",
-        "chargingLateReturn",
-        "receiveDeposit",
-        "deposit",
-        "chargingForLateReturnBook",
-        "chargingForNotReturnBook",
-        "payForOrder"
+        "ownerBonus",
+        "holderBonus",
+        "transactionBorrow",
+        "transactionReturn",
+        "transactionCancelReturn",
+        "transactionLateReturn",
+        "chargingForNotReturnBook"
       ]
     },
     "isIncome": {
