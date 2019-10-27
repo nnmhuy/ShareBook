@@ -30,6 +30,8 @@ import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
 import AboutTerms from './pages/AboutTerms';
 
+import { socketCoin } from './redux/actions/accountAction';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -42,6 +44,9 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.getUserInfoHandler();
+  }
+
+  componentWillUnmount() {
   }
 
   render() {
@@ -78,14 +83,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = ({ account }) => {
   return {
-
+    account
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getUserInfoHandler: getUserInfo
+  getUserInfoHandler: getUserInfo,
+  updateCoin: socketCoin
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

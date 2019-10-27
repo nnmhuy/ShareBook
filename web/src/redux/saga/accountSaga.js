@@ -36,7 +36,7 @@ function* logInLocalSaga({ payload }) {
     NotificationModule.subscribeUser();
     //window.history.push('/profile')
   } catch (error) {
-    yield put(logInLocalFail(error))
+    console.log(error)
     let errorMessage = get(error, 'response.data.error.message', 'Đăng nhập lỗi')
     if (errorMessage === 'login failed' && errorMessage.length > 40) {
       errorMessage = 'Đăng nhập lỗi'

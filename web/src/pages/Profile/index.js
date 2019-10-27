@@ -7,14 +7,11 @@ import Tab from '@material-ui/core/Tab';
 
 import TabPanel from '../../components/TabPanel';
 import AccountTab from './components/AccountTab';
-import ReviewTab from './components/ReviewTab';
 import TopNav from './components/TopNav';
 
 import { getBookmarkedLite, toggleBookmark } from '../../redux/actions/bookAction';
 import { getOtherUserInfo } from '../../redux/actions/accountAction'
 import { ReactComponent as UserIcon } from '../../static/images/user.svg';
-import { ReactComponent as NewsfeedIcon } from '../../static/images/newsfeed.svg';
-import { ReactComponent as NewsfeedActiveIcon } from '../../static/images/newsfeed-active.svg';
 import Loading from '../../components/Loading';
 
 const styles = theme => ({
@@ -79,21 +76,11 @@ const Profile = props => {
                 :
                 <UserIcon height={25} className={classes.icon} fill="#9F9F9F" />
             } />
-          {/* <Tab onClick={() => handleChangeTab(1)}
-            label={
-              currentTab === 0 ?
-                <NewsfeedIcon height={25} className={classes.icon} />
-                :
-                <NewsfeedActiveIcon height={25} className={classes.icon} />
-            } /> */}
         </Tabs>
         <TabPanel index={0} value={currentTab} className={classes.wrapper}>
           <AccountTab isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} account={account} profileId={profileId}
           handleToggleBookmark={handleToggleBookmark} currentUserInfo={currentUserInfo} />
         </TabPanel>
-        {/* <TabPanel index={1} value={currentTab} className={classes.wrapper}>
-          <ReviewTab profileId={profileId} />
-        </TabPanel> */}
       </div>
     </TopNav>
   );
@@ -102,12 +89,12 @@ const Profile = props => {
 const mapStateToProps = ({ account, book }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     currentUserInfo: account.otherAccount,
     bookmarked: book.bookmarked,

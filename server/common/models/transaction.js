@@ -78,6 +78,7 @@ module.exports = function(Transaction) {
       secretKey,
     };
     const UserModel = Transaction.app.models.user;
+    const CoinTransferModel = Transaction.app.models.coinTransfer;
     const borrower = await UserModel.findById(transaction.borrowerId);
     const BookInstanceModel = Transaction.app.models.bookInstance;
     const instance =
@@ -122,19 +123,43 @@ module.exports = function(Transaction) {
           secretKey,
         });
         const owner = await UserModel.findById(instance.ownerId);
-        await holder.updateAttribute(
-          'coin', holder.coin + coinConstants.transactionHolder
+        // await holder.updateAttribute(
+        //   'coin', holder.coin + coinConstants.transactionHolder
+        // );
+        await CoinTransferModel.createCoinTransfer(
+          holder.id,
+          coinConstants.transactionHolder,
+          'holderBonus',
+          holder
         );
-        await owner.updateAttribute(
-          'coin', owner.coin + coinConstants.transactionOwner
+        // await owner.updateAttribute(
+        //   'coin', owner.coin + coinConstants.transactionOwner
+        // );
+        await CoinTransferModel.createCoinTransfer(
+          owner.id,
+          coinConstants.transactionOwner,
+          'ownerBonus',
+          owner
         );
         if (transaction.status === 'isReading') {
-          await borrower.updateAttribute(
-            'coin', borrower.coin + coinConstants.transactionReturn
+          // await borrower.updateAttribute(
+          //   'coin', borrower.coin + coinConstants.transactionReturn
+          // );
+          await CoinTransferModel.createCoinTransfer(
+            borrower.id,
+            -coinConstants.transactionReturn,
+            'transactionReturn',
+            borrower
           );
         } else {
-          await borrower.updateAttribute(
-            'coin', borrower.coin + coinConstants.transactionLateReturn
+          // await borrower.updateAttribute(
+          //   'coin', borrower.coin + coinConstants.transactionLateReturn
+          // );
+          await CoinTransferModel.createCoinTransfer(
+            borrower.id,
+            -coinConstants.transactionLateReturn,
+            'transactionLateReturn',
+            borrower
           );
         }
         newSystemMessage.content = 'Giao dịch hoàn tất';
@@ -149,8 +174,14 @@ module.exports = function(Transaction) {
           'isAvailable': true,
           secretKey,
         });
-        await borrower.updateAttribute(
-          'coin', borrower.coin + coinConstants.transactionBorrow
+        // await borrower.updateAttribute(
+        //   'coin', borrower.coin + coinConstants.transactionBorrow
+        // );
+        await CoinTransferModel.createCoinTransfer(
+          borrower.id,
+          coinConstants.transactionBorrow,
+          'transactionCancelReturn',
+          borrower
         );
         newSystemMessage.content = 'Giao dịch đã bị huỷ';
         break;
@@ -189,6 +220,7 @@ module.exports = function(Transaction) {
     const MessageInTransaction =
       Transaction.app.models.messageInTransaction;
     const UserModel = Transaction.app.models.user;
+    const CoinTransferModel = Transaction.app.models.coinTransfer;
     let newSystemMessage = {
       transactionId,
       direction: 'system',
@@ -223,8 +255,14 @@ module.exports = function(Transaction) {
           'isAvailable': true,
           secretKey,
         });
-        await borrower.updateAttribute(
-          'coin', borrower.coin + coinConstants.transactionBorrow
+        // await borrower.updateAttribute(
+        //   'coin', borrower.coin + coinConstants.transactionBorrow
+        // );
+        await CoinTransferModel.createCoinTransfer(
+          borrower.id,
+          coinConstants.transactionBorrow,
+          'transactionCancelReturn',
+          borrower
         );
         newSystemMessage.content = 'Giao dịch đã bị huỷ';
         break;
@@ -254,6 +292,7 @@ module.exports = function(Transaction) {
     const {instanceId} = data;
     const userId = get(ctx, 'req.accessToken.userId', null);
     const UserModel = Transaction.app.models.user;
+    const CoinTransferModel = Transaction.app.models.coinTransfer;
     const user = await UserModel.findById(userId);
     if (!user || user.coin < coinConstants.transactionBorrow) {
       throw new Error(
@@ -262,6 +301,19 @@ module.exports = function(Transaction) {
       );
     }
     // TODO: check number of borrowing transaction < 2
+    // const processingTransactions = await Transaction.find({
+    //   where: {
+    //     status: {
+    //       nlike: 'isCancel',
+    //     },
+    //     userId,
+    //   },
+    // });
+    // if (processingTransactions.length >= 2) {
+    //   throw new Error(
+    //     'Chỉ được mượn tối đa 2 quyển một lúc!!!'
+    //   );
+    // };
     const BookInstanceModel = Transaction.app.models.bookInstance;
     let instance = null;
     if (instanceId) {
@@ -279,9 +331,9 @@ module.exports = function(Transaction) {
           isAvailable: true,
         },
       });
-      if (!instance || !instance.isAvailable) {
-        throw new Error('Sách không có sẵn!');
-      }
+    }
+    if (!instance || !instance.isAvailable) {
+      throw new Error('Sách không có sẵn!');
     }
     if (instance.holderId.equals(userId)) {
       throw new Error('Bạn không thể mượn sách của chính mình!');
@@ -290,8 +342,14 @@ module.exports = function(Transaction) {
       'isAvailable': false,
       secretKey,
     });
-    await user.updateAttribute(
-      'coin', user.coin - coinConstants.transactionBorrow
+    // await user.updateAttribute(
+    //   'coin', user.coin - coinConstants.transactionBorrow
+    // );
+    await CoinTransferModel.createCoinTransfer(
+      user.id,
+      -coinConstants.transactionBorrow,
+      'transactionBorrow',
+      user
     );
     const newTransaction = await Transaction.create({
       holderId: instance.holderId,

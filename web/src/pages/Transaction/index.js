@@ -12,7 +12,7 @@ import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
 
-import { 
+import {
   sendMessage,
   getTransaction,
   appendMessage,
@@ -71,6 +71,7 @@ class Transaction extends React.Component {
     const { transactionId } = match.params
     const { userId } = account
     socket.off('new transaction status')
+    socket.off('new message')
     socket.emit('leave socket', { socketName: `CHAT-${transactionId}` })
     socket.emit('leave socket', { socketName: `TRANSACTION-${userId}` })
   }
@@ -116,7 +117,8 @@ class Transaction extends React.Component {
 
   render() {
     const { classes, isLoading, transaction, messages,
-      numberOfMessages, changeDateTransaction, lastMessageCount, sendRequestStatus, match
+      numberOfMessages, changeDateTransaction, lastMessageCount, sendRequestStatus, match,
+      isInitializingTransaction
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
@@ -140,7 +142,7 @@ class Transaction extends React.Component {
         status={status}
         transactionId={transactionId}
       >
-        <Loading isLoading={isLoading}/>
+        <Loading isLoading={isLoading || isInitializingTransaction}/>
         <div className={classes.container}>
           <TransactionInfoSection
             transactionId={transactionId}
@@ -232,6 +234,7 @@ const mapStateToProps = ({ transaction }) => {
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
     numberOfAppendedMessages: transaction.numberOfAppendedMessages,
+    isInitializingTransaction: transaction.isInitializingTransaction,
   }
 }
 

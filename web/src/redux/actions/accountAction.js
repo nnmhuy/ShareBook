@@ -22,7 +22,8 @@ const {
   signUpFail,
   getProfileInfo,
   getProfileInfoSuccess,
-  getProfileInfoFail
+  getProfileInfoFail,
+  socketCoin
 } = createActions(
   'LOG_IN_LOCAL',
   'LOG_IN_LOCAL_SUCCESS',
@@ -44,7 +45,8 @@ const {
   'SIGN_UP_FAIL',
   'GET_PROFILE_INFO',
   'GET_PROFILE_INFO_SUCCESS',
-  'GET_PROFILE_INFO_FAIL'
+  'GET_PROFILE_INFO_FAIL',
+  'SOCKET_COIN'
 )
 
 
@@ -70,5 +72,6 @@ export {
   signUpFail,
   getProfileInfo,
   getProfileInfoSuccess,
-  getProfileInfoFail
+  getProfileInfoFail,
+  socketCoin
 }

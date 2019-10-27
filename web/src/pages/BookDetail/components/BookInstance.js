@@ -271,8 +271,8 @@ const keyArray = [
 
 const BookInstance = (props) => {
   const { classes, id, isAvailable, index, 
-    ownerId, ownerName, ownerAvatar,
-    holderId, holderName, holderAvatar,
+    ownerId, ownerName, ownerAvatar, holderId, 
+    // holderName, holderAvatar,
     userId, initTransaction
   } = props
 

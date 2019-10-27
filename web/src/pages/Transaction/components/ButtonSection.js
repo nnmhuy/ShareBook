@@ -85,13 +85,13 @@ const ButtonSection = (props) => {
     setDeadline(e.target.value)
   }
 
-  const handleRequest = (newStatus, direction) => () => {
-    sendRequestStatus({
-      transactionId,
-      status: newStatus,
-      direction
-    })
-  }
+  // const handleRequest = (newStatus, direction) => () => {
+  //   sendRequestStatus({
+  //     transactionId,
+  //     status: newStatus,
+  //     direction
+  //   })
+  // }
 
   const handleDeadlineExtended = () => {
     changeDateTransaction({ value: deadline, transactionId, type: 'extendedDeadline', status })

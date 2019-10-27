@@ -279,9 +279,7 @@ function* initTransactionSaga({ payload }) {
 
 function* changeDateTransactionSaga({ payload }) {
   try {
-    const { value, transactionId, type, initial,
-      status, extendedDeadline
-    } = payload
+    const { value, transactionId, type, initial, status } = payload
     switch (type) {
       case 'passingDate':
         const passingDate = new Date(value).toISOString()
