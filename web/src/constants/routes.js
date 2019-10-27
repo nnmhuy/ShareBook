@@ -31,11 +31,11 @@ const routes = [
     pathname: '/create-book',
     Icon: BookAddIcon
   },
-  {
-    label: 'Bookmarks',
-    pathname: '/profile/bookmarks',
-    Icon: BookmarkIcon
-  },
+  // {
+  //   label: 'Bookmarks',
+  //   pathname: '/profile/bookmarks',
+  //   Icon: BookmarkIcon
+  // },
 ]
 
 const infoRoutes = [
