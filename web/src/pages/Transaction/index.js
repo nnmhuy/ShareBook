@@ -140,6 +140,7 @@ class Transaction extends React.Component {
         name={username}
         position={position}
         status={status}
+        transactionId={transactionId}
       >
         <Loading isLoading={isLoading || isInitializingTransaction}/>
         <div className={classes.container}>

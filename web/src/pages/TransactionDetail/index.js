@@ -10,7 +10,7 @@ import colors from '../../constants/colors';
 import Avatar from '../../components/Avatar';
 import Button from '@material-ui/core/Button';
 import Image from '../../components/Image';
-import { getTransaction, requestStatus } from '../../redux/actions/transactionAction';
+import { getTransaction, requestStatus, changeDateTransaction } from '../../redux/actions/transactionAction';
 import { bindActionCreators } from 'redux';
 import Loading from '../../components/Loading';
 import getFormattedDate from '../../helper/getFormattedDate';
@@ -157,6 +157,8 @@ const styles = theme => ({
   },
   buttonAgree: {
     color: colors.green,
+    background: 'transparent',
+    pointerEvents: 'auto',
     border: `1px solid ${colors.green}`,
     transition: '0.3s',
     '&:hover': {
@@ -226,7 +228,7 @@ const styles = theme => ({
 })
 
 const TransactionDetail = props => {
-  const { classes, match, transaction, sendRequestStatus, account, getTransaction, isLoadingTransaction } = props;
+  const { classes, match, transaction, sendRequestStatus, account, getTransaction, isLoadingTransaction, changeDateTransaction } = props;
   const { userId } = account;
   const { transId } = match.params;
   const createdAt = get(transaction, 'createdAt', '')
@@ -238,11 +240,14 @@ const TransactionDetail = props => {
   const address = get(transaction, 'address', '')
   const status = get(transaction, 'status', '')
   const isReviewed = get(transaction, 'isReviewed', '')
+  const reviewId = get(transaction, 'reviewId', '')
+  const bookId = get(transaction, 'book.id', '')
   const bookName = get(transaction, 'book.name', '')
   const bookImage = get(transaction, 'book.image', '')
   const bookAuthor = get(transaction, 'book.author', '')
+  const holderId = get(transaction, 'holderId', '')
   const isLoading = isLoadingTransaction;
-  const holderId = '4234njnj';
+  const curDate = new Date()
 
   const [isCopy, setCopy] = useState(false)
 
@@ -258,6 +263,24 @@ const TransactionDetail = props => {
   }
 
   const handleRequest = (newStatus, direction) => () => {
+    sendRequestStatus({
+      transactionId: transId,
+      status: newStatus,
+      direction
+    })
+  }
+
+  const handlePassingRequest = (newStatus, direction) => {
+    changeDateTransaction({ value: curDate, transactionId: transId, type: 'passingDate', status, initial: true })
+    sendRequestStatus({
+      transactionId: transId,
+      status: newStatus,
+      direction
+    })
+  }
+
+  const handleReturnRequest = (newStatus, direction) => {
+    changeDateTransaction({ value: curDate, transactionId: transId, type: 'returnDate', status, initial: true })
     sendRequestStatus({
       transactionId: transId,
       status: newStatus,
@@ -300,73 +323,87 @@ const TransactionDetail = props => {
           case 'waitingForResponse':
             return (
               <>
-                <Button className={classes.button}>Đã nhận sách</Button>
-                <Button onClick={handleRequest('isCancel', 'borrower')} className={`${classes.button} ${classes.buttonReject}`} style={{marginRight: 10}}>Huỷ đơn</Button>
+                <Button onClick={()=>handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Huỷ đơn</Button>
               </>
             )
           case 'waitingForTake':
-            return <Button onClick={handleRequest('isReading', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return <Button onClick={() =>handlePassingRequest('isReading', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isReading':
-            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return
+            // return <Button onClick={()=>handlePassingRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isOvertime':
-            return <Button onClick={handleRequest('waitingForTake', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return
+            // return <Button onClick={()=>handlePassingRequest('waitingForTake', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'waitingForDeadlineExtended':
-            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return
+            // return <Button onClick={()=>handlePassingRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'deadlineExtended':
-            return <Button onClick={handleRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
+            return
+            // return <Button onClick={()=>handlePassingRequest('isDone', 'borrower')} className={`${classes.button} ${classes.buttonActive}`}>Đã nhận sách</Button>
           case 'isReport':
             return 
           case 'isCancel':
             return 
           case 'isDone':
-            return <Button className={`${classes.button} ${classes.buttonOrange}`}>Ghi Review</Button>
+            return <Link to={`/add-review/${bookId}`}>
+                <Button className={`${classes.button} ${classes.buttonOrange}`}>Ghi Review</Button>
+              </Link>
           default:
-            return
+            break;
         }
       } else {
-        return <>
-          <Button className={`${classes.button} ${classes.buttonActive}`} onClick={viewReview}>Xem Review</Button>
+        return <Link to={`/review/${reviewId}`}>
+          <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>
           {/* <Button className={`${classes.button} ${classes.buttonOrange}`} style={{marginRight: 10}}>Xem Đánh Giá</Button>          */}
-        </>
+        </Link>
       }
     } else {
       if (!isReviewed) {
         switch (status) {
           case 'waitingForResponse':
-            return (
-              <>
-                <Button onClick={handleRequest('waitingForTake', 'holder')} className={`${classes.button} ${classes.buttonAgree}`}>Đồng ý</Button>
-                <Button onClick={handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`} style={{marginRight: 10}}>Từ chối</Button>         
-              </>
-            )
-          case 'waitingForTake':
-            return <Button onClick={handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Huỷ hđơn</Button>
+            return
+            // (
+            //   <>
+            //     <Button onClick={()=>handleRequest('waitingForTake', 'holder')} className={`${classes.button} ${classes.buttonAgree}`}>Đồng ý</Button>
+            //     <Button onClick={()=>handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`} style={{marginRight: 10}}>Từ chối</Button>
+            //   </>
+            // )
+          // case 'waitingForTake':
+          //   return <Button onClick={()=>handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Huỷ đơn</Button>
           case 'isReading':
-            return <Button className={classes.button}>Chờ hoàn thành</Button>
+            return <Button onClick={() =>handleReturnRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã trả sách</Button>
           case 'isOvertime':
             return (
               <>
                 {/* <Button onClick={() => handleRequest('isReported', 'holder')} className={`${classes.button} ${classes.buttonReject}`}>Báo cáo</Button> */}
-                <Button onClick={handleRequest('deadlineExtended', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Gia hạn</Button>
+                {/* <Button onClick={()=>handleRequest('deadlineExtended', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Gia hạn</Button> */}
+                return <Button onClick={() =>handleReturnRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã trả sách</Button>
               </>
             )
           case 'waitingForDeadlineExtended':
-            return <Button className={`${classes.button} ${classes.buttonAgree}`}>Gia hạn</Button>
+            return (
+              <>
+                {/* <Button className={`${classes.button} ${classes.buttonAgree}`}>Gia hạn</Button> */}
+                {/* <Button onClick={()=>handleRequest('isCancel', 'holder')} className={`${classes.button} ${classes.buttonReject}`} style={{ marginRight: 10 }}>Từ chối</Button> */}
+                <Button onClick={() =>handleReturnRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã trả sách</Button>
+              </>
+            )
           case 'deadlineExtended':
-            return <Button onClick={handleRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã hoàn thành</Button>
+            // return <Button onClick={()=>handleRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã hoàn thành</Button>
+            return <Button onClick={() =>handleReturnRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã trả sách</Button>
           case 'isReport':
             return 
           case 'isCancel':
             return 
           case 'isDone':
-            return <Button className={`${classes.button}`}>Chưa có Review</Button>
+            return <Button onClick={() =>handleReturnRequest('isDone', 'holder')} className={`${classes.button} ${classes.buttonActive}`}>Đã trả sách</Button>
           default: return
         }
       } else {
-        return <>
+        return <Link to={`/review/${reviewId}`}>
           <Button className={`${classes.button} ${classes.buttonActive}`}>Xem Review</Button>
           {/* <Button className={`${classes.button} ${classes.buttonOrange}`} style={{marginRight: 10}}>Xem Đánh Giá</Button>          */}
-        </>
+        </Link>
       }
     }
   }
@@ -425,15 +462,17 @@ const TransactionDetail = props => {
                 <Image src={bookImage} alt={bookName} className={classes.image} />
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <p className={classes.bookTitle}>{bookName}</p>
-                    <p className={classes.text}>{bookAuthor}</p>
+                    <Link to={`/book-detail/${bookId}`}>
+                      <p className={classes.bookTitle}>{bookName}</p>
+                    </Link>
+                    <p className={classes.text} style={{textOverflow: 'hidden', overflow: 'hidden', whiteSpace: 'nowrap'}}>{bookAuthor}</p>
                   </div>
                   {
                     currentStatus()
                   }
                 </div>
               </div>
-              <Link to={`/profile/${holderId}`} className={classes.link}>
+              <Link to={`/profile/${transaction.holderId}`} className={classes.link}>
                 {
                   position === 'holder' ?
                   <Avatar className={classes.avatar} src={avatar} />
@@ -444,9 +483,9 @@ const TransactionDetail = props => {
             </div>
           </div>
         </TitleWrapper>
-        {
+        {/* {
           confirmButton()
-        }
+        } */}
       </div>
     </TopNav>
   );
@@ -469,7 +508,8 @@ const mapStateToProps = ({ account, transaction }) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getTransaction: getTransaction,
-  sendRequestStatus: requestStatus
+  sendRequestStatus: requestStatus,
+  changeDateTransaction: changeDateTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TransactionDetail));
