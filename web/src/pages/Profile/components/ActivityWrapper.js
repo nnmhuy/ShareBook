@@ -9,11 +9,9 @@ import ActivityButton from './ActivityButton';
 import BookVertical from './BookVertical';
 import BookHorizontal from './BookHorizontal';
 import ReportList from './ReportList';
-import TransactionList from './TransactionList';
 
 import { ReactComponent as NotebookIcon } from '../../../static/images/notebook-btn.svg';
 import { ReactComponent as BookmarkIcon } from '../../../static/images/bookmark-btn.svg';
-import { ReactComponent as TransactionIcon } from '../../../static/images/transaction-btn.svg';
 import { ReactComponent as ReportIcon } from '../../../static/images/report-btn.svg';
 
 const styles = theme => ({
@@ -35,8 +33,8 @@ const styles = theme => ({
 
 const text = {
 	book: {
-		passed: 'Nơi bạn quản lí các cuốn sách bạn đã đăng hoặc đã được truyền tay tới.',
-		owned: 'Nơi bạn quản lí các cuốn sách do chính tay bạn đăng và được truyền qua nhiều nơi.'
+		passed: 'Nơi bạn quản lí các cuốn sách bạn đã đăng hoặc đã được truyền tay tới. (Đang hoàn thiện, xin lỗi nha))',
+		owned: 'Nơi bạn quản lí các cuốn sách do chính tay bạn đăng và được truyền qua nhiều nơi. (Đang hoàn thiện, xin lỗi nha)))'
 	},
 	bookmark: 'Cùng lưu lại những cuốn sách mình muốn mượn/ thích nào!',
 	transaction: 'Bắt đầu mượn sách thôi nào!',
@@ -50,29 +48,6 @@ const theme = createMuiTheme({
 		}
 	}
 });
-
-const reportData = [
-	{
-		id: '1238abbd2',
-		createdAt: '2019-03-29T00:00:00',
-		status: 'pending'
-	},
-	{
-		id: '1238abbd2',
-		createdAt: '2019-03-29T00:00:00',
-		status: 'answer'
-	},
-	{
-		id: '1238abbd2',
-		createdAt: '2019-03-29T00:00:00',
-		status: 'resolved'
-	},
-	{
-		id: '1238abbd2',
-		createdAt: '2019-03-29T00:00:00',
-		status: 'reject'
-	}
-]
 
 class ActivityWrapper extends Component {
 
@@ -133,13 +108,9 @@ class ActivityWrapper extends Component {
 							bg='#007EFC'
 							txtColor={currentTab === 1 ? true : false} />} />
 						<Tab label={<ActivityButton
-							Icon={TransactionIcon} title='giao dịch'
-							bg='#544EFF'
-							txtColor={currentTab === 2 ? true : false} />} />
-						<Tab label={<ActivityButton
 							Icon={ReportIcon} title='report'
 							bg='#0A567E'
-							txtColor={currentTab === 3 ? true : false} />} />
+							txtColor={currentTab === 2 ? true : false} />} />
 					</Tabs>
 					<TabPanel index={0} value={currentTab} className={classes.wrapper}>
 						<BookHorizontal bookPassed={bookTest} bookOwned={bookTest} textNull={text.book} />
@@ -150,9 +121,6 @@ class ActivityWrapper extends Component {
 						/>
 					</TabPanel>
 					<TabPanel index={2} value={currentTab} className={classes.wrapper}>
-						<TransactionList transactions={bookTest} textNull={text.transaction} />
-					</TabPanel>
-					<TabPanel index={3} value={currentTab} className={classes.wrapper}>
 						<ReportList report={bookTest} textNull={text.report} />
 					</TabPanel>
 				</div>

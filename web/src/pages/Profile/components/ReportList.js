@@ -7,6 +7,7 @@ import ReportItem from './ReportItem';
 class ReportList extends Component {
   render() {
     const { report, textNull } = this.props;
+    console.log(report)
     return (
       <div>
         {
