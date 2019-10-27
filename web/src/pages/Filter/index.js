@@ -22,6 +22,7 @@ const styles = (theme => ({
     minWidth: 350,
     maxWidth: 800,
     margin: 'auto',
+    paddingBottom: 20
   },
   divider: {
     color: colors.gray,
@@ -73,23 +74,25 @@ class Filter extends React.Component {
       <LayoutWrapper account={account} title={currentPage}>
         <div className={classes.container}>
           <ButtonContainer handleSubmit={handleSubmit}/>
-          <CheckBoxFilter
-            title='Thể loại'
-            name='category'
-            value={values.category}
-            optionList={currentCategoryList}
-            setFieldValue={setFieldValue}
-          />
+            <CheckBoxFilter
+              title='Thể loại'
+              name='category'
+              value={values.category}
+              gridNum={2}
+              optionList={currentCategoryList}
+              setFieldValue={setFieldValue}
+            />
           <Divider  className={classes.divider}/>
           <RatingFilter 
             value={values.minRating}
             setFieldValue={setFieldValue}
           />
-          <Divider  className={classes.divider}/>
+          <Divider className={classes.divider} />
           <CheckBoxFilter
             title='Địa điểm'
             name='district'
             value={values.district}
+            gridNum={4}
             optionList={districtList}
             setFieldValue={setFieldValue}
           />
@@ -140,12 +143,12 @@ const mapStateToProps = ({ account, book }) => {
   }
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     categoryIsLoading: book.categoryIsLoading,
     categoryList: book.categoryList,

@@ -1,8 +1,19 @@
 {
-  "name": "coinTransfer",
-  "plural": "coninTransfers",
+  "name": "pushSubscription",
+  "plural": "pushSubscriptions",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "composeId": {
+      "keys": {
+        "userId": 1,
+        "endpoint": 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "options": {
     "validateUpsert": true
   },
@@ -17,29 +28,16 @@
     }
   },
   "properties": {
-    "amount": {
-      "type": "number",
-      "required": true,
-      "default": 0
-    },
-    "type": {
+    "endpoint": {
       "type": "string",
-      "required": true,
-      "enum": [
-        "achievement",
-        "topUp",
-        "reviewBonus",
-        "ownerBonus",
-        "holderBonus",
-        "transactionBorrow",
-        "transactionReturn",
-        "transactionCancelReturn",
-        "transactionLateReturn",
-        "chargingForNotReturnBook"
-      ]
+      "required": true
     },
-    "isIncome": {
-      "type": "boolean",
+    "expirationTime": {
+      "type": "string",
+      "default": null
+    },
+    "keys": {
+      "type": "object",
       "required": true
     }
   },
@@ -49,26 +47,6 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId"
-    },
-    "club": {
-      "type": "belongsTo",
-      "model": "club",
-      "foreignKey": "clubId"
-    },
-    "transaction": {
-      "type": "belongsTo",
-      "model": "transaction",
-      "foreignKey": "transactionId"
-    },
-    "order": {
-      "type": "belongsTo",
-      "model": "order",
-      "foreignKey": "orderId"
-    },
-    "mission": {
-      "type": "belongsTo",
-      "model": "mission",
-      "foreignKey": "missionId"
     }
   },
   "acls": [
@@ -100,13 +78,20 @@
       "accessType": "WRITE",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "permission": "ALLOW"
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
     },
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "permission": "DENY",
+      "permission": "ALOW",
       "property": "destroyById"
     }
   ],

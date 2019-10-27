@@ -21,7 +21,10 @@ import {
   toggleLikeSingleReviewFail,
   getAllReviews,
   getAllReviewsSuccess,
-  getAllReviewsFail
+  getAllReviewsFail,
+  getReviewLite,
+  getReviewLiteSuccess,
+  getReviewLiteFail
 } from '../actions/reviewAction'
 
 let defaultState = {
@@ -35,10 +38,12 @@ let defaultState = {
   isLoadingReviewById: false,
   review: {},
   allReviews: [],
-  isLoadingAllReviews: false
+  isLoadingAllReviews: false,
+  reviewLite: [],
+  isLoadingReviewLite: false
 }
 
-const bookReducer = handleActions(
+const reviewReducer = handleActions(
   {
     [getReviewsOfBook]: (state) => {
       return {
@@ -263,8 +268,33 @@ const bookReducer = handleActions(
         error: error
       }
     },
+    [getReviewLite]: (state) => {
+      return {
+        ...state,
+        isLoadingReviewLite: true,
+      }
+    },
+    [getReviewLiteSuccess]: (state, { payload }) => {
+      return {
+        isLoadingReviewLite: false,
+        reviewLite: payload,
+        error: null
+      }
+    },
+    [getReviewLiteFail]: (state, { payload: error }) => {
+      return {
+        isLoadingReviewLite: false,
+        error: error
+      }
+    },
+    [getReviewsOfBookFail]: (state, { payload: error }) => {
+      return {
+        isLoadingReviewLite: false,
+        error: error
+      }
+    },
   },
   defaultState
 )
 
-export default bookReducer
+export default reviewReducer

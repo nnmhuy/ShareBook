@@ -170,5 +170,9 @@
   "bookTag": {
     "dataSource": "db",
     "public": true
+  },
+  "pushSubscription": {
+    "dataSource": "db",
+    "public": true
   }
 }

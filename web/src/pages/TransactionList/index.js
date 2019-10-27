@@ -6,7 +6,7 @@ import socket from '../../connectors/Socket'
 
 import Loading from '../../components/Loading'
 import LayoutWrapper from '../../components/LayoutWrapper'
-import Search from '../../components/Search'
+// import Search from '../../components/Search'
 import TransactionItem from './components/TransactionItem'
 
 import { getTransactions } from '../../redux/actions/transactionAction'
@@ -63,15 +63,11 @@ class TransactionList extends React.Component {
 
   render() {
     const { classes, account, transactionList, isLoading } = this.props
-    transactionList.sort((a, b) => {
-      if (a.lastMessageTime < b.lastMessageTime) return -1;
-      return 1;
-    })
     return (
       <LayoutWrapper title='Giao dịch' account={account}>
         <Loading isLoading={isLoading}/>
         <div className={classes.container}>
-          <Search className={classes.search}/>
+          {/* <Search className={classes.search}/> */}
           <div>
             {
               transactionList.map((transaction) => {
@@ -90,15 +86,15 @@ class TransactionList extends React.Component {
   }
 }
 
-const mapStateToProps = ({ transaction }) => {
+const mapStateToProps = ({ account, transaction }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     transactionList: transaction.transactionList,
     isLoading: transaction.isLoading

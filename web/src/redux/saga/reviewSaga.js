@@ -22,7 +22,10 @@ import {
   toggleLikeSingleReviewFail,
   getAllReviews,
   getAllReviewsSuccess,
-  getAllReviewsFail
+  getAllReviewsFail,
+  getReviewLite,
+  getReviewLiteSuccess,
+  getReviewLiteFail
 } from '../actions/reviewAction'
 import restConnector from '../../connectors/RestConnector'
 
@@ -223,11 +226,22 @@ function* getReviewByIdSaga({ payload }) {
 }
 
 function* getAllReviewsSaga({payload}) {
+  let { where, skip, limit, order, include, userId, fields } = payload
+  if (!order) {
+    order = "createdAt DESC"
+  }
+  if (!where) {
+    where = {
+      content: {
+        regexp: ".{5,1000}"
+      }
+    }
+  }
   try {
-    const { userId } = payload;
     // let allReviews = []
+    let reviewFilter = { where, skip, limit, order, include, fields }
     const { data: allReviews } = yield call(restConnector.get,
-      `/reviews?filter={"where":{"userId": {"neq":${JSON.stringify(userId)}}},"order":"createdAt DESC"}`)
+      `/reviews?filter=${JSON.stringify(reviewFilter)}`)
 
     let curData = []
     //assign review
@@ -288,6 +302,37 @@ function* getAllReviewsSaga({payload}) {
   }
 }
 
+function* getReviewLiteSaga() {
+  try {
+    const { data: reviewData } = yield call(restConnector.get,
+      `/reviews?filter={"order":"numberOfLike DESC","limit":"5"}`)
+    
+    const reviewBook = yield all(
+      reviewData.map(review => call(restConnector.get, `/reviews/${review.id}/book`))
+    )
+
+    const reviewUser = yield all(
+      reviewData.map(review => call(restConnector.get, `/reviews/${review.id}/user`))
+    )
+    
+    const allData = reviewData.map((review, index) => {
+      return {
+        id: review.id,
+        bookId: review.bookId,
+        userId: review.userId,
+        content: review.content,
+        bookName: reviewBook[index].data.name,
+        username: reviewUser[index].data.username,
+        name: reviewUser[index].data.name,
+        avatar: reviewUser[index].data.avatar
+      }
+    })
+    yield put(getReviewLiteSuccess(allData))
+  } catch (error) {
+    yield put(getReviewLiteFail(error))
+  }
+}
+
 function* getReviewByUserWatcher() {
   yield takeLatest(getReviewByUser, getReviewByUserSaga)
 }
@@ -316,6 +361,10 @@ function* getAllReviewsWatcher() {
   yield takeLatest(getAllReviews, getAllReviewsSaga)
 }
 
+function* getReviewLiteWatcher() {
+  yield takeLatest(getReviewLite, getReviewLiteSaga)
+}
+
 export {
   postReviewWatcher,
   getReviewByUserWatcher,
@@ -323,5 +372,6 @@ export {
   toggleLikeReviewWatcher,
   getReviewByIdWatcher,
   toggleLikeSingleReviewWatcher,
-  getAllReviewsWatcher
+  getAllReviewsWatcher,
+  getReviewLiteWatcher
 }

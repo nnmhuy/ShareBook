@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import ScaleLoader from 'react-spinners/ScaleLoader'
 
 import Book from '../../../components/BookmarkBook';
 import ActivityNull from '../../../components/ActivityNull';
-
-import { bookDemoData } from '../demoData';
-import colors from '../../../constants/colors';
 import { ReactComponent as BookmarkedIcon } from '../../../static/images/bookmarked-btn.svg';
 
 const styles = theme => ({
@@ -46,7 +42,12 @@ class BookVertical extends Component {
                 bookmarked.map((book) => {
                   return (
                     <div style={{ marginBottom: 25 }} key={book.id}>
-                      <Book handleToggleBookmark={handleToggleBookmark} id={book.id} name={book.name} image={book.image} isBookmarked={book.isActive.toString()} />
+                      <Book
+                        handleToggleBookmark={handleToggleBookmark}
+                        id={book.id}
+                        name={book.name}
+                        image={book.image}
+                        isBookmarked={book.isActive} />
                     </div>
                   )
                 })

@@ -99,7 +99,7 @@ const Newsfeed = (props) => {
 
   useEffect(() => {  
     const userId = account.userId
-    getReviews({ userId });
+    getReviews({ userId, limit: 5 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -142,15 +142,15 @@ const Newsfeed = (props) => {
   );
 };
 
-const mapStateToProps = ({ review }) => {
+const mapStateToProps = ({ account, review }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     allReviews: review.allReviews,
     isLoadingAllReviews: review.isLoadingAllReviews

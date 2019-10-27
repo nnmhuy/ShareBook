@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Link from './Link'
+import colors from '../constants/colors';
 
 const styles = theme => ({
 	container: {
@@ -24,12 +26,20 @@ const styles = theme => ({
 
 class ActivityNull extends Component {
 	render() {
-		const { classes, Icon, content } = this.props;
+		const { classes, Icon, content, isReport } = this.props;
 		return (
 			<div>
 				<Paper className={classes.container}>
 					<Icon className={classes.icon} />
-					<p className={classes.text}>{content}</p>
+					{
+						isReport ?
+							<p className={classes.text}>
+								Nếu bạn gặp vấn đề gì cần giải đáp thì có thể click vào <Link to='/report' style={{color: colors.primary}}>đây</Link> để nêu thắc mắc của bạn với ShareBook nhé!
+							</p>
+							:
+							<p className={classes.text}>{content}</p>
+					}
+					
 				</Paper>
 				<br />
 			</div>

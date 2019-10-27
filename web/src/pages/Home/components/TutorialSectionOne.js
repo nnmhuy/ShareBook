@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 
 import colors from '../../../constants/colors'
 import { ReactComponent as Notebook } from '../../../static/images/notebook.svg'
 import { ReactComponent as Handbook } from '../../../static/images/hand-book.svg'
+import SearchDemo from '../../../static/images/search-demo.png';
 
 import SectionTitle from './SectionTitle'
+import Link from '../../../components/Link'
 
 const styles = (theme => ({
   container: {
@@ -46,6 +48,26 @@ const styles = (theme => ({
     fontWeight: 'bold',
     fontSize: 15,
     color: colors.textSecondary
+  },
+  image: {
+    boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.15)',
+    width: '85vw',
+    maxWidth: 450,
+    maxHeight: 340,
+    minWidth: 275,
+    height: '70vw',
+    display: 'block',
+    margin: 'auto'
+  },
+  methodText: {
+    display: 'block',
+    boxSizing: 'border-box',
+    margin: 'auto',
+    width: 400,
+    fontSize: 16,
+    // fontWeight: 500,
+    marginTop: 15,
+    lineHeight: 1.8
   }
 }))
 
@@ -55,6 +77,14 @@ const TutorialSectionOne = (props) => {
     mode,
     setMode
   } = props
+
+  const [methodText, setText] = useState(false)
+
+  const setMethod = (value) => {
+    setMode(value)
+    setText(value)
+  }
+
   return (
     <div className={classes.container}>
       <SectionTitle
@@ -62,18 +92,38 @@ const TutorialSectionOne = (props) => {
         title='Chọn một lựa chọn mà bạn thích'
       />
       <div className={classes.sectionContainer}>
-        <div className={classes.modeContainer} onClick={() => setMode(0)}>
+        <div className={classes.modeContainer} onClick={() => setMethod(0)}>
           <div className={`${classes.modeImageContainer} ${mode===0 && classes.modeImageContainerActive}`}>
             <Notebook className={classes.modeImage}/>
           </div>
           <div className={classes.modeLabel}>TẠO SÁCH</div>
         </div>
-        <div className={classes.modeContainer} onClick={() => setMode(1)}>
+        <div className={classes.modeContainer} onClick={() => setMethod(1)}>
           <div className={`${classes.modeImageContainer} ${mode === 1 && classes.modeImageContainerActive}`}>
             <Handbook className={classes.modeImage} />
           </div>
           <div className={classes.modeLabel}>MƯỢN SÁCH</div>
         </div>
+      </div>
+      <div>
+        {
+          methodText ?
+            <div className={classes.methodText}>
+              <ul style={{ paddingLeft: 15 }}>
+                <li>Tìm kiếm những cuốn sách có sẵn </li>
+                <li>Mượn sách mình muốn</li>
+              </ul>
+            </div>
+            :
+            <div className={classes.methodText}>
+              <ul style={{ paddingLeft: 15 }}>
+                <li>Tìm kiếm những cuốn sách có sẵn </li>
+                <li>Nếu sách không có trên ShareBook, bạn có thể tạo mới</li>
+                <li>Nếu sách bị lỗi, đánh giá sách tại <Link to='/report'>đây</Link></li>
+              </ul>
+            </div>
+        }
+        <img src={SearchDemo} alt='sharebook-search' className={classes.image} />
       </div>
     </div>
   )

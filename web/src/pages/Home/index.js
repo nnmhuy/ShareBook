@@ -11,9 +11,9 @@ import Tutorial from './components/Tutorial'
 import NewsfeedIntro from './components/NewsfeedIntro'
 import BookSlider from '../../components/BookSlider'
 import Footer from './components/Footer'
-import { getCategoryList, getBookList, toggleBookmark, getBookSearch } from '../../redux/actions/bookAction'
+import { getCategoryList, getBookList, toggleBookmark } from '../../redux/actions/bookAction'
 import VideoFrame from './components/VideoFrame'
-import SearchBar from '../BookList/components/SearchBar'
+import { getReviewLite } from '../../redux/actions/reviewAction'
 
 const styles = (theme => ({
   container: {
@@ -48,6 +48,7 @@ class App extends React.Component {
       userId: this.props.account.userId,
       order: ['numberOfUse DESC', 'numberOfRating DESC']
     });
+    this.props.getReviewHandler()
   }
 
   handleToggleBookmark = (bookId, bookmarkId, isBookmarked) => {
@@ -56,24 +57,19 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, account, getBookSearchHandler, bookSearchData, updatedAtForSearch, history } = this.props
-    const { bookListData, bookListIsLoading } = this.props
+    const { classes, account } = this.props
+    const { bookListData, bookListIsLoading, reviewLite, isLoadingReviewLite } = this.props
     
     return (
       <LayoutWrapper title='Home' account={account}>
         <div className={classes.container}>
           <AboutUs />
-          <div className={classes.searchBar}>
-            <SearchBar
-              getBookSearchHandler={getBookSearchHandler}
-              bookSearch={bookSearchData || []}
-              updatedAtForSearch={updatedAtForSearch}
-              history={history}
-            />
-          </div>
           <Tutorial />
           <VideoFrame />
-          <NewsfeedIntro/>
+          <NewsfeedIntro
+            reviewLite={reviewLite}
+            isLoading={isLoadingReviewLite}
+          />
           <BookSlider
             title={'Sách Hot của ShareBook'} 
             url={`/category/hot`}
@@ -89,29 +85,28 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ state, account, book }) => {
+const mapStateToProps = ({ state, account, book, review }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     bookListData: book.bookListData,
     bookListIsLoading: book.bookListIsLoading,
-    bookSearchData: book.bookSearchData,
-    updatedAtForSearch: book.updatedAtForSearch,
-    bookSearchIsLoading: book.bookSearchIsLoading,
+    reviewLite: review.reviewLite,
+    isLoadingReviewLite: review.isLoadingReviewLite
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getCategoryListHandler: getCategoryList,
   getBookListHandler: getBookList,
-  getBookSearchHandler: getBookSearch,
-  toggleBookmarkHandler: toggleBookmark 
+  toggleBookmarkHandler: toggleBookmark,
+  getReviewHandler: getReviewLite
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

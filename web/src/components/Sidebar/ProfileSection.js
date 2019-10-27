@@ -63,7 +63,7 @@ const ProfileSection = (props) => {
       }
       <div className={classes.info}>
         <span className={classes.username}>{account.isAuth ? account.name : 'Đăng nhập'}</span>
-        {account.isAuth && <span className={classes.point}>{account.coin} điểm</span>}
+        {account.isAuth && <span className={classes.point}>{account.coin} BOOK xu</span>}
       </div>
       {account.isAuth?
         <ArrowIcon stroke={colors.light} className={classes.icon}/>

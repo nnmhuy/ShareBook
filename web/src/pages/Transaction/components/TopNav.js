@@ -88,7 +88,7 @@ const styles = (theme => ({
 }))
 
 const TopNav = (props) => {
-  const { classes, children, avatar, name, position, status, isOnline, id
+  const { classes, children, avatar, name, position, status, isOnline, id, transactionId
   } = props
 
   const handleBack = () => {
@@ -124,7 +124,9 @@ const TopNav = (props) => {
             </div>
             <div className={classes.status}>{mapTransactionStatusToText[status]}</div>
           </div>
-          <span className={classes.iButton}>i</span>
+          <Link to={`/detail-transaction/${transactionId}`}>
+            <span className={classes.iButton}>i</span>
+          </Link>
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>

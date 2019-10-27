@@ -8,6 +8,9 @@ const {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -19,7 +22,8 @@ const {
   signUpFail,
   getProfileInfo,
   getProfileInfoSuccess,
-  getProfileInfoFail
+  getProfileInfoFail,
+  socketCoin
 } = createActions(
   'LOG_IN_LOCAL',
   'LOG_IN_LOCAL_SUCCESS',
@@ -27,6 +31,9 @@ const {
   'GET_USER_INFO',
   'GET_USER_INFO_SUCCESS',
   'GET_USER_INFO_FAIL',
+  'EDIT_USER_INFO',
+  'EDIT_USER_INFO_SUCCESS',
+  'EDIT_USER_INFO_FAIL',
   'GET_OTHER_USER_INFO',
   'GET_OTHER_USER_INFO_SUCCESS',
   'GET_OTHER_USER_INFO_FAIL',
@@ -38,7 +45,8 @@ const {
   'SIGN_UP_FAIL',
   'GET_PROFILE_INFO',
   'GET_PROFILE_INFO_SUCCESS',
-  'GET_PROFILE_INFO_FAIL'
+  'GET_PROFILE_INFO_FAIL',
+  'SOCKET_COIN'
 )
 
 
@@ -50,6 +58,9 @@ export {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -61,5 +72,6 @@ export {
   signUpFail,
   getProfileInfo,
   getProfileInfoSuccess,
-  getProfileInfoFail
+  getProfileInfoFail,
+  socketCoin
 }

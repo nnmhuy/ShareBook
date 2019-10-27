@@ -2,6 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import Cookies from 'js-cookie'
 import get from 'lodash/get'
 
+import NotificationModule from '../../connectors/NotificationModule'
+
 import {
   logInLocal,
   logInLocalSuccess,
@@ -9,6 +11,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -24,13 +29,14 @@ import { successAlert, warnAlert } from '../../components/alert'
 
 function* logInLocalSaga({ payload }) {
   try {
-    yield call(restConnector.post, '/users/login', payload)
+    yield call(restConnector.post, '/users/login', { ...payload})
     yield put(getUserInfo())
     yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')
+    NotificationModule.subscribeUser();
     //window.history.push('/profile')
   } catch (error) {
-    yield put(logInLocalFail(error))
+    console.log(error)
     let errorMessage = get(error, 'response.data.error.message', 'Đăng nhập lỗi')
     if (errorMessage === 'login failed' && errorMessage.length > 40) {
       errorMessage = 'Đăng nhập lỗi'
@@ -50,9 +56,45 @@ function* getUserInfoSaga() {
     localStorage.setItem('name', data.name)
     localStorage.setItem('avatar', data.avatar)
     localStorage.setItem('coin', data.coin)
+    localStorage.setItem('homeLocationId', data.homeLocationId)
     yield put(getUserInfoSuccess(data))
   } catch (error) {
     yield put(getUserInfoFail(error))
+  }
+}
+
+function* editUserInfoSaga({ payload }) {
+  try {
+    const {name, fbLink, avatar, phoneNumber, bio, address, email, userId} = payload
+    let userData = {name, fbLink, avatar, phoneNumber, bio, email}
+    if (address) {
+      const newAddress = {
+        ...address,
+        attachUser: "true"
+      }
+      const { data: newAddressInfo } = yield call(restConnector.post, `/locations`, newAddress)
+      userData.homeLocationId = newAddressInfo.id
+    }
+    let { data: newAccountInfo } = yield call(restConnector.patch, `/users/${userId}`, userData)
+    localStorage.setItem('role', newAccountInfo.role)
+    localStorage.setItem('username', newAccountInfo.username)
+    localStorage.setItem('name', newAccountInfo.name)
+    localStorage.setItem('avatar', newAccountInfo.avatar)
+    localStorage.setItem('coin', newAccountInfo.coin)
+    localStorage.setItem('homeLocationId', newAccountInfo.homeLocationId)
+    if (newAccountInfo.homeLocationId) {
+      const {data: newLocation} = yield call(restConnector.get, `/locations/${newAccountInfo.homeLocationId}`)
+      newAccountInfo.homeLocations = newLocation
+    }
+    yield put(editUserInfoSuccess(newAccountInfo))
+    successAlert('Thay đổi thành công')
+  } catch (error) {
+    let errorMessage = get(error, 'response.data.error.message', 'HuHu thay đổi bị lỗi rồi')
+    if (errorMessage.indexOf('Email already exists') > -1) {
+      errorMessage = 'Email đã được sử dụng'
+    }
+    warnAlert(errorMessage)
+    yield put(editUserInfoFail(error))
   }
 }
 
@@ -78,6 +120,7 @@ function* logOutSaga() {
     window.location = '/book-list'
     const data = yield call(restConnector.post, '/users/logout')
     yield put(logOutSuccess(data))
+    NotificationModule.unsubscribeUser();
   } catch (error) {
     yield put(logOutFail(error))
   }
@@ -111,6 +154,10 @@ function* getUserInfoWatcher() {
   yield takeLatest(getUserInfo, getUserInfoSaga)
 }
 
+function* editUserInfoWatcher() {
+  yield takeLatest(editUserInfo, editUserInfoSaga)
+}
+
 function* getOtherUserInfoWatcher() {
   yield takeLatest(getOtherUserInfo, getOtherUserInfoSaga)
 }
@@ -126,6 +173,7 @@ function* signUpWatcher() {
 export {
   logInLocalWatcher,
   getUserInfoWatcher,
+  editUserInfoWatcher,
   getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher

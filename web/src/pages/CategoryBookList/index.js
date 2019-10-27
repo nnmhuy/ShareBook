@@ -135,7 +135,7 @@ class CategoryBookList extends React.Component {
     try {
       totalOfBookResponse = await restConnector.get(`/books/count?where=${JSON.stringify(where)}`);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
     let condition = {key: `category-${categoryLabel}`, where,
       limit: defaultValue.numberOfBookPerPage,
@@ -239,12 +239,12 @@ class CategoryBookList extends React.Component {
 const mapStateToProps = ({ state, account, book }) => {
   return {
     account: {
-      isAuth: !!(localStorage.getItem('isAuth')),
-      userId: localStorage.getItem('userId'),
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      avatar: localStorage.getItem('avatar'),
-      coin: Number.parseInt(localStorage.getItem('coin')),
+      isAuth: account.isAuth,
+      userId: account.userId,
+      username: account.username,
+      name: account.name,
+      avatar: account.avatar,
+      coin: account.coin,
     },
     categoryIsLoading: book.categoryIsLoading,
     categoryList: book.categoryList,

@@ -12,14 +12,16 @@ import MessageSection from './components/MessageSection'
 import InputSection from './components/InputSection'
 import { numberOfMessagesPerLoad } from '../../constants/constants'
 
-import { 
+import {
   sendMessage,
   getTransaction,
   appendMessage,
   getMessages,
   requestStatus,
-  socketNewStatus
+  socketNewStatus,
+  changeDateTransaction
 } from '../../redux/actions/transactionAction'
+import { withFormik } from 'formik'
 
 const styles = (theme => ({
   container: {
@@ -69,6 +71,7 @@ class Transaction extends React.Component {
     const { transactionId } = match.params
     const { userId } = account
     socket.off('new transaction status')
+    socket.off('new message')
     socket.emit('leave socket', { socketName: `CHAT-${transactionId}` })
     socket.emit('leave socket', { socketName: `TRANSACTION-${userId}` })
   }
@@ -114,10 +117,17 @@ class Transaction extends React.Component {
 
   render() {
     const { classes, isLoading, transaction, messages,
-      numberOfMessages, lastMessageCount, sendRequestStatus, match
+      numberOfMessages, changeDateTransaction, lastMessageCount, sendRequestStatus, match,
+      isInitializingTransaction
     } = this.props
     const { transactionId } = match.params
     const { value } = this.state
+    const extendedDeadline = get(transaction, 'extendedDeadline', '')
+    const estimatedReadingTime = get(transaction, 'estimatedReadingTime', '')
+    const passingDate = get(transaction, 'passingDate', '')
+    const returnDate = get(transaction, 'returnDate', '')
+    const address = get(transaction, 'address', '')
+    const updatedAt = get(transaction, 'updatedAt', '')
     const userId = get(transaction, 'user.id', '')
     const avatar = get(transaction, 'user.avatar', '')
     const username = get(transaction, 'user.name', '')
@@ -130,8 +140,9 @@ class Transaction extends React.Component {
         name={username}
         position={position}
         status={status}
+        transactionId={transactionId}
       >
-        <Loading isLoading={isLoading}/>
+        <Loading isLoading={isLoading || isInitializingTransaction}/>
         <div className={classes.container}>
           <TransactionInfoSection
             transactionId={transactionId}
@@ -139,7 +150,14 @@ class Transaction extends React.Component {
             name={username}
             position={position}
             status={status}
+            passingDate={passingDate}
             sendRequestStatus={sendRequestStatus}
+            changeDateTransaction={changeDateTransaction}
+            updatedAt={updatedAt}
+            address={address}
+            returnDate={returnDate}
+            estimatedReadingTime={estimatedReadingTime}
+            extendedDeadline={extendedDeadline}
           />
           <div className={classes.messagesContainer}>
             <MessageSection
@@ -162,6 +180,45 @@ class Transaction extends React.Component {
   }
 }
 
+const EditDateWithFormik = withFormik({
+  mapPropsToValues: (props) => {
+    return {
+      content: ''
+    }
+  },
+
+  handleSubmit: async (values, { setSubmitting, props }) => {
+    const {
+      isSubmitting,
+      createReport,
+      match,
+    } = props
+
+    if (isSubmitting) return
+    setSubmitting(true)
+
+    let { content, type } = values
+    if (match.params.type) type = match.params.type
+    if (!type) type = 'other'
+
+    const data = {
+      content,
+      typeOfTarget: type, //book, bookInstance, review, reply, user
+      valueId: match.params.value //bookId, bookInstanceId, reviewId, replyId, userId
+    }
+
+    if (!match.params.type) {
+      delete data.valueId
+    }
+
+    createReport(data)
+    values.content = ''
+    setSubmitting(false)
+  }
+})(withStyles(styles)(Transaction))
+
+
+
 const mapStateToProps = ({ transaction }) => {
   return {
     account: {
@@ -177,6 +234,7 @@ const mapStateToProps = ({ transaction }) => {
     numberOfMessages: transaction.numberOfMessages,
     lastMessageCount: transaction.lastMessageCount,
     numberOfAppendedMessages: transaction.numberOfAppendedMessages,
+    isInitializingTransaction: transaction.isInitializingTransaction,
   }
 }
 
@@ -186,7 +244,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   receive: appendMessage,
   loadMessage: getMessages,
   sendRequestStatus: requestStatus,
-  receiveStatus: socketNewStatus
+  receiveStatus: socketNewStatus,
+  changeDateTransaction: changeDateTransaction
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Transaction));
+export default connect(mapStateToProps, mapDispatchToProps)(EditDateWithFormik);

@@ -6,12 +6,13 @@ import ReportItem from './ReportItem';
 
 class ReportList extends Component {
   render() {
-    const { report, content } = this.props;
+    const { report, textNull } = this.props;
+    console.log(report)
     return (
       <div>
         {
           report.length === 0 ?
-            <ActivityNull Icon={TechnicIcon} content={content} />
+            <ActivityNull Icon={TechnicIcon} content={textNull} isReport={true}/>
             :
             report.map(item => {
               return (

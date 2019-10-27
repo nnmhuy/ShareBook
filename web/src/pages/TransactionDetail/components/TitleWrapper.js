@@ -10,7 +10,10 @@ const styles = theme => ({
     color: colors.primary
   },
   wrapper: {
-    padding: 10
+    padding: 10,
+    '&.MuiPaper-elevation1': {
+      boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)'
+    }
   }
 })
 

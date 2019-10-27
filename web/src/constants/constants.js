@@ -2,6 +2,7 @@ const frontendURL = process.env.REACT_APP_FRONTEND_URL
 const baseURL = process.env.REACT_APP_BASE_URL
 const socketURL = process.env.REACT_APP_SOCKET_URL
 const imageContainer = process.env.REACT_APP_IMAGE_CONTAINER
+const applicationServerPublicKey = process.env.REACT_APP_APPLICATION_SERVER_PUBLIC_KEY
 const maxMobileWidth = '800px'
 const numberOfReviewsPerPage = 5
 const numberOfBookInstancesPerPage = 5
@@ -34,5 +35,6 @@ export {
   mapPositionToText,
   numberOfReviewsPerPage,
   numberOfBookInstancesPerPage,
-  numberOfMessagesPerLoad
+  numberOfMessagesPerLoad,
+  applicationServerPublicKey
 }

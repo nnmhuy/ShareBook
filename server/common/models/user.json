@@ -4,7 +4,9 @@
   "base": "User",
   "idInjection": true,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": true,
+    "maxTTL": 2592000000,
+    "ttl": 2592000000
   },
   "mixins": {
     "TimeStamp": {
@@ -140,6 +142,11 @@
       "type": "hasMany",
       "model": "transaction",
       "foreignKey": "borrowerId"
+    },
+    "pushSubscriptions": {
+      "type": "hasMany",
+      "model": "pushSubscription",
+      "foreignKey": "userId"
     }
   },
   "acls": [

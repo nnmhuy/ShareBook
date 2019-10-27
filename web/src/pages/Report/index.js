@@ -12,13 +12,14 @@ import ReplyOption from './components/ReplyOption';
 import BookOption from './components/BookOption';
 import InstanceOption from './components/InstanceOption';
 import ReviewOption from './components/ReviewOption';
-import UserOption from './components/UserOption';
-import TransactionOption from './components/TransactionOption';
+// import UserOption from './components/UserOption';
+// import TransactionOption from './components/TransactionOption';
 import { getReviewById } from '../../redux/actions/reviewAction';
 import { getBookLite } from '../../redux/actions/bookAction';
 import { getReplyById } from '../../redux/actions/replyAction';
 import { getBookInstanceById } from '../../redux/actions/bookInstanceAction';
 import { createReport } from '../../redux/actions/reportAction';
+import { getTransaction } from '../../redux/actions/transactionAction';
 
 const styles = theme => ({
   container: {
@@ -105,6 +106,7 @@ class Report extends Component {
       case 'user':
         break;
       case 'transaction':
+        // getTransaction({ transactionId: id, userId })
         break;
       default:
         break;
@@ -125,7 +127,9 @@ class Report extends Component {
   }
 
   render() {
-    const { classes, match, bookDetail, instance, review, reply, values, handleChange, handleBlur, handleSubmit } = this.props;
+    const { classes, match, bookDetail, instance, review, reply,
+      // transaction, user
+      values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
     const { params } = match;
 
@@ -148,14 +152,14 @@ class Report extends Component {
           case 'reply':
             types = [{ typeOfTarget: 'reply', name: 'Bình luận' }];
             break;
-          case 'user':
-            types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
-            break;
-          case 'transaction':
-            types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
-            break;
+          // case 'user':
+          //   types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
+          //   break;
+          // case 'transaction':
+          //   types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
+          //   break;
           default:
-            break;
+            return;
       }
 
 
@@ -198,13 +202,16 @@ class Report extends Component {
           {
             params.type === 'user' &&
             <>
-              <UserOption userId={params.value} />
-              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
+              {/* <UserOption userId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
             </>
           }
           {
             params.type === 'transaction' &&
-            <TransactionOption transId={params.value} />
+            <>
+              {/* <TransactionOption transId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
+            </>
           }
         </div>
       </TopNavSend>
@@ -250,19 +257,20 @@ const CreateReplyWithFormik = withFormik({
 })(withStyles(styles)(Report))
 
 
-const mapStateToProps = ({ book, review, reply, bookInstances }) => {
+const mapStateToProps = ({ book, review, reply, bookInstances, transaction }) => {
   return {
     userId: localStorage.getItem('userId'),
     review: review.review, //done
     reply: reply.reply, //done
     instance: bookInstances.bookInstance, //done
     bookDetail: book.bookLite, //done
-    //transaction:
+    transaction: transaction.transaction, //done
     //user:
     isLoadingReviewById: review.isLoadingReviewById,
     isLoadingBook: book.isLoadingBookLite,
     isLoadingInstance: bookInstances.isLoadingInstance,
-    isLoadingReply: reply.isLoadingReply
+    isLoadingReply: reply.isLoadingReply,
+    isLoading: transaction.isLoading
   }
 }
 
@@ -271,7 +279,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   getReview: getReviewById,
   getReply: getReplyById,
   createReport: createReport,
-  getBookInstance: getBookInstanceById
+  getBookInstance: getBookInstanceById,
+  getTransaction: getTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateReplyWithFormik);

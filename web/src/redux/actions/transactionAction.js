@@ -21,7 +21,10 @@ const {
   initTransaction,
   initTransactionSuccess,
   initTransactionFail,
-  socketNewStatus
+  socketNewStatus,
+  changeDateTransaction,
+  changeDateTransactionSuccess,
+  changeDateTransactionFail
 } = createActions(
   'GET_TRANSACTION',
   'GET_TRANSACTION_SUCCESS',
@@ -42,7 +45,10 @@ const {
   'INIT_TRANSACTION',
   'INIT_TRANSACTION_SUCCESS',
   'INIT_TRANSACTION_FAIL',
-  'SOCKET_NEW_STATUS'
+  'SOCKET_NEW_STATUS',
+  'CHANGE_DATE_TRANSACTION',
+  'CHANGE_DATE_TRANSACTION_SUCCESS',
+  'CHANGE_DATE_TRANSACTION_FAIL'
 )
 
 
@@ -67,5 +73,8 @@ export {
   initTransaction,
   initTransactionSuccess,
   initTransactionFail,
-  socketNewStatus
+  socketNewStatus,
+  changeDateTransaction,
+  changeDateTransactionSuccess,
+  changeDateTransactionFail
 }

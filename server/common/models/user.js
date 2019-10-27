@@ -14,22 +14,23 @@ module.exports = function(User) {
         return next();
       let BookInstance = User.app.models.bookInstance;
       let Location = User.app.models.location;
+      return next();
       // just for trigger get location again in bookinstance
-      BookInstance.find({where: {holderId: ctx.currentInstance.id}},
-      (err, bookInstanceList) => {
-        if (err) return next(err);
-        if (!bookInstanceList || !bookInstanceList[0]) return next();
-        let userId = ctx.currentInstance.id;
-        Location.findById(ctx.data.homeLocationId,
-        (err, locationInstance) => {
-          if (err) return next(err);
-          recursiveUpdate(bookInstanceList, userId, locationInstance.district,
-          0, (err) => {
-            if (err) return next(err);
-            return next();
-          });
-        });
-      });
+      // BookInstance.find({where: {holderId: ctx.currentInstance.id}},
+      // (err, bookInstanceList) => {
+      //   if (err) return next(err);
+      //   if (!bookInstanceList || !bookInstanceList[0]) return next();
+      //   let userId = ctx.currentInstance.id;
+      //   Location.findById(ctx.data.homeLocationId,
+      //   (err, locationInstance) => {
+      //     if (err) return next(err);
+      //     recursiveUpdate(bookInstanceList, userId, locationInstance.district,
+      //     0, (err) => {
+      //       if (err) return next(err);
+      //       return next();
+      //     });
+      //   });
+      // });
     } else {
       return next();
     }
@@ -52,7 +53,7 @@ module.exports = function(User) {
   User.beforeRemote('create', function(ctx, userInstance, next) {
     try {
       let req = ctx.req;
-      req.body.email = req.body.username + '@sharebook.org.vn';
+      req.body.email = req.body.username + '@sharebook.com.vn';
       if (!req.body.name) {
         req.body.name = req.body.username;
       }

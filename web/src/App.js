@@ -30,6 +30,8 @@ import NotFound from './pages/NotFound/index'
 import { getUserInfo } from './redux/actions/accountAction'
 import AboutTerms from './pages/AboutTerms';
 
+import { socketCoin } from './redux/actions/accountAction';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +46,9 @@ class App extends React.Component {
     this.props.getUserInfoHandler();
   }
 
+  componentWillUnmount() {
+  }
+
   render() {
     return (
       <Router>
@@ -55,7 +60,7 @@ class App extends React.Component {
             <Route path="/edit-book/:bookId" exact component={EditBook} />
             <Route path="/book-list" exact component={BookList} />
             <Route path="/category/:categoryId" exact component={CategoryBookList} />
-            <Route path="/categories" exact component={CategoryList} />
+            <Route path="/category-list" exact component={CategoryList} />
             <Route path="/add-review/:bookId" exact component={AddReview} />
             <Route path="/filter" exact component={Filter} />
             <Route path="/transaction-list" exact component={TransactionList} />
@@ -78,14 +83,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = ({ account }) => {
   return {
-
+    account
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getUserInfoHandler: getUserInfo
+  getUserInfoHandler: getUserInfo,
+  updateCoin: socketCoin
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

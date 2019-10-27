@@ -46,10 +46,10 @@ const ReviewSlider = (props) => {
   return (
     <Slider {...settings} className={classes.container}>
       {
-        reviewData.map(review => (
+        reviewData && reviewData.map(review => (
           <TopReviewItem 
             {...review}
-            key={review.reviewId}
+            key={review.id}
           />
         ))
       }

@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects';
 import {
   logInLocalWatcher,
   getUserInfoWatcher,
+  editUserInfoWatcher,
   getOtherUserInfoWatcher,
   logOutWatcher,
   signUpWatcher
@@ -31,7 +32,8 @@ import {
   toggleLikeSingleReviewWatcher,
   postReviewWatcher,
   getReviewByIdWatcher,
-  getAllReviewsWatcher
+  getAllReviewsWatcher,
+  getReviewLiteWatcher
 } from './reviewSaga'
 import {
   getTransactionWatcher,
@@ -39,7 +41,8 @@ import {
   getMessagesWatcher,
   getTransactionsWatcher,
   requestStatusWatcher,
-  initTransactionWatcher
+  initTransactionWatcher,
+  changeDateTransactionWatcher
 } from './transactionSaga'
 import {
   getRepliesWatcher,
@@ -55,6 +58,7 @@ export default function* rootSaga() {
   yield all([
     logInLocalWatcher(),
     getUserInfoWatcher(),
+    editUserInfoWatcher(),
     getOtherUserInfoWatcher(),
     logOutWatcher(),
     signUpWatcher(),
@@ -81,6 +85,7 @@ export default function* rootSaga() {
     getReviewByIdWatcher(),
     toggleLikeSingleReviewWatcher(),
     getAllReviewsWatcher(),
+    getReviewLiteWatcher(),
 
     getTransactionWatcher(),
     sendMessageWatcher(),
@@ -88,6 +93,7 @@ export default function* rootSaga() {
     getMessagesWatcher(),
     requestStatusWatcher(),
     initTransactionWatcher(),
+    changeDateTransactionWatcher(),
 
     getRepliesWatcher(),
     postReplyWatcher(),

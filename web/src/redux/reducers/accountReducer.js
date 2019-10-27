@@ -7,6 +7,9 @@ import {
   getUserInfo,
   getUserInfoSuccess,
   getUserInfoFail,
+  editUserInfo,
+  editUserInfoSuccess,
+  editUserInfoFail,
   getOtherUserInfo,
   getOtherUserInfoSuccess,
   getOtherUserInfoFail,
@@ -15,19 +18,21 @@ import {
   logOutFail,
   signUp,
   signUpFail,
-  signUpSuccess
+  signUpSuccess,
+  socketCoin
 } from '../actions/accountAction'
 
 const unAuthorizedUser = {
-  userId: '',
-  username: '',
+  isAuth: !!(localStorage.getItem('isAuth')),
+  userId: localStorage.getItem('userId'),
+  username: localStorage.getItem('username'),
+  name: localStorage.getItem('name'),
+  avatar: localStorage.getItem('avatar'),
+  coin: Number.parseInt(localStorage.getItem('coin')),
   email: '',
   fbLink: '',
   phoneNumber: '',
-  avatar: '',
-  name: '',
   role: '',
-  coin: 0,
   contribution: 0,
   homeLocationId: '',
   clubId: '',
@@ -100,6 +105,37 @@ const accountReducer = handleActions(
         error
       }
     },
+    [editUserInfo]: (state) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    },
+    [editUserInfoSuccess]: (state, { payload: newAccountInfo }) => {
+      return {
+        ...state,
+        isLoading: false,
+        otherAccount: newAccountInfo,
+        email: newAccountInfo.email,
+        fbLink: newAccountInfo.fbLink,
+        phoneNumber: newAccountInfo.phoneNumber,
+        avatar: newAccountInfo.avatar,
+        name: newAccountInfo.avatar,
+        role: newAccountInfo.role,
+        coin: newAccountInfo.coin,
+        contribution: newAccountInfo.contribution,
+        homeLocationId: newAccountInfo.homeLocationId,
+        clubId: newAccountInfo.clubId,
+        error: null
+      }
+    },
+    [editUserInfoFail]: (state, { payload: error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        error
+      }
+    },
     [getOtherUserInfo]: (state) => {
       return {
         ...state,
@@ -163,7 +199,23 @@ const accountReducer = handleActions(
         error,
         isLoading: false
       }
-    }
+    },
+    [socketCoin]: (state, { payload }) => {
+      const { amount, isIncome } = payload
+      let coin = state.coin
+      if (isIncome) {
+        coin += amount
+      } else {
+        coin -= amount
+      }
+
+      localStorage.setItem('coin', coin)
+
+      return {
+        ...state,
+        coin
+      }
+    },
   },
   defaultState
 )

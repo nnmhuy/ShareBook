@@ -32,17 +32,17 @@ const styles = theme => ({
 })
 
 const AccountTab = (props) => {
-	const { classes, handleToggleBookmark, account, isLoadingBookmarkedLite, bookmarked, profileId } = props;
+	const { handleToggleBookmark, currentUserInfo, account, isLoadingBookmarkedLite, bookmarked, profileId } = props;
 	return (
 		<div>
-			<PaperWrapper layout='info' account={account} profileId={profileId} />
+			<PaperWrapper layout='info' currentUserInfo={currentUserInfo} profileId={profileId} />
 			<br />
-			<PaperWrapper layout='bio' account={account} profileId={profileId} />
+			<PaperWrapper layout='bio' currentUserInfo={currentUserInfo} profileId={profileId} />
 			{
 				profileId === 'me' && 
 				<>
 					<br />
-					<CoinInfo />
+					<CoinInfo currentUserInfo={currentUserInfo}/>
 					<br />
 					<ActivityWrapper handleToggleBookmark={handleToggleBookmark} isLoadingBookmarkedLite={isLoadingBookmarkedLite} bookmarked={bookmarked} userId={account.userId}/>
 				</>

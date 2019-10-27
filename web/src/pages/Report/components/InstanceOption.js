@@ -55,7 +55,7 @@ const InstanceOption = (props) => {
         </div>
       </div>
       <div>
-        <p className={classes.title}>Người mượn</p>
+        <p className={classes.title}>Người cho mượn</p>
         <div className={classes.flexContainer}>
           <Avatar src={`${instance && instance.holderAvatar}`} className={classes.avatar} />
           <p className={classes.name}>{instance && instance.holderName}</p>

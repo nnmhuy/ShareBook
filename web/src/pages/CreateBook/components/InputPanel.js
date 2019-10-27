@@ -58,106 +58,106 @@ const InputPanel = (props) => {
 
 	return (
 		<form>
+			<FormGroupInput
+				id='name'
+				name='name'
+				type='text'
+				required
+				error={errors.name}
+				value={values.name}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				touched={touched.name}
+				label='Tên sách'
+			/>
+			<FormGroupInput
+				id='author'
+				name='author'
+				type='text'
+				required
+				error={errors.author}
+				value={values.author}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				touched={touched.author}
+				label='Tác giả'
+			/>
+			<SelectField
+				id='category'
+				label='Thể loại'
+				name='categoryId'
+				value={values.categoryId}
+				optionValues={categoryOptions}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+				error={errors.categoryId}
+				touched={touched.categoryId}
+				className={classes.select}
+			/>
+			<RadioButtons mb='15px' name="type" currentValue={values.bookType} label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue} />
+			<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 				<FormGroupInput
-						id='name'
-						name='name'
-						type='text'
-						required
-						error={errors.name}
-						value={values.name}
-						handleChange={handleChange}
-						handleBlur={handleBlur}
-						touched={touched.name}
-						label='Tên sách'
-				/>
-				<FormGroupInput
-						id='author'
-						name='author'
-						type='text'
-						required
-						error={errors.author}
-						value={values.author}
-						handleChange={handleChange}
-						handleBlur={handleBlur}
-						touched={touched.author}
-						label='Tác giả'
-				/>
-				<SelectField
-					id='category'
-					label='Thể loại'
-					name='categoryId'
-					value={values.categoryId}
-					optionValues={categoryOptions}
+					id='volume'
+					label='Volume'
+					name='volume'
+					type='number'
+					value={values.volume}
 					handleChange={handleChange}
 					handleBlur={handleBlur}
-					error={errors.categoryId}
-					touched={touched.categoryId}
-					className={classes.select}
+					disabled={values.bookType !== 'multiple'}
 				/>
-				<RadioButtons mb='15px' name="type" currentValue={values.bookType} label="Loại sách" attrs={typeOfBook} setFieldValue={setFieldValue}/>
-				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<FormGroupInput
-							id='volume'
-							label='Volume'
-							name='volume'
-							type='number'
-							value={values.volume}
-							handleChange={handleChange}
-							handleBlur={handleBlur}
-							disabled={values.bookType !== 'multiple'}
-						/>
-						<div style={{ margin: '0 10px' }} />
-						<FormGroupInput
-							id='numberOfPages'
-							label='Số trang'
-							name='numberOfPages'
-							type='number'
-							value={values.numberOfPages}
-							handleChange={handleChange}
-							handleBlur={handleBlur}
-						/>
-				</div>
-				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<FormGroupInput
-								id='publisher'
-								label='Nhà xuất bản'
-								name='publisher'
-								type='text'
-								value={values.publisher}
-								handleChange={handleChange}
-								handleBlur={handleBlur}
-						/>
-						<div style={{ margin: '0 10px' }} />
-						<FormGroupInput
-								id='publishYear'
-								label='Năm xuất bản'
-								name='publishYear'
-								type='number'
-							value={values.publishYear}
-							handleChange={handleChange}
-							handleBlur={handleBlur}
-						/>
-				</div>
+				<div style={{ margin: '0 10px' }} />
 				<FormGroupInput
-						id='price'
-						label='Giá thị trường'
-						name='price'
-						type='number'
-						value={values.price}
-						handleChange={handleChange}
-						handleBlur={handleBlur}
+					id='numberOfPages'
+					label='Số trang'
+					name='numberOfPages'
+					type='number'
+					value={values.numberOfPages}
+					handleChange={handleChange}
+					handleBlur={handleBlur}
 				/>
-				<label className={classes.title}>
-						Giới thiệu sách
+			</div>
+			<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+				<FormGroupInput
+					id='publisher'
+					label='Nhà xuất bản'
+					name='publisher'
+					type='text'
+					value={values.publisher}
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+				/>
+				<div style={{ margin: '0 10px' }} />
+				<FormGroupInput
+					id='publishYear'
+					label='Năm xuất bản'
+					name='publishYear'
+					type='number'
+					value={values.publishYear}
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+				/>
+			</div>
+			<FormGroupInput
+				id='price'
+				label='Giá thị trường'
+				name='price'
+				type='number'
+				value={values.price}
+				handleChange={handleChange}
+				handleBlur={handleBlur}
+			/>
+			<label className={classes.title}>
+				Giới thiệu sách
 						<textarea
-							className={classes.inputTextArea}
-							placeholder='Sách kể về . . .'
-							name='description'
-							value={values.description}
-							onChange={handleChange}
-							onBlur={handleBlur}
-						/>
-				</label>
+					className={classes.inputTextArea}
+					placeholder='Sách kể về . . .'
+					name='description'
+					value={values.description}
+					onChange={handleChange}
+					onBlur={handleBlur}
+				/>
+			</label>
 		</form>
 	);
 }
