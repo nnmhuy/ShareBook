@@ -127,7 +127,7 @@ class Report extends Component {
   }
 
   render() {
-    const { classes, match, bookDetail, instance, review, reply,
+    const { classes, match, history, bookDetail, instance, review, reply,
       // transaction,
       values, handleChange, handleBlur, handleSubmit } = this.props;
     const { type } = this.state;
@@ -152,14 +152,14 @@ class Report extends Component {
           case 'reply':
             types = [{ typeOfTarget: 'reply', name: 'Bình luận' }];
             break;
-          case 'user':
-            types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
-            break;
-          case 'transaction':
-            types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
-            break;
+          // case 'user':
+          //   types = [{ typeOfTarget: 'user', name: 'Người dùng' }];
+          //   break;
+          // case 'transaction':
+          //   types = [{ typeOfTarget: 'transaction', name: 'Giao dịch' }];
+          //   break;
           default:
-            break;
+            return;
       }
 
 
@@ -202,15 +202,15 @@ class Report extends Component {
           {
             params.type === 'user' &&
             <>
-              <UserOption userId={params.value} />
-              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
+              {/* <UserOption userId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
             </>
           }
           {
             params.type === 'transaction' &&
             <>
-              <TransactionOption transId={params.value} />
-              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} />
+              {/* <TransactionOption transId={params.value} />
+              <ProblemContainer values={values} handleChange={handleChange} handleBlur={handleBlur} /> */}
             </>
           }
         </div>
