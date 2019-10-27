@@ -52,8 +52,15 @@ function* getTransactionSaga({ payload }) {
     const { data: instance } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}`)
     const { data: book } = yield call(restConnector.get, `/bookInstances/${transaction.bookInstanceId}/book`)
     const { data: messages } = yield call(restConnector.get, `transactions/${transactionId}/messages/count`)
+    const { data: review } = yield call(restConnector.get, `/reviews?filter={"where":{"userId":"${transaction.borrowerId}", "bookId":"${book.id}"}}`)
 
     transaction.estimatedReadingTime = instance.estimatedReadingTime
+    if (review[0]) {
+      transaction.reviewId = review[0].id
+      transaction.isReviewed = true
+    }
+    else transaction.isReviewed = false
+
     yield put(getMessages({transactionId, skip: 0}))
 
     transaction.user = {
