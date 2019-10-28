@@ -226,11 +226,22 @@ function* getReviewByIdSaga({ payload }) {
 }
 
 function* getAllReviewsSaga({payload}) {
+  let { where, skip, limit, order, include, userId, fields } = payload
+  if (!order) {
+    order = "createdAt DESC"
+  }
+  if (!where) {
+    where = {
+      content: {
+        regexp: ".{5,1000}"
+      }
+    }
+  }
   try {
-    const { userId } = payload;
     // let allReviews = []
+    let reviewFilter = { where, skip, limit, order, include, fields }
     const { data: allReviews } = yield call(restConnector.get,
-      `/reviews?filter={"where":{"userId": {"neq":${JSON.stringify(userId)}}},"order":"createdAt DESC"}`)
+      `/reviews?filter=${JSON.stringify(reviewFilter)}`)
 
     let curData = []
     //assign review

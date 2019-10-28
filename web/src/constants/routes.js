@@ -3,7 +3,7 @@ import { ReactComponent as BookIcon } from '../static/images/booklist.svg'
 import { ReactComponent as ReviewIcon } from '../static/images/review.svg'
 import { ReactComponent as TransactionIcon } from '../static/images/transactions.svg'
 import { ReactComponent as BookAddIcon } from '../static/images/book-add.svg'
-import { ReactComponent as BookmarkIcon } from '../static/images/bookmark-sidebar.svg'
+// import { ReactComponent as BookmarkIcon } from '../static/images/bookmark-sidebar.svg'
 
 const routes = [
   {
@@ -31,22 +31,17 @@ const routes = [
     pathname: '/create-book',
     Icon: BookAddIcon
   },
-  // {
-  //   label: 'Bookmarks',
-  //   pathname: '/profile/bookmarks',
-  //   Icon: BookmarkIcon
-  // },
 ]
 
 const infoRoutes = [
-  {
-    label: 'About us',
-    pathname: '/about'
-  },
-  {
-    label: 'Contact us',
-    pathname: '/contact'
-  },
+  // {
+  //   label: 'About us',
+  //   pathname: '/about'
+  // },
+  // {
+  //   label: 'Contact us',
+  //   pathname: '/contact'
+  // },
   {
     label: 'Terms & Privacy policy',
     pathname: '/policy'

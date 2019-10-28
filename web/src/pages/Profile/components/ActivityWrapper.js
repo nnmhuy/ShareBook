@@ -33,8 +33,8 @@ const styles = theme => ({
 
 const text = {
 	book: {
-		passed: 'Nơi bạn quản lí các cuốn sách bạn đã đăng hoặc đã được truyền tay tới. (Đang hoàn thiện, xin lỗi nha))',
-		owned: 'Nơi bạn quản lí các cuốn sách do chính tay bạn đăng và được truyền qua nhiều nơi. (Đang hoàn thiện, xin lỗi nha)))'
+		passed: 'Nơi bạn quản lí các cuốn sách bạn đã đăng hoặc đã được truyền tay tới. (Tính năng đang được hoàn thiện, xin lỗi nha)',
+		owned: 'Nơi bạn quản lí các cuốn sách do chính tay bạn đăng và được truyền qua niều nơi. (Tính năng đang được hoàn thiện, xin lỗi nha)'
 	},
 	bookmark: 'Cùng lưu lại những cuốn sách mình muốn mượn/ thích nào!',
 	transaction: 'Bắt đầu mượn sách thôi nào!',
