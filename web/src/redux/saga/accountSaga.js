@@ -33,7 +33,7 @@ function* logInLocalSaga({ payload }) {
     yield put(getUserInfo())
     yield put(logInLocalSuccess())
     successAlert('ShareBook nhớ bạn rồi nha')
-    NotificationModule.subscribeUser();
+    // NotificationModule.subscribeUser();
     //window.history.push('/profile')
   } catch (error) {
     console.log(error)
@@ -120,7 +120,7 @@ function* logOutSaga() {
     window.location = '/book-list'
     const data = yield call(restConnector.post, '/users/logout')
     yield put(logOutSuccess(data))
-    NotificationModule.unsubscribeUser();
+    // NotificationModule.unsubscribeUser();
   } catch (error) {
     yield put(logOutFail(error))
   }
