@@ -120,7 +120,7 @@ const accountReducer = handleActions(
         fbLink: newAccountInfo.fbLink,
         phoneNumber: newAccountInfo.phoneNumber,
         avatar: newAccountInfo.avatar,
-        name: newAccountInfo.avatar,
+        name: newAccountInfo.name,
         role: newAccountInfo.role,
         coin: newAccountInfo.coin,
         contribution: newAccountInfo.contribution,

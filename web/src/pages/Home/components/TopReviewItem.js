@@ -63,15 +63,15 @@ const styles = (theme => ({
     }
   },
   review: {
-    maxHeight: 180,
+    maxHeight: 150,
     marginTop: 20,
     marginBottom: 20,
     fontSize: 15,
     fontWeight: 600,
-    lineHeight: 2,
+    lineHeight: 1.5,
     textAlign: 'left',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    maxWidth: 550,
+    minWidth: 300,
     overflow: 'hidden'
   },
   goReview: {
