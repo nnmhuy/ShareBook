@@ -68,7 +68,7 @@ const styles = (theme => ({
   },
   imageNotActive: {
     zIndex: 1,
-    left: 100,
+    left: 30,
     bottom: 50,
     opacity: 0.6,
   }
