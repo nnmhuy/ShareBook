@@ -43,7 +43,7 @@ export default function Search(props) {
         className={classes.input}
         placeholder='Tìm kiếm'
         onChange={handleChange}
-        inputProps={{ 'aria-label': 'search' }}
+        // inputProps={{ 'aria-label': 'search' }}
       />
     </Paper>
   );
