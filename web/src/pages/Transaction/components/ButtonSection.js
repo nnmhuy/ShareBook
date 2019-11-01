@@ -69,6 +69,7 @@ const ButtonSection = (props) => {
   } = props
   const currentDate = new Date()
   const reDate = new Date(returnDate)
+  const [isDisabled, setDisabled] = useState(false)
   const [isViewing, setViewing] = useState(false)
   const [deadline, setDeadline] = useState(extendedDeadline)
 
@@ -100,6 +101,8 @@ const ButtonSection = (props) => {
       status: 'deadlineExtended',
       direction: 'holder'
     })
+    setDisabled(true)
+    setViewing(false)
   }
 
   const handleDeadlineReject = () => {
@@ -157,7 +160,8 @@ const ButtonSection = (props) => {
           <div className={classes.container}>
             <Button variant='outlined' size='small' className={classes.normalButton}
               style={{ marginRight: 20 }}
-              onClick={()=>openModal(true)}
+              onClick={() => openModal(true)}
+              disabled={isDisabled}
             >
               Gia hạn
             </Button>
@@ -172,7 +176,7 @@ const ButtonSection = (props) => {
                 <Input
                   className={classes.contentAddressInput}
                   name='extendedDeadline'
-                  InputProps={{ inputProps: { min: 0, max: 10 } }}
+                  inputprops={{ inputProps: { min: 0, max: 10 } }}
                   type='number'
                   value={deadline}
                   onChange={handleChange}

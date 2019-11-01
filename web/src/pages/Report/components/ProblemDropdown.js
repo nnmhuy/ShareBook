@@ -55,7 +55,6 @@ const ProblemDropdown = props => {
                 onBlur={handleBlur}
                 name='type'
                 className={classes.selectEmpty}
-                inputProps={{ 'aria-label': 'type' }}
               >
                 {
                   types.map((item, index) => {

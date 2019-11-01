@@ -192,10 +192,13 @@ const DetailSection = (props) => {
       else
         setSelectedDate(returnDate)
     } else if (status === 'deadlineExtended') {
-      let deadlineDate = new Date(returnDate)
-        deadlineDate = deadlineDate.setDate(deadlineDate.getDate() + extendedDeadline)
-      if (extendedDeadline !== 0)
-        changeDateTransaction({ value: deadlineDate, transactionId, type: 'returnDate', status, initial: true })
+      // let deadlineDate = new Date(returnDate)
+      // deadlineDate = deadlineDate.setDate(deadlineDate.getDate() + extendedDeadline)
+      // console.log('huhu1', new Date(deadlineDate))
+      // if (extendedDeadline !== 0)
+      //   console.log('dead ', extendedDeadline)
+      //   console.log('huhu2', new Date(deadlineDate))
+      //   changeDateTransaction({ value: deadlineDate, transactionId, type: 'returnDate', status, initial: true })
     } 
     // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
     // eslint-disable-next-line react-hooks/exhaustive-deps
