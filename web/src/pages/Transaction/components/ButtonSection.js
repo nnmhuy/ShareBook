@@ -53,6 +53,7 @@ const styles = (theme => ({
     }
   },
   contentAddressInput: {
+    marginRight: 5,
     '&.MuiInputBase-root': {
       fontFamily: 'montserrat',
       fontSize: 14,
@@ -82,7 +83,7 @@ const ButtonSection = (props) => {
   }
 
   const handleChange = (e) => {
-    if (e.target.value < 0 || e.target.value > 20) return
+    if (e.target.value < 0 || e.target.value > 150) return
     setDeadline(e.target.value)
   }
 
@@ -95,12 +96,13 @@ const ButtonSection = (props) => {
   // }
 
   const handleDeadlineExtended = () => {
-    changeDateTransaction({ value: deadline, transactionId, type: 'extendedDeadline', status })
+    console.log('hu')
     sendRequestStatus({
       transactionId,
       status: 'deadlineExtended',
       direction: 'holder'
     })
+    changeDateTransaction({ value: deadline, transactionId, type: 'extendedDeadline', status })
     setDisabled(true)
     setViewing(false)
   }
@@ -173,14 +175,17 @@ const ButtonSection = (props) => {
             <Dialog
               aria-labelledby="customized-dialog-title" open={isViewing} onClose={() => openModal(false)} className={classes.modal}>
               <DialogContent style={{ padding: 10 }}>
-                <Input
-                  className={classes.contentAddressInput}
-                  name='extendedDeadline'
-                  inputprops={{ inputProps: { min: 0, max: 10 } }}
-                  type='number'
-                  value={deadline}
-                  onChange={handleChange}
-                />
+                <div style={{display: 'flex', alignItems: 'flex-end'}}>
+                  <Input
+                    className={classes.contentAddressInput}
+                    name='extendedDeadline'
+                    inputprops={{ inputProps: { min: 0, max: 10 } }}
+                    type='number'
+                    value={deadline}
+                    onChange={handleChange}
+                    /> 
+                  <div>ngày</div>
+                </div>
                 <Button variant='outlined' size='small' className={classes.normalButton}
                   style={{display: 'block', margin: '10px auto 0 auto'}}
                   onClick={handleDeadlineExtended}
