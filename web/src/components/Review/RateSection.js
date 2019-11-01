@@ -185,7 +185,7 @@ class RateSection extends Component {
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                             <LikeFilledIcon fill={colors.primary} className={classes.likeIcon} style={{ cursor: 'pointer' }} />
                             <p style={{ margin: '0 10px' }}>{review && review.numberOfLike}</p>
-                            <LikeFilledIcon fill='#D75A4A' className={review.numberOfLike === 0 ? classes.dislikeIcon : classes.dislikeIconLeft} style={{ cursor: 'pointer' }}/>
+                            <LikeFilledIcon fill='#D75A4A' className={review && review.numberOfLike === 0 ? classes.dislikeIcon : classes.dislikeIconLeft} style={{ cursor: 'pointer' }}/>
                             <p style={{ margin: '0 0 0 10px' }}>{review && review.numberOfDislike}</p>
                           </div>
                           <p onClick={()=>openModal(false)} className={classes.closeButton}>
