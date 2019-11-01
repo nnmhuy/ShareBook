@@ -202,7 +202,7 @@ const DetailSection = (props) => {
     } 
     // setSelectedDate(currentDate.setDate(currentDate.getDate() + 7))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, passingDate, returnDate, extendedDeadline])
+  }, [status, passingDate, returnDate])
 
   const handlePassingDate = date => {
     if (date < currentDate) {
