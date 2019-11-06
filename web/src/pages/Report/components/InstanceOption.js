@@ -38,27 +38,27 @@ const styles = theme => ({
 })
 
 const InstanceOption = (props) => {
-  const { classes, instance } = props;
+  const { classes, instance: {book = {}, holder = {}, owner = {}} } = props;
   
   return (
     <div className={classes.flexColumn}>
       <p className={classes.title}>Tên sách cho mượn</p>
       <div className={classes.flexContainer}>
-        <Image src={`${instance && instance.bookImage}`} alt={`${instance && instance.bookName}`} className={classes.image} />
-        <p className={classes.name}>{instance && instance.bookName}</p>
+        <Image src={`${book.image}`} alt={`${book.name}`} className={classes.image} />
+        <p className={classes.name}>{book.name}</p>
       </div>
       <div>
         <p className={classes.title}>Người giữ</p>
         <div className={classes.flexContainer}>
-          <Avatar src={`${instance && instance.ownerAvatar}`} className={classes.avatar} />
-          <p className={classes.name}>{instance && instance.ownerName}</p>
+          <Avatar src={`${owner.avatar}`} className={classes.avatar} />
+          <p className={classes.name}>{owner.name}</p>
         </div>
       </div>
       <div>
         <p className={classes.title}>Người cho mượn</p>
         <div className={classes.flexContainer}>
-          <Avatar src={`${instance && instance.holderAvatar}`} className={classes.avatar} />
-          <p className={classes.name}>{instance && instance.holderName}</p>
+          <Avatar src={`${holder.avatar}`} className={classes.avatar} />
+          <p className={classes.name}>{holder.name}</p>
         </div>
       </div>
     </div>

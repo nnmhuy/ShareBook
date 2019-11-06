@@ -96,23 +96,38 @@ function* getBookInstanceByIdSaga({ payload }) {
   try {
     const { bookInstanceId } = payload
 
-    const { data: instance } = yield call(restConnector.get, `/bookInstances/${bookInstanceId}`)
-
-    const { data: book } = yield call(restConnector.get, `/books/${instance.bookId}`)
-    const { data: owner } = yield call(restConnector.get, `/users/${instance.ownerId}`)
-    const { data: holder } = yield call(restConnector.get, `/users/${instance.holderId}`)
-
-    const allData = {
-      id: instance.id,
-      ownerName: owner.name,
-      ownerAvatar: owner.avatar,
-      holderName: holder.name,
-      holderAvatar: holder.avatar,
-      bookName: book.name,
-      bookImage: book.image
+    const filter = {
+      fields: {
+        id: true,
+        holderId: true,
+        ownerId: true,
+        bookId: true
+      },
+      include: [
+        {
+          relation: 'book',
+          scope: {
+            fields: ['id', 'name', 'image']
+          }
+        },
+        {
+          relation: 'owner',
+          scope: {
+            fields: ['id', 'name', 'avatar']
+          }
+        },
+        {
+          relation: 'holder',
+          scope: {
+            fields: ['id', 'name', 'avatar']
+          }
+        }
+      ]
     }
 
-    yield put(getBookInstanceByIdSuccess(allData))
+    const { data: instance } = yield call(restConnector.get, `/bookInstances/${bookInstanceId}?filter=${JSON.stringify(filter)}`)
+
+    yield put(getBookInstanceByIdSuccess(instance))
   } catch (error) {
     yield put(getBookInstanceByIdFail(error))
   }

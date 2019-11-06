@@ -17,7 +17,11 @@ let defaultState = {
   error: null,
   bookInstances: [],
   isCreating: false,
-  bookInstance: {},
+  bookInstance: {
+    book: {},
+    holder: {},
+    owner: {}
+  },
   isLoadingInstance: false
 }
 
