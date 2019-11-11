@@ -21,5 +21,19 @@
     ],
     "provider": "filesystem",
     "root": "../image-storage"
+  },
+  "EmailDataSource": {
+    "name": "EmailDataSource",
+    "connector": "mail",
+    "transports": [{
+      "type": "SMTP",
+      "host": "smtp.gmail.com",
+      "secure": true,
+      "port": 465,
+      "auth": {
+        "user": "sharebook.org.vn@gmail.com",
+        "pass": "sharebook9102"
+      }
+    }]
   }
 }

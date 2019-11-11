@@ -6,8 +6,6 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
-  "validations": [],
   "mixins": {
     "TimeStamp": {
       "required": false,
@@ -18,6 +16,8 @@
       "id": true
     }
   },
+  "properties": {},
+  "validations": [],
   "relations": {
     "book": {
       "type": "belongsTo",

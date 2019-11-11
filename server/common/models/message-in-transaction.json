@@ -19,12 +19,12 @@
   "properties": {
     "direction": {
       "type": "string",
+      "required": true,
       "enum": [
         "system",
         "holder",
         "borrower"
-      ],
-      "required": true
+      ]
     },
     "content": {
       "type": "string",
