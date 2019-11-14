@@ -55,6 +55,7 @@ function* getTransactionSaga({ payload }) {
     const { data: review } = yield call(restConnector.get, `/reviews?filter={"where":{"userId":"${transaction.borrowerId}", "bookId":"${book.id}"}}`)
 
     transaction.estimatedReadingTime = instance.estimatedReadingTime
+    
     if (review[0]) {
       transaction.reviewId = review[0].id
       transaction.isReviewed = true
@@ -306,7 +307,7 @@ function* changeDateTransactionSaga({ payload }) {
             attachUser: true
           })
         }
-        yield put(changeDateTransactionSuccess({ type, value: returnDate }))
+        yield put(changeDateTransactionSuccess({ type: 'returnDate', value: reDate }))
         if (!initial)
           successAlert('Chỉnh ngày thành công')
         break;
@@ -321,8 +322,7 @@ function* changeDateTransactionSaga({ payload }) {
       case 'extendedDeadline':
         let deadlineDate = get(yield call(restConnector.get, `/transactions/${transactionId}`), 'data', {})
         let reDate = new Date(deadlineDate.returnDate)
-        reDate = reDate.setDate(reDate.getDate() + value)
-        console.log(reDate)
+        reDate.setDate(reDate.getDate() + parseInt(value))
         yield call(restConnector.patch, `/transactions/${transactionId}`, {
           extendedDeadline: value,
           returnDate: reDate,
