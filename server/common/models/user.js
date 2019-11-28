@@ -73,12 +73,12 @@ module.exports = function(User) {
     next();
   });
 
-  User.sendEmail = function(msg, cb) {
+  User.sendEmail = function(title, userEmail, msg, cb) {
     User.app.models.Email.send({
-      to: msg,
+      to: userEmail,
       from: 'sharebook.com.vn@gmail.com',
-      subject: 'Test mail',
-      text: 'huyga',
+      subject: title,
+      text: msg,
       html: 'HUY <em>GA</em>',
     }, function(err, mail) {
       console.log('email sent!');
@@ -87,7 +87,11 @@ module.exports = function(User) {
   };
 
   User.remoteMethod('sendEmail', {
-    accepts: {arg: 'msg', type: 'string'},
+    accepts: [
+      {arg: 'title', type: 'string'},
+      {arg: 'userEmail', type: 'string'},
+      {arg: 'msg', type: 'string'},
+    ],
     returns: {arg: 'greeting', type: 'string'},
   });
 };
