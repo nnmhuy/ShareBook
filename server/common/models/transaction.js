@@ -147,7 +147,7 @@ module.exports = function(Transaction) {
           // );
           await CoinTransferModel.createCoinTransfer(
             borrower.id,
-            -coinConstants.transactionReturn,
+            coinConstants.transactionReturn,
             'transactionReturn',
             borrower
           );
@@ -157,7 +157,7 @@ module.exports = function(Transaction) {
           // );
           await CoinTransferModel.createCoinTransfer(
             borrower.id,
-            -coinConstants.transactionLateReturn,
+            coinConstants.transactionLateReturn,
             'transactionLateReturn',
             borrower
           );
