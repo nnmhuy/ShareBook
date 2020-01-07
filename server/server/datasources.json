@@ -20,6 +20,6 @@
       "image/png"
     ],
     "provider": "filesystem",
-    "root": "../image-storage"
+    "root": "./image-storage"
   }
 }
