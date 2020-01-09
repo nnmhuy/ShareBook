@@ -357,6 +357,7 @@ module.exports = function(Transaction) {
       bookInstanceId: instance.id,
     });
 
+    let contentMsg = 'Đã gửi đề nghị mượn sách.';
     const MessageInTransaction =
       Transaction.app.models.messageInTransaction;
 
@@ -364,12 +365,25 @@ module.exports = function(Transaction) {
       transactionId: newTransaction.id,
       direction: 'system',
       secretKey,
-      content: 'Đã gửi đề nghị mượn sách.',
+      content: contentMsg,
     };
 
     MessageInTransaction.create(newSystemMessage);
 
-    return newTransaction;
+    const holder = await UserModel.findById(instance.holderId);
+    if (holder.email) {
+      UserModel.sendEmail(
+        'Bạn có yêu cầu mượn sách',
+        holder.email,
+        `Chào bạn ${holder.name}.
+        Bạn ${user.name} muốn mượn một quyển sách của bạn}`,
+        (err) => {
+          return newTransaction;
+        }
+      );
+    } else {
+      return newTransaction;
+    }
   };
 
   Transaction.remoteMethod('initTransaction', {

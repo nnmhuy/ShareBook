@@ -31,7 +31,7 @@
       "secure": true,
       "port": 465,
       "auth": {
-        "user": "sharebook.org.vn@gmail.com",
+        "user": "sharebook.com.vn@gmail.com",
         "pass": "sharebook9102"
       }
     }]

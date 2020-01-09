@@ -78,8 +78,8 @@ module.exports = function(User) {
       to: userEmail,
       from: 'sharebook.com.vn@gmail.com',
       subject: title,
-      text: msg,
-      html: 'HUY <em>GA</em>',
+      // text: msg,
+      html: msg,
     }, function(err, mail) {
       console.log('email sent!');
       cb(err);
