@@ -174,5 +174,9 @@
   "pushSubscription": {
     "dataSource": "db",
     "public": true
+  },
+  "Email": {
+    "dataSource": "EmailDataSource",
+    "public": true
   }
 }
