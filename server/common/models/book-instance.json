@@ -22,7 +22,9 @@
       "type": "string",
       "required": true,
       "enum": [
-        "new", "normal", "old"
+        "new",
+        "normal",
+        "old"
       ]
     },
     "isAvailable": {
@@ -51,7 +53,10 @@
     "method": {
       "type": "string",
       "required": true,
-      "enum": ["returning", "giving"],
+      "enum": [
+        "returning",
+        "giving"
+      ],
       "default": "returning"
     }
   },

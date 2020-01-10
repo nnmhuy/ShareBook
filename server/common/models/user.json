@@ -205,6 +205,20 @@
       "principalId": "$owner",
       "permission": "DENY",
       "property": "destroyById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "sendEmail"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY",
+      "property": "sendEmail"
     }
   ],
   "methods": {}

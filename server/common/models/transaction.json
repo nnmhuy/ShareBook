@@ -125,7 +125,11 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY",
-      "property": ["initTransaction", "holderUpdate", "borrowerUpdate"]
+      "property": [
+        "initTransaction",
+        "holderUpdate",
+        "borrowerUpdate"
+      ]
     },
     {
       "principalType": "ROLE",
