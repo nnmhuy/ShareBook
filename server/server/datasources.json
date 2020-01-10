@@ -21,5 +21,11 @@
     ],
     "provider": "filesystem",
     "root": "./image-storage"
+  },
+  "cloudstorage": {
+    "provider": "google",
+    "keyFilename": "./key/sharebook-258403-bce550ef542f.json",
+    "projectId": "sharebook-258403",
+    "nameConflict": "makeUnique"
   }
 }

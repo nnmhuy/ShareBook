@@ -163,6 +163,10 @@
     "dataSource": "imagestorage",
     "public": true
   },
+  "cloudContainer": {
+    "dataSource": "cloudstorage",
+    "public": true
+  },
   "tag": {
     "dataSource": "db",
     "public": true
