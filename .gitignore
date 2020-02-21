@@ -1,5 +1,5 @@
 
-image-storage/
-image-storage(dev)/
+# image-storage/
+# image-storage(dev)/
 server/client/
 .DS_Store
