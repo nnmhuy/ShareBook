@@ -372,18 +372,14 @@ module.exports = function(Transaction) {
 
     const holder = await UserModel.findById(instance.holderId);
     if (holder.email) {
-      UserModel.sendEmail(
+      await UserModel.sendEmail(
         'Bạn có yêu cầu mượn sách',
         holder.email,
         `Chào bạn ${holder.name}.
-        Bạn ${user.name} muốn mượn một quyển sách của bạn}`,
-        (err) => {
-          return newTransaction;
-        }
+        Bạn ${user.name} muốn mượn một quyển sách của bạn}`
       );
-    } else {
-      return newTransaction;
     }
+    return newTransaction;
   };
 
   Transaction.remoteMethod('initTransaction', {

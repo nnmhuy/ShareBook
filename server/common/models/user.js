@@ -73,8 +73,8 @@ module.exports = function(User) {
     next();
   });
 
-  User.sendEmail = function(title, userEmail, msg, cb) {
-    User.app.models.Email.send({
+  User.sendEmail = async function(title, userEmail, msg, cb) {
+    await User.app.models.Email.send({
       to: userEmail,
       from: 'sharebook.com.vn@gmail.com',
       subject: title,
